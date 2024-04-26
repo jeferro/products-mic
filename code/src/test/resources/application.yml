@@ -1,0 +1,14 @@
+logging:
+  level:
+    root: WARN
+    com.jeferro: INFO
+
+
+infrastructure:
+  jwt:
+    issuer: "products"
+    duration: 7D
+    password: "test"
+
+  products:
+    topic: com.jeferro.products.products.test

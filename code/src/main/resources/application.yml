@@ -1,0 +1,34 @@
+logging:
+  level:
+    root: WARN
+    com.jeferro: INFO
+
+server:
+  port: 8088
+
+spring:
+  application:
+    name: products
+  profiles:
+    active: local
+
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+
+    endpoint:
+      health:
+        show-details: always

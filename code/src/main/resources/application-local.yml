@@ -1,0 +1,17 @@
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:root@127.0.0.1:27017/products?authSource=admin
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+infrastructure:
+  jwt:
+    issuer: "products"
+    duration: 7D
+    password: "123456"
+
+  products:
+    topic: com.jeferro.products.products.local
