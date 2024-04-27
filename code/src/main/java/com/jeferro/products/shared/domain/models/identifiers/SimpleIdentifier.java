@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class SimpleIdentifier<T extends Serializable> extends Identifier {
 
+    // TODO: Remove class and move code to Identifier
     private final T value;
 
     public SimpleIdentifier(T value) {
