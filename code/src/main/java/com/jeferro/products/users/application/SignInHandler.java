@@ -2,7 +2,6 @@ package com.jeferro.products.users.application;
 
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
-import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.domain.services.PasswordEncoder;

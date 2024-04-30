@@ -4,7 +4,7 @@ import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.infrastructure.integrations.rest.services.AuthJwtService;
 import com.jeferro.products.shared.infrastructure.rest.RestTestConfiguration;
-import com.jeferro.products.users.application.commands.SignInCommand;
+import com.jeferro.products.users.application.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
 import com.jeferro.products.users.infrastructure.integrations.rest.AuthenticationsRestController;

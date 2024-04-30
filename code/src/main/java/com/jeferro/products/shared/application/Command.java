@@ -1,11 +1,12 @@
-package com.jeferro.products.shared.application.commands;
+package com.jeferro.products.shared.application;
 
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
+import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
-import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public abstract class Command<R> {
 
@@ -13,7 +14,7 @@ public abstract class Command<R> {
 
     protected Command(Auth auth) {
         if (auth == null) {
-            throw CommandValidationException.ofMessage("Auth is null");
+            throw ValueValidationException.ofMessage("Auth is null");
         }
 
         this.auth = auth;

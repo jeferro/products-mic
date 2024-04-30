@@ -1,6 +1,10 @@
 package com.jeferro.products.products.infrastructure.integrations.rest;
 
-import com.jeferro.products.products.application.commands.*;
+import com.jeferro.products.products.application.CreateProductCommand;
+import com.jeferro.products.products.application.DeleteProductCommand;
+import com.jeferro.products.products.application.GetProductCommand;
+import com.jeferro.products.products.application.ListProductsCommand;
+import com.jeferro.products.products.application.UpdateProductCommand;
 import com.jeferro.products.products.infrastructure.integrations.rest.dtos.CreateProductRestDTO;
 import com.jeferro.products.products.infrastructure.integrations.rest.dtos.ProductRestDTO;
 import com.jeferro.products.products.infrastructure.integrations.rest.dtos.UpdateProductRestDTO;

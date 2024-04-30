@@ -2,7 +2,6 @@ package com.jeferro.products.users.application;
 
 import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.UserMother;
 import com.jeferro.products.users.domain.repositories.UsersInMemoryRepository;
 import com.jeferro.products.users.domain.services.FakePasswordEncoder;

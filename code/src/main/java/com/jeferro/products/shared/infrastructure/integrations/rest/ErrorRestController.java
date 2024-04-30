@@ -1,6 +1,5 @@
 package com.jeferro.products.shared.infrastructure.integrations.rest;
 
-import com.jeferro.products.shared.application.commands.CommandValidationException;
 import com.jeferro.products.shared.domain.exceptions.ConstraintException;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.exceptions.NotFoundException;
@@ -29,8 +28,7 @@ public class ErrorRestController {
     @ExceptionHandler(value = {
             IllegalArgumentException.class,
             ServerWebInputException.class,
-            MissingServletRequestParameterException.class,
-            CommandValidationException.class
+            MissingServletRequestParameterException.class
     })
     public ResponseEntity<ErrorRestDTO> handleBadRequest(Exception cause) {
         return errorRestMapper.toDTO(HttpStatus.BAD_REQUEST, cause);

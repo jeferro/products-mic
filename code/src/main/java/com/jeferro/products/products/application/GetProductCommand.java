@@ -1,9 +1,9 @@
-package com.jeferro.products.products.application.commands;
+package com.jeferro.products.products.application;
 
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.application.commands.Command;
-import com.jeferro.products.shared.application.commands.CommandValidationException;
+import com.jeferro.products.shared.application.Command;
+import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
 public class GetProductCommand extends Command<Product> {
@@ -14,7 +14,7 @@ public class GetProductCommand extends Command<Product> {
         super(auth);
 
         if (productId == null) {
-            throw CommandValidationException.ofMessage("Product identifier is null");
+            throw ValueValidationException.ofMessage("Product identifier is null");
         }
 
         this.productId = productId;

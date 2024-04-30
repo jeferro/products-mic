@@ -1,6 +1,5 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.application.SilentHandler;

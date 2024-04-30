@@ -3,7 +3,7 @@ package com.jeferro.products.users.infrastructure.integrations.rest;
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.infrastructure.integrations.rest.mappers.UsernameRestMapper;
 import com.jeferro.products.shared.infrastructure.integrations.rest.services.AuthJwtService;
-import com.jeferro.products.users.application.commands.SignInCommand;
+import com.jeferro.products.users.application.SignInCommand;
 import com.jeferro.products.users.infrastructure.integrations.rest.dtos.SignInRestDTO;
 import com.jeferro.products.users.infrastructure.integrations.rest.dtos.UserRestDTO;
 import com.jeferro.products.users.infrastructure.integrations.rest.mappers.UserRestMapper;

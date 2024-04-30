@@ -1,6 +1,5 @@
 package com.jeferro.products.shared.application;
 
-import com.jeferro.products.shared.application.commands.Command;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
