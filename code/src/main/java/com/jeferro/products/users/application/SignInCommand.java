@@ -16,23 +16,30 @@ public class SignInCommand extends Command<User> {
     public SignInCommand(Auth auth, Username username, String plainPassword) {
         super(auth);
 
-        if (username == null) {
-            throw ValueValidationException.ofMessage("Username is null");
-        }
+		validateUsername(username);
+		validatePlainPassword(plainPassword);
 
-        if (StringUtils.isBlank(plainPassword)) {
-            throw ValueValidationException.ofMessage("Plain password is blank");
-        }
-
-        this.username = username;
+		this.username = username;
         this.plainPassword = plainPassword;
     }
 
-    public Username getUsername() {
+	public Username getUsername() {
         return username;
     }
 
     public String getPlainPassword() {
         return plainPassword;
     }
+
+	private static void validateUsername(Username username) {
+		if (username == null) {
+			throw ValueValidationException.createOfMessage("Username is null");
+		}
+	}
+
+	private static void validatePlainPassword(String plainPassword) {
+		if (StringUtils.isBlank(plainPassword)) {
+			throw ValueValidationException.createOfMessage("Plain password is blank");
+		}
+	}
 }

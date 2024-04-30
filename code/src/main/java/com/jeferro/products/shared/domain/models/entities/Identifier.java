@@ -46,7 +46,7 @@ public abstract class Identifier<T> {
 
 	private static <T> void validateValue(T value) {
 		if (value instanceof String && ((String) value).isBlank()) {
-			throw ValueValidationException.ofMessage("Value is blank");
+			throw ValueValidationException.createOfMessage("Value is blank");
 		}
 	}
 }

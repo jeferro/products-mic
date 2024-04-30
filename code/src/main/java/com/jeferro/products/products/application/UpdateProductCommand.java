@@ -16,23 +16,30 @@ public class UpdateProductCommand extends Command<Product> {
     public UpdateProductCommand(Auth auth, ProductId productId, String name) {
         super(auth);
 
-        if (productId == null) {
-            throw ValueValidationException.ofMessage("Product identifier is null");
-        }
+		validateProductId(productId);
+		validateName(name);
 
-        if (StringUtils.isBlank(name)) {
-            throw ValueValidationException.ofMessage("Name is blank");
-        }
-
-        this.productId = productId;
+		this.productId = productId;
         this.name = name;
     }
 
-    public ProductId getProductId() {
+	public ProductId getProductId() {
         return productId;
     }
 
     public String getName() {
         return name;
     }
+
+	private static void validateProductId(ProductId productId) {
+		if (productId == null) {
+			throw ValueValidationException.createOfMessage("Product identifier is null");
+		}
+	}
+
+	private static void validateName(String name) {
+		if (StringUtils.isBlank(name)) {
+			throw ValueValidationException.createOfMessage("Name is blank");
+		}
+	}
 }

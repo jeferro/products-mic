@@ -24,18 +24,6 @@ public class User extends AggregateRoot<Username> {
         this.roles = roles;
     }
 
-    private static void validateRoles(Set<String> roles) {
-        if (CollectionUtils.isEmpty(roles)) {
-            throw ValueValidationException.ofMessage("Roles is empty");
-        }
-    }
-
-    private static void validateEncodedPassword(String encodedPassword) {
-        if (StringUtils.isBlank(encodedPassword)) {
-            throw ValueValidationException.ofMessage("Encoded password is blank");
-        }
-    }
-
     public Username getUsername() {
         return id;
     }
@@ -47,4 +35,16 @@ public class User extends AggregateRoot<Username> {
     public Set<String> getRoles() {
         return roles;
     }
+
+	private static void validateEncodedPassword(String encodedPassword) {
+		if (StringUtils.isBlank(encodedPassword)) {
+			throw ValueValidationException.createOfMessage("Encoded password is blank");
+		}
+	}
+
+	private static void validateRoles(Set<String> roles) {
+		if (CollectionUtils.isEmpty(roles)) {
+			throw ValueValidationException.createOfMessage("Roles is empty");
+		}
+	}
 }

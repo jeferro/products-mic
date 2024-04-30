@@ -13,14 +13,18 @@ public class CreateProductCommand extends Command<Product> {
     public CreateProductCommand(Auth auth, String name) {
         super(auth);
 
-        if (StringUtils.isBlank(name)) {
-            throw ValueValidationException.ofMessage("Name is blank");
-        }
+		validateName(name);
 
-        this.name = name;
+		this.name = name;
     }
 
-    public String getName() {
+	public String getName() {
         return name;
     }
+
+	private static void validateName(String name) {
+		if (StringUtils.isBlank(name)) {
+			throw ValueValidationException.createOfMessage("Name is blank");
+		}
+	}
 }

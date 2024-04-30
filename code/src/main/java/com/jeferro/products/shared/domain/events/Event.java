@@ -13,23 +13,30 @@ public abstract class Event extends ValueObject {
     private final Instant occurredOn;
 
     protected Event(String occurredBy, Instant occurredOn) {
-        if (StringUtils.isBlank(occurredBy)) {
-            throw ValueValidationException.ofMessage("Occurred by is blank");
-        }
+		validateOccurredBy(occurredBy);
+		validateOccurredOn(occurredOn);
 
-        if (occurredOn == null) {
-            throw ValueValidationException.ofMessage("Occurred on is null");
-        }
-
-        this.occurredBy = occurredBy;
+		this.occurredBy = occurredBy;
         this.occurredOn = occurredOn;
     }
 
-    public String getOccurredBy() {
+	public String getOccurredBy() {
         return occurredBy;
     }
 
     public Instant getOccurredOn() {
         return occurredOn;
     }
+
+	private static void validateOccurredBy(String occurredBy) {
+		if (StringUtils.isBlank(occurredBy)) {
+			throw ValueValidationException.createOfMessage("Occurred by is blank");
+		}
+	}
+
+	private static void validateOccurredOn(Instant occurredOn) {
+		if (occurredOn == null) {
+			throw ValueValidationException.createOfMessage("Occurred on is null");
+		}
+	}
 }

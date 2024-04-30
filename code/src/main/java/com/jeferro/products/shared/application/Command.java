@@ -13,14 +13,12 @@ public abstract class Command<R> {
     private final Auth auth;
 
     protected Command(Auth auth) {
-        if (auth == null) {
-            throw ValueValidationException.ofMessage("Auth is null");
-        }
+		validateAuth(auth);
 
-        this.auth = auth;
+		this.auth = auth;
     }
 
-    public Auth getAuth() {
+	public Auth getAuth() {
         return auth;
     }
 
@@ -49,4 +47,10 @@ public abstract class Command<R> {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
     }
+
+	private static void validateAuth(Auth auth) {
+		if (auth == null) {
+			throw ValueValidationException.createOfMessage("Auth is null");
+		}
+	}
 }

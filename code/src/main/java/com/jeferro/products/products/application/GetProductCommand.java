@@ -13,14 +13,18 @@ public class GetProductCommand extends Command<Product> {
     public GetProductCommand(Auth auth, ProductId productId) {
         super(auth);
 
-        if (productId == null) {
-            throw ValueValidationException.ofMessage("Product identifier is null");
-        }
+		validateProductId(productId);
 
-        this.productId = productId;
+		this.productId = productId;
     }
 
-    public ProductId getProductId() {
+	public ProductId getProductId() {
         return productId;
     }
+
+	private static void validateProductId(ProductId productId) {
+		if (productId == null) {
+			throw ValueValidationException.createOfMessage("Product identifier is null");
+		}
+	}
 }

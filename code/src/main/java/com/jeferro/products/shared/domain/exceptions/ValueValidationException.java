@@ -6,7 +6,7 @@ public class ValueValidationException extends ApplicationException {
         super(message);
     }
 
-    public static ValueValidationException ofMessage(String message) {
+    public static ValueValidationException createOfMessage(String message) {
         return new ValueValidationException(message);
     }
 }

@@ -46,7 +46,7 @@ public class Product extends AggregateRoot<ProductId> {
 
     private void validateName(String name) {
         if (StringUtils.isBlank(name)) {
-            throw ValueValidationException.ofMessage("Name is blank");
+            throw ValueValidationException.createOfMessage("Name is blank");
         }
     }
 

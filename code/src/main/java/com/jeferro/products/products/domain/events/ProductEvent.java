@@ -13,14 +13,18 @@ public abstract class ProductEvent extends Event {
     protected ProductEvent(ProductId productId, String occurredBy, Instant occurredOn) {
         super(occurredBy, occurredOn);
 
-        if (productId == null) {
-            throw ValueValidationException.ofMessage("Product identifier is null");
-        }
+		validateProductId(productId);
 
-        this.productId = productId;
+		this.productId = productId;
     }
 
-    public ProductId getProductId() {
+	public ProductId getProductId() {
         return productId;
     }
+
+	private static void validateProductId(ProductId productId) {
+		if (productId == null) {
+			throw ValueValidationException.createOfMessage("Product identifier is null");
+		}
+	}
 }

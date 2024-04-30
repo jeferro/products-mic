@@ -9,14 +9,12 @@ public class SimpleValueObject<T extends Serializable> extends ValueObject {
     private final T value;
 
     public SimpleValueObject(T value) {
-        if (value instanceof String && ((String) value).isBlank()) {
-            throw ValueValidationException.ofMessage("Value is blank");
-        }
+		validateValue(value);
 
-        this.value = value;
+		this.value = value;
     }
 
-    public T getValue() {
+	public T getValue() {
         return value;
     }
 
@@ -24,4 +22,10 @@ public class SimpleValueObject<T extends Serializable> extends ValueObject {
     public String toString() {
         return String.valueOf(value);
     }
+
+	private static <T extends Serializable> void validateValue(T value) {
+		if (value instanceof String && ((String) value).isBlank()) {
+			throw ValueValidationException.createOfMessage("Value is blank");
+		}
+	}
 }
