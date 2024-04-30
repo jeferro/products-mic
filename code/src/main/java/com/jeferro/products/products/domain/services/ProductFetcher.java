@@ -15,6 +15,6 @@ public class ProductFetcher {
 
     public Product findById(ProductId productId) {
         return productsRepository.findById(productId)
-                .orElseThrow(() -> ProductNotFoundException.of(productId));
+                .orElseThrow(() -> ProductNotFoundException.createOf(productId));
     }
 }

@@ -15,7 +15,7 @@ public abstract class HandlerBus {
 
     public <R> R execute(Command<R> command) {
         Handler<Command<R>, R> handler = getHandler(command)
-                .orElseThrow(() -> HandlerNotFoundException.of(command));
+                .orElseThrow(() -> HandlerNotFoundException.createOf(command));
 
         return handler.execute(command);
     }

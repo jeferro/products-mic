@@ -9,7 +9,7 @@ public class ProductNotFoundException extends NotFoundException {
         super(message);
     }
 
-    public static ProductNotFoundException of(ProductId productId) {
+    public static ProductNotFoundException createOf(ProductId productId) {
         return new ProductNotFoundException("Product " + productId + " not found");
     }
 }

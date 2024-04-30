@@ -53,7 +53,7 @@ public abstract class Handler<C extends Command<R>, R> {
             return;
         }
 
-        throw ForbiddenException.of(auth);
+        throw ForbiddenException.createOf(auth);
     }
 
     private void logSuccessExecution(

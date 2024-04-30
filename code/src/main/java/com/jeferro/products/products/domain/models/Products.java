@@ -11,11 +11,11 @@ public class Products extends EntityCollection<ProductId, Product> {
         super(entities);
     }
 
-    public static Products of(List<Product> entities) {
+    public static Products createOf(List<Product> entities) {
         return new Products(entities);
     }
 
-    public static Products of(Product... products) {
+    public static Products createOf(Product... products) {
         var entities = Arrays.asList(products);
         return new Products(entities);
     }

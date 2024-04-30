@@ -30,12 +30,12 @@ public class SignInHandler extends Handler<SignInCommand, User> {
         var plainPassword = command.getPlainPassword();
 
         var user = usersRepository.findById(username)
-                .orElseThrow(UnauthorizedException::of);
+                .orElseThrow(UnauthorizedException::createOf);
 
         var matches = passwordEncoder.matches(plainPassword, user.getEncodedPassword());
 
         if (!matches) {
-            throw UnauthorizedException.of();
+            throw UnauthorizedException.createOf();
         }
 
         return user;

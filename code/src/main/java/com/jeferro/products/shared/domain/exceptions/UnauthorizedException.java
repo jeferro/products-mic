@@ -6,7 +6,7 @@ public class UnauthorizedException extends ApplicationException {
         super(message);
     }
 
-    public static UnauthorizedException of() {
+    public static UnauthorizedException createOf() {
         return new UnauthorizedException("Unauthorized");
     }
 }

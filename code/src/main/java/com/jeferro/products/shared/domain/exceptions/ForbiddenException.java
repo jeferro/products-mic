@@ -8,7 +8,7 @@ public class ForbiddenException extends ApplicationException {
         super(message);
     }
 
-    public static ForbiddenException of(Auth auth) {
+    public static ForbiddenException createOf(Auth auth) {
         return new ForbiddenException("Auth " + auth + " has not mandatory roles");
     }
 }

@@ -9,7 +9,7 @@ public class HandlerNotFoundException extends ApplicationException {
         super(message);
     }
 
-    public static HandlerNotFoundException of(Command<?> command) {
+    public static HandlerNotFoundException createOf(Command<?> command) {
         String commandClassName = command.getClass().getSimpleName();
 
         return new HandlerNotFoundException("Handler not found by command " + commandClassName);

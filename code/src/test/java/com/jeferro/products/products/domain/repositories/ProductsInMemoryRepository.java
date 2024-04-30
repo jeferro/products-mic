@@ -13,6 +13,6 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
         var products = data.values().stream()
                 .toList();
 
-        return Products.of(products);
+        return Products.createOf(products);
     }
 }
