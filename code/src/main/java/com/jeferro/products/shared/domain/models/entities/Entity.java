@@ -33,6 +33,10 @@ public class Entity<ID extends Identifier> {
             return true;
         }
 
+		if (other == null || getClass() != other.getClass()) {
+			return false;
+		}
+
         return EqualsBuilder.reflectionEquals(
                 this,
                 other
