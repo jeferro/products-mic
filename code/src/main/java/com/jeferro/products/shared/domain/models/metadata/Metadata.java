@@ -2,13 +2,13 @@ package com.jeferro.products.shared.domain.models.metadata;
 
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.values.ValueObject;
+import com.jeferro.products.shared.domain.models.value_objects.ValueObject;
 import com.jeferro.products.shared.domain.services.time.TimeService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 
-// TODO: Add version and configure mongo with OptimisticUpdating
+// TODO: Remove and audit only in infrastructure
 public class Metadata extends ValueObject {
 
     private final Instant createdAt;

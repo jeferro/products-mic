@@ -1,7 +1,6 @@
 package com.jeferro.products.shared.domain.models.entities;
 
-import com.jeferro.products.shared.domain.models.identifiers.Identifier;
-import com.jeferro.products.shared.domain.models.values.ValueObject;
+import com.jeferro.products.shared.domain.models.value_objects.ValueObject;
 
 import java.util.List;
 import java.util.Optional;

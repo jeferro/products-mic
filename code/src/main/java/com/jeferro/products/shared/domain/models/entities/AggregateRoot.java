@@ -2,7 +2,6 @@ package com.jeferro.products.shared.domain.models.entities;
 
 import com.jeferro.products.shared.domain.events.Event;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
-import com.jeferro.products.shared.domain.models.identifiers.Identifier;
 import com.jeferro.products.shared.domain.models.metadata.Metadata;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.apache.commons.lang3.builder.ToStringExclude;

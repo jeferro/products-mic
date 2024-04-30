@@ -1,7 +1,7 @@
 package com.jeferro.products.shared.domain.models.auth;
 
 import com.jeferro.products.shared.domain.models.users.Username;
-import com.jeferro.products.shared.domain.models.values.ValueObject;
+import com.jeferro.products.shared.domain.models.value_objects.ValueObject;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.jeferro.products.shared.domain.models.values;
+package com.jeferro.products.shared.domain.models.value_objects;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -6,11 +6,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class ValueCollection<V extends ValueObject> extends ValueObject {
+public abstract class ValueObjectCollection<V extends ValueObject> extends ValueObject {
 
     protected final List<V> values;
 
-    protected ValueCollection(List<V> values) {
+    protected ValueObjectCollection(List<V> values) {
         this.values = values;
     }
 

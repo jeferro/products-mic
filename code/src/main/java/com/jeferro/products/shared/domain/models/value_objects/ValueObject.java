@@ -1,4 +1,4 @@
-package com.jeferro.products.shared.domain.models.values;
+package com.jeferro.products.shared.domain.models.value_objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

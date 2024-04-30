@@ -1,10 +1,10 @@
 package com.jeferro.products.products.domain.models;
 
-import com.jeferro.products.shared.domain.models.identifiers.SimpleIdentifier;
-
 import java.util.UUID;
 
-public class ProductId extends SimpleIdentifier<String> {
+import com.jeferro.products.shared.domain.models.entities.Identifier;
+
+public class ProductId extends Identifier<String> {
 
     public ProductId(String value) {
         super(value);

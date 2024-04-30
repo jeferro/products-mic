@@ -1,7 +1,7 @@
 package com.jeferro.products.shared.domain.events;
 
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
-import com.jeferro.products.shared.domain.models.values.ValueObject;
+import com.jeferro.products.shared.domain.models.value_objects.ValueObject;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
