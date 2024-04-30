@@ -40,7 +40,7 @@ public class ProductsRestController {
 
         var products = handlerBus.execute(command);
 
-        return productRestMapper.toResponseDTO(products);
+        return productRestMapper.toOkResponseDTO(products);
     }
 
     @PostMapping
@@ -66,7 +66,7 @@ public class ProductsRestController {
 
         var product = handlerBus.execute(command);
 
-        return productRestMapper.toResponseDTO(product);
+        return productRestMapper.toOkResponseDTO(product);
     }
 
     @PutMapping("/{id}")
@@ -81,7 +81,7 @@ public class ProductsRestController {
 
         var user = handlerBus.execute(command);
 
-        return productRestMapper.toResponseDTO(user);
+        return productRestMapper.toOkResponseDTO(user);
     }
 
     @DeleteMapping("/{id}")
@@ -94,6 +94,6 @@ public class ProductsRestController {
 
         var user = handlerBus.execute(command);
 
-        return productRestMapper.toResponseDTO(user);
+        return productRestMapper.toOkResponseDTO(user);
     }
 }

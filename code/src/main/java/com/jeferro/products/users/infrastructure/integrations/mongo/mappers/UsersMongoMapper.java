@@ -1,7 +1,6 @@
 package com.jeferro.products.users.infrastructure.integrations.mongo.mappers;
 
 import com.jeferro.products.shared.infrastructure.integrations.mappers.BidirectionalMapper;
-import com.jeferro.products.shared.infrastructure.integrations.mongo.mappers.MetadataMongoMapper;
 import com.jeferro.products.shared.infrastructure.integrations.mongo.mappers.UsernameMongoMapper;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.infrastructure.integrations.mongo.dtos.UserMongoDTO;
@@ -12,8 +11,6 @@ public class UsersMongoMapper extends BidirectionalMapper<User, UserMongoDTO> {
 
     public static final UsersMongoMapper INSTANCE = new UsersMongoMapper();
 
-    private final MetadataMongoMapper metadataMongoMapper = MetadataMongoMapper.INSTANCE;
-
     private final UsernameMongoMapper usernameMongoMapper = UsernameMongoMapper.INSTANCE;
 
     @Override
@@ -21,8 +18,7 @@ public class UsersMongoMapper extends BidirectionalMapper<User, UserMongoDTO> {
         return new User(
                 usernameMongoMapper.toDomain(dto.id()),
                 dto.encodedPassword(),
-                dto.roles(),
-                metadataMongoMapper.toDomain(dto.metadata())
+                dto.roles()
         );
     }
 
@@ -31,8 +27,7 @@ public class UsersMongoMapper extends BidirectionalMapper<User, UserMongoDTO> {
         return new UserMongoDTO(
                 usernameMongoMapper.toDTO(user.getId()),
                 user.getEncodedPassword(),
-                user.getRoles(),
-                metadataMongoMapper.toDTO(user.getMetadata())
+                user.getRoles()
         );
     }
 }

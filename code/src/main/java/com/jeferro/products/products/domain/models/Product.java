@@ -6,15 +6,14 @@ import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.entities.AggregateRoot;
-import com.jeferro.products.shared.domain.models.metadata.Metadata;
 import org.apache.commons.lang3.StringUtils;
 
 public class Product extends AggregateRoot<ProductId> {
 
     private String name;
 
-    public Product(ProductId id, String name, Metadata metadata) {
-        super(id, metadata);
+    public Product(ProductId id, String name) {
+        super(id);
 
         validateName(name);
 
@@ -23,10 +22,9 @@ public class Product extends AggregateRoot<ProductId> {
 
     public static Product create(String name, Auth auth) {
         var productId = ProductId.create();
-        var metadata = Metadata.of(auth);
-        var product = new Product(productId, name, metadata);
+        var product = new Product(productId, name);
 
-        var event = ProductCreated.create(product);
+        var event = ProductCreated.create(product, auth);
         product.record(event);
 
         return product;
@@ -37,12 +35,12 @@ public class Product extends AggregateRoot<ProductId> {
 
         this.name = name;
 
-        var event = ProductUpdated.create(this);
+        var event = ProductUpdated.create(this, auth);
         record(event);
     }
 
     public void delete(Auth auth) {
-        var event = ProductDeleted.create(this);
+        var event = ProductDeleted.create(this, auth);
         record(event);
     }
 

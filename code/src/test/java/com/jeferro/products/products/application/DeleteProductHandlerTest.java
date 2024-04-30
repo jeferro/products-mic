@@ -1,5 +1,11 @@
 package com.jeferro.products.products.application;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.Instant;
+
 import com.jeferro.products.products.application.commands.DeleteProductCommand;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
@@ -9,107 +15,104 @@ import com.jeferro.products.products.domain.repositories.ProductsInMemoryReposit
 import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
+import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class DeleteProductHandlerTest {
 
-    public ProductsInMemoryRepository productsInMemoryRepository;
+	public ProductsInMemoryRepository productsInMemoryRepository;
 
-    public EventInMemoryBus eventInMemoryBus;
+	public EventInMemoryBus eventInMemoryBus;
 
-    public DeleteProductHandler deleteProductHandler;
+	public DeleteProductHandler deleteProductHandler;
 
-    @BeforeEach
-    void beforeEach() {
-        eventInMemoryBus = new EventInMemoryBus();
-        productsInMemoryRepository = new ProductsInMemoryRepository();
+	@BeforeEach
+	void beforeEach() {
+		eventInMemoryBus = new EventInMemoryBus();
+		productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        var productFetcher = new ProductFetcher(productsInMemoryRepository);
+		var productFetcher = new ProductFetcher(productsInMemoryRepository);
 
-        deleteProductHandler = new DeleteProductHandler(productFetcher, productsInMemoryRepository, eventInMemoryBus);
-    }
+		deleteProductHandler = new DeleteProductHandler(productFetcher, productsInMemoryRepository, eventInMemoryBus);
+	}
 
-    @Test
-    void should_deleteProduct_when_ProductExists() {
-        var now = FakeTimeService.fakesNow();
+	@Test
+	void should_deleteProduct_when_ProductExists() {
+		var now = FakeTimeService.fakesNow();
 
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
+		var apple = ProductMother.apple();
+		productsInMemoryRepository.init(apple);
 
-        var userAuth = AuthMother.user();
-        var command = new DeleteProductCommand(
-                userAuth,
-                apple.getId()
-        );
+		var userAuth = AuthMother.user();
+		var command = new DeleteProductCommand(
+			userAuth,
+			apple.getId()
+		);
 
-        var result = deleteProductHandler.execute(command);
+		var result = deleteProductHandler.execute(command);
 
-        assertEquals(apple, result);
-        assertEquals(userAuth.who(), result.getUpdatedBy());
-        assertEquals(now, result.getUpdatedAt());
+		assertEquals(apple, result);
 
-        assertProductDoesNotExistInDatabase();
+		assertProductDoesNotExistInDatabase();
 
-        assertEventProductDeleted(apple);
-    }
+		assertEventProductDeleted(apple, userAuth, now);
+	}
 
-    @Test
-    void should_throwProductNotFound_when_ProductDoesNotExist() {
-        var apple = ProductMother.apple();
+	@Test
+	void should_throwProductNotFound_when_ProductDoesNotExist() {
+		var apple = ProductMother.apple();
 
-        var command = new DeleteProductCommand(
-                AuthMother.user(),
-                apple.getId()
-        );
+		var command = new DeleteProductCommand(
+			AuthMother.user(),
+			apple.getId()
+		);
 
-        assertThrows(ProductNotFoundException.class,
-                () -> deleteProductHandler.execute(command));
-    }
+		assertThrows(ProductNotFoundException.class,
+			() -> deleteProductHandler.execute(command));
+	}
 
-    @Test
-    void should_throwForbidden_when_authIsAnonymous() {
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
+	@Test
+	void should_throwForbidden_when_authIsAnonymous() {
+		var apple = ProductMother.apple();
+		productsInMemoryRepository.init(apple);
 
-        var command = new DeleteProductCommand(
-                AuthMother.anonymous(),
-                apple.getId()
-        );
+		var command = new DeleteProductCommand(
+			AuthMother.anonymous(),
+			apple.getId()
+		);
 
-        assertThrows(ForbiddenException.class,
-                () -> deleteProductHandler.execute(command));
-    }
+		assertThrows(ForbiddenException.class,
+			() -> deleteProductHandler.execute(command));
+	}
 
-    @Test
-    void should_throwForbidden_when_authHasNotTheUserRole() {
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
+	@Test
+	void should_throwForbidden_when_authHasNotTheUserRole() {
+		var apple = ProductMother.apple();
+		productsInMemoryRepository.init(apple);
 
-        var command = new DeleteProductCommand(
-                AuthMother.userWithoutRoles(),
-                apple.getId()
-        );
+		var command = new DeleteProductCommand(
+			AuthMother.userWithoutRoles(),
+			apple.getId()
+		);
 
-        assertThrows(ForbiddenException.class,
-                () -> deleteProductHandler.execute(command));
-    }
+		assertThrows(ForbiddenException.class,
+			() -> deleteProductHandler.execute(command));
+	}
 
-    private void assertProductDoesNotExistInDatabase() {
-        assertTrue(productsInMemoryRepository.isEmpty());
-    }
+	private void assertProductDoesNotExistInDatabase() {
+		assertTrue(productsInMemoryRepository.isEmpty());
+	}
 
-    private void assertEventProductDeleted(Product product) {
-        assertEquals(1, eventInMemoryBus.size());
+	private void assertEventProductDeleted(Product product, Auth auth, Instant now) {
+		assertEquals(1, eventInMemoryBus.size());
 
-        var event = (ProductDeleted) eventInMemoryBus.getFirst();
+		var event = (ProductDeleted) eventInMemoryBus.getFirst();
 
-        assertEquals(product.getId(), event.getProductId());
-        assertEquals(product.getUpdatedAt(), event.getOccurredOn());
-        assertEquals(product.getUpdatedBy(), event.getOccurredBy());
-    }
+		assertEquals(product.getId(), event.getProductId());
+		assertEquals(now, event.getOccurredOn());
+		assertEquals(auth.who(), event.getOccurredBy());
+	}
 }

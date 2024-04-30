@@ -9,6 +9,7 @@ import com.jeferro.products.products.domain.repositories.ProductsInMemoryReposit
 import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
+import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.Instant;
 
 class UpdateProductHandlerTest {
 
@@ -53,12 +56,10 @@ class UpdateProductHandlerTest {
         var result = updateProductHandler.execute(command);
 
         assertEquals(productName, result.getName());
-        assertEquals(now, result.getUpdatedAt());
-        assertEquals(userAuth.who(), result.getUpdatedBy());
 
         assertProductUpdatedInRepository(result);
 
-        assertEventProductUpdated(result);
+        assertEventProductUpdated(result, userAuth, now);
     }
 
     @Test
@@ -113,11 +114,13 @@ class UpdateProductHandlerTest {
         assertEquals(product, productSaved);
     }
 
-    private void assertEventProductUpdated(Product product) {
+    private void assertEventProductUpdated(Product product, Auth auth, Instant now) {
         assertEquals(1, eventInMemoryBus.size());
 
         var event = (ProductUpdated) eventInMemoryBus.getFirst();
 
         assertEquals(product.getId(), event.getProductId());
+		assertEquals(auth.who(), event.getOccurredBy());
+		assertEquals(now, event.getOccurredOn());
     }
 }

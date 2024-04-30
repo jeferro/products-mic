@@ -7,6 +7,7 @@ import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.products.infrastructure.integrations.mongo.daos.ProductsMongoDao;
 import com.jeferro.products.products.infrastructure.integrations.mongo.mappers.ProductIdMongoMapper;
 import com.jeferro.products.products.infrastructure.integrations.mongo.mappers.ProductMongoMapper;
+import com.jeferro.products.shared.infrastructure.integrations.mongo.services.MetadataMongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -18,17 +19,21 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
 
+	private final MetadataMongoTemplate metadataMongoTemplate;
+
     private final ProductsMongoDao productsMongoDao;
 
-    public ProductsMongoRepository(ProductsMongoDao productsMongoDao) {
-        this.productsMongoDao = productsMongoDao;
+    public ProductsMongoRepository(MetadataMongoTemplate metadataMongoTemplate,
+		ProductsMongoDao productsMongoDao) {
+		this.metadataMongoTemplate = metadataMongoTemplate;
+		this.productsMongoDao = productsMongoDao;
     }
 
     @Override
     public void save(Product product) {
         var dto = productMongoMapper.toDTO(product);
 
-        productsMongoDao.save(dto);
+        metadataMongoTemplate.save(dto);
     }
 
     @Override
