@@ -1,0 +1,25 @@
+{
+  "namespace": "com.jeferro.products.products.infrastructure.integrations.kafka.dtos.v1",
+  "type": "record",
+  "name": "ProductCreatedAvroDTO",
+  "fields": [
+    {
+      "name": "productId",
+      "type": "string",
+      "doc": "Identifier of the product created"
+    },
+    {
+      "name": "occurredOn",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Date where the event occurred"
+    },
+    {
+      "name": "occurredBy",
+      "type": "string",
+      "doc": "Who triggered the event"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./docker/mongo/initdb:/docker-entrypoint-initdb.d:ro
+      - ./mongo/initdb:/docker-entrypoint-initdb.d:ro
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
@@ -89,7 +89,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./docker/conduktor/platform-config.yml:/opt/conduktor/platform-config.yaml:ro
+      - ./conduktor/platform-config.yml:/opt/conduktor/platform-config.yaml:ro
     depends_on:
       - postgresql
 

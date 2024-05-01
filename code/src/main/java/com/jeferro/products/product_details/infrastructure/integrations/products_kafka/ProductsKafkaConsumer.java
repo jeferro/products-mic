@@ -1,8 +1,8 @@
 package com.jeferro.products.product_details.infrastructure.integrations.products_kafka;
 
-import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.ProductCreatedAvroDTO;
-import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.ProductDeletedAvroDTO;
-import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.ProductUpdatedAvroDTO;
+import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.v1.ProductCreatedAvroDTO;
+import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.v1.ProductDeletedAvroDTO;
+import com.jeferro.products.products.infrastructure.integrations.kafka.dtos.v1.ProductUpdatedAvroDTO;
 import com.jeferro.products.shared.domain.exceptions.ApplicationException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
