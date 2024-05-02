@@ -1,157 +1,147 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo;
 
-
-import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.products.domain.models.ProductMother;
-import com.jeferro.products.components.mongodb.products.ProductsMongoDao;
-import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
-import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductMongoMapper;
-import com.jeferro.products.shared.infrastructure.mongo.MongoDBContainerCreator;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.jeferro.products.components.mongodb.products.ProductsMongoDao;
+import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.models.ProductMother;
+import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
+import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductMongoMapper;
+import com.jeferro.products.shared.infrastructure.adapters.mongo.MongoRepositoryIT;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 
-@Testcontainers
-@DataMongoTest
 @Import(ProductsMongoRepository.class)
-class ProductsMongoRepositoryIT {
+class ProductsMongoRepositoryIT extends MongoRepositoryIT {
 
-    @Container
-    @ServiceConnection
-    static MongoDBContainer mongoDBContainer = MongoDBContainerCreator.create();
+	private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
 
-    private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
+	private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
 
-    private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
+	@Autowired
+	private ProductsMongoDao productsMongoDao;
 
-    @Autowired
-    private ProductsMongoDao productsMongoDao;
+	@Autowired
+	private ProductsMongoRepository productsMongoRepository;
 
-    @Autowired
-    private ProductsMongoRepository productsMongoRepository;
+	@Nested
+	class SaveTests {
 
-    @Nested
-    class SaveTests {
+		@Test
+		void givenNoProducts_whenSave_thenSavesProduct() {
+			givenDatabaseIsEmpty();
 
-        @Test
-        void should_saveProduct_when_productDoesNotExist() {
-            givenDatabaseIsEmpty();
+			var expected = ProductMother.apple();
+			productsMongoRepository.save(expected);
 
-            var expected = ProductMother.apple();
-            productsMongoRepository.save(expected);
+			assertProductExistsInDatabase(expected);
+		}
+	}
 
-            assertProductExistsInDatabase(expected);
-        }
-    }
+	@Nested
+	class FindByIdTests {
 
-    @Nested
-    class FindByIdTests {
+		@Test
+		void givenOneProduct_whenFindById_thenReturnsProduct() {
+			var expected = ProductMother.apple();
+			givenProductsInDatabase(expected);
 
-        @Test
-        void should_retrieveProduct_when_productExists() {
-            var expected = ProductMother.apple();
-            givenProductsInDatabase(expected);
+			var result = productsMongoRepository.findById(expected.getId());
 
-            var result = productsMongoRepository.findById(expected.getId());
+			assertTrue(result.isPresent());
+			assertEquals(expected, result.get());
+		}
 
-            assertTrue(result.isPresent());
-            assertEquals(expected, result.get());
-        }
+		@Test
+		void givenNoProducts_whenFindById_thenReturnsEmpty() {
+			givenDatabaseIsEmpty();
 
-        @Test
-        void should_retrieveEmpty_when_productDoesNotExist() {
-            givenDatabaseIsEmpty();
+			var expected = ProductMother.apple();
+			var result = productsMongoRepository.findById(expected.getId());
 
-            var expected = ProductMother.apple();
-            var result = productsMongoRepository.findById(expected.getId());
+			assertTrue(result.isEmpty());
+		}
+	}
 
-            assertTrue(result.isEmpty());
-        }
-    }
+	@Nested
+	class DeleteTests {
 
-    @Nested
-    class DeleteTests {
+		@Test
+		void givenOneProduct_whenDeleteById_thenDeletesProduct() {
+			var expected = ProductMother.apple();
+			givenProductsInDatabase(expected);
 
-        @Test
-        void should_deleteProduct_when_productExists() {
-            var expected = ProductMother.apple();
-            givenProductsInDatabase(expected);
+			productsMongoRepository.deleteById(expected.getId());
 
-            productsMongoRepository.deleteById(expected.getId());
+			assertProductDoesNotExistInDatabase(expected);
+		}
 
-            assertProductDoesNotExistInDatabase(expected);
-        }
+		@Test
+		void givenNoProducts_whenDeleteById_thenDoNothing() {
+			givenDatabaseIsEmpty();
 
-        @Test
-        void should_deleteProduct_when_productDoesNotExist() {
-            givenDatabaseIsEmpty();
+			var expected = ProductMother.apple();
+			productsMongoRepository.deleteById(expected.getId());
 
-            var expected = ProductMother.apple();
-            productsMongoRepository.deleteById(expected.getId());
+			assertProductDoesNotExistInDatabase(expected);
+		}
+	}
 
-            assertProductDoesNotExistInDatabase(expected);
-        }
-    }
+	@Nested
+	class FindAllTests {
 
-    @Nested
-    class FindAllTests {
+		@Test
+		void givenTwoProducts_whenFindAll_thenReturnsAllProducts() {
+			var apple = ProductMother.apple();
+			var pear = ProductMother.pear();
+			givenProductsInDatabase(apple, pear);
 
-        @Test
-        void should_retrieveProducts_when_productsExist() {
-            var apple = ProductMother.apple();
-            var pear = ProductMother.pear();
-            givenProductsInDatabase(apple, pear);
+			var result = productsMongoRepository.findAll();
 
-            var result = productsMongoRepository.findAll();
+			assertEquals(2, result.size());
+			assertTrue(result.contains(apple));
+			assertTrue(result.contains(pear));
+		}
 
-            assertEquals(2, result.size());
-            assertTrue(result.contains(apple));
-            assertTrue(result.contains(pear));
-        }
+		@Test
+		void givenNoProducts_whenFindAll_thenReturnsEmptyList() {
+			givenDatabaseIsEmpty();
 
-        @Test
-        void should_retrieveEmpty_when_productsDoNotExist() {
-            givenDatabaseIsEmpty();
+			var result = productsMongoRepository.findAll();
 
-            var result = productsMongoRepository.findAll();
+			assertTrue(result.isEmpty());
+		}
+	}
 
-            assertTrue(result.isEmpty());
-        }
-    }
+	private void givenDatabaseIsEmpty() {
+		productsMongoDao.deleteAll();
+	}
 
-    private void givenDatabaseIsEmpty() {
-        productsMongoDao.deleteAll();
-    }
+	private void givenProductsInDatabase(Product... products) {
+		productsMongoDao.deleteAll();
 
-    private void givenProductsInDatabase(Product... products) {
-        productsMongoDao.deleteAll();
+		Arrays.stream(products)
+			.map(productMongoMapper::toDTO)
+			.forEach(productsMongoDao::save);
+	}
 
-        Arrays.stream(products)
-                .map(productMongoMapper::toDTO)
-                .forEach(productsMongoDao::save);
-    }
+	private void assertProductExistsInDatabase(Product product) {
+		var productIdDto = productIdMongoMapper.toDTO(product.getId());
+		var productSaved = productsMongoDao.findById(productIdDto);
 
-    private void assertProductExistsInDatabase(Product product) {
-        var productIdDto = productIdMongoMapper.toDTO(product.getId());
-        var productSaved = productsMongoDao.findById(productIdDto);
+		assertTrue(productSaved.isPresent());
+	}
 
-        assertTrue(productSaved.isPresent());
-    }
+	private void assertProductDoesNotExistInDatabase(Product product) {
+		var productIdDto = productIdMongoMapper.toDTO(product.getId());
+		var productSaved = productsMongoDao.findById(productIdDto);
 
-    private void assertProductDoesNotExistInDatabase(Product product) {
-        var productIdDto = productIdMongoMapper.toDTO(product.getId());
-        var productSaved = productsMongoDao.findById(productIdDto);
-
-        assertFalse(productSaved.isPresent());
-    }
+		assertFalse(productSaved.isPresent());
+	}
 }

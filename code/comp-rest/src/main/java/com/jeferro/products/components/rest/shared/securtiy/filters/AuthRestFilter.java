@@ -2,12 +2,14 @@ package com.jeferro.products.components.rest.shared.securtiy.filters;
 
 import java.io.IOException;
 
+import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
 import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
+@Profile(RestProfile.NAME)
 public class AuthRestFilter extends OncePerRequestFilter {
 
   private final JwtDecoder jwtDecoder;

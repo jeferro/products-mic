@@ -33,7 +33,7 @@ class CreateProductHandlerTest {
 	}
 
 	@Test
-	void should_createProduct() {
+	void givenOneProduct_whenCreateProduct_thenCreatesProduct() {
 		var now = FakeTimeService.fakesNow();
 
 		var userAuth = AuthMother.user();
@@ -53,7 +53,7 @@ class CreateProductHandlerTest {
 	}
 
 	@Test
-	void should_throwForbidden_when_authIsAnonymous() {
+	void givenAnonymousAuth_whenCreateProduct_thenThrowsForbiddenException() {
 		var productName = "Apple";
 		var command = new CreateProductCommand(
 			AuthMother.anonymous(),
@@ -65,7 +65,7 @@ class CreateProductHandlerTest {
 	}
 
 	@Test
-	void should_throwForbidden_when_authHasNotTheUserRole() {
+	void givenAuthWithoutRoles_whenCreateProduct_thenThrowsForbiddenException() {
 		var productName = "Apple";
 		var command = new CreateProductCommand(
 			AuthMother.userWithoutRoles(),

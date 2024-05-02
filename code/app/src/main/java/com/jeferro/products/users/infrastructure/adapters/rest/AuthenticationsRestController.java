@@ -5,6 +5,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import com.jeferro.products.components.products.rest.apis.AuthenticationsApi;
 import com.jeferro.products.components.products.rest.dtos.AuthRestDTO;
 import com.jeferro.products.components.products.rest.dtos.SignInInputRestDTO;
+import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
 import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
 import com.jeferro.products.shared.application.bus.HandlerBus;
@@ -12,12 +13,13 @@ import com.jeferro.products.shared.infrastructure.adapters.rest.mappers.Username
 import com.jeferro.products.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import com.jeferro.products.users.application.SignInCommand;
 import com.jeferro.products.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/authentications")
+@Profile(RestProfile.NAME)
 public class AuthenticationsRestController implements AuthenticationsApi {
 
 	private final UsernameRestMapper usernameRestMapper = UsernameRestMapper.INSTANCE;

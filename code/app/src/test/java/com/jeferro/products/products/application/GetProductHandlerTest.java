@@ -28,7 +28,7 @@ class GetProductHandlerTest {
     }
 
     @Test
-    void should_retrieveProduct_when_productExists() {
+    void givenOneProduct_whenGetProduct_thenReturnsProduct() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);
 
@@ -43,7 +43,7 @@ class GetProductHandlerTest {
     }
 
     @Test
-    void should_throwProductNotFound_when_ProductDoesNotExist() {
+    void givenNoProducts_whenGetProduct_thenThrowsProductNotFoundException() {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(
@@ -56,7 +56,7 @@ class GetProductHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authIsAnonymous() {
+    void givenAnonymousUser_whenGetProduct_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(
@@ -69,7 +69,7 @@ class GetProductHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authHasNotTheUserRole() {
+    void givenUserWithoutUser_whenGetProduct_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(

@@ -39,7 +39,7 @@ class DeleteProductHandlerTest {
 	}
 
 	@Test
-	void should_deleteProduct_when_ProductExists() {
+	void givenOneProduct_whenDeleteProduct_thenDeletesProduct() {
 		var now = FakeTimeService.fakesNow();
 
 		var apple = ProductMother.apple();
@@ -61,7 +61,7 @@ class DeleteProductHandlerTest {
 	}
 
 	@Test
-	void should_throwProductNotFound_when_ProductDoesNotExist() {
+	void givenNoProducts_whenDeleteProduct_thenThrowsProductNotFoundException() {
 		var apple = ProductMother.apple();
 
 		var command = new DeleteProductCommand(
@@ -74,7 +74,7 @@ class DeleteProductHandlerTest {
 	}
 
 	@Test
-	void should_throwForbidden_when_authIsAnonymous() {
+	void givenAnonymousAuth_whenDeleteProduct_thenThrowsForbiddenException() {
 		var apple = ProductMother.apple();
 		productsInMemoryRepository.init(apple);
 
@@ -88,7 +88,7 @@ class DeleteProductHandlerTest {
 	}
 
 	@Test
-	void should_throwForbidden_when_authHasNotTheUserRole() {
+	void givenUserWithoutRoles_whenDeleteProduct_thenThrowsForbiddenException() {
 		var apple = ProductMother.apple();
 		productsInMemoryRepository.init(apple);
 

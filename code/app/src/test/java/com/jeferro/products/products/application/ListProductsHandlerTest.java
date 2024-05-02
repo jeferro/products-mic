@@ -23,7 +23,7 @@ class ListProductsHandlerTest {
     }
 
     @Test
-    void should_retrieveProducts_when_productsExist() {
+    void givenTwoProducts_whenListProducts_thenReturnsAllProducts() {
         var apple = ProductMother.apple();
         var pear = ProductMother.pear();
         productsInMemoryRepository.init(apple, pear);
@@ -40,7 +40,7 @@ class ListProductsHandlerTest {
     }
 
     @Test
-    void should_retrieveEmpty_when_productsDoNotExist() {
+    void givenNoProducts_whenListProduct_thenReturnsEmpty() {
         var command = new ListProductsCommand(
                 AuthMother.user()
         );
@@ -51,7 +51,7 @@ class ListProductsHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authIsAnonymous() {
+    void givenAnonymousUser_whenListProducts_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
         var pear = ProductMother.pear();
         productsInMemoryRepository.init(apple, pear);
@@ -65,7 +65,7 @@ class ListProductsHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authHasNotTheUserRole() {
+    void givenUserWithoutRoles_whenListProducts_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
         var pear = ProductMother.pear();
         productsInMemoryRepository.init(apple, pear);

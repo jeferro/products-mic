@@ -1,9 +1,11 @@
 package com.jeferro.products.products.infrastructure.adapters.rest.mappers;
 
 import com.jeferro.products.components.products.rest.dtos.ProductRestDTO;
+import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Profile(RestProfile.NAME)
 public class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
 
     public static final ProductRestMapper INSTANCE = new ProductRestMapper();

@@ -1,34 +1,22 @@
-package com.jeferro.products.users.infrastructure.mongo;
-
-import com.jeferro.products.shared.infrastructure.mongo.MongoDBContainerCreator;
-import com.jeferro.products.users.domain.models.User;
-import com.jeferro.products.users.domain.models.UserMother;
-import com.jeferro.products.users.infrastructure.adapters.mongo.UsersMongoRepository;
-import com.jeferro.products.components.mongodb.users.UsersMongoDao;
-import com.jeferro.products.users.infrastructure.adapters.mongo.mappers.UsersMongoMapper;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.Arrays;
+package com.jeferro.products.users.infrastructure.adapters.mongo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Testcontainers
-@DataMongoTest
-@Import(UsersMongoRepository.class)
-class UsersMongoRepositoryIT {
+import java.util.Arrays;
 
-    @Container
-    @ServiceConnection
-    static MongoDBContainer mongoDBContainer = MongoDBContainerCreator.create();
+import com.jeferro.products.components.mongodb.users.UsersMongoDao;
+import com.jeferro.products.shared.infrastructure.adapters.mongo.MongoRepositoryIT;
+import com.jeferro.products.users.domain.models.User;
+import com.jeferro.products.users.domain.models.UserMother;
+import com.jeferro.products.users.infrastructure.adapters.mongo.mappers.UsersMongoMapper;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+
+@Import(UsersMongoRepository.class)
+class UsersMongoRepositoryIT extends MongoRepositoryIT{
 
     private final UsersMongoMapper usersMongoMapper = UsersMongoMapper.INSTANCE;
 
@@ -42,7 +30,7 @@ class UsersMongoRepositoryIT {
     class FindByIdTests {
 
         @Test
-        void should_retrieveUser_when_userExists() {
+        void givenOneUser_whenFindById_thenReturnsUser() {
             var expected = UserMother.user();
             givenUsersInDatabase(expected);
 
@@ -53,7 +41,7 @@ class UsersMongoRepositoryIT {
         }
 
         @Test
-        void should_retrieveEmpty_when_userDoesNotExist() {
+        void givenNoUsers_whenFindById_thenReturnsEmpty() {
             givenDatabaseIsEmpty();
 
             var expected = UserMother.user();

@@ -28,7 +28,7 @@ class SignInHandlerTest {
     }
 
     @Test
-    void should_signInUser_when_credentialsAreCorrect() {
+    void givenOneUSer_whenSignIn_thenReturnsUser() {
         var expected = UserMother.user();
         usersInMemoryRepository.init(expected);
 
@@ -44,7 +44,7 @@ class SignInHandlerTest {
     }
 
     @Test
-    void should_signInUser_when_userIsAlreadyAuthenticated() {
+    void givenAnAuthenticatedUser_whenSignIn_thenReturnsUser() {
         var expected = UserMother.user();
         usersInMemoryRepository.init(expected);
 
@@ -60,7 +60,7 @@ class SignInHandlerTest {
     }
 
     @Test
-    void should_throwUnauthorized_when_userDoesNotExist() {
+    void givenNoUsers_whenSignIn_thenThrowsUnauthorizedException() {
         var user = UserMother.user();
 
         var command = new SignInCommand(
@@ -74,7 +74,7 @@ class SignInHandlerTest {
     }
 
     @Test
-    void should_throwUnauthorized_when_passwordIsWrong() {
+    void givenWrongCredentials_whenSignIn_thenThrowsUnauthorizedException() {
         var user = UserMother.user();
         usersInMemoryRepository.init(user);
 

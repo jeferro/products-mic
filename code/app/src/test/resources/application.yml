@@ -4,11 +4,13 @@ logging:
     com.jeferro: INFO
 
 
-infrastructure:
-  jwt:
-    issuer: "products"
-    duration: 7D
-    password: "test"
+components:
+  kafka:
+    products:
+      topic: com.jeferro.products.products.test
 
-  products:
-    topic: com.jeferro.products.products.test
+  rest:
+      security:
+        issuer: "products"
+        duration: 7D
+        password: "test"

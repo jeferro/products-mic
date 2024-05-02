@@ -38,7 +38,7 @@ class UpdateProductHandlerTest {
     }
 
     @Test
-    void should_updateProduct_when_productExists() {
+    void givenOneProduct_whenUpdateProduct_thenUpdatesProduct() {
         var now = FakeTimeService.fakesNow();
 
         var apple = ProductMother.apple();
@@ -62,7 +62,7 @@ class UpdateProductHandlerTest {
     }
 
     @Test
-    void should_throwProductNotFound_when_productDoesNotExist() {
+    void givenNoProducts_whenUpdateProduct_thenThrowsProductNotFoundException() {
         var apple = ProductMother.apple();
 
         var command = new UpdateProductCommand(
@@ -76,7 +76,7 @@ class UpdateProductHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authIsAnonymous() {
+    void givenAnonymousUser_whenListProducts_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);
 
@@ -91,7 +91,7 @@ class UpdateProductHandlerTest {
     }
 
     @Test
-    void should_throwForbidden_when_authHasNotTheUserRole() {
+    void givenUserWithoutRoles_whenListProducts_thenThrowsForbiddenException() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);
 
