@@ -1,0 +1,25 @@
+{
+  "namespace": "com.jeferro.products.components.kafka.products.dtos.v1",
+  "type": "record",
+  "name": "ProductDeletedAvroDTO",
+  "fields": [
+    {
+      "name": "productId",
+      "type": "string",
+      "doc": "Identifier of the product deleted"
+    },
+    {
+      "name": "occurredOn",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Date where the event occurred"
+    },
+    {
+      "name": "occurredBy",
+      "type": "string",
+      "doc": "Who triggered the event"
+    }
+  ]
+}

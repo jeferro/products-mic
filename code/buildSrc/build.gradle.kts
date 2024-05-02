@@ -17,7 +17,7 @@ gradlePlugin {
     plugins {
         create("avro-generator") {
             id = "com.jeferro.plugins.avro-generator"
-            implementationClass = "com.jeferro.plugins.AvroGeneratorPlugin"
+            implementationClass = "com.jeferro.plugins.avro_generator.AvroGeneratorPlugin"
         }
     }
 }

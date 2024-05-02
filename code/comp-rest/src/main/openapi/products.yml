@@ -1,0 +1,38 @@
+components:
+  parameters:
+    productIdPath:
+      name: productId
+      in: path
+      description: Product id
+      required: true
+      schema:
+        type: string
+      example: 'adc65c2d-e623-4466-9791-dc76fd6bd1b8'
+
+  schemas:
+    ProductInput:
+      type: object
+      description: Upsert product input
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the product
+          example: 'apple'
+
+    Product:
+      type: object
+      description: Product information
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: Identifier of product
+          example: 'adc65c2d-e623-4466-9791-dc76fd6bd1b8'
+        name:
+          type: string
+          description: Name of the product
+          example: 'apple'

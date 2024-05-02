@@ -1,0 +1,62 @@
+components:
+  schemas:
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: codes of the error
+          enum:
+            - 'INTERNAL_ERROR'
+            - 'VALUE_VALIDATION'
+            - 'UNAUTHORIZED'
+            - 'FORBIDDEN'
+            - 'NOT_FOUND'
+          x-enum-varnames:
+            - INTERNAL_ERROR
+            - VALUE_VALIDATION
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - NOT_FOUND
+        message:
+          type: string
+          description: message of the error
+
+  responses:
+
+    ErrorResponse:
+      description: Error Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            BadRequestExample:
+              summary: Bad request
+              value:
+                code: 'BAD_REQUEST'
+                message: 'The parameter X is required'
+            UnauthorizedExample:
+              summary: Unauthorized
+              value:
+                code: 'UNAUTHORIZED'
+                message: 'Credentials are not valid'
+            ForbiddenExample:
+              summary: Forbidden
+              value:
+                code: 'UNAUTHORIZED'
+                message: 'Unauthorized operation'
+            NotFoundExample:
+              summary: NotFound
+              value:
+                code: 'NOT_FOUND'
+                message: 'Element not found'
+            InternalErrorExample:
+              summary: Internal error
+              value:
+                code: 'INTERNAL_ERROR'
+                message: 'There was an internal error'
