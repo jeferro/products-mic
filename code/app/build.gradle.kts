@@ -28,5 +28,4 @@ tasks.withType<JavaCompile> {
     options.compilerArgs = listOf(
         "-Amapstruct.unmappedTargetPolicy=ERROR"
     )
-
 }
