@@ -5,21 +5,15 @@ import com.jeferro.products.components.kafka.products.dtos.v1.ProductCreatedAvro
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
 import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
-@Component
+@Mapper(uses = {
+	ProductIdMongoMapper.class
+})
 @Profile(KafkaProfile.NAME)
-public class ProductCreatedKafkaMapper extends ToDTOMapper<ProductCreated, ProductCreatedAvroDTO> {
+public abstract class ProductCreatedKafkaMapper extends ToDTOMapper<ProductCreated, ProductCreatedAvroDTO> {
 
-	public static final ProductCreatedKafkaMapper INSTANCE = new ProductCreatedKafkaMapper();
-
-	private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
-
-	public ProductCreatedAvroDTO toDTO(ProductCreated productCreated) {
-		return new ProductCreatedAvroDTO(
-			productIdMongoMapper.toDTO(productCreated.getProductId()),
-			productCreated.getOccurredOn(),
-			productCreated.getOccurredBy());
-	}
+	public static final ProductCreatedKafkaMapper INSTANCE = Mappers.getMapper(ProductCreatedKafkaMapper.class);
 }

@@ -64,7 +64,7 @@ class AuthenticationsRestControllerIT extends RestControllerIT {
 		private void assertSignInResponse(ResultActions result, User user) throws Exception {
 			result.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.authId").value(user.getUsername().getValue()))
+				.andExpect(jsonPath("$.username").value(user.getUsername().getValue()))
 				.andExpect(jsonPath("$.roles").isArray());
 		}
 

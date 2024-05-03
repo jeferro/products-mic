@@ -10,4 +10,6 @@ public interface Versions {
 
 	String commons_lang3 = "3.14.0";
 	String test_containers = "1.19.7";
+
+	String mapstruct = "1.5.5.Final";
 }

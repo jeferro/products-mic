@@ -7,26 +7,19 @@ import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
-@Component
+@Mapper(uses = {
+	ProductIdRestMapper.class
+})
 @Profile(RestProfile.NAME)
-public class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
+public abstract class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
 
-    public static final ProductRestMapper INSTANCE = new ProductRestMapper();
-
-    private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
-
-    @Override
-    public ProductRestDTO toDTO(Product product) {
-        return new ProductRestDTO(
-                productIdRestMapper.toDTO(product.getId()),
-                product.getName()
-        );
-    }
+    public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 
     public ResponseEntity<ProductRestDTO> toOkResponseDTO(Product product) {
         var dto = toDTO(product);
