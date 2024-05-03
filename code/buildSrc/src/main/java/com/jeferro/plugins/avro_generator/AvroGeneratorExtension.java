@@ -6,4 +6,6 @@ public class AvroGeneratorExtension {
 
 	public File schemaDir;
 
+	public File targetDir;
+
 }

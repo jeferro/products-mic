@@ -4,7 +4,7 @@ plugins {
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id ("org.openapi.generator")
+    id ("com.jeferro.plugins.api-first-generator")
 }
 
 dependencies {
@@ -12,8 +12,8 @@ dependencies {
 
     implementation("org.springframework.boot", "spring-boot-starter-actuator")
 
-    api("jakarta.validation", "jakarta.validation-api")
-    implementation("org.openapitools", "jackson-databind-nullable", Versions.jackson_databind_nullable)
+    api("jakarta.validation", "jakarta.validation-api", "3.0.2")
+    implementation("org.openapitools", "jackson-databind-nullable", "0.2.6")
 
     api("org.springframework.boot", "spring-boot-starter-security")
     implementation("com.auth0", "java-jwt", Versions.jwt)
@@ -27,39 +27,8 @@ tasks.getByName<Jar>("jar") {
     enabled = true
 }
 
-tasks.withType<JavaCompile> {
-    dependsOn(tasks.openApiGenerate)
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir("$projectDir/build/generate-resources/main/src/main/java")
-        }
-        resources {
-            srcDir("$projectDir/src/main/openapi/")
-        }
-    }
-}
-
-openApiGenerate {
-    val basePackage = "com.jeferro.products.components.products.rest"
-
-    generatorName.set("spring")
-    inputSpec.set("$projectDir/src/main/openapi/openapi.yml")
-
-    packageName.set(basePackage)
-    apiPackage.set("${basePackage}.apis")
-    modelPackage.set("${basePackage}.dtos")
-    modelNameSuffix.set("RestDTO")
-    apiNameSuffix.set("Api")
-
-    generateApiTests.set(false)
-    configOptions.set(mapOf(
-        "useTags" to "true",
-        "gradleBuildFile" to "false",
-        "useSpringBoot3" to "true",
-        "documentationProvider" to "none",
-        "interfaceOnly" to "true"
-    ))
+apiFirstGenerator {
+    basePackage = "com.jeferro.products.components.rest.generated"
+    specFile = file("${projectDir}/src/main/openapi/openapi.yml")
+    targetDir = file("${projectDir}/build/generated-resources/openapi")
 }

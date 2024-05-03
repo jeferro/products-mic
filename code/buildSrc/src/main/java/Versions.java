@@ -7,10 +7,7 @@ public interface Versions {
 	String spring_kafka = "3.1.3";
 
 	String jwt = "4.4.0";
-	String openapi_generator = "7.5.0";
 
 	String commons_lang3 = "3.14.0";
 	String test_containers = "1.19.7";
-
-	String jackson_databind_nullable = "0.2.6";
 }

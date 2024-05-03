@@ -9,7 +9,6 @@ import org.apache.avro.compiler.specific.SpecificCompiler;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.compile.JavaCompile;
 
 public class AvroGeneratorTask implements Action<Task> {
@@ -20,18 +19,13 @@ public class AvroGeneratorTask implements Action<Task> {
 
 	private final File targetDir;
 
-	public AvroGeneratorTask(Project project, File schemaDir) {
+	public AvroGeneratorTask(File schemaDir, File targetDir) {
 		this.schemaDir = schemaDir;
-
-		targetDir = project.getLayout()
-			.getBuildDirectory()
-			.file("generated/sources/avro/main/java")
-			.get()
-			.getAsFile();
+		this.targetDir = new File(targetDir, "src/main/java");
 	}
 
-	public static void register(Project project, File schemasDir) {
-		AvroGeneratorTask avroGeneratorTask = new AvroGeneratorTask(project, schemasDir);
+	public static void register(Project project, File schemasDir, File targetDir) {
+		AvroGeneratorTask avroGeneratorTask = new AvroGeneratorTask(schemasDir, targetDir);
 		project.task(TASK_ID, avroGeneratorTask);
 
 		project.getTasks().withType(JavaCompile.class)
@@ -40,18 +34,7 @@ public class AvroGeneratorTask implements Action<Task> {
 
 	@Override
 	public void execute(Task task) {
-		configureSourceSets(task);
-
 		task.doLast(this::doLast);
-	}
-
-	private void configureSourceSets(Task task) {
-		SourceSetContainer sourceSets = task.getProject().getExtensions()
-			.getByType(SourceSetContainer.class);
-
-		sourceSets.stream()
-			.filter(sourceSet -> sourceSet.getName().equals("main"))
-			.forEach(sourceSet -> sourceSet.getJava().srcDir(targetDir));
 	}
 
 	private void doLast(Task task) {

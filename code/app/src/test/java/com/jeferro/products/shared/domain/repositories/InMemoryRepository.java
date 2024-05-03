@@ -12,7 +12,8 @@ public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id
 
     protected final Map<Id, Aggregate> data = new HashMap<>();
 
-    public void init(Aggregate... aggregates) {
+    @SafeVarargs
+	public final void init(Aggregate... aggregates) {
         Arrays.stream(aggregates)
                 .forEach(aggregate -> data.put(aggregate.getId(), aggregate));
     }

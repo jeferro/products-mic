@@ -2,9 +2,9 @@ package com.jeferro.products.products.infrastructure.adapters.rest;
 
 import java.util.List;
 
-import com.jeferro.products.components.products.rest.apis.ProductsApi;
-import com.jeferro.products.components.products.rest.dtos.ProductInputRestDTO;
-import com.jeferro.products.components.products.rest.dtos.ProductRestDTO;
+import com.jeferro.products.components.rest.generated.apis.ProductsApi;
+import com.jeferro.products.components.rest.generated.dtos.ProductInputRestDTO;
+import com.jeferro.products.components.rest.generated.dtos.ProductRestDTO;
 import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.products.application.CreateProductCommand;
 import com.jeferro.products.products.application.DeleteProductCommand;
@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile(RestProfile.NAME)
 public class ProductsRestController implements ProductsApi {
 
-    private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
+	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
-    private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
+	private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
 
-    private final AuthRestResolver authRestResolver;
+	private final AuthRestResolver authRestResolver;
 
-    private final HandlerBus handlerBus;
+	private final HandlerBus handlerBus;
 
-    public ProductsRestController(AuthRestResolver authRestResolver, HandlerBus handlerBus) {
-        this.authRestResolver = authRestResolver;
-        this.handlerBus = handlerBus;
-    }
+	public ProductsRestController(AuthRestResolver authRestResolver, HandlerBus handlerBus) {
+		this.authRestResolver = authRestResolver;
+		this.handlerBus = handlerBus;
+	}
 
 	@Override
 	public ResponseEntity<List<ProductRestDTO>> listProducts() {
