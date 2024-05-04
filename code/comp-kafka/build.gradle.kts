@@ -7,12 +7,6 @@ plugins {
     id("com.jeferro.plugins.avro-generator")
 }
 
-repositories {
-    maven {
-        url = uri("https://packages.confluent.io/maven/")
-    }
-}
-
 dependencies {
     implementation("org.springframework.boot", "spring-boot-starter")
     api("org.springframework.kafka", "spring-kafka", Versions.spring_kafka)
