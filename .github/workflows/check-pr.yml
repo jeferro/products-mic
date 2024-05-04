@@ -22,7 +22,7 @@ jobs:
       - name: Install asdf & tools
         uses: asdf-vm/actions/install@v3
 
-      - name: Build (skipping test)
+      - name: Build
         working-directory: code
         run: gradle build
         env:
