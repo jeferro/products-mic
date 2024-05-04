@@ -24,6 +24,6 @@ tasks.getByName<Jar>("jar") {
 }
 
 avroGenerator {
-    schemaDir = file("${projectDir}/src/main/avro")
+    schemaDir = file("${projectDir}/../../apis/avro")
     targetDir = file("${projectDir}/build/generated/sources/avro")
 }

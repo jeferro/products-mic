@@ -15,8 +15,10 @@ security:
 tags:
   - name: Authentications
     description: Section of the authentication
+
   - name: Products
     description: Section of the products
+
   - name: Product reviews
     description: Section of the product reviews
 

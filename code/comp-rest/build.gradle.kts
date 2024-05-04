@@ -29,6 +29,6 @@ tasks.getByName<Jar>("jar") {
 
 apiFirstGenerator {
     basePackage = "com.jeferro.products.components.rest.generated"
-    specFile = file("${projectDir}/src/main/openapi/openapi.yml")
+    specFile = file("${projectDir}/../../apis/rest/openapi.yml")
     targetDir = file("${projectDir}/build/generated-resources/openapi")
 }
