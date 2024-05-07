@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.jeferro.products.components.mongodb.MongoProfile;
 import com.jeferro.products.components.mongodb.products.ProductsMongoDao;
-import com.jeferro.products.components.mongodb.shared.services.MetadataMongoTemplate;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.models.Products;
@@ -22,13 +21,9 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
 
-	private final MetadataMongoTemplate metadataMongoTemplate;
-
     private final ProductsMongoDao productsMongoDao;
 
-    public ProductsMongoRepository(MetadataMongoTemplate metadataMongoTemplate,
-		ProductsMongoDao productsMongoDao) {
-		this.metadataMongoTemplate = metadataMongoTemplate;
+    public ProductsMongoRepository(ProductsMongoDao productsMongoDao) {
 		this.productsMongoDao = productsMongoDao;
     }
 
@@ -36,7 +31,7 @@ public class ProductsMongoRepository implements ProductsRepository {
     public void save(Product product) {
         var dto = productMongoMapper.toDTO(product);
 
-        metadataMongoTemplate.save(dto);
+        productsMongoDao.save(dto);
     }
 
     @Override
