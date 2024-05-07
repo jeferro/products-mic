@@ -37,6 +37,8 @@ public class Product extends AggregateRoot<ProductId> {
 
         this.name = name;
 
+		markAsModified(auth);
+
         var event = ProductUpdated.create(this, auth);
         record(event);
     }

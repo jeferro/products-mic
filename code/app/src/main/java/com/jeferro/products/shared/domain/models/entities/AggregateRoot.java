@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jeferro.products.shared.domain.events.Event;
+import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.metadata.Metadata;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.apache.commons.lang3.builder.ToStringExclude;
@@ -35,5 +36,9 @@ public class AggregateRoot<ID extends Identifier<?>> extends Entity<ID> {
 
 	public Metadata getMetadata() {
 		return metadata;
+	}
+
+	protected void markAsModified(Auth auth) {
+		metadata.markAsModified(auth);
 	}
 }

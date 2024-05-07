@@ -1,18 +1,20 @@
 package com.jeferro.products.shared.domain.events;
 
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
-import com.jeferro.products.shared.domain.models.value_objects.ValueObject;
-import org.apache.commons.lang3.StringUtils;
-
 import java.time.Instant;
 
-public abstract class Event extends ValueObject {
+import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.models.entities.Entity;
+import org.apache.commons.lang3.StringUtils;
+
+public abstract class Event extends Entity<EventId> {
 
     private final String occurredBy;
 
     private final Instant occurredOn;
 
-    protected Event(String occurredBy, Instant occurredOn) {
+    protected Event(EventId id, String occurredBy, Instant occurredOn) {
+		super(id);
+
 		validateOccurredBy(occurredBy);
 		validateOccurredOn(occurredOn);
 

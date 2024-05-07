@@ -4,6 +4,11 @@
   "name": "ProductDeletedAvroDTO",
   "fields": [
     {
+      "name": "id",
+      "type": "string",
+      "doc": "Identifier of the event"
+    },
+    {
       "name": "productId",
       "type": "string",
       "doc": "Identifier of the product deleted"
