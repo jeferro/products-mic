@@ -12,4 +12,6 @@ public interface Versions {
 	String test_containers = "1.19.7";
 
 	String mapstruct = "1.5.5.Final";
+
+	String jacoco = "0.8.11";
 }

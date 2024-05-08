@@ -6,9 +6,14 @@ logging:
 spring:
   application:
     name: products
+
   profiles:
     active: local
     include:
       - kafka
       - mongo
       - rest
+
+  threads:
+    virtual:
+      enabled: true

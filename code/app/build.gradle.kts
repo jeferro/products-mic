@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
+    id("jacoco")
 }
 
 dependencies {
@@ -29,3 +30,28 @@ tasks.withType<JavaCompile> {
         "-Amapstruct.unmappedTargetPolicy=ERROR"
     )
 }
+
+jacoco {
+    toolVersion = Versions.jacoco
+}
+
+tasks.withType<JacocoReport> {
+    afterEvaluate {
+        classDirectories.setFrom(
+            files(classDirectories.files.map {
+                fileTree(it).apply {
+                    exclude(
+                        "**/*Application*",
+                        "**/*Configuration*",
+                        "**/dtos/**",
+                        "**/daos/**",
+                        "**/commands/**",
+                        "**/mappers/**"
+                    )
+                }
+            })
+        )
+    }
+}
+
+
