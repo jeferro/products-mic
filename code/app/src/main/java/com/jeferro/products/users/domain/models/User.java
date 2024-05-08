@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.entities.AggregateRoot;
-import com.jeferro.products.shared.domain.models.metadata.Metadata;
 import com.jeferro.products.shared.domain.models.users.Username;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -15,8 +14,8 @@ public class User extends AggregateRoot<Username> {
 
     private final Set<String> roles;
 
-    public User(Username username, String encodedPassword, Set<String> roles, Metadata metadata) {
-        super(username, metadata);
+    public User(Username username, String encodedPassword, Set<String> roles) {
+        super(username);
 
         validateEncodedPassword(encodedPassword);
         validateRoles(roles);

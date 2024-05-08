@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jeferro.products.shared.domain.events.Event;
-import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.metadata.Metadata;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
@@ -15,11 +13,8 @@ public class AggregateRoot<ID extends Identifier<?>> extends Entity<ID> {
     @EqualsExclude
     private final List<Event> events = new ArrayList<>();
 
-	protected final Metadata metadata;
-
-    public AggregateRoot(ID id, Metadata metadata) {
+    public AggregateRoot(ID id) {
         super(id);
-		this.metadata = metadata;
 	}
 
     protected void record(Event event) {
@@ -33,12 +28,4 @@ public class AggregateRoot<ID extends Identifier<?>> extends Entity<ID> {
 
         return domainEvents;
     }
-
-	public Metadata getMetadata() {
-		return metadata;
-	}
-
-	protected void markAsModified(Auth auth) {
-		metadata.markAsModified(auth);
-	}
 }
