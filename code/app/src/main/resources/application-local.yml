@@ -10,7 +10,7 @@ components:
       topic: com.jeferro.products.products.local
 
   mongodb:
-    uri: mongodb://root:root@127.0.0.1:27017/products?authSource=admin
+    uri: mongodb://root:root@127.0.0.1:27017/test?authSource=admin
 
   rest:
     security:

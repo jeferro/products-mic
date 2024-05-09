@@ -7,15 +7,8 @@ import org.springframework.context.annotation.Profile;
 
 @ConfigurationProperties("components.kafka.products")
 @Profile(KafkaProfile.NAME)
-public class ProductsKafkaProperties {
+public record ProductsKafkaProperties(
+		String topic
+) {
 
-	private final String topic;
-
-	public ProductsKafkaProperties(String topic) {
-		this.topic = topic;
-	}
-
-	public String getTopic() {
-		return topic;
-	}
 }

@@ -8,29 +8,12 @@ import java.time.Duration;
 
 @Profile(RestProfile.NAME)
 @ConfigurationProperties("components.rest.security")
-public class RestSecurityProperties {
-
-    private final String issuer;
-
-    private final Duration duration;
-
-    private final String password;
-
-    public RestSecurityProperties(String issuer, Duration duration, String password) {
-        this.issuer = issuer;
-        this.duration = duration;
-        this.password = password;
-    }
-
-    public String getIssuer() {
-        return issuer;
-    }
-
-    public long getDurationAsMillis() {
+public record RestSecurityProperties(
+    String issuer,
+    Duration duration,
+    String password
+) {
+    public long durationAsMillis() {
         return duration.toMillis();
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

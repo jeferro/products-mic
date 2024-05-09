@@ -30,7 +30,7 @@ public class ProductsKafkaTemplate {
 	public void send(ProductCreatedAvroDTO event) {
 		String key = event.getProductId().toString();
 
-		kafkaTemplate.send(productsKafkaProperties.getTopic(), key, event)
+		kafkaTemplate.send(productsKafkaProperties.topic(), key, event)
 			.exceptionally(cause -> {
 				logger.error("Error sending event {}", event, cause);
 				return null;
@@ -40,7 +40,7 @@ public class ProductsKafkaTemplate {
 	public void send(ProductUpdatedAvroDTO event) {
 		String key = event.getProductId().toString();
 
-		kafkaTemplate.send(productsKafkaProperties.getTopic(), key, event)
+		kafkaTemplate.send(productsKafkaProperties.topic(), key, event)
 			.exceptionally(cause -> {
 				logger.error("Error sending event {}", event, cause);
 				return null;
@@ -50,7 +50,7 @@ public class ProductsKafkaTemplate {
 	public void send(ProductDeletedAvroDTO event) {
 		String key = event.getProductId().toString();
 
-		kafkaTemplate.send(productsKafkaProperties.getTopic(), key, event)
+		kafkaTemplate.send(productsKafkaProperties.topic(), key, event)
 			.exceptionally(cause -> {
 				logger.error("Error sending event {}", event, cause);
 				return null;

@@ -41,7 +41,7 @@ tasks.withType<JacocoReport> {
             files(classDirectories.files.map {
                 fileTree(it).apply {
                     exclude(
-                        "**/*Application*",
+                        "**/Application*",
                         "**/*Configuration*",
                         "**/dtos/**",
                         "**/daos/**",

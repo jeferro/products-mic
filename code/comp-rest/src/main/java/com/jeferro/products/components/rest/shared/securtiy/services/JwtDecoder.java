@@ -31,7 +31,7 @@ public class JwtDecoder {
 	private final JWTVerifier jwtVerifier;
 
 	public JwtDecoder(RestSecurityProperties restSecurityProperties) {
-		hmac512 = Algorithm.HMAC512(restSecurityProperties.getIssuer());
+		hmac512 = Algorithm.HMAC512(restSecurityProperties.issuer());
 		jwtVerifier = JWT.require(hmac512).build();
 
 		this.jwtProperties = restSecurityProperties;
@@ -64,10 +64,10 @@ public class JwtDecoder {
 
 	public String encode(JwtToken jwtToken) {
 		var issuedAt = Instant.now();
-		var expiresAt = issuedAt.plusMillis(jwtProperties.getDurationAsMillis());
+		var expiresAt = issuedAt.plusMillis(jwtProperties.durationAsMillis());
 
 		var token = JWT.create()
-			.withIssuer(jwtProperties.getIssuer())
+			.withIssuer(jwtProperties.issuer())
 			.withIssuedAt(issuedAt)
 			.withExpiresAt(expiresAt)
 			.withSubject(jwtToken.username())
