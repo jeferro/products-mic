@@ -8,22 +8,14 @@ import com.jeferro.products.shared.domain.models.users.Username;
 
 public class CreateProductReviewCommand extends Command<ProductReview> {
 
-  private final Username username;
-
   private final ProductId productId;
 
   private final String comment;
 
-  public CreateProductReviewCommand(Auth auth, Username username,
-	  ProductId productId, String comment) {
+  public CreateProductReviewCommand(Auth auth, ProductId productId, String comment) {
 	super(auth);
-	this.username = username;
 	this.productId = productId;
 	this.comment = comment;
-  }
-
-  public Username getUsername() {
-	return username;
   }
 
   public ProductId getProductId() {

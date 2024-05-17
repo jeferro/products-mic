@@ -1,28 +1,28 @@
 package com.jeferro.products.product_reviews.application.commands;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
+import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.commands.Command;
 import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.users.Username;
 
 public class DeleteProductReviewCommand extends Command<ProductReview> {
 
-  private final Username username;
-
   private final ProductId productId;
 
-  public DeleteProductReviewCommand(Auth auth, Username username, ProductId productId) {
-	super(auth);
-	this.username = username;
-	this.productId = productId;
-  }
+  private final ProductReviewId productReviewId;
 
-  public Username getUsername() {
-	return username;
+  public DeleteProductReviewCommand(Auth auth, ProductId productId, ProductReviewId productReviewId) {
+	super(auth);
+	this.productId = productId;
+	this.productReviewId = productReviewId;
   }
 
   public ProductId getProductId() {
 	return productId;
+  }
+
+  public ProductReviewId getProductReviewId() {
+	return productReviewId;
   }
 }

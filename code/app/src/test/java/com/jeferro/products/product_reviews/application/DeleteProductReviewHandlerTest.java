@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
+import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
+import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.users.domain.models.UserMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,14 +28,14 @@ class DeleteProductReviewHandlerTest {
   }
 
   @Test
-  void givenACommentOfUser_whenDeleteProductReview_thenReturnsDeletedProductReview() {
+  void givenUserCommentsOnProduct_whenDeleteProductReview_thenReturnsDeletedProductReview() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 
 	var command = new DeleteProductReviewCommand(
 		AuthMother.userAuth(),
-		userReviewOfApple.getUsername(),
-		userReviewOfApple.getProductId()
+		userReviewOfApple.getProductId(),
+		userReviewOfApple.getId()
 	);
 
 	var result = deleteProductReviewHandler.handle(command);
@@ -46,12 +46,12 @@ class DeleteProductReviewHandlerTest {
   }
 
   @Test
-  void givenUserDidNotCommentOnProduct_whenCrateProductReview_throwsException() {
+  void givenUserDoesNotCommentOnProduct_whenDeleteProductReview_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var command = new DeleteProductReviewCommand(
 		AuthMother.userAuth(),
-		userReviewOfApple.getUsername(),
-		userReviewOfApple.getProductId()
+		userReviewOfApple.getProductId(),
+		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
@@ -59,19 +59,33 @@ class DeleteProductReviewHandlerTest {
   }
 
   @Test
-  void givenACommentOfUser_whenDeleteProductReviewOfOtherUser_throwsException() {
+  void givenOtherUserCommentsOnProduct_whenDeleteProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 
-	var userAuth = AuthMother.userAuth();
-	var admin = UserMother.admin();
 	var command = new DeleteProductReviewCommand(
-		userAuth,
-		admin.getUsername(),
-		userReviewOfApple.getProductId()
+		AuthMother.admin(),
+		userReviewOfApple.getProductId(),
+		userReviewOfApple.getId()
 	);
 
-	assertThrows(ForbiddenException.class,
+	assertThrows(ForbiddenOperationInProductReviewException.class,
+		() -> deleteProductReviewHandler.handle(command));
+  }
+
+  @Test
+  void givenProductReviewOfOtherProduct_whenDeleteProductReview_throwsException() {
+	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
+	productReviewsInMemoryRepository.init(userReviewOfApple);
+
+	var pear = ProductMother.pear();
+	var command = new DeleteProductReviewCommand(
+		AuthMother.userAuth(),
+		pear.getId(),
+		userReviewOfApple.getId()
+	);
+
+	assertThrows(ForbiddenOperationInProductReviewException.class,
 		() -> deleteProductReviewHandler.handle(command));
   }
 }

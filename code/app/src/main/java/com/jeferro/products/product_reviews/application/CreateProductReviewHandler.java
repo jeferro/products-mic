@@ -30,11 +30,9 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewComma
 
   @Override
   protected ProductReview handle(CreateProductReviewCommand command) {
-	var username = command.getUsername();
+	var username = command.getAuthUsernameOrError();
 	var productId = command.getProductId();
 	var comment = command.getComment();
-
-	command.ensureAuthBelongsToUser(username);
 
 	ensureUserDidNotCommentOnProduct(username, productId);
 

@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
+import com.jeferro.products.shared.domain.models.auth.UserAuth;
 import com.jeferro.products.shared.domain.models.users.Username;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -24,10 +25,12 @@ public abstract class Command<R> {
 	return auth;
   }
 
-  public void ensureAuthBelongsToUser(Username username) {
-	if (!auth.belongsToUser(username)) {
-	  throw ForbiddenException.createOfUser(auth, username);
+  public Username getAuthUsernameOrError() {
+	if (auth instanceof UserAuth userAuth) {
+	  return userAuth.getUsername();
 	}
+
+	throw ForbiddenException.createOfNotUserAuth(auth);
   }
 
   @Override

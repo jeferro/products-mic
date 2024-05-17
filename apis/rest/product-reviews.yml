@@ -1,5 +1,15 @@
 components:
 
+  parameters:
+    productReviewIdPath:
+      name: productReviewId
+      in: path
+      description: Product Review Id
+      required: true
+      schema:
+        type: string
+      example: 'user::asfasfsafasfasfasfsafsafsaf'
+
   schemas:
     CreateProductReviewInput:
       type: object

@@ -52,6 +52,6 @@ public class ProductsMongoRepository implements ProductsRepository {
                 .map(productMongoMapper::toDomain)
                 .toList();
 
-        return Products.createOf(products);
+        return new Products(products);
     }
 }

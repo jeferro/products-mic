@@ -7,12 +7,8 @@ import java.util.List;
 
 public class Products extends EntityCollection<ProductId, Product> {
 
-    protected Products(List<Product> entities) {
+    public Products(List<Product> entities) {
         super(entities);
-    }
-
-    public static Products createOf(List<Product> entities) {
-        return new Products(entities);
     }
 
     public static Products createOf(Product... products) {

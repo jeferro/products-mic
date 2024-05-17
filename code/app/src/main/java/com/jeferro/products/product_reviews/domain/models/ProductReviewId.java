@@ -20,8 +20,8 @@ public class ProductReviewId extends Identifier<String> {
 	  throw ValueValidationException.createOfMessage("Wrong format of identifier: " + value);
 	}
 
-	this.productId = new ProductId(slices[0]);
-	this.username = new Username(slices[1]);
+	this.username = new Username(slices[0]);
+	this.productId = new ProductId(slices[1]);
   }
 
   private ProductReviewId(Username username, ProductId productId) {

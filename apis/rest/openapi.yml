@@ -151,7 +151,7 @@ paths:
           $ref: './shared.yml#/components/responses/ErrorResponse'
 
 
-  /v1/products/{productId}/reviews/{username}:
+  /v1/products/{productId}/reviews:
     post:
       operationId: create-product-review
       summary: Create product review
@@ -160,13 +160,52 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './users.yml#/components/parameters/usernamePath'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: './product-reviews.yml#/components/schemas/CreateProductReviewInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    get:
+      operationId: list-product-reviews
+      summary: List product reviews
+      description: List product reviews
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+  /v1/products/{productId}/reviews/{productReviewId}:
+    put:
+      operationId: update-product-review
+      summary: Update product review
+      description: Update product review
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './product-reviews.yml#/components/parameters/productReviewIdPath'
       responses:
         '200':
           description: Ok
@@ -185,7 +224,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './users.yml#/components/parameters/usernamePath'
+        - $ref: './product-reviews.yml#/components/parameters/productReviewIdPath'
       responses:
         '200':
           description: Ok

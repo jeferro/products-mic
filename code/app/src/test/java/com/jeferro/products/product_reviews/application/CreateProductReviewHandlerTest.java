@@ -8,9 +8,7 @@ import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlrea
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
 import com.jeferro.products.products.domain.models.ProductIdMother;
-import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.users.domain.models.UserMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +33,6 @@ class CreateProductReviewHandlerTest {
 
 	var command = new CreateProductReviewCommand(
 		userAuth,
-		userAuth.getUsername(),
 		productId,
 		comment
 	);
@@ -48,37 +45,18 @@ class CreateProductReviewHandlerTest {
   }
 
   @Test
-  void givenUserDidNotCommentOnProduct_whenCreateProductReview_throwsException() {
+  void givenUserCommentsOnProduct_whenCreateProductReview_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 	var userAuth = AuthMother.userAuth();
 
 	var command = new CreateProductReviewCommand(
 		userAuth,
-		userReviewOfApple.getUsername(),
 		userReviewOfApple.getProductId(),
 		"other comment"
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
-		() -> createProductReviewHandler.handle(command));
-  }
-
-  @Test
-  void givenNoData_whenCreateProductReviewOfOtherUser_throwsException() {
-	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	productReviewsInMemoryRepository.init(userReviewOfApple);
-
-	var userAuth = AuthMother.userAuth();
-	var admin = UserMother.admin();
-	var command = new CreateProductReviewCommand(
-		userAuth,
-		admin.getUsername(),
-		userReviewOfApple.getProductId(),
-		userReviewOfApple.getComment()
-	);
-
-	assertThrows(ForbiddenException.class,
 		() -> createProductReviewHandler.handle(command));
   }
 }

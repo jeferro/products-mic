@@ -3,7 +3,6 @@ package com.jeferro.products.shared.infrastructure.adapters.shared.mappers;
 import java.io.Serializable;
 
 import com.jeferro.products.shared.domain.models.aggregates.Identifier;
-import org.mapstruct.Mapping;
 
 public abstract class IdentifierMapper<ID extends Identifier<DTO>, DTO extends Serializable>
 	extends BidirectionalMapper<ID, DTO> {
@@ -14,6 +13,5 @@ public abstract class IdentifierMapper<ID extends Identifier<DTO>, DTO extends S
 	}
 
 	@Override
-	@Mapping(source = "dto", target = "value")
-	public abstract ID toDomain(DTO dto);
+	public abstract ID toDomain(DTO value);
 }

@@ -53,7 +53,7 @@ public abstract class Handler<C extends Command<R>, R> {
             return;
         }
 
-        throw ForbiddenException.createOfRoles(auth);
+        throw ForbiddenException.createOfRoles(auth, mandatoryRoles);
     }
 
     private void logSuccessExecution(

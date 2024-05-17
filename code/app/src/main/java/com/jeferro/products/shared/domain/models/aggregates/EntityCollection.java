@@ -15,7 +15,7 @@ public abstract class EntityCollection<I extends Identifier, E extends Entity<I>
 
     protected final List<E> entities;
 
-    protected EntityCollection(List<E> entities) {
+    public EntityCollection(List<E> entities) {
         this.entities = entities;
     }
 
