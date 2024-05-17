@@ -28,7 +28,7 @@ class CreateProductReviewHandlerTest {
   }
 
   @Test
-  void givenUserDidNotCommentOnProduct_whenCrateProductReview_thenReturnsNewProductReview() {
+  void givenUserDidNotCommentOnProduct_whenCreateProductReview_thenReturnsNewProductReview() {
 	var userAuth = AuthMother.userAuth();
 	var productId = ProductIdMother.appleId();
 	var comment = "New comment about product";
@@ -48,16 +48,16 @@ class CreateProductReviewHandlerTest {
   }
 
   @Test
-  void givenUserDidNotCommentOnProduct_whenCrateProductReview_throwsException() {
+  void givenUserDidNotCommentOnProduct_whenCreateProductReview_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 	var userAuth = AuthMother.userAuth();
 
 	var command = new CreateProductReviewCommand(
-		AuthMother.userAuth(),
-		userAuth.getUsername(),
+		userAuth,
+		userReviewOfApple.getUsername(),
 		userReviewOfApple.getProductId(),
-		userReviewOfApple.getComment()
+		"other comment"
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
@@ -65,7 +65,7 @@ class CreateProductReviewHandlerTest {
   }
 
   @Test
-  void givenNoData_whenCrateProductReviewOfOtherUser_throwsException() {
+  void givenNoData_whenCreateProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 

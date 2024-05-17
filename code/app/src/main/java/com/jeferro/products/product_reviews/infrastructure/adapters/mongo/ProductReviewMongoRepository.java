@@ -37,4 +37,11 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
 
 	productReviewMongoDao.save(productReviewDto);
   }
+
+  @Override
+  public void deleteById(ProductReviewId productReviewId) {
+	var productReviewIdDto = productReviewIdMongoMapper.toDTO(productReviewId);
+
+	productReviewMongoDao.deleteById(productReviewIdDto);
+  }
 }

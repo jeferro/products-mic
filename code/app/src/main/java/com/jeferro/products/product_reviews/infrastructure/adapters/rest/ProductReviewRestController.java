@@ -4,6 +4,7 @@ import com.jeferro.products.components.rest.generated.apis.ProductReviewsApi;
 import com.jeferro.products.components.rest.generated.dtos.CreateProductReviewInputRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.ProductReviewRestDTO;
 import com.jeferro.products.product_reviews.application.commands.CreateProductReviewCommand;
+import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
 import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.shared.application.bus.HandlerBus;
@@ -48,6 +49,14 @@ public class ProductReviewRestController implements ProductReviewsApi {
 
   @Override
   public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String username) {
-	return ProductReviewsApi.super.deleteProductReview(productId, username);
+	var command = new DeleteProductReviewCommand(
+		authRestResolver.resolve(),
+		usernameRestMapper.toDomain(username),
+		productIdRestMapper.toDomain(productId)
+	);
+
+	var productReview = handlerBus.execute(command);
+
+	return productReviewRestMapper.toOkResponseDTO(productReview);
   }
 }
