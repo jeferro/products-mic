@@ -7,6 +7,7 @@ import com.jeferro.products.product_reviews.application.commands.CreateProductRe
 import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.shared.application.bus.HandlerBus;
+import com.jeferro.products.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
 import com.jeferro.products.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ public class ProductReviewRestController implements ProductReviewsApi {
   private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
 
   private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
+
+  private final UsernameRestMapper usernameRestMapper = UsernameRestMapper.INSTANCE;
 
   private final AuthRestResolver authRestResolver;
 
@@ -29,10 +32,11 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> createProductReview(String productId, String userId,
+  public ResponseEntity<ProductReviewRestDTO> createProductReview(String productId, String username,
 	  CreateProductReviewInputRestDTO createProductReviewInputRestDTO) {
 	var command = new CreateProductReviewCommand(
 		authRestResolver.resolve(),
+		usernameRestMapper.toDomain(username),
 		productIdRestMapper.toDomain(productId),
 		createProductReviewInputRestDTO.getComment()
 	);
@@ -43,7 +47,7 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String userId) {
-	return ProductReviewsApi.super.deleteProductReview(productId, userId);
+  public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String username) {
+	return ProductReviewsApi.super.deleteProductReview(productId, username);
   }
 }

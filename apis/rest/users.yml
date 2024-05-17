@@ -1,9 +1,9 @@
 components:
   parameters:
-    userIdPath:
-      name: userId
+    usernamePath:
+      name: username
       in: path
-      description: User id
+      description: Username
       required: true
       schema:
         type: string

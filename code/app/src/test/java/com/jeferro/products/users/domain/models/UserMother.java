@@ -13,4 +13,11 @@ public class UserMother {
 
         return new User(username, "encoded-password", roles);
     }
+
+    public static User admin() {
+        var admin = new Username("admin");
+        var roles = Set.of(Roles.USER, Roles.ADMIN);
+
+        return new User(admin, "encoded-password", roles);
+    }
 }

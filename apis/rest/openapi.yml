@@ -151,7 +151,7 @@ paths:
           $ref: './shared.yml#/components/responses/ErrorResponse'
 
 
-  /v1/products/{productId}/reviews:
+  /v1/products/{productId}/reviews/{username}:
     post:
       operationId: create-product-review
       summary: Create product review
@@ -160,6 +160,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
       requestBody:
         required: true
         content:
@@ -184,6 +185,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
       responses:
         '200':
           description: Ok
