@@ -50,7 +50,7 @@ class SignInHandlerTest {
         usersInMemoryRepository.init(expected);
 
         var command = new SignInCommand(
-                AuthMother.user(),
+                AuthMother.userAuth(),
                 expected.getUsername(),
                 expected.getEncodedPassword()
         );

@@ -1,5 +1,7 @@
 package com.jeferro.products.users.application;
 
+import java.util.Set;
+
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.products.users.application.commands.SignInCommand;
@@ -7,11 +9,7 @@ import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.domain.services.PasswordEncoder;
 
-import java.util.Set;
-
 public class SignInHandler extends Handler<SignInCommand, User> {
-
-    private static final Set<String> MANDATORY_ROLES = Set.of();
 
     private final UsersRepository usersRepository;
 
@@ -19,10 +17,15 @@ public class SignInHandler extends Handler<SignInCommand, User> {
 
     public SignInHandler(UsersRepository usersRepository,
                          PasswordEncoder passwordEncoder) {
-        super(MANDATORY_ROLES);
+        super();
 
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    protected Set<String> getMandatoryRoles() {
+        return Set.of();
     }
 
     @Override

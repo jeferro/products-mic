@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.domain.events;
 
-import com.jeferro.products.shared.domain.models.entities.AggregateRoot;
+import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
 
 public abstract class EventBus {
 

@@ -12,17 +12,20 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 public class CreateProductHandler extends Handler<CreateProductCommand, Product> {
 
-    private static final Set<String> MANDATORY_ROLES = Set.of(USER);
-
     private final ProductsRepository productsRepository;
 
     private final EventBus eventBus;
 
     public CreateProductHandler(ProductsRepository productsRepository, EventBus eventBus) {
-        super(MANDATORY_ROLES);
+        super();
 
         this.productsRepository = productsRepository;
         this.eventBus = eventBus;
+    }
+
+    @Override
+    protected Set<String> getMandatoryRoles() {
+        return Set.of(USER);
     }
 
     @Override

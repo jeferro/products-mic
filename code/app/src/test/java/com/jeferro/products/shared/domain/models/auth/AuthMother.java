@@ -9,14 +9,14 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 public class AuthMother {
 
-    public static UserAuth user() {
+    public static UserAuth userAuth() {
         var username = new Username("user");
         var roles = Set.of(USER);
 
         return new UserAuth(username, roles);
     }
 
-    public static UserAuth userWithoutRoles() {
+    public static UserAuth userWithoutRolesAuth() {
         var username = new Username("user");
         var roles = Set.<String>of();
 

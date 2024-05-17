@@ -1,17 +1,16 @@
 package com.jeferro.products.products.application;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GetProductHandlerTest {
 
@@ -23,9 +22,7 @@ class GetProductHandlerTest {
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        var productFetcher = new ProductFetcher(productsInMemoryRepository);
-
-        getProductHandler = new GetProductHandler(productFetcher);
+        getProductHandler = new GetProductHandler(productsInMemoryRepository);
     }
 
     @Test
@@ -34,7 +31,7 @@ class GetProductHandlerTest {
         productsInMemoryRepository.init(apple);
 
         var command = new GetProductCommand(
-                AuthMother.user(),
+                AuthMother.userAuth(),
                 apple.getId()
         );
 
@@ -48,7 +45,7 @@ class GetProductHandlerTest {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(
-                AuthMother.user(),
+                AuthMother.userAuth(),
                 apple.getId()
         );
 
@@ -74,7 +71,7 @@ class GetProductHandlerTest {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(
-                AuthMother.userWithoutRoles(),
+                AuthMother.userWithoutRolesAuth(),
                 apple.getId()
         );
 

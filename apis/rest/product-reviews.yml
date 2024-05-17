@@ -1,11 +1,11 @@
 components:
 
   schemas:
-    UpsertProductReviewInput:
+    CreateProductReviewInput:
       type: object
-      description: Upsert product review input
+      description: Create product review input
       required:
-        - text
+        - comment
       properties:
         comment:
           type: string

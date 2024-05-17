@@ -1,34 +1,32 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.UpdateProductCommand;
-import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.products.domain.services.ProductFetcher;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import com.jeferro.products.products.application.commands.UpdateProductCommand;
+import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.products.shared.application.Handler;
+import com.jeferro.products.shared.domain.events.EventBus;
 
 public class UpdateProductHandler extends Handler<UpdateProductCommand, Product> {
-
-    private static final Set<String> MANDATORY_ROLES = Set.of(USER);
-
-    private final ProductFetcher productFetcher;
 
     private final ProductsRepository productsRepository;
 
     private final EventBus eventBus;
 
-    public UpdateProductHandler(ProductFetcher productFetcher,
-                                ProductsRepository productsRepository,
+    public UpdateProductHandler(ProductsRepository productsRepository,
                                 EventBus eventBus) {
-        super(MANDATORY_ROLES);
+        super();
 
-        this.productFetcher = productFetcher;
         this.productsRepository = productsRepository;
         this.eventBus = eventBus;
+    }
+
+    @Override
+    protected Set<String> getMandatoryRoles() {
+        return Set.of(USER);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class UpdateProductHandler extends Handler<UpdateProductCommand, Product>
         var productId = command.getProductId();
         var name = command.getName();
 
-        var product = productFetcher.findById(productId);
+        var product = productsRepository.findByIdOrError(productId);
 
         product.update(name, auth);
 

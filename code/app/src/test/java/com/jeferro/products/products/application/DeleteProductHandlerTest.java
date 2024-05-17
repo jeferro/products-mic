@@ -12,7 +12,6 @@ import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
@@ -34,9 +33,7 @@ class DeleteProductHandlerTest {
 		eventInMemoryBus = new EventInMemoryBus();
 		productsInMemoryRepository = new ProductsInMemoryRepository();
 
-		var productFetcher = new ProductFetcher(productsInMemoryRepository);
-
-		deleteProductHandler = new DeleteProductHandler(productFetcher, productsInMemoryRepository, eventInMemoryBus);
+		deleteProductHandler = new DeleteProductHandler(productsInMemoryRepository, eventInMemoryBus);
 	}
 
 	@Test
@@ -46,7 +43,7 @@ class DeleteProductHandlerTest {
 		var apple = ProductMother.apple();
 		productsInMemoryRepository.init(apple);
 
-		var userAuth = AuthMother.user();
+		var userAuth = AuthMother.userAuth();
 		var command = new DeleteProductCommand(
 			userAuth,
 			apple.getId()
@@ -66,7 +63,7 @@ class DeleteProductHandlerTest {
 		var apple = ProductMother.apple();
 
 		var command = new DeleteProductCommand(
-			AuthMother.user(),
+			AuthMother.userAuth(),
 			apple.getId()
 		);
 
@@ -94,7 +91,7 @@ class DeleteProductHandlerTest {
 		productsInMemoryRepository.init(apple);
 
 		var command = new DeleteProductCommand(
-			AuthMother.userWithoutRoles(),
+			AuthMother.userWithoutRolesAuth(),
 			apple.getId()
 		);
 

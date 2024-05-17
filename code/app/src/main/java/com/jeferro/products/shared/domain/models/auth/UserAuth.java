@@ -21,6 +21,10 @@ public class UserAuth extends Auth {
         return new UserAuth(username, roles);
     }
 
+    public Username getUsername() {
+        return username;
+    }
+
     public Set<String> getRoles() {
         return roles;
     }

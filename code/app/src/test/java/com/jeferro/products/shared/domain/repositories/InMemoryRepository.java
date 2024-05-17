@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.jeferro.products.shared.domain.models.entities.AggregateRoot;
-import com.jeferro.products.shared.domain.models.entities.Identifier;
+import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
+import com.jeferro.products.shared.domain.models.aggregates.Identifier;
 
 public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id extends Identifier<? >> {
 

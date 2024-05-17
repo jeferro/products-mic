@@ -13,13 +13,11 @@ public abstract class Handler<C extends Command<R>, R> {
 
     protected final Logger logger;
 
-    private final Set<String> mandatoryRoles;
-
-    public Handler(Set<String> mandatoryRoles) {
+    public Handler() {
         logger = LoggerFactory.getLogger(this.getClass());
-
-        this.mandatoryRoles = mandatoryRoles;
     }
+
+    protected abstract Set<String> getMandatoryRoles();
 
     public R execute(C command) {
         Instant startAt = Instant.now();
@@ -49,12 +47,13 @@ public abstract class Handler<C extends Command<R>, R> {
 
     private void ensurePermissions(C command) {
         var auth = command.getAuth();
+        var mandatoryRoles = getMandatoryRoles();
 
         if (auth.hasPermissions(mandatoryRoles)) {
             return;
         }
 
-        throw ForbiddenException.createOf(auth);
+        throw ForbiddenException.createOfRoles(auth);
     }
 
     private void logSuccessExecution(

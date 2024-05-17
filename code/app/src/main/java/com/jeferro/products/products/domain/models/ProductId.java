@@ -2,7 +2,7 @@ package com.jeferro.products.products.domain.models;
 
 import java.util.UUID;
 
-import com.jeferro.products.shared.domain.models.entities.Identifier;
+import com.jeferro.products.shared.domain.models.aggregates.Identifier;
 
 public class ProductId extends Identifier<String> {
 

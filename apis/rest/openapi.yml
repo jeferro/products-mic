@@ -151,22 +151,21 @@ paths:
           $ref: './shared.yml#/components/responses/ErrorResponse'
 
 
-  /v1/products/{productId}/reviews/{userId}:
-    put:
-      operationId: upsert-product-review
-      summary: Upsert product review
-      description: Upsert product review
+  /v1/products/{productId}/reviews:
+    post:
+      operationId: create-product-review
+      summary: Create product review
+      description: Create product review
       tags:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './users.yml#/components/parameters/userIdPath'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: './product-reviews.yml#/components/schemas/UpsertProductReviewInput'
+              $ref: './product-reviews.yml#/components/schemas/CreateProductReviewInput'
       responses:
         '200':
           description: Ok
@@ -185,7 +184,6 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './users.yml#/components/parameters/userIdPath'
       responses:
         '200':
           description: Ok

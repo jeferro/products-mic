@@ -1,30 +1,33 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.GetProductCommand;
-import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.products.domain.services.ProductFetcher;
-import com.jeferro.products.shared.application.SilentHandler;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import com.jeferro.products.products.application.commands.GetProductCommand;
+import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.products.shared.application.SilentHandler;
 
 public class GetProductHandler extends SilentHandler<GetProductCommand, Product> {
 
-    private static final Set<String> MANDATORY_ROLES = Set.of(USER);
+    private final ProductsRepository productsRepository;
 
-    private final ProductFetcher productFetcher;
+    public GetProductHandler(ProductsRepository productsRepository) {
+        super();
 
-    public GetProductHandler(ProductFetcher productFetcher) {
-        super(MANDATORY_ROLES);
+        this.productsRepository = productsRepository;
+    }
 
-        this.productFetcher = productFetcher;
+    @Override
+    protected Set<String> getMandatoryRoles() {
+        return Set.of(USER);
     }
 
     @Override
     public Product handle(GetProductCommand command) {
         var productId = command.getProductId();
 
-        return productFetcher.findById(productId);
+        return productsRepository.findByIdOrError(productId);
     }
 }

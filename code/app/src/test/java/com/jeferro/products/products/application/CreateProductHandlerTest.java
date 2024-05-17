@@ -37,7 +37,7 @@ class CreateProductHandlerTest {
 	void givenOneProduct_whenCreateProduct_thenCreatesProduct() {
 		var now = FakeTimeService.fakesNow();
 
-		var userAuth = AuthMother.user();
+		var userAuth = AuthMother.userAuth();
 		var productName = "Apple";
 		var command = new CreateProductCommand(
 			userAuth,
@@ -69,7 +69,7 @@ class CreateProductHandlerTest {
 	void givenAuthWithoutRoles_whenCreateProduct_thenThrowsForbiddenException() {
 		var productName = "Apple";
 		var command = new CreateProductCommand(
-			AuthMother.userWithoutRoles(),
+			AuthMother.userWithoutRolesAuth(),
 			productName
 		);
 

@@ -11,14 +11,17 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 public class ListProductsHandler extends SilentHandler<ListProductsCommand, Products> {
 
-    private static final Set<String> MANDATORY_ROLES = Set.of(USER);
-
     private final ProductsRepository productsRepository;
 
     public ListProductsHandler(ProductsRepository productsRepository) {
-        super(MANDATORY_ROLES);
+        super();
 
         this.productsRepository = productsRepository;
+    }
+
+    @Override
+    protected Set<String> getMandatoryRoles() {
+        return Set.of(USER);
     }
 
     @Override

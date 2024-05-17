@@ -30,7 +30,7 @@ class ListProductsHandlerTest {
         productsInMemoryRepository.init(apple, pear);
 
         var command = new ListProductsCommand(
-                AuthMother.user()
+                AuthMother.userAuth()
         );
 
         var result = listProductsHandler.execute(command);
@@ -43,7 +43,7 @@ class ListProductsHandlerTest {
     @Test
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
         var command = new ListProductsCommand(
-                AuthMother.user()
+                AuthMother.userAuth()
         );
 
         var result = listProductsHandler.execute(command);
@@ -72,7 +72,7 @@ class ListProductsHandlerTest {
         productsInMemoryRepository.init(apple, pear);
 
         var command = new ListProductsCommand(
-                AuthMother.userWithoutRoles()
+                AuthMother.userWithoutRolesAuth()
         );
 
         assertThrows(ForbiddenException.class,

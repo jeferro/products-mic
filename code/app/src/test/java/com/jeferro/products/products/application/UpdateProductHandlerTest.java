@@ -1,12 +1,16 @@
 package com.jeferro.products.products.application;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.Instant;
+
 import com.jeferro.products.products.application.commands.UpdateProductCommand;
 import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.products.domain.services.ProductFetcher;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
@@ -14,11 +18,6 @@ import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.time.Instant;
 
 class UpdateProductHandlerTest {
 
@@ -33,9 +32,7 @@ class UpdateProductHandlerTest {
         eventInMemoryBus = new EventInMemoryBus();
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        var productFetcher = new ProductFetcher(productsInMemoryRepository);
-
-        updateProductHandler = new UpdateProductHandler(productFetcher, productsInMemoryRepository, eventInMemoryBus);
+        updateProductHandler = new UpdateProductHandler(productsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test
@@ -46,7 +43,7 @@ class UpdateProductHandlerTest {
         productsInMemoryRepository.init(apple);
 
         var productName = "new product name";
-        var userAuth = AuthMother.user();
+        var userAuth = AuthMother.userAuth();
         var command = new UpdateProductCommand(
                 userAuth,
                 apple.getId(),
@@ -67,7 +64,7 @@ class UpdateProductHandlerTest {
         var apple = ProductMother.apple();
 
         var command = new UpdateProductCommand(
-                AuthMother.user(),
+                AuthMother.userAuth(),
                 apple.getId(),
                 "new product name"
         );
@@ -97,7 +94,7 @@ class UpdateProductHandlerTest {
         productsInMemoryRepository.init(apple);
 
         var command = new UpdateProductCommand(
-                AuthMother.userWithoutRoles(),
+                AuthMother.userWithoutRolesAuth(),
                 apple.getId(),
                 "new product name"
         );
