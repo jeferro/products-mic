@@ -5,14 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.jeferro.products.components.mongodb.MongoProfile;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(MongoProfile.NAME)
 public class MongoFieldManager {
 
     public static final String ID = "id";

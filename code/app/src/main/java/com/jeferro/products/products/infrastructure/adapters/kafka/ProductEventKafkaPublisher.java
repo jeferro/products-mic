@@ -1,6 +1,5 @@
 package com.jeferro.products.products.infrastructure.adapters.kafka;
 
-import com.jeferro.products.components.kafka.KafkaProfile;
 import com.jeferro.products.components.kafka.products.ProductsKafkaTemplate;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.events.ProductDeleted;
@@ -10,11 +9,9 @@ import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.Produ
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductDeletedKafkaMapper;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductUpdatedKafkaMapper;
 import com.jeferro.products.shared.domain.events.EventBusPublisher;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(KafkaProfile.NAME)
 public class ProductEventKafkaPublisher implements EventBusPublisher<ProductEvent> {
 
 	private final ProductCreatedKafkaMapper productCreatedKafkaMapper = ProductCreatedKafkaMapper.INSTANCE;

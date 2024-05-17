@@ -3,15 +3,12 @@ package com.jeferro.products.components.mongodb.shared.metadata.services;
 import java.time.Instant;
 import java.util.Map;
 
-import com.jeferro.products.components.mongodb.MongoProfile;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-@Profile(MongoProfile.NAME)
 public class MetadataMongoTemplate extends MongoTemplate {
 
 	private static final String ID = "id";

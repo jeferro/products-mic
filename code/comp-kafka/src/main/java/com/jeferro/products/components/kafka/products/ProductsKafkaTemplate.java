@@ -1,18 +1,15 @@
 package com.jeferro.products.components.kafka.products;
 
-import com.jeferro.products.components.kafka.KafkaProfile;
+import com.jeferro.products.components.kafka.products.configurations.ProductsKafkaProperties;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductCreatedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductUpdatedAvroDTO;
-import com.jeferro.products.components.kafka.products.configurations.ProductsKafkaProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(KafkaProfile.NAME)
 public class ProductsKafkaTemplate {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductsKafkaTemplate.class);

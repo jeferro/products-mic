@@ -9,15 +9,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.jeferro.products.components.rest.shared.RestProfile;
 import com.jeferro.products.components.rest.shared.securtiy.configurations.RestSecurityProperties;
 import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(RestProfile.NAME)
 public class JwtDecoder {
 
 	private static final String BEARER_PREFIX = "Bearer ";

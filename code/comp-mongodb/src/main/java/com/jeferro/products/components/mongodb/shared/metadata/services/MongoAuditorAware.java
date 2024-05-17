@@ -2,15 +2,12 @@ package com.jeferro.products.components.mongodb.shared.metadata.services;
 
 import java.util.Optional;
 
-import com.jeferro.products.components.mongodb.MongoProfile;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(MongoProfile.NAME)
 public class MongoAuditorAware implements AuditorAware<String> {
 
 	private static final String UNKNOWN = "unknown";
