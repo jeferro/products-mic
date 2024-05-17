@@ -4,7 +4,7 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
+import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
@@ -12,11 +12,11 @@ import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
-public class DeleteProductReviewHandler extends Handler<DeleteProductReviewCommand, ProductReview> {
+public class GetProductReviewHandler extends Handler<GetProductReviewCommand, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
-  public DeleteProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
+  public GetProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
 	super();
 
 	this.productReviewsRepository = productReviewsRepository;
@@ -28,7 +28,7 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
   }
 
   @Override
-  protected ProductReview handle(DeleteProductReviewCommand command) {
+  protected ProductReview handle(GetProductReviewCommand command) {
 	var auth = command.getAuth();
 	var productId = command.getProductId();
 	var productReviewId = command.getProductReviewId();
@@ -37,8 +37,6 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
 
 	ensureProductReviewBelongsToProduct(productReview, productId);
 	ensureProductReviewBelongsToUserAuth(productReview, auth);
-
-	productReviewsRepository.deleteById(productReviewId);
 
 	return productReview;
   }

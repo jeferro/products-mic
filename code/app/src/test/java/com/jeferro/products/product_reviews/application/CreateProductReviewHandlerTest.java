@@ -2,6 +2,7 @@ package com.jeferro.products.product_reviews.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.product_reviews.application.commands.CreateProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlreadyExistsException;
@@ -42,6 +43,9 @@ class CreateProductReviewHandlerTest {
 	assertEquals(userAuth.getUsername(), result.getUsername());
 	assertEquals(productId, result.getProductId());
 	assertEquals(comment, result.getComment());
+
+	assertEquals(1, productReviewsInMemoryRepository.size());
+	assertTrue(productReviewsInMemoryRepository.contains(result));
   }
 
   @Test

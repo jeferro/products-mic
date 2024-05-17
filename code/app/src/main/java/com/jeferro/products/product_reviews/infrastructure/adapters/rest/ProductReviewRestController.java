@@ -5,9 +5,12 @@ import java.util.List;
 import com.jeferro.products.components.rest.generated.apis.ProductReviewsApi;
 import com.jeferro.products.components.rest.generated.dtos.CreateProductReviewInputRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.ProductReviewRestDTO;
+import com.jeferro.products.components.rest.generated.dtos.UpdateProductReviewInputRestDTO;
 import com.jeferro.products.product_reviews.application.commands.CreateProductReviewCommand;
 import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
+import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
 import com.jeferro.products.product_reviews.application.commands.ListProductReviewCommand;
+import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
 import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewIdRestMapper;
 import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
@@ -36,12 +39,52 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
+  public ResponseEntity<List<ProductReviewRestDTO>> listProductReviews(String productId) {
+	var command = new ListProductReviewCommand(
+		authRestResolver.resolve(),
+		productIdRestMapper.toDomain(productId)
+	);
+
+	var productReviews = handlerBus.execute(command);
+
+	return productReviewRestMapper.toOkResponseDTO(productReviews);
+  }
+
+  @Override
   public ResponseEntity<ProductReviewRestDTO> createProductReview(String productId,
 	  CreateProductReviewInputRestDTO createProductReviewInputRestDTO) {
 	var command = new CreateProductReviewCommand(
 		authRestResolver.resolve(),
 		productIdRestMapper.toDomain(productId),
 		createProductReviewInputRestDTO.getComment()
+	);
+
+	var productReview = handlerBus.execute(command);
+
+	return productReviewRestMapper.toOkResponseDTO(productReview);
+  }
+
+  @Override
+  public ResponseEntity<ProductReviewRestDTO> getProductReview(String productId, String productReviewId) {
+	var command = new GetProductReviewCommand(
+		authRestResolver.resolve(),
+		productIdRestMapper.toDomain(productId),
+		productReviewIdRestMapper.toDomain(productReviewId)
+	);
+
+	var productReview = handlerBus.execute(command);
+
+	return productReviewRestMapper.toOkResponseDTO(productReview);
+  }
+
+  @Override
+  public ResponseEntity<ProductReviewRestDTO> updateProductReview(String productId, String productReviewId,
+	  UpdateProductReviewInputRestDTO updateProductReviewInputRestDTO) {
+	var command = new UpdateProductReviewCommand(
+		authRestResolver.resolve(),
+		productIdRestMapper.toDomain(productId),
+		productReviewIdRestMapper.toDomain(productReviewId),
+		updateProductReviewInputRestDTO.getComment()
 	);
 
 	var productReview = handlerBus.execute(command);
@@ -60,17 +103,5 @@ public class ProductReviewRestController implements ProductReviewsApi {
 	var productReview = handlerBus.execute(command);
 
 	return productReviewRestMapper.toOkResponseDTO(productReview);
-  }
-
-  @Override
-  public ResponseEntity<List<ProductReviewRestDTO>> listProductReviews(String productId) {
-	var command = new ListProductReviewCommand(
-		authRestResolver.resolve(),
-		productIdRestMapper.toDomain(productId)
-	);
-
-	var productReviews = handlerBus.execute(command);
-
-	return productReviewRestMapper.toOkResponseDTO(productReviews);
   }
 }

@@ -1,6 +1,5 @@
 package com.jeferro.products.product_reviews.domain.models;
 
-import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
@@ -9,7 +8,7 @@ import com.jeferro.products.shared.domain.models.users.Username;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
-  private final String comment;
+  private String comment;
 
   public ProductReview(ProductReviewId id, String comment) {
 	super(id);
@@ -25,21 +24,10 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	return new ProductReview(productReviewId, comment);
   }
 
-  public void delete(ProductId productId, Auth auth) {
-	ensureProductReviewBelongsToProduct(productId);
-	ensureProductReviewBelongsToUserAuth(auth);
-  }
+  public void update(ProductId productId, String comment, Auth auth) {
+	validateComment(comment);
 
-  private void ensureProductReviewBelongsToProduct(ProductId productId) {
-	if (!getProductId().equals(productId)) {
-	  throw ForbiddenOperationInProductReviewException.belongsToOtherProduct(id, productId);
-	}
-  }
-
-  private void ensureProductReviewBelongsToUserAuth(Auth auth) {
-	if (!auth.belongsToUser(getUsername())) {
-	  throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
-	}
+	this.comment = comment;
   }
 
   public Username getUsername() {
@@ -58,5 +46,9 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	if (comment == null) {
 	  throw ValueValidationException.createOfMessage("Comment is null");
 	}
+  }
+
+  public boolean belongsToProduct(ProductId productId) {
+	return getProductId().equals(productId);
   }
 }

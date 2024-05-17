@@ -22,6 +22,17 @@ components:
           description: Comment of the review
           example: 'One comment of the product'
 
+    UpdateProductReviewInput:
+      type: object
+      description: Update product review input
+      required:
+        - comment
+      properties:
+        comment:
+          type: string
+          description: Comment of the review
+          example: 'One comment of the product'
+
     ProductReview:
       type: object
       description: Product review

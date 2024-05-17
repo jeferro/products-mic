@@ -4,7 +4,7 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
+import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
@@ -12,11 +12,11 @@ import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
-public class DeleteProductReviewHandler extends Handler<DeleteProductReviewCommand, ProductReview> {
+public class UpdateProductReviewHandler extends Handler<UpdateProductReviewCommand, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
-  public DeleteProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
+  public UpdateProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
 	super();
 
 	this.productReviewsRepository = productReviewsRepository;
@@ -28,17 +28,20 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
   }
 
   @Override
-  protected ProductReview handle(DeleteProductReviewCommand command) {
+  protected ProductReview handle(UpdateProductReviewCommand command) {
 	var auth = command.getAuth();
 	var productId = command.getProductId();
 	var productReviewId = command.getProductReviewId();
+	var comment = command.getComment();
 
 	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
 
 	ensureProductReviewBelongsToProduct(productReview, productId);
 	ensureProductReviewBelongsToUserAuth(productReview, auth);
 
-	productReviewsRepository.deleteById(productReviewId);
+	productReview.update(productId, comment, auth);
+
+	productReviewsRepository.save(productReview);
 
 	return productReview;
   }

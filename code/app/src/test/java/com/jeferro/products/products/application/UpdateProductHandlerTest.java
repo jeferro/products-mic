@@ -2,6 +2,7 @@ package com.jeferro.products.products.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
@@ -106,9 +107,7 @@ class UpdateProductHandlerTest {
     private void assertProductUpdatedInRepository(Product product) {
         assertEquals(1, productsInMemoryRepository.size());
 
-        var productSaved = productsInMemoryRepository.getFirst();
-
-        assertEquals(product, productSaved);
+        assertTrue(productsInMemoryRepository.contains(product));
     }
 
     private void assertEventProductUpdated(Product product, Auth auth, Instant now) {
