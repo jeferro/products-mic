@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
-import com.jeferro.products.users.application.SignInCommand;
+import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
 import org.junit.jupiter.api.Nested;

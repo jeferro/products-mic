@@ -1,5 +1,6 @@
 package com.jeferro.products.products.application;
 
+import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;

@@ -11,7 +11,7 @@ import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
 import com.jeferro.products.shared.infrastructure.adapters.rest.services.AuthRestResolver;
-import com.jeferro.products.users.application.SignInCommand;
+import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package com.jeferro.products.products.application;
 
+import com.jeferro.products.products.application.commands.ListProductsCommand;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;

@@ -1,4 +1,4 @@
-package com.jeferro.products.shared.application;
+package com.jeferro.products.shared.application.commands;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 

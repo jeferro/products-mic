@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
+import com.jeferro.products.products.application.commands.DeleteProductCommand;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;

@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.application.bus;
 
-import com.jeferro.products.shared.application.Command;
+import com.jeferro.products.shared.application.commands.Command;
 import com.jeferro.products.shared.domain.exceptions.ApplicationException;
 
 public class HandlerNotFoundException extends ApplicationException {

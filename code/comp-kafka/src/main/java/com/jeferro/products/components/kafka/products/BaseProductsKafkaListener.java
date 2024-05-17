@@ -6,7 +6,7 @@ import com.jeferro.products.components.kafka.products.dtos.v1.ProductUpdatedAvro
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 
-public abstract class ProductsKafkaBaseListener {
+public abstract class BaseProductsKafkaListener {
 
 	@KafkaListener(topics = "${components.kafka.products.topic}",
 		groupId = "#{__listener.groupId}")

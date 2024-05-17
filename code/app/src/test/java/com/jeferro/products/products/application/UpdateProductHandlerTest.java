@@ -1,5 +1,6 @@
 package com.jeferro.products.products.application;
 
+import com.jeferro.products.products.application.commands.UpdateProductCommand;
 import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;

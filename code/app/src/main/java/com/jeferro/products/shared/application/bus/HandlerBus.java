@@ -1,7 +1,7 @@
 package com.jeferro.products.shared.application.bus;
 
 import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.application.Command;
+import com.jeferro.products.shared.application.commands.Command;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

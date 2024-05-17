@@ -1,5 +1,6 @@
 package com.jeferro.products.products.application;
 
+import com.jeferro.products.products.application.commands.DeleteProductCommand;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.products.domain.services.ProductFetcher;

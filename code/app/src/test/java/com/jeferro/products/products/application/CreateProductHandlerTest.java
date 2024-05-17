@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
 
+import com.jeferro.products.products.application.commands.CreateProductCommand;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;

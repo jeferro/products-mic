@@ -1,7 +1,7 @@
-package com.jeferro.products.product_details.infrastructure.integrations.products_kafka;
+package com.jeferro.products.product_details.infrastructure.integrations.adapters.products_kafka;
 
 import com.jeferro.products.components.kafka.KafkaProfile;
-import com.jeferro.products.components.kafka.products.ProductsKafkaBaseListener;
+import com.jeferro.products.components.kafka.products.BaseProductsKafkaListener;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductCreatedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductUpdatedAvroDTO;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile(KafkaProfile.NAME)
-public class ProductsKafkaListener extends ProductsKafkaBaseListener {
+public class ProductsKafkaListener extends BaseProductsKafkaListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductsKafkaListener.class);
 
