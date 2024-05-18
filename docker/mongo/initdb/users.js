@@ -13,5 +13,19 @@ db['users'].insertMany([
             updatedAt: now,
             updatedBy: 'user'
         }
-    }
+    },
+    {
+            _id: "admin",
+            encodedPassword: "$2a$10$pF1/Bb4HcMz3RGs/W8hQNe3coI1uJzL98PQx.xoHvzJss/HkGyUJK",
+            roles: [
+                'user',
+                'admin'
+            ],
+            metadata: {
+                createdAt: now,
+                createdBy: 'user',
+                updatedAt: now,
+                updatedBy: 'user'
+            }
+        }
 ])

@@ -1,6 +1,7 @@
 package com.jeferro.products.product_reviews.infrastructure;
 
 import com.jeferro.products.product_reviews.application.CreateProductReviewHandler;
+import com.jeferro.products.product_reviews.application.DeleteAllProductReviewsOfProductHandler;
 import com.jeferro.products.product_reviews.application.DeleteProductReviewHandler;
 import com.jeferro.products.product_reviews.application.GetProductReviewHandler;
 import com.jeferro.products.product_reviews.application.ListProductReviewHandler;
@@ -41,5 +42,11 @@ public class ProductReviewsConfiguration {
     public DeleteProductReviewHandler deleteProductReviewHandler(ProductReviewsRepository productReviewsRepository,
         EventBus eventBus) {
         return new DeleteProductReviewHandler(productReviewsRepository, eventBus);
+    }
+
+    @Bean
+    public DeleteAllProductReviewsOfProductHandler deleteAllProductReviewsOfProductHandler(ProductReviewsRepository productReviewsRepository,
+        EventBus eventBus) {
+        return new DeleteAllProductReviewsOfProductHandler(productReviewsRepository, eventBus);
     }
 }

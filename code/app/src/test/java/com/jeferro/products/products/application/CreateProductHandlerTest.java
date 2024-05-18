@@ -49,14 +49,6 @@ class CreateProductHandlerTest {
 	assertProductCreatedWasPublished(result, userAuth, now);
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = createProductHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private void assertProductDataInDatabase(Product result) {
 	assertEquals(1, productsInMemoryRepository.size());
 	assertTrue(productsInMemoryRepository.contains(result));

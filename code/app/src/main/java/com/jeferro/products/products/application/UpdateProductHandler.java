@@ -25,7 +25,7 @@ public class UpdateProductHandler extends Handler<UpdateProductCommand, Product>
     }
 
     @Override
-    protected Set<String> getMandatoryRoles() {
+    protected Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 

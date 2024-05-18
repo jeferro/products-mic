@@ -34,24 +34,12 @@ public class UserAuth extends Auth {
         return username.toString();
     }
 
-    @Override
-    public boolean hasPermissions(Set<String> mandatoryRoles) {
+    public boolean hasAllPermissions(Set<String> mandatoryRoles) {
         return mandatoryRoles.isEmpty()
                 || roles.containsAll(mandatoryRoles);
     }
 
-    @Override
     public boolean belongsToUser(Username username) {
         return this.username.equals(username);
-    }
-
-    @Override
-    public boolean isAnonymous() {
-        return false;
-    }
-
-    @Override
-    public boolean isSystem() {
-        return false;
     }
 }

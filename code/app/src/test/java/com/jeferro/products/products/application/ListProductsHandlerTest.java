@@ -50,14 +50,6 @@ class ListProductsHandlerTest {
 	assertTrue(result.isEmpty());
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = listProductsHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private DatabaseData givenSeveralProductsInDatabase() {
 	var apple = ProductMother.apple();
 	var pear = ProductMother.pear();

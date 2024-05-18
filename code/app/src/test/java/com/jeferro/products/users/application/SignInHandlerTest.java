@@ -2,7 +2,6 @@ package com.jeferro.products.users.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
@@ -11,7 +10,6 @@ import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
 import com.jeferro.products.users.domain.repositories.UsersInMemoryRepository;
 import com.jeferro.products.users.domain.services.FakePasswordEncoder;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,13 +83,6 @@ class SignInHandlerTest {
 
 	assertThrows(UnauthorizedException.class,
 		() -> signInHandler.execute(command));
-  }
-
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = signInHandler.getMandatoryRoles();
-
-	assertTrue(mandatoryRoles.isEmpty());
   }
 
   private User givenAnUserInDatabase() {

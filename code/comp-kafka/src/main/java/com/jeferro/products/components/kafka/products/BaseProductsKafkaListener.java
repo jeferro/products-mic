@@ -23,9 +23,15 @@ public abstract class BaseProductsKafkaListener {
 
 	protected abstract String getGroupId();
 
-	protected abstract void consume(ProductCreatedAvroDTO productCreatedAvroDTO);
+	protected void consume(ProductCreatedAvroDTO productCreatedAvroDTO) {
+	  // Do nothing
+	}
 
-	protected abstract void consume(ProductUpdatedAvroDTO productUpdatedAvroDTO);
+	protected void consume(ProductUpdatedAvroDTO productUpdatedAvroDTO) {
+	  // Do nothing
+	}
 
-	protected abstract void consume(ProductDeletedAvroDTO productDeletedAvroDTO);
+	protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
+	  // Do nothing
+	}
 }

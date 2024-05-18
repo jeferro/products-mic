@@ -20,7 +20,7 @@ public class ListProductReviewHandler extends SilentHandler<ListProductReviewCom
   }
 
   @Override
-  protected Set<String> getMandatoryRoles() {
+  protected Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 

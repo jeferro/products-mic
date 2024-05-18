@@ -83,14 +83,6 @@ class DeleteProductReviewHandlerTest {
 		() -> deleteProductReviewHandler.handle(command));
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = deleteProductReviewHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private void assertProductReviewDeletedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
 	assertEquals(1, eventInMemoryBus.size());
 

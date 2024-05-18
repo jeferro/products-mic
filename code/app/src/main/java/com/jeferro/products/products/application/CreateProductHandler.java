@@ -24,7 +24,7 @@ public class CreateProductHandler extends Handler<CreateProductCommand, Product>
     }
 
     @Override
-    protected Set<String> getMandatoryRoles() {
+    protected Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 

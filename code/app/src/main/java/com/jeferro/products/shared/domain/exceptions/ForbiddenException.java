@@ -10,8 +10,8 @@ public class ForbiddenException extends ApplicationException {
         super(message);
     }
 
-    public static ForbiddenException createOfRoles(Auth auth, Set<String> mandatoryRoles) {
-        return new ForbiddenException("Auth " + auth + " has not mandatory roles: " + mandatoryRoles);
+    public static ForbiddenException createOf(Auth auth, Set<String> mandatoryRoles) {
+        return new ForbiddenException("Auth " + auth + " has not permission to execute command. Mandatory roles: " + mandatoryRoles);
     }
 
     public static ForbiddenException createOfNotUserAuth(Auth auth) {

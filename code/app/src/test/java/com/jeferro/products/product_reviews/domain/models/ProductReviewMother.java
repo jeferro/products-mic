@@ -13,4 +13,13 @@ public abstract class ProductReviewMother {
 
 	return new ProductReview(productReviewId, "Comment about apple");
   }
+
+	public static ProductReview otherUserReviewOfApple() {
+	  var appleId = ProductIdMother.appleId();
+	  var otherUserAuth = AuthMother.otherUser();
+
+	  var productReviewId = ProductReviewId.createOf(otherUserAuth.getUsername(), appleId);
+
+	  return new ProductReview(productReviewId, "Comment about apple");
+	}
 }

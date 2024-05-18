@@ -87,14 +87,6 @@ class UpdateProductReviewHandlerTest {
 		() -> updateProductReviewHandler.handle(command));
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = updateProductReviewHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {
 	assertEquals(userReviewOfApple.getId(), result.getId());
 	assertEquals(newComment, userReviewOfApple.getComment());

@@ -24,7 +24,7 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
   }
 
   @Override
-  protected Set<String> getMandatoryRoles() {
+  protected Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 
@@ -35,7 +35,7 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
 
 	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
 
-	productReview.delete(auth);
+	productReview.deleteByUser(auth);
 
 	productReviewsRepository.deleteById(productReviewId);
 

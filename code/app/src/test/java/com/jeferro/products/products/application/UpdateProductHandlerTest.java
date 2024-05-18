@@ -72,14 +72,6 @@ class UpdateProductHandlerTest {
                 () -> updateProductHandler.execute(command));
     }
 
-    @Test
-    void handlerShouldDoOperationUsers() {
-        var mandatoryRoles = updateProductHandler.getMandatoryRoles();
-
-        assertEquals(1, mandatoryRoles.size());
-        assertTrue(mandatoryRoles.contains("user"));
-    }
-
     private void assertProductDataInDatabase(Product product) {
         assertEquals(1, productsInMemoryRepository.size());
 

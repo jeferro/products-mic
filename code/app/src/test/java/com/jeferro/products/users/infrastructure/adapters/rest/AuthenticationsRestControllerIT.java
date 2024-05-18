@@ -1,13 +1,14 @@
 package com.jeferro.products.users.infrastructure.adapters.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jeferro.products.shared.application.bus.HandlerBus;
+import com.jeferro.products.shared.domain.models.auth.AnonymousAuth;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
 import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
@@ -71,7 +72,7 @@ class AuthenticationsRestControllerIT extends RestControllerIT {
 		private void assertSignInCommand(ArgumentCaptor<SignInCommand> commandCaptor, String username, String plainPassword) {
 			var command = commandCaptor.getValue();
 
-			assertTrue(command.getAuth().isAnonymous());
+			assertInstanceOf(AnonymousAuth.class, command.getAuth());
 			assertEquals(username, command.getUsername().getValue());
 			assertEquals(plainPassword, command.getPlainPassword());
 		}

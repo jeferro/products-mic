@@ -16,6 +16,13 @@ public class AuthMother {
         return new UserAuth(username, roles);
     }
 
+    public static UserAuth otherUser() {
+        var username = new Username("other-user");
+        var roles = Set.of(USER);
+
+        return new UserAuth(username, roles);
+    }
+
     public static UserAuth admin() {
         var username = new Username("admin");
         var roles = Set.of(ADMIN);

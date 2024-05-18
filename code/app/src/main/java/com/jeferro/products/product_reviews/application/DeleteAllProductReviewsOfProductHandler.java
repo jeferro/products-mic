@@ -1,6 +1,6 @@
 package com.jeferro.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.ADMIN;
 
 import java.util.Set;
 
@@ -23,8 +23,8 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
   }
 
   @Override
-  protected Set<String> getMandatoryRoles() {
-	return Set.of(USER);
+  protected Set<String> getMandatoryUserRoles() {
+	return Set.of(ADMIN);
   }
 
   @Override
@@ -38,7 +38,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 	  return null;
 	}
 
-	productReviews.forEach(productReview -> productReview.delete(auth));
+	productReviews.forEach(productReview -> productReview.deleteBySystem(auth));
 
 	var productReviewIds = productReviews.getIds();
 

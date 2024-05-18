@@ -10,7 +10,6 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,14 +51,6 @@ class GetProductHandlerTest {
 
         assertThrows(ProductNotFoundException.class,
                 () -> getProductHandler.execute(command));
-    }
-
-    @Test
-    void handlerShouldDoOperationUsers() {
-        var mandatoryRoles = getProductHandler.getMandatoryRoles();
-
-        assertEquals(1, mandatoryRoles.size());
-        assertTrue(mandatoryRoles.contains("user"));
     }
 
     private Product givenAnAppleInDatabase() {

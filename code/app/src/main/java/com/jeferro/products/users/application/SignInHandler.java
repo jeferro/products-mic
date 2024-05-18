@@ -25,7 +25,7 @@ public class SignInHandler extends Handler<SignInCommand, User> {
   }
 
   @Override
-  protected Set<String> getMandatoryRoles() {
+  protected Set<String> getMandatoryUserRoles() {
 	return Set.of();
   }
 

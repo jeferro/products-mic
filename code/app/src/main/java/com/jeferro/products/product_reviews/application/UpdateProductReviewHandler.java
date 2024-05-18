@@ -24,7 +24,7 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewComma
   }
 
   @Override
-  protected Set<String> getMandatoryRoles() {
+  protected Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 

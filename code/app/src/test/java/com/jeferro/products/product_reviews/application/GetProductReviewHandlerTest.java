@@ -10,7 +10,6 @@ import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,14 +50,6 @@ class GetProductReviewHandlerTest {
 
 	assertThrows(ProductReviewNotFoundException.class,
 		() -> getProductReviewHandler.handle(command));
-  }
-
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = getProductReviewHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

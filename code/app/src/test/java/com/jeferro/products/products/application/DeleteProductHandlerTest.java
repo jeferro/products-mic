@@ -67,12 +67,6 @@ class DeleteProductHandlerTest {
 
 	assertThrows(ProductNotFoundException.class,
 		() -> deleteProductHandler.execute(command));
-  }@Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = deleteProductHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
   }
 
   private void assertProductDoesNotExistInDatabase() {

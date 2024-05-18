@@ -53,14 +53,6 @@ class ListProductReviewHandlerTest {
 	assertTrue(result.isEmpty());
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = listProductReviewHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);

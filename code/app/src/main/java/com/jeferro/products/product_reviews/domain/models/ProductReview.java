@@ -8,6 +8,7 @@ import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
 import com.jeferro.products.shared.domain.models.auth.Auth;
+import com.jeferro.products.shared.domain.models.auth.UserAuth;
 import com.jeferro.products.shared.domain.models.users.Username;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
@@ -44,9 +45,14 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	record(event);
   }
 
-  public void delete(Auth auth) {
+  public void deleteByUser(Auth auth) {
 	ensureProductReviewBelongsToUserAuth(auth);
 
+	var event = ProductReviewDeleted.create(this, auth);
+	record(event);
+  }
+
+  public void deleteBySystem(Auth auth) {
 	var event = ProductReviewDeleted.create(this, auth);
 	record(event);
   }
@@ -70,8 +76,11 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   }
 
   private void ensureProductReviewBelongsToUserAuth(Auth auth) {
-	if (!auth.belongsToUser(getUsername())) {
-	  throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
+	if (auth instanceof UserAuth userAuth
+		&& userAuth.belongsToUser(id.getUsername())) {
+	  return;
 	}
+
+	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
   }
 }

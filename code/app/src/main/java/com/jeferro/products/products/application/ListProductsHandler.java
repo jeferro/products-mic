@@ -20,7 +20,7 @@ public class ListProductsHandler extends SilentHandler<ListProductsCommand, Prod
     }
 
     @Override
-    protected Set<String> getMandatoryRoles() {
+    protected Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 

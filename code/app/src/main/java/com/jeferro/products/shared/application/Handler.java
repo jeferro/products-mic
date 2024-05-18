@@ -2,6 +2,9 @@ package com.jeferro.products.shared.application;
 
 import com.jeferro.products.shared.application.commands.Command;
 import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
+import com.jeferro.products.shared.domain.models.auth.Auth;
+import com.jeferro.products.shared.domain.models.auth.SystemAuth;
+import com.jeferro.products.shared.domain.models.auth.UserAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +20,18 @@ public abstract class Handler<C extends Command<R>, R> {
         logger = LoggerFactory.getLogger(this.getClass());
     }
 
-    protected abstract Set<String> getMandatoryRoles();
+    protected abstract Set<String> getMandatoryUserRoles();
 
     public R execute(C command) {
         Instant startAt = Instant.now();
 
+        var auth = command.getAuth();
+        var mandatoryUserRoles = getMandatoryUserRoles();
+
         try {
-            ensurePermissions(command);
+            if(! canAuthExecuteCommand(auth, mandatoryUserRoles)) {
+                throw ForbiddenException.createOf(auth, mandatoryUserRoles);
+            }
 
             R result = handle(command);
 
@@ -45,15 +53,16 @@ public abstract class Handler<C extends Command<R>, R> {
 
     protected abstract R handle(C command);
 
-    private void ensurePermissions(C command) {
-        var auth = command.getAuth();
-        var mandatoryRoles = getMandatoryRoles();
-
-        if (auth.hasPermissions(mandatoryRoles)) {
-            return;
+    private boolean canAuthExecuteCommand(Auth auth, Set<String> mandatoryUserRoles) {
+        if(auth instanceof SystemAuth){
+            return true;
         }
 
-        throw ForbiddenException.createOfRoles(auth, mandatoryRoles);
+        if (auth instanceof UserAuth userAuth) {
+            return userAuth.hasAllPermissions(mandatoryUserRoles);
+        }
+
+        return mandatoryUserRoles.isEmpty();
     }
 
     private void logSuccessExecution(

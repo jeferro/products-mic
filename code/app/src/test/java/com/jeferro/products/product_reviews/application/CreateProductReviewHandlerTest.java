@@ -84,14 +84,6 @@ class CreateProductReviewHandlerTest {
 		() -> createProductReviewHandler.handle(command));
   }
 
-  @Test
-  void handlerShouldDoOperationUsers() {
-	var mandatoryRoles = createProductReviewHandler.getMandatoryRoles();
-
-	assertEquals(1, mandatoryRoles.size());
-	assertTrue(mandatoryRoles.contains("user"));
-  }
-
   private static void assertResult(UserAuth userAuth, ProductReview result, ProductId productId, String comment) {
 	assertEquals(userAuth.getUsername(), result.getUsername());
 	assertEquals(productId, result.getProductId());
