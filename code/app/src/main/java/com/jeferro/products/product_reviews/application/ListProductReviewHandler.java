@@ -7,9 +7,9 @@ import java.util.Set;
 import com.jeferro.products.product_reviews.application.commands.ListProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.shared.application.Handler;
+import com.jeferro.products.shared.application.SilentHandler;
 
-public class ListProductReviewHandler extends Handler<ListProductReviewCommand, ProductReviews> {
+public class ListProductReviewHandler extends SilentHandler<ListProductReviewCommand, ProductReviews> {
 
   private final ProductReviewsRepository productReviewsRepository;
 

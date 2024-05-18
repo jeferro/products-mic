@@ -9,10 +9,10 @@ import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperation
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.application.Handler;
+import com.jeferro.products.shared.application.SilentHandler;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
-public class GetProductReviewHandler extends Handler<GetProductReviewCommand, ProductReview> {
+public class GetProductReviewHandler extends SilentHandler<GetProductReviewCommand, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
