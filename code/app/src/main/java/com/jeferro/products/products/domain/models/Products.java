@@ -1,0 +1,18 @@
+package com.jeferro.products.products.domain.models;
+
+import com.jeferro.products.shared.domain.models.aggregates.EntityCollection;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Products extends EntityCollection<ProductId, Product> {
+
+    public Products(List<Product> entities) {
+        super(entities);
+    }
+
+    public static Products createOf(Product... products) {
+        var entities = Arrays.asList(products);
+        return new Products(entities);
+    }
+}

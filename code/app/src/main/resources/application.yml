@@ -1,0 +1,19 @@
+logging:
+  level:
+    root: WARN
+    com.jeferro: INFO
+
+spring:
+  application:
+    name: products
+
+  profiles:
+    active: local
+    include:
+      - kafka
+      - mongo
+      - rest
+
+  threads:
+    virtual:
+      enabled: true

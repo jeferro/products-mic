@@ -1,0 +1,271 @@
+openapi: "3.0.0"
+
+info:
+  version: 1.0.0
+  title: Product Rest APId
+  description: API Rest definition to manage products
+
+servers:
+  - url: http://localhost:8080
+    description: Local
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Authentications
+    description: Section of the authentication
+
+  - name: Products
+    description: Section of the products
+
+  - name: Product reviews
+    description: Section of the product reviews
+
+paths:
+  /v1/authentications:
+    post: 
+      operationId: authenticate
+      summary: Authenticate the user
+      description: Authenticate the user
+      tags:
+        - Authentications
+      security: []
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './authentications.yml#/components/schemas/SignInInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './authentications.yml#/components/schemas/Auth'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+
+  /v1/products:
+    get:
+      operationId: list-products
+      summary: List products
+      description: List products
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    post:
+      operationId: create-product
+      summary: Create product
+      description: Create product
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './products.yml#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+  /v1/products/{productId}:
+    get:
+      operationId: get-product
+      summary: Get product
+      description: Get product
+      tags:
+        - Products
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    put:
+      operationId: update-product
+      summary: Update product
+      description: Update product
+      tags:
+        - Products
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './products.yml#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    delete:
+      operationId: delete-product
+      summary: Delete product
+      description: Delete product
+      tags:
+        - Products
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+
+  /v1/products/{productId}/reviews:
+    post:
+      operationId: create-product-review
+      summary: Create product review
+      description: Create product review
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './product-reviews.yml#/components/schemas/CreateProductReviewInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    get:
+      operationId: list-product-reviews
+      summary: List product reviews
+      description: List product reviews
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+  /v1/products/{productId}/reviews/{username}:
+    get:
+      operationId: get-product-review
+      summary: Get product review
+      description: Get product review
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    put:
+      operationId: update-product-review
+      summary: Update product review
+      description: Update product review
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './product-reviews.yml#/components/schemas/UpdateProductReviewInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+    delete:
+      operationId: delete-product-review
+      summary: Delete product review
+      description: Delete product review
+      tags:
+        - Product reviews
+      parameters:
+        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './product-reviews.yml#/components/schemas/ProductReview'
+        default:
+          $ref: './shared.yml#/components/responses/ErrorResponse'
+
+components:
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT security
+

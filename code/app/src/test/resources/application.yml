@@ -1,0 +1,16 @@
+logging:
+  level:
+    root: WARN
+    com.jeferro: INFO
+
+
+components:
+  kafka:
+    products:
+      topic: com.jeferro.products.products.test
+
+  rest:
+      security:
+        issuer: "products"
+        duration: 7D
+        password: "test"
