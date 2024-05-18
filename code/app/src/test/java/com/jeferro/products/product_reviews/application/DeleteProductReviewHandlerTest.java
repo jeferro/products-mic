@@ -41,7 +41,7 @@ class DeleteProductReviewHandlerTest {
   void givenUserCommentsOnProduct_whenDeleteProductReview_thenReturnsDeletedProductReview() {
 	var now = FakeTimeService.fakesNow();
 
-	var userReviewOfApple = givenAnUserProductReviewOfApple();
+	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var userAuth = AuthMother.user();
 	var command = new DeleteProductReviewCommand(
@@ -72,7 +72,7 @@ class DeleteProductReviewHandlerTest {
 
   @Test
   void givenOtherUserCommentsOnProduct_whenDeleteProductReviewOfOtherUser_throwsException() {
-	var userReviewOfApple = givenAnUserProductReviewOfApple();
+	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var command = new DeleteProductReviewCommand(
 		AuthMother.admin(),
@@ -101,7 +101,7 @@ class DeleteProductReviewHandlerTest {
 	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
-  private ProductReview givenAnUserProductReviewOfApple() {
+  private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 	return userReviewOfApple;

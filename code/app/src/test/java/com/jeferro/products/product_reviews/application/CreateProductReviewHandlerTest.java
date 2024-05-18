@@ -14,6 +14,8 @@ import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.models.ProductIdMother;
+import com.jeferro.products.products.domain.models.ProductMother;
+import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.models.auth.UserAuth;
@@ -23,6 +25,8 @@ import org.junit.jupiter.api.Test;
 
 class CreateProductReviewHandlerTest {
 
+  private ProductsInMemoryRepository productsInMemoryRepository;
+
   private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
   private EventInMemoryBus eventInMemoryBus;
@@ -31,15 +35,19 @@ class CreateProductReviewHandlerTest {
 
   @BeforeEach
   public void beforeEach() {
+	productsInMemoryRepository = new ProductsInMemoryRepository();
 	productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
 	eventInMemoryBus = new EventInMemoryBus();
 
-	createProductReviewHandler = new CreateProductReviewHandler(productReviewsInMemoryRepository, eventInMemoryBus);
+	createProductReviewHandler = new CreateProductReviewHandler(productsInMemoryRepository, productReviewsInMemoryRepository,
+		eventInMemoryBus);
   }
 
   @Test
   void givenUserDidNotCommentOnProduct_whenCreateProductReview_thenReturnsNewProductReview() {
 	var now = FakeTimeService.fakesNow();
+
+	givenAnAppleInDatabase();
 
 	var userAuth = AuthMother.user();
 	var productId = ProductIdMother.appleId();
@@ -62,7 +70,7 @@ class CreateProductReviewHandlerTest {
 
   @Test
   void givenUserCommentsOnProduct_whenCreateProductReview_throwsException() {
-	var userReviewOfApple = givenAnUserProductReviewOfApple();
+	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var userAuth = AuthMother.user();
 
@@ -105,7 +113,15 @@ class CreateProductReviewHandlerTest {
 	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
-  private ProductReview givenAnUserProductReviewOfApple() {
+  private void givenAnAppleInDatabase() {
+	var apple = ProductMother.apple();
+	productsInMemoryRepository.init(apple);
+  }
+
+  private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
+	var apple = ProductMother.apple();
+	productsInMemoryRepository.init(apple);
+
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
 	return userReviewOfApple;

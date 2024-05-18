@@ -1,5 +1,6 @@
 package com.jeferro.products.product_reviews.infrastructure.adapters.mongo;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.jeferro.products.components.mongodb.product_reviews.ProductReviewMongoDao;
@@ -59,5 +60,12 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
 	var productReviewIdDto = productReviewIdMongoMapper.toDTO(productReviewId);
 
 	productReviewMongoDao.deleteById(productReviewIdDto);
+  }
+
+  @Override
+  public void deleteAllById(List<ProductReviewId> productReviewIds) {
+	var productReviewIdDtos = productReviewIdMongoMapper.toDTOList(productReviewIds);
+
+	productReviewMongoDao.deleteAllById(productReviewIdDtos);
   }
 }

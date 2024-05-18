@@ -6,6 +6,7 @@ import com.jeferro.products.product_reviews.application.GetProductReviewHandler;
 import com.jeferro.products.product_reviews.application.ListProductReviewHandler;
 import com.jeferro.products.product_reviews.application.UpdateProductReviewHandler;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
+import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.shared.domain.events.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,10 @@ public class ProductReviewsConfiguration {
     }
 
     @Bean
-    public CreateProductReviewHandler createProductReviewHandler(ProductReviewsRepository productReviewsRepository,
+    public CreateProductReviewHandler createProductReviewHandler(ProductsRepository productsRepository,
+        ProductReviewsRepository productReviewsRepository,
         EventBus eventBus) {
-        return new CreateProductReviewHandler(productReviewsRepository, eventBus);
+        return new CreateProductReviewHandler(productsRepository, productReviewsRepository, eventBus);
     }
 
     @Bean

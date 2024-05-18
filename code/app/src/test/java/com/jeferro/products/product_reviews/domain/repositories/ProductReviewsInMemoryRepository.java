@@ -1,5 +1,7 @@
 package com.jeferro.products.product_reviews.domain.repositories;
 
+import java.util.List;
+
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;
@@ -13,8 +15,13 @@ public class ProductReviewsInMemoryRepository extends InMemoryRepository<Product
   public ProductReviews findAllByProductId(ProductId productId) {
 	var products = data.values().stream()
 		.filter(productReview -> productReview.getProductId().equals(productId))
-		.toList() ;
+		.toList();
 
 	return new ProductReviews(products);
+  }
+
+  @Override
+  public void deleteAllById(List<ProductReviewId> productReviewIds) {
+	productReviewIds.forEach(this::deleteById);
   }
 }

@@ -1,5 +1,6 @@
 package com.jeferro.products.product_reviews.domain.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
@@ -22,4 +23,6 @@ public interface ProductReviewsRepository {
   void save(ProductReview productReview);
 
   void deleteById(ProductReviewId productReviewId);
+
+  void deleteAllById(List<ProductReviewId> productReviewIds);
 }

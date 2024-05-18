@@ -80,12 +80,6 @@ class UpdateProductHandlerTest {
         assertTrue(mandatoryRoles.contains("user"));
     }
 
-    private Product givenAnAppleInDatabase() {
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
-        return apple;
-    }
-
     private void assertProductDataInDatabase(Product product) {
         assertEquals(1, productsInMemoryRepository.size());
 
@@ -100,5 +94,11 @@ class UpdateProductHandlerTest {
         assertEquals(product.getId(), event.getProductId());
 		assertEquals(auth.who(), event.getOccurredBy());
 		assertEquals(now, event.getOccurredOn());
+    }
+
+    private Product givenAnAppleInDatabase() {
+        var apple = ProductMother.apple();
+        productsInMemoryRepository.init(apple);
+        return apple;
     }
 }
