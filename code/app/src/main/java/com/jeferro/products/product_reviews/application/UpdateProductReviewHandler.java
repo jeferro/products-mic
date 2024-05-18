@@ -5,12 +5,10 @@ import static com.jeferro.products.shared.application.Roles.USER;
 import java.util.Set;
 
 import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
-import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.events.EventBus;
-import com.jeferro.products.shared.domain.models.auth.Auth;
 
 public class UpdateProductReviewHandler extends Handler<UpdateProductReviewCommand, ProductReview> {
 
@@ -38,8 +36,6 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewComma
 
 	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
 
-	ensureProductReviewBelongsToUserAuth(productReview, auth);
-
 	productReview.update(comment, auth);
 
 	productReviewsRepository.save(productReview);
@@ -47,11 +43,5 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewComma
 	eventBus.publishAll(productReview);
 
 	return productReview;
-  }
-
-  private void ensureProductReviewBelongsToUserAuth(ProductReview productReview, Auth auth) {
-	if (!auth.belongsToUser(productReview.getUsername())) {
-	  throw ForbiddenOperationInProductReviewException.belongsToOtherUser(productReview, auth);
-	}
   }
 }

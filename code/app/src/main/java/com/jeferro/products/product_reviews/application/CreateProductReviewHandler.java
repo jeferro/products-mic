@@ -10,19 +10,26 @@ import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.shared.application.Handler;
 import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.users.Username;
 
 public class CreateProductReviewHandler extends Handler<CreateProductReviewCommand, ProductReview> {
+
+  private final ProductsRepository productsRepository;
 
   private final ProductReviewsRepository productReviewsRepository;
 
   private final EventBus eventBus;
 
-  public CreateProductReviewHandler(ProductReviewsRepository productReviewsRepository, EventBus eventBus) {
+  public CreateProductReviewHandler(ProductsRepository productsRepository,
+	  ProductReviewsRepository productReviewsRepository,
+	  EventBus eventBus) {
 	super();
 
+	this.productsRepository = productsRepository;
 	this.productReviewsRepository = productReviewsRepository;
 	this.eventBus = eventBus;
   }
@@ -39,15 +46,15 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewComma
 	var productId = command.getProductId();
 	var comment = command.getComment();
 
+	ensureProductExists(productId);
+
 	ensureUserDidNotCommentOnProduct(username, productId);
 
-	var productReview = ProductReview.createOf(username, productId, comment, auth);
+	return createProductReview(username, productId, comment, auth);
+  }
 
-	productReviewsRepository.save(productReview);
-
-	eventBus.publishAll(productReview);
-
-	return productReview;
+  private void ensureProductExists(ProductId productId) {
+	productsRepository.findByIdOrError(productId);
   }
 
   private void ensureUserDidNotCommentOnProduct(Username username, ProductId productId) {
@@ -55,5 +62,14 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewComma
 
 	productReviewsRepository.findById(productReviewId)
 		.ifPresent(current -> { throw ProductReviewAlreadyExistsException.createOf(productReviewId); });
+  }
+
+  private ProductReview createProductReview(Username username, ProductId productId, String comment, Auth auth) {
+	var productReview = ProductReview.createOf(username, productId, comment, auth);
+
+	productReviewsRepository.save(productReview);
+
+	eventBus.publishAll(productReview);
+	return productReview;
   }
 }

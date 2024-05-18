@@ -3,6 +3,7 @@ package com.jeferro.products.product_reviews.domain.models;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
+import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
@@ -33,6 +34,8 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   }
 
   public void update(String comment, Auth auth) {
+	ensureProductReviewBelongsToUserAuth(auth);
+
 	validateComment(comment);
 
 	this.comment = comment;
@@ -42,6 +45,8 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   }
 
   public void delete(Auth auth) {
+	ensureProductReviewBelongsToUserAuth(auth);
+
 	var event = ProductReviewDeleted.create(this, auth);
 	record(event);
   }
@@ -64,7 +69,9 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	}
   }
 
-  public boolean belongsToProduct(ProductId productId) {
-	return getProductId().equals(productId);
+  private void ensureProductReviewBelongsToUserAuth(Auth auth) {
+	if (!auth.belongsToUser(getUsername())) {
+	  throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
+	}
   }
 }
