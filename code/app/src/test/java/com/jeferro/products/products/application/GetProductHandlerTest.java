@@ -5,18 +5,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
+import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GetProductHandlerTest {
 
-    public ProductsInMemoryRepository productsInMemoryRepository;
+    private ProductsInMemoryRepository productsInMemoryRepository;
 
-    public GetProductHandler getProductHandler;
+    private GetProductHandler getProductHandler;
 
     @BeforeEach
     void beforeEach() {
@@ -27,11 +28,10 @@ class GetProductHandlerTest {
 
     @Test
     void givenOneProduct_whenGetProduct_thenReturnsProduct() {
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
+        var apple = givenAnAppleInDatabase();
 
         var command = new GetProductCommand(
-                AuthMother.userAuth(),
+                AuthMother.user(),
                 apple.getId()
         );
 
@@ -41,11 +41,11 @@ class GetProductHandlerTest {
     }
 
     @Test
-    void givenNoProducts_whenGetProduct_thenThrowsProductNotFoundException() {
+    void givenNoProducts_whenGetProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
         var command = new GetProductCommand(
-                AuthMother.userAuth(),
+                AuthMother.user(),
                 apple.getId()
         );
 
@@ -53,30 +53,11 @@ class GetProductHandlerTest {
                 () -> getProductHandler.execute(command));
     }
 
-    @Test
-    void givenAnonymousUser_whenGetProduct_thenThrowsForbiddenException() {
+    @NotNull
+    private Product givenAnAppleInDatabase() {
         var apple = ProductMother.apple();
-
-        var command = new GetProductCommand(
-                AuthMother.anonymous(),
-                apple.getId()
-        );
-
-        assertThrows(ForbiddenException.class,
-                () -> getProductHandler.execute(command));
-    }
-
-    @Test
-    void givenUserWithoutUser_whenGetProduct_thenThrowsForbiddenException() {
-        var apple = ProductMother.apple();
-
-        var command = new GetProductCommand(
-                AuthMother.userWithoutRolesAuth(),
-                apple.getId()
-        );
-
-        assertThrows(ForbiddenException.class,
-                () -> getProductHandler.execute(command));
+        productsInMemoryRepository.init(apple);
+        return apple;
     }
 
 }

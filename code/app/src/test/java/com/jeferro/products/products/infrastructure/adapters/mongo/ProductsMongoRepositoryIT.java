@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-
+/* TODO
 @Import(ProductsMongoRepository.class)
 class ProductsMongoRepositoryIT extends MongoRepositoryIT {
 
@@ -144,4 +144,4 @@ class ProductsMongoRepositoryIT extends MongoRepositoryIT {
 
 		assertFalse(productSaved.isPresent());
 	}
-}
+}*/

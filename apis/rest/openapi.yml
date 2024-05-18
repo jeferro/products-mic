@@ -196,7 +196,7 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ErrorResponse'
 
-  /v1/products/{productId}/reviews/{productReviewId}:
+  /v1/products/{productId}/reviews/{username}:
     get:
       operationId: get-product-review
       summary: Get product review
@@ -205,7 +205,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './product-reviews.yml#/components/parameters/productReviewIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
       responses:
         '200':
           description: Ok
@@ -224,7 +224,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './product-reviews.yml#/components/parameters/productReviewIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
       requestBody:
         required: true
         content:
@@ -249,7 +249,7 @@ paths:
         - Product reviews
       parameters:
         - $ref: './products.yml#/components/parameters/productIdPath'
-        - $ref: './product-reviews.yml#/components/parameters/productReviewIdPath'
+        - $ref: './users.yml#/components/parameters/usernamePath'
       responses:
         '200':
           description: Ok

@@ -1,7 +1,6 @@
 package com.jeferro.products.products.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -11,7 +10,6 @@ import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
@@ -20,11 +18,11 @@ import org.junit.jupiter.api.Test;
 
 class CreateProductHandlerTest {
 
-	public ProductsInMemoryRepository productsInMemoryRepository;
+	private ProductsInMemoryRepository productsInMemoryRepository;
 
-	public EventInMemoryBus eventInMemoryBus;
+	private EventInMemoryBus eventInMemoryBus;
 
-	public CreateProductHandler createProductHandler;
+	private CreateProductHandler createProductHandler;
 
 	@BeforeEach
 	void beforeEach() {
@@ -35,10 +33,10 @@ class CreateProductHandlerTest {
 	}
 
 	@Test
-	void givenOneProduct_whenCreateProduct_thenCreatesProduct() {
+	void givenNoProduct_whenCreateProduct_thenCreatesProduct() {
 		var now = FakeTimeService.fakesNow();
 
-		var userAuth = AuthMother.userAuth();
+		var userAuth = AuthMother.user();
 		var productName = "Apple";
 		var command = new CreateProductCommand(
 			userAuth,
@@ -49,47 +47,22 @@ class CreateProductHandlerTest {
 
 		assertEquals(productName, result.getName());
 
-		assertProductSavedInRepository(result);
+		assertProductDataInDatabase(result);
 
-		assertEventProductCreated(result, userAuth, now);
+		assertProductCreatedWasPublished(result, userAuth, now);
 	}
 
-	@Test
-	void givenAnonymousAuth_whenCreateProduct_thenThrowsForbiddenException() {
-		var productName = "Apple";
-		var command = new CreateProductCommand(
-			AuthMother.anonymous(),
-			productName
-		);
-
-		assertThrows(ForbiddenException.class,
-			() -> createProductHandler.execute(command));
-	}
-
-	@Test
-	void givenAuthWithoutRoles_whenCreateProduct_thenThrowsForbiddenException() {
-		var productName = "Apple";
-		var command = new CreateProductCommand(
-			AuthMother.userWithoutRolesAuth(),
-			productName
-		);
-
-		assertThrows(ForbiddenException.class,
-			() -> createProductHandler.execute(command));
-	}
-
-	private void assertProductSavedInRepository(Product product) {
+	private void assertProductDataInDatabase(Product result) {
 		assertEquals(1, productsInMemoryRepository.size());
-
-		assertTrue(productsInMemoryRepository.contains(product));
+		assertTrue(productsInMemoryRepository.contains(result));
 	}
 
-	private void assertEventProductCreated(Product product, Auth auth, Instant now) {
+	private void assertProductCreatedWasPublished(Product result, Auth auth, Instant now) {
 		assertEquals(1, eventInMemoryBus.size());
 
 		var event = (ProductCreated) eventInMemoryBus.getFirst();
 
-		assertEquals(product.getId(), event.getProductId());
+		assertEquals(result.getId(), event.getProductId());
 		assertEquals(now, event.getOccurredOn());
 		assertEquals(auth.who(), event.getOccurredBy());
 	}

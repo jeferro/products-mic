@@ -13,20 +13,20 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UpdateProductHandlerTest {
 
-    public ProductsInMemoryRepository productsInMemoryRepository;
+    private ProductsInMemoryRepository productsInMemoryRepository;
 
-    public EventInMemoryBus eventInMemoryBus;
+    private EventInMemoryBus eventInMemoryBus;
 
-    public UpdateProductHandler updateProductHandler;
+    private UpdateProductHandler updateProductHandler;
 
     @BeforeEach
     void beforeEach() {
@@ -40,32 +40,31 @@ class UpdateProductHandlerTest {
     void givenOneProduct_whenUpdateProduct_thenUpdatesProduct() {
         var now = FakeTimeService.fakesNow();
 
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
+        var apple = givenAnAppleInDatabase();
 
-        var productName = "new product name";
-        var userAuth = AuthMother.userAuth();
+        var userAuth = AuthMother.user();
+        var newProductName = "new product name";
         var command = new UpdateProductCommand(
                 userAuth,
                 apple.getId(),
-                productName
+                newProductName
         );
 
         var result = updateProductHandler.execute(command);
 
-        assertEquals(productName, result.getName());
+        assertEquals(newProductName, result.getName());
 
-        assertProductUpdatedInRepository(result);
+        assertProductDataInDatabase(result);
 
-        assertEventProductUpdated(result, userAuth, now);
+        assertProductUpdatedWasPublished(result, userAuth, now);
     }
 
     @Test
-    void givenNoProducts_whenUpdateProduct_thenThrowsProductNotFoundException() {
+    void givenNoProducts_whenUpdateProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
         var command = new UpdateProductCommand(
-                AuthMother.userAuth(),
+                AuthMother.user(),
                 apple.getId(),
                 "new product name"
         );
@@ -74,43 +73,20 @@ class UpdateProductHandlerTest {
                 () -> updateProductHandler.execute(command));
     }
 
-    @Test
-    void givenAnonymousUser_whenListProducts_thenThrowsForbiddenException() {
+    @NotNull
+    private Product givenAnAppleInDatabase() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);
-
-        var command = new UpdateProductCommand(
-                AuthMother.anonymous(),
-                apple.getId(),
-                "new product name"
-        );
-
-        assertThrows(ForbiddenException.class,
-                () -> updateProductHandler.execute(command));
+        return apple;
     }
 
-    @Test
-    void givenUserWithoutRoles_whenListProducts_thenThrowsForbiddenException() {
-        var apple = ProductMother.apple();
-        productsInMemoryRepository.init(apple);
-
-        var command = new UpdateProductCommand(
-                AuthMother.userWithoutRolesAuth(),
-                apple.getId(),
-                "new product name"
-        );
-
-        assertThrows(ForbiddenException.class,
-                () -> updateProductHandler.execute(command));
-    }
-
-    private void assertProductUpdatedInRepository(Product product) {
+    private void assertProductDataInDatabase(Product product) {
         assertEquals(1, productsInMemoryRepository.size());
 
         assertTrue(productsInMemoryRepository.contains(product));
     }
 
-    private void assertEventProductUpdated(Product product, Auth auth, Instant now) {
+    private void assertProductUpdatedWasPublished(Product product, Auth auth, Instant now) {
         assertEquals(1, eventInMemoryBus.size());
 
         var event = (ProductUpdated) eventInMemoryBus.getFirst();

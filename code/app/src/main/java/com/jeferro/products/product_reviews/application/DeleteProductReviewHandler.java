@@ -8,18 +8,21 @@ import com.jeferro.products.product_reviews.application.commands.DeleteProductRe
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.Handler;
+import com.jeferro.products.shared.domain.events.EventBus;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
 public class DeleteProductReviewHandler extends Handler<DeleteProductReviewCommand, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
-  public DeleteProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
+  private final EventBus eventBus;
+
+  public DeleteProductReviewHandler(ProductReviewsRepository productReviewsRepository, EventBus eventBus) {
 	super();
 
 	this.productReviewsRepository = productReviewsRepository;
+	this.eventBus = eventBus;
   }
 
   @Override
@@ -30,23 +33,17 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
   @Override
   protected ProductReview handle(DeleteProductReviewCommand command) {
 	var auth = command.getAuth();
-	var productId = command.getProductId();
 	var productReviewId = command.getProductReviewId();
 
 	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
 
-	ensureProductReviewBelongsToProduct(productReview, productId);
 	ensureProductReviewBelongsToUserAuth(productReview, auth);
 
 	productReviewsRepository.deleteById(productReviewId);
 
-	return productReview;
-  }
+	eventBus.publishAll(productReview);
 
-  private void ensureProductReviewBelongsToProduct(ProductReview productReview, ProductId productId) {
-	if (!productReview.belongsToProduct(productId)) {
-	  throw ForbiddenOperationInProductReviewException.belongsToOtherProduct(productReview, productId);
-	}
+	return productReview;
   }
 
   private void ensureProductReviewBelongsToUserAuth(ProductReview productReview, Auth auth) {

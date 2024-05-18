@@ -6,4 +6,8 @@ public class ProductIdMother {
         return new ProductId("apple");
     }
 
+    public static ProductId pearId() {
+        return new ProductId("pear");
+    }
+
 }

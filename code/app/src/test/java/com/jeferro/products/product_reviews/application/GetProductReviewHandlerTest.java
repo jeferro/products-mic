@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
-import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
+import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,12 +28,10 @@ class GetProductReviewHandlerTest {
 
   @Test
   void givenAProductReview_whenGetProductReview_thenReturnsProductReview() {
-	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	productReviewsInMemoryRepository.init(userReviewOfApple);
+	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var command = new GetProductReviewCommand(
-		AuthMother.userAuth(),
-		userReviewOfApple.getProductId(),
+		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
@@ -46,8 +44,7 @@ class GetProductReviewHandlerTest {
   void givenNoProductReview_whenGetProductReview_thenThrowsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var command = new GetProductReviewCommand(
-		AuthMother.userAuth(),
-		userReviewOfApple.getProductId(),
+		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
@@ -55,35 +52,10 @@ class GetProductReviewHandlerTest {
 		() -> getProductReviewHandler.handle(command));
   }
 
-  @Test
-  void givenOtherUserCommentsOnProduct_whenGetProductReviewOfOtherUser_throwsException() {
+  @NotNull
+  private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);
-
-	var command = new GetProductReviewCommand(
-		AuthMother.admin(),
-		userReviewOfApple.getProductId(),
-		userReviewOfApple.getId()
-	);
-
-	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> getProductReviewHandler.handle(command));
+	return userReviewOfApple;
   }
-
-  @Test
-  void givenProductReviewOfOtherProduct_whenGetProductReview_throwsException() {
-	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	productReviewsInMemoryRepository.init(userReviewOfApple);
-
-	var pear = ProductMother.pear();
-	var command = new GetProductReviewCommand(
-		AuthMother.userAuth(),
-		pear.getId(),
-		userReviewOfApple.getId()
-	);
-
-	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> getProductReviewHandler.handle(command));
-  }
-
 }

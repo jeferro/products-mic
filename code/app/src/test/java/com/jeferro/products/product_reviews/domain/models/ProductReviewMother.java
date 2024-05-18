@@ -7,7 +7,7 @@ public abstract class ProductReviewMother {
 
   public static ProductReview userReviewOfApple() {
 	var appleId = ProductIdMother.appleId();
-	var userAuth = AuthMother.userAuth();
+	var userAuth = AuthMother.user();
 
 	var productReviewId = ProductReviewId.createOf(userAuth.getUsername(), appleId);
 

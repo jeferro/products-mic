@@ -1,7 +1,6 @@
 package com.jeferro.products.product_reviews.domain.exceptions;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
-import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.NotFoundException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
@@ -13,9 +12,5 @@ public class ForbiddenOperationInProductReviewException extends NotFoundExceptio
 
   public static ForbiddenOperationInProductReviewException belongsToOtherUser(ProductReview productReview, Auth auth) {
 	return new ForbiddenOperationInProductReviewException("Product review " + productReview.getId() + " don't belong to auth " + auth);
-  }
-
-  public static ForbiddenOperationInProductReviewException belongsToOtherProduct(ProductReview productReview, ProductId productId) {
-	return new ForbiddenOperationInProductReviewException("Product review " + productReview.getId() + " don't belong to product " + productId);
   }
 }

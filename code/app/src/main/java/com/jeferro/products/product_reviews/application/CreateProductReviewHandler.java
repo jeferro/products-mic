@@ -11,16 +11,20 @@ import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.Handler;
+import com.jeferro.products.shared.domain.events.EventBus;
 import com.jeferro.products.shared.domain.models.users.Username;
 
 public class CreateProductReviewHandler extends Handler<CreateProductReviewCommand, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
-  public CreateProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
+  private final EventBus eventBus;
+
+  public CreateProductReviewHandler(ProductReviewsRepository productReviewsRepository, EventBus eventBus) {
 	super();
 
 	this.productReviewsRepository = productReviewsRepository;
+	this.eventBus = eventBus;
   }
 
   @Override
@@ -30,15 +34,18 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewComma
 
   @Override
   protected ProductReview handle(CreateProductReviewCommand command) {
+	var auth = command.getAuth();
 	var username = command.getAuthUsernameOrError();
 	var productId = command.getProductId();
 	var comment = command.getComment();
 
 	ensureUserDidNotCommentOnProduct(username, productId);
 
-	var productReview = ProductReview.createOf(username, productId, comment);
+	var productReview = ProductReview.createOf(username, productId, comment, auth);
 
 	productReviewsRepository.save(productReview);
+
+	eventBus.publishAll(productReview);
 
 	return productReview;
   }

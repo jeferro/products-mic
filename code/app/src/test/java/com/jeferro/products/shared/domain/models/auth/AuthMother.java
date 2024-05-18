@@ -9,16 +9,9 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 public class AuthMother {
 
-    public static UserAuth userAuth() {
+    public static UserAuth user() {
         var username = new Username("user");
         var roles = Set.of(USER);
-
-        return new UserAuth(username, roles);
-    }
-
-    public static UserAuth userWithoutRolesAuth() {
-        var username = new Username("user");
-        var roles = Set.<String>of();
 
         return new UserAuth(username, roles);
     }
@@ -35,7 +28,7 @@ public class AuthMother {
     }
 
     public static SystemAuth system() {
-        return new SystemAuth("external-app");
+        return new SystemAuth("external-service");
     }
 
 }

@@ -1,5 +1,8 @@
 package com.jeferro.products.product_reviews.domain.models;
 
+import com.jeferro.products.product_reviews.domain.events.ProductReviewCreated;
+import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
+import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
@@ -18,16 +21,29 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	this.comment = comment;
   }
 
-  public static ProductReview createOf(Username username, ProductId productId, String comment) {
+  public static ProductReview createOf(Username username, ProductId productId, String comment, Auth auth) {
 	var productReviewId = ProductReviewId.createOf(username, productId);
 
-	return new ProductReview(productReviewId, comment);
+	var productReview = new ProductReview(productReviewId, comment);
+
+	var event = ProductReviewCreated.create(productReview, auth);
+	productReview.record(event);
+
+	return productReview;
   }
 
-  public void update(ProductId productId, String comment, Auth auth) {
+  public void update(String comment, Auth auth) {
 	validateComment(comment);
 
 	this.comment = comment;
+
+	var event = ProductReviewUpdated.create(this, auth);
+	record(event);
+  }
+
+  public void delete(Auth auth) {
+	var event = ProductReviewDeleted.create(this, auth);
+	record(event);
   }
 
   public Username getUsername() {

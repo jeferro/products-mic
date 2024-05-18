@@ -65,11 +65,10 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> getProductReview(String productId, String productReviewId) {
+  public ResponseEntity<ProductReviewRestDTO> getProductReview(String productId, String username) {
 	var command = new GetProductReviewCommand(
 		authRestResolver.resolve(),
-		productIdRestMapper.toDomain(productId),
-		productReviewIdRestMapper.toDomain(productReviewId)
+		productReviewIdRestMapper.toDomain(productId, username)
 	);
 
 	var productReview = handlerBus.execute(command);
@@ -78,12 +77,11 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> updateProductReview(String productId, String productReviewId,
+  public ResponseEntity<ProductReviewRestDTO> updateProductReview(String productId, String username,
 	  UpdateProductReviewInputRestDTO updateProductReviewInputRestDTO) {
 	var command = new UpdateProductReviewCommand(
 		authRestResolver.resolve(),
-		productIdRestMapper.toDomain(productId),
-		productReviewIdRestMapper.toDomain(productReviewId),
+		productReviewIdRestMapper.toDomain(productId, username),
 		updateProductReviewInputRestDTO.getComment()
 	);
 
@@ -93,11 +91,10 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String productReviewId) {
+  public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String username) {
 	var command = new DeleteProductReviewCommand(
 		authRestResolver.resolve(),
-		productIdRestMapper.toDomain(productId),
-		productReviewIdRestMapper.toDomain(productReviewId)
+		productReviewIdRestMapper.toDomain(productId, username)
 	);
 
 	var productReview = handlerBus.execute(command);

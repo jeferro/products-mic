@@ -7,7 +7,7 @@ import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
-import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.BidirectionalMapper;
+import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
     UsernameRestMapper.class,
     ProductIdRestMapper.class
 })
-public abstract class ProductReviewRestMapper extends BidirectionalMapper<ProductReview, ProductReviewRestDTO> {
+public abstract class ProductReviewRestMapper extends ToDTOMapper<ProductReview, ProductReviewRestDTO> {
 
   public static final ProductReviewRestMapper INSTANCE = Mappers.getMapper(ProductReviewRestMapper.class);
 
