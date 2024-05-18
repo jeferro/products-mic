@@ -16,7 +16,6 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +72,14 @@ class UpdateProductHandlerTest {
                 () -> updateProductHandler.execute(command));
     }
 
-    @NotNull
+    @Test
+    void handlerShouldDoOperationUsers() {
+        var mandatoryRoles = updateProductHandler.getMandatoryRoles();
+
+        assertEquals(1, mandatoryRoles.size());
+        assertTrue(mandatoryRoles.contains("user"));
+    }
+
     private Product givenAnAppleInDatabase() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);
@@ -89,7 +95,7 @@ class UpdateProductHandlerTest {
     private void assertProductUpdatedWasPublished(Product product, Auth auth, Instant now) {
         assertEquals(1, eventInMemoryBus.size());
 
-        var event = (ProductUpdated) eventInMemoryBus.getFirst();
+        var event = (ProductUpdated) eventInMemoryBus.getFirstOrError();
 
         assertEquals(product.getId(), event.getProductId());
 		assertEquals(auth.who(), event.getOccurredBy());

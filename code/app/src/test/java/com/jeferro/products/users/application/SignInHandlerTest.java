@@ -2,6 +2,7 @@ package com.jeferro.products.users.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
@@ -86,7 +87,13 @@ class SignInHandlerTest {
 		() -> signInHandler.execute(command));
   }
 
-  @NotNull
+  @Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = signInHandler.getMandatoryRoles();
+
+	assertTrue(mandatoryRoles.isEmpty());
+  }
+
   private User givenAnUserInDatabase() {
 	var user = UserMother.user();
 	usersInMemoryRepository.init(user);

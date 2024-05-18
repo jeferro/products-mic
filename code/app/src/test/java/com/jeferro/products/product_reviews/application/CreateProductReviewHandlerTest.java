@@ -18,7 +18,6 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.models.auth.UserAuth;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,11 +76,12 @@ class CreateProductReviewHandlerTest {
 		() -> createProductReviewHandler.handle(command));
   }
 
-  @NotNull
-  private ProductReview givenAnUserProductReviewOfApple() {
-	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	productReviewsInMemoryRepository.init(userReviewOfApple);
-	return userReviewOfApple;
+  @Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = createProductReviewHandler.getMandatoryRoles();
+
+	assertEquals(1, mandatoryRoles.size());
+	assertTrue(mandatoryRoles.contains("user"));
   }
 
   private static void assertResult(UserAuth userAuth, ProductReview result, ProductId productId, String comment) {
@@ -98,10 +98,16 @@ class CreateProductReviewHandlerTest {
   private void assertProductReviewCreatedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
 	assertEquals(1, eventInMemoryBus.size());
 
-	var event = (ProductReviewCreated) eventInMemoryBus.getFirst();
+	var event = (ProductReviewCreated) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(result.getId(), event.getProductReviewId());
 	assertEquals(now, event.getOccurredOn());
 	assertEquals(userAuth.who(), event.getOccurredBy());
+  }
+
+  private ProductReview givenAnUserProductReviewOfApple() {
+	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
+	productReviewsInMemoryRepository.init(userReviewOfApple);
+	return userReviewOfApple;
   }
 }

@@ -2,6 +2,7 @@ package com.jeferro.products.products.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
@@ -53,7 +54,14 @@ class GetProductHandlerTest {
                 () -> getProductHandler.execute(command));
     }
 
-    @NotNull
+    @Test
+    void handlerShouldDoOperationUsers() {
+        var mandatoryRoles = getProductHandler.getMandatoryRoles();
+
+        assertEquals(1, mandatoryRoles.size());
+        assertTrue(mandatoryRoles.contains("user"));
+    }
+
     private Product givenAnAppleInDatabase() {
         var apple = ProductMother.apple();
         productsInMemoryRepository.init(apple);

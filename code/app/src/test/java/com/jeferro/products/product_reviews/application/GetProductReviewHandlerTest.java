@@ -2,6 +2,7 @@ package com.jeferro.products.product_reviews.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
@@ -52,7 +53,14 @@ class GetProductReviewHandlerTest {
 		() -> getProductReviewHandler.handle(command));
   }
 
-  @NotNull
+  @Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = getProductReviewHandler.getMandatoryRoles();
+
+	assertEquals(1, mandatoryRoles.size());
+	assertTrue(mandatoryRoles.contains("user"));
+  }
+
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);

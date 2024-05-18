@@ -18,52 +18,57 @@ import org.junit.jupiter.api.Test;
 
 class CreateProductHandlerTest {
 
-	private ProductsInMemoryRepository productsInMemoryRepository;
+  private ProductsInMemoryRepository productsInMemoryRepository;
 
-	private EventInMemoryBus eventInMemoryBus;
+  private EventInMemoryBus eventInMemoryBus;
 
-	private CreateProductHandler createProductHandler;
+  private CreateProductHandler createProductHandler;
 
-	@BeforeEach
-	void beforeEach() {
-		eventInMemoryBus = new EventInMemoryBus();
-		productsInMemoryRepository = new ProductsInMemoryRepository();
+  @BeforeEach
+  void beforeEach() {
+	eventInMemoryBus = new EventInMemoryBus();
+	productsInMemoryRepository = new ProductsInMemoryRepository();
 
-		createProductHandler = new CreateProductHandler(productsInMemoryRepository, eventInMemoryBus);
-	}
+	createProductHandler = new CreateProductHandler(productsInMemoryRepository, eventInMemoryBus);
+  }
 
-	@Test
-	void givenNoProduct_whenCreateProduct_thenCreatesProduct() {
-		var now = FakeTimeService.fakesNow();
+  @Test
+  void givenNoProduct_whenCreateProduct_thenCreatesProduct() {
+	var now = FakeTimeService.fakesNow();
 
-		var userAuth = AuthMother.user();
-		var productName = "Apple";
-		var command = new CreateProductCommand(
-			userAuth,
-			productName
-		);
+	var userAuth = AuthMother.user();
+	var productName = "Apple";
+	var command = new CreateProductCommand(userAuth, productName);
 
-		var result = createProductHandler.execute(command);
+	var result = createProductHandler.execute(command);
 
-		assertEquals(productName, result.getName());
+	assertEquals(productName, result.getName());
 
-		assertProductDataInDatabase(result);
+	assertProductDataInDatabase(result);
 
-		assertProductCreatedWasPublished(result, userAuth, now);
-	}
+	assertProductCreatedWasPublished(result, userAuth, now);
+  }
 
-	private void assertProductDataInDatabase(Product result) {
-		assertEquals(1, productsInMemoryRepository.size());
-		assertTrue(productsInMemoryRepository.contains(result));
-	}
+  @Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = createProductHandler.getMandatoryRoles();
 
-	private void assertProductCreatedWasPublished(Product result, Auth auth, Instant now) {
-		assertEquals(1, eventInMemoryBus.size());
+	assertEquals(1, mandatoryRoles.size());
+	assertTrue(mandatoryRoles.contains("user"));
+  }
 
-		var event = (ProductCreated) eventInMemoryBus.getFirst();
+  private void assertProductDataInDatabase(Product result) {
+	assertEquals(1, productsInMemoryRepository.size());
+	assertTrue(productsInMemoryRepository.contains(result));
+  }
 
-		assertEquals(result.getId(), event.getProductId());
-		assertEquals(now, event.getOccurredOn());
-		assertEquals(auth.who(), event.getOccurredBy());
-	}
+  private void assertProductCreatedWasPublished(Product result, Auth auth, Instant now) {
+	assertEquals(1, eventInMemoryBus.size());
+
+	var event = (ProductCreated) eventInMemoryBus.getFirstOrError();
+
+	assertEquals(result.getId(), event.getProductId());
+	assertEquals(now, event.getOccurredOn());
+	assertEquals(auth.who(), event.getOccurredBy());
+  }
 }

@@ -16,7 +16,7 @@ public class EventInMemoryBus extends EventBus {
         return events.size();
     }
 
-    public Event getFirst() {
+    public Event getFirstOrError() {
         return events.getFirst();
     }
 }

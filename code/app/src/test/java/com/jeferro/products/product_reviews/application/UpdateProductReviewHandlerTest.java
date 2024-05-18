@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Instant;
 
 import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
-import com.jeferro.products.product_reviews.domain.events.ProductReviewCreated;
-import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
+import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
@@ -18,7 +17,6 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.models.auth.UserAuth;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +55,7 @@ class UpdateProductReviewHandlerTest {
 
 	assertProductReviewInDatabase(result);
 
-	assertProductReviewDeletedWasPublished(result, userAuth, now);
+	assertProductReviewUpdatedWasPublished(result, userAuth, now);
   }
 
   @Test
@@ -89,6 +87,14 @@ class UpdateProductReviewHandlerTest {
 		() -> updateProductReviewHandler.handle(command));
   }
 
+  @Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = updateProductReviewHandler.getMandatoryRoles();
+
+	assertEquals(1, mandatoryRoles.size());
+	assertTrue(mandatoryRoles.contains("user"));
+  }
+
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {
 	assertEquals(userReviewOfApple.getId(), result.getId());
 	assertEquals(newComment, userReviewOfApple.getComment());
@@ -99,17 +105,16 @@ class UpdateProductReviewHandlerTest {
 	assertTrue(productReviewsInMemoryRepository.contains(result));
   }
 
-  private void assertProductReviewDeletedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
+  private void assertProductReviewUpdatedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
 	assertEquals(1, eventInMemoryBus.size());
 
-	var event = (ProductReviewDeleted) eventInMemoryBus.getFirst();
+	var event = (ProductReviewUpdated) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(result.getId(), event.getProductReviewId());
 	assertEquals(now, event.getOccurredOn());
 	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
-  @NotNull
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	productReviewsInMemoryRepository.init(userReviewOfApple);

@@ -39,6 +39,8 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewComma
 
 	ensureProductReviewBelongsToUserAuth(productReview, auth);
 
+	productReview.delete(auth);
+
 	productReviewsRepository.deleteById(productReviewId);
 
 	eventBus.publishAll(productReview);

@@ -16,7 +16,6 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,13 +67,12 @@ class DeleteProductHandlerTest {
 
 	assertThrows(ProductNotFoundException.class,
 		() -> deleteProductHandler.execute(command));
-  }
+  }@Test
+  void handlerShouldDoOperationUsers() {
+	var mandatoryRoles = deleteProductHandler.getMandatoryRoles();
 
-  @NotNull
-  private Product givenAnAppleInDatabase() {
-	var apple = ProductMother.apple();
-	productsInMemoryRepository.init(apple);
-	return apple;
+	assertEquals(1, mandatoryRoles.size());
+	assertTrue(mandatoryRoles.contains("user"));
   }
 
   private void assertProductDoesNotExistInDatabase() {
@@ -84,10 +82,16 @@ class DeleteProductHandlerTest {
   private void assertProductDeletedWasPublished(Product product, Auth auth, Instant now) {
 	assertEquals(1, eventInMemoryBus.size());
 
-	var event = (ProductDeleted) eventInMemoryBus.getFirst();
+	var event = (ProductDeleted) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(product.getId(), event.getProductId());
 	assertEquals(now, event.getOccurredOn());
 	assertEquals(auth.who(), event.getOccurredBy());
+  }
+
+  private Product givenAnAppleInDatabase() {
+	var apple = ProductMother.apple();
+	productsInMemoryRepository.init(apple);
+	return apple;
   }
 }
