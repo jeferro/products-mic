@@ -4,11 +4,11 @@ import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.application.commands.Command;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 
-public class DeleteProductReviewsOfProductCommand extends Command<Void> {
+public class DeleteAllProductReviewsOfProductCommand extends Command<Void> {
 
   private final ProductId productId;
 
-  public DeleteProductReviewsOfProductCommand(Auth auth, ProductId productId) {
+  public DeleteAllProductReviewsOfProductCommand(Auth auth, ProductId productId) {
 	super(auth);
 	this.productId = productId;
   }

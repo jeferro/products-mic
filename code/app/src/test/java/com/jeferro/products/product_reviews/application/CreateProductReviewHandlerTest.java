@@ -39,8 +39,8 @@ class CreateProductReviewHandlerTest {
 	productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
 	eventInMemoryBus = new EventInMemoryBus();
 
-	createProductReviewHandler = new CreateProductReviewHandler(productsInMemoryRepository, productReviewsInMemoryRepository,
-		eventInMemoryBus);
+	createProductReviewHandler =
+		new CreateProductReviewHandler(productsInMemoryRepository, productReviewsInMemoryRepository, eventInMemoryBus);
   }
 
   @Test
