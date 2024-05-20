@@ -7,9 +7,9 @@ import com.jeferro.products.shared.domain.models.users.Username;
 
 public class ProductReviewId extends Identifier<String> {
 
-  private final Username username;
+  private Username username;
 
-  private final ProductId productId;
+  private ProductId productId;
 
   public ProductReviewId(String value) {
 	super(value);
@@ -27,11 +27,8 @@ public class ProductReviewId extends Identifier<String> {
   private ProductReviewId(Username username, ProductId productId) {
 	super(username + SEPARATOR + productId);
 
-	validateUsername(username);
-	validateProductId(productId);
-
-	this.username = username;
-	this.productId = productId;
+	setUsername(username);
+	setProductId(productId);
   }
 
   public static ProductReviewId createOf(Username username, ProductId productId) {
@@ -46,15 +43,19 @@ public class ProductReviewId extends Identifier<String> {
 	return productId;
   }
 
-  private void validateUsername(Username username) {
+  private void setUsername(Username username) {
 	if (username == null) {
 	  throw ValueValidationException.createOfMessage("Username is null");
 	}
+
+	this.username = username;
   }
 
-  private void validateProductId(ProductId productId) {
+  private void setProductId(ProductId productId) {
 	if (productId == null) {
 	  throw ValueValidationException.createOfMessage("Product identifier is null");
 	}
+
+	this.productId = productId;
   }
 }

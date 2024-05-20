@@ -8,23 +8,23 @@ import com.jeferro.products.shared.domain.models.auth.Auth;
 
 public class DeleteProductCommand extends Command<Product> {
 
-    private final ProductId productId;
+  private ProductId productId;
 
-    public DeleteProductCommand(Auth auth, ProductId productId) {
-        super(auth);
+  public DeleteProductCommand(Auth auth, ProductId productId) {
+	super(auth);
 
-		validateProductId(productId);
+	setValidateProductId(productId);
+  }
 
-		this.productId = productId;
-    }
+  public ProductId getProductId() {
+	return productId;
+  }
 
-	public ProductId getProductId() {
-        return productId;
-    }
-
-	private static void validateProductId(ProductId productId) {
-		if (productId == null) {
-			throw ValueValidationException.createOfMessage("Product identifier is null");
-		}
+  private void setValidateProductId(ProductId productId) {
+	if (productId == null) {
+	  throw ValueValidationException.createOfMessage("Product identifier is null");
 	}
+
+	this.productId = productId;
+  }
 }

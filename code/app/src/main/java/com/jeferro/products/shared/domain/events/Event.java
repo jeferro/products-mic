@@ -8,37 +8,38 @@ import org.apache.commons.lang3.StringUtils;
 
 public abstract class Event extends Entity<EventId> {
 
-    private final String occurredBy;
+  private String occurredBy;
 
-    private final Instant occurredOn;
+  private Instant occurredOn;
 
-    protected Event(EventId id, String occurredBy, Instant occurredOn) {
-		super(id);
+  protected Event(EventId id, String occurredBy, Instant occurredOn) {
+	super(id);
 
-		validateOccurredBy(occurredBy);
-		validateOccurredOn(occurredOn);
+	setOccurredBy(occurredBy);
+	setOccurredOn(occurredOn);
+  }
 
-		this.occurredBy = occurredBy;
-        this.occurredOn = occurredOn;
-    }
+  public String getOccurredBy() {
+	return occurredBy;
+  }
 
-	public String getOccurredBy() {
-        return occurredBy;
-    }
+  public Instant getOccurredOn() {
+	return occurredOn;
+  }
 
-    public Instant getOccurredOn() {
-        return occurredOn;
-    }
-
-	private static void validateOccurredBy(String occurredBy) {
-		if (StringUtils.isBlank(occurredBy)) {
-			throw ValueValidationException.createOfMessage("Occurred by is blank");
-		}
+  private void setOccurredBy(String occurredBy) {
+	if (StringUtils.isBlank(occurredBy)) {
+	  throw ValueValidationException.createOfMessage("Occurred by is blank");
 	}
 
-	private static void validateOccurredOn(Instant occurredOn) {
-		if (occurredOn == null) {
-			throw ValueValidationException.createOfMessage("Occurred on is null");
-		}
+	this.occurredBy = occurredBy;
+  }
+
+  private void setOccurredOn(Instant occurredOn) {
+	if (occurredOn == null) {
+	  throw ValueValidationException.createOfMessage("Occurred on is null");
 	}
+
+	this.occurredOn = occurredOn;
+  }
 }

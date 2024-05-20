@@ -15,9 +15,7 @@ public class Product extends AggregateRoot<ProductId> {
     public Product(ProductId id, String name) {
         super(id);
 
-        validateName(name);
-
-        this.name = name;
+        setName(name);
     }
 
     public static Product create(String name, Auth auth) {
@@ -31,9 +29,7 @@ public class Product extends AggregateRoot<ProductId> {
     }
 
     public void update(String name, Auth auth) {
-        validateName(name);
-
-        this.name = name;
+        setName(name);
 
         var event = ProductUpdated.create(this, auth);
         record(event);
@@ -44,13 +40,15 @@ public class Product extends AggregateRoot<ProductId> {
         record(event);
     }
 
-    private void validateName(String name) {
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
         if (StringUtils.isBlank(name)) {
             throw ValueValidationException.createOfMessage("Name is blank");
         }
-    }
 
-    public String getName() {
-        return name;
+        this.name = name;
     }
 }
