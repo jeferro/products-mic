@@ -12,5 +12,5 @@ components:
   rest:
       security:
         issuer: "products"
-        duration: 7D
+        duration: 
         password: "test"

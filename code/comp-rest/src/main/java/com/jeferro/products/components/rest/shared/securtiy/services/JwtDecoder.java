@@ -61,15 +61,21 @@ public class JwtDecoder {
 
 	public String encode(JwtToken jwtToken) {
 		var issuedAt = Instant.now();
-		var expiresAt = issuedAt.plusMillis(jwtProperties.durationAsMillis());
 
-		var token = JWT.create()
+
+		var jwtBuilder = JWT.create()
 			.withIssuer(jwtProperties.issuer())
 			.withIssuedAt(issuedAt)
-			.withExpiresAt(expiresAt)
 			.withSubject(jwtToken.username())
-			.withArrayClaim(ROLES_CLAIM, jwtToken.roles().toArray(String[]::new))
-			.sign(hmac512);
+			.withArrayClaim(ROLES_CLAIM, jwtToken.roles().toArray(String[]::new));
+
+		if (jwtProperties.hasDuration()) {
+			var expiresAt = issuedAt.plusMillis(jwtProperties.durationAsMillis());
+
+			jwtBuilder.withExpiresAt(expiresAt);
+		}
+
+		var token = jwtBuilder.sign(hmac512);
 
 		return BEARER_PREFIX + token;
 	}

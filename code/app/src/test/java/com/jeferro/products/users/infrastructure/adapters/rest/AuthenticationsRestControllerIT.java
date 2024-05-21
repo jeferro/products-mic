@@ -1,11 +1,10 @@
 package com.jeferro.products.users.infrastructure.adapters.rest;
 
-import static org.mockito.Mockito.when;
-
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.application.commands.SignInCommand;
+import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,43 +16,52 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.when;
+
 @WebMvcTest(AuthenticationsRestController.class)
 class AuthenticationsRestControllerIT extends RestControllerIT {
 
-  @Autowired
-  private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-  @MockBean
-  private HandlerBus handlerBus;
+    @MockBean
+    private HandlerBus handlerBus;
 
-  @Nested
-  public class AuthenticateTests {
+    @Nested
+    public class AuthenticateTests {
 
-	@Test
-	void givenCredentials_whenSignIn_thenExecutesSignInCommand() throws Exception {
-	  var requestContent = """
-		{
-		  "username": "one-user",
-		  "password": "plain-password"
-		}""";
+        @Test
+        void givenAnUsers_whenSignIn_thenExecutesSignInCommand() throws Exception {
+            var user = UserMother.user();
+            ArgumentCaptor<SignInCommand> commandCaptor = givenAnAuthenticatedUserOnUserSignIn(user);
 
-	  var user = UserMother.user();
-	  ArgumentCaptor<SignInCommand> commandCaptor = ArgumentCaptor.forClass(SignInCommand.class);
-	  when(handlerBus.execute(commandCaptor.capture()))
-		  .thenReturn(user);
+            var requestContent = """
+                    {
+                      "username": "%s",
+                      "password": "plain-password"
+                    }"""
+                    .formatted(user.getUsername());
 
-	  var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
-		  .contentType(MediaType.APPLICATION_JSON)
-		  .content(requestContent);
+            var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestContent);
 
-	  var responseContent = mockMvc.perform(requestBuilder)
-		  .andReturn()
-		  .getResponse()
-		  .getContentAsString();
+            var response = mockMvc.perform(requestBuilder)
+                    .andReturn()
+                    .getResponse();
 
-	  var command = commandCaptor.getValue();
+            ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                    response.getStatus(),
+                    response.getContentAsString());
+        }
+    }
 
-	  ApprovalUtils.verifyAll(command, responseContent);
-	}
-  }
+    private ArgumentCaptor<SignInCommand> givenAnAuthenticatedUserOnUserSignIn(User user) {
+        ArgumentCaptor<SignInCommand> commandCaptor = ArgumentCaptor.forClass(SignInCommand.class);
+
+        when(handlerBus.execute(commandCaptor.capture()))
+                .thenReturn(user);
+
+        return commandCaptor;
+    }
 }

@@ -13,4 +13,8 @@ public record RestSecurityProperties(
     public long durationAsMillis() {
         return duration.toMillis();
     }
+
+    public boolean hasDuration() {
+        return duration != null;
+    }
 }

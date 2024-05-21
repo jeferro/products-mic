@@ -24,7 +24,7 @@ jobs:
 
       - name: Build
         working-directory: code
-        run: gradle build
+        run: gradle build test
         env:
           # disable default JVM in container
           JAVA_HOME:

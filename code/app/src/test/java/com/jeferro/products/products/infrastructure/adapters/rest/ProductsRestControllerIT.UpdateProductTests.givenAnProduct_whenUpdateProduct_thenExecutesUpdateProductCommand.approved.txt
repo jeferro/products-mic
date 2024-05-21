@@ -1,0 +1,3 @@
+params[0] = UpdateProductCommand[name=Apple,productId=apple,auth=user]
+params[1] = 200
+params[2] = {"id":"apple","name":"Apple"}
