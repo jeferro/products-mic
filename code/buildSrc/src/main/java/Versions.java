@@ -14,4 +14,6 @@ public interface Versions {
 	String mapstruct = "1.5.5.Final";
 
 	String jacoco = "0.8.11";
+
+	String approval_tests = "24.2.0";
 }
