@@ -13,8 +13,9 @@ public class ProductReviews extends EntityCollection<ProductReviewId, ProductRev
 	super(entities);
   }
 
-  public static Products createOf(Product... products) {
-	var entities = Arrays.asList(products);
-	return new Products(entities);
+  public static ProductReviews createOf(ProductReview... productReview) {
+	var entities = Arrays.asList(productReview);
+
+	return new ProductReviews(entities);
   }
 }

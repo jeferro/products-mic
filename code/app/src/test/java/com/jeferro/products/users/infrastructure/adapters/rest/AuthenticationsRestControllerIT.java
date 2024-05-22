@@ -21,7 +21,7 @@ class AuthenticationsRestControllerIT extends RestControllerIT {
     private StubHandlerBus stubHandlerBus;
 
     @Test
-    void givenAnUsers_whenSignIn_thenExecutesSignInCommand() throws Exception {
+    void execute_sign_in_on_request() throws Exception {
         var user = UserMother.user();
         stubHandlerBus.init(user);
 
