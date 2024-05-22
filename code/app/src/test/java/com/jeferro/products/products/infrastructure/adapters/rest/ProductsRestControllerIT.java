@@ -7,7 +7,6 @@ import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,128 +28,113 @@ class ProductsRestControllerIT extends RestControllerIT {
     @MockBean
     private HandlerBus handlerBus;
 
-    @Nested
-    public class ListProductsTests {
 
-        @Test
-        void givenProducts_whenListProducts_thenExecutesListProductsCommand() throws Exception {
-            ArgumentCaptor<ListProductsCommand> commandCaptor = givenTwoProductsOnListProductCommand();
+    @Test
+    void givenProducts_whenListProducts_thenExecutesListProductsCommand() throws Exception {
+        ArgumentCaptor<ListProductsCommand> commandCaptor = givenTwoProductsOnListProductCommand();
 
-            var requestBuilder = MockMvcRequestBuilders.get("/v1/products")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
 
-    @Nested
-    public class CreateProductTests {
 
-        @Test
-        void givenAnProduct_whenCreateProduct_thenExecutesCreateProductCommand() throws Exception {
-            var apple = ProductMother.apple();
-            ArgumentCaptor<CreateProductCommand> commandCaptor = givenAnProductOnCreateProductCommand(apple);
+    @Test
+    void givenAnProduct_whenCreateProduct_thenExecutesCreateProductCommand() throws Exception {
+        var apple = ProductMother.apple();
+        ArgumentCaptor<CreateProductCommand> commandCaptor = givenAnProductOnCreateProductCommand(apple);
 
-            var requestContent = """
-                    {
-                      "name": "%s"
-                    }"""
-                    .formatted(apple.getName());
+        var requestContent = """
+                {
+                  "name": "%s"
+                }"""
+                .formatted(apple.getName());
 
-            var requestBuilder = MockMvcRequestBuilders.post("/v1/products")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT)
-                    .content(requestContent);
+        var requestBuilder = MockMvcRequestBuilders.post("/v1/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT)
+                .content(requestContent);
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
 
-    @Nested
-    public class GetProductTests {
 
-        @Test
-        void givenAnProduct_whenGetProduct_thenExecutesGetProductCommand() throws Exception {
-            var apple = ProductMother.apple();
-            ArgumentCaptor<GetProductCommand> commandCaptor = givenAnProductOnGetProductCommand(apple);
+    @Test
+    void givenAnProduct_whenGetProduct_thenExecutesGetProductCommand() throws Exception {
+        var apple = ProductMother.apple();
+        ArgumentCaptor<GetProductCommand> commandCaptor = givenAnProductOnGetProductCommand(apple);
 
-            var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
 
-    @Nested
-    public class UpdateProductTests {
+    @Test
+    void givenAnProduct_whenUpdateProduct_thenExecutesUpdateProductCommand() throws Exception {
+        var apple = ProductMother.apple();
+        ArgumentCaptor<UpdateProductCommand> commandCaptor = givenAnProductOnUpdateProductCommand(apple);
 
-        @Test
-        void givenAnProduct_whenUpdateProduct_thenExecutesUpdateProductCommand() throws Exception {
-            var apple = ProductMother.apple();
-            ArgumentCaptor<UpdateProductCommand> commandCaptor = givenAnProductOnUpdateProductCommand(apple);
+        var requestContent = """
+                {
+                  "name": "%s"
+                }"""
+                .formatted(apple.getName());
 
-            var requestContent = """
-                    {
-                      "name": "%s"
-                    }"""
-                    .formatted(apple.getName());
+        var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT)
+                .content(requestContent);
 
-            var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT)
-                    .content(requestContent);
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
-
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
 
-    @Nested
-    public class DeleteProductTests {
 
-        @Test
-        void givenAnProduct_whenDeleteProduct_thenExecutesDeleteProductCommand() throws Exception {
-            var apple = ProductMother.apple();
-            ArgumentCaptor<DeleteProductCommand> commandCaptor = givenAnProductOnDeleteProductCommand(apple);
+    @Test
+    void givenAnProduct_whenDeleteProduct_thenExecutesDeleteProductCommand() throws Exception {
+        var apple = ProductMother.apple();
+        ArgumentCaptor<DeleteProductCommand> commandCaptor = givenAnProductOnDeleteProductCommand(apple);
 
-            var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
+        var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_CONTENT);
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
+
 
     private ArgumentCaptor<ListProductsCommand> givenTwoProductsOnListProductCommand() {
         var products = Products.createOf(

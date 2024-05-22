@@ -6,7 +6,6 @@ import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,34 +26,32 @@ class AuthenticationsRestControllerIT extends RestControllerIT {
     @MockBean
     private HandlerBus handlerBus;
 
-    @Nested
-    public class AuthenticateTests {
 
-        @Test
-        void givenAnUsers_whenSignIn_thenExecutesSignInCommand() throws Exception {
-            var user = UserMother.user();
-            ArgumentCaptor<SignInCommand> commandCaptor = givenAnAuthenticatedUserOnUserSignIn(user);
+    @Test
+    void givenAnUsers_whenSignIn_thenExecutesSignInCommand() throws Exception {
+        var user = UserMother.user();
+        ArgumentCaptor<SignInCommand> commandCaptor = givenAnAuthenticatedUserOnUserSignIn(user);
 
-            var requestContent = """
-                    {
-                      "username": "%s",
-                      "password": "plain-password"
-                    }"""
-                    .formatted(user.getUsername());
+        var requestContent = """
+                {
+                  "username": "%s",
+                  "password": "plain-password"
+                }"""
+                .formatted(user.getUsername());
 
-            var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(requestContent);
+        var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestContent);
 
-            var response = mockMvc.perform(requestBuilder)
-                    .andReturn()
-                    .getResponse();
+        var response = mockMvc.perform(requestBuilder)
+                .andReturn()
+                .getResponse();
 
-            ApprovalUtils.verifyAll(commandCaptor.getValue(),
-                    response.getStatus(),
-                    response.getContentAsString());
-        }
+        ApprovalUtils.verifyAll(commandCaptor.getValue(),
+                response.getStatus(),
+                response.getContentAsString());
     }
+
 
     private ArgumentCaptor<SignInCommand> givenAnAuthenticatedUserOnUserSignIn(User user) {
         ArgumentCaptor<SignInCommand> commandCaptor = ArgumentCaptor.forClass(SignInCommand.class);
