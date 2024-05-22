@@ -1,39 +1,42 @@
 package com.jeferro.products.shared.application;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.jeferro.products.shared.application.bus.HandlerBus;
 import com.jeferro.products.shared.application.commands.Command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StubHandlerBus extends HandlerBus {
 
-  private List<Command<?>> commands;
+    private final List<Command<?>> commands;
 
-  private Object result;
+    private Object result;
 
-  public StubHandlerBus() {
-	commands = new ArrayList<>();
-	result = null;
-  }
+    public StubHandlerBus() {
+        commands = new ArrayList<>();
+        result = null;
+    }
 
-  @Override
-  public <R> R execute(Command<R> command) {
-	commands.add(command);
-	return (R) result;
-  }
+    @Override
+    public <R> R execute(Command<R> command) {
+        commands.add(command);
 
-  public void init(Object result) {
-	this.result = result;
-  }
+        return (R) result;
+    }
 
-  public int size() {
-	return commands.size();
-  }
+    public void init(Object result) {
+        commands.clear();
 
-  public Command<?> getFirstCommandOrError() {
-	return commands.stream()
-		.findFirst()
-		.orElseThrow();
-  }
+        this.result = result;
+    }
+
+    public int size() {
+        return commands.size();
+    }
+
+    public Command<?> getFirstCommandOrError() {
+        return commands.stream()
+                .findFirst()
+                .orElseThrow();
+    }
 }
