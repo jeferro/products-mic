@@ -1,3 +1,3 @@
-params[0] = SignInCommand[plainPassword=plain-password,username=user,auth=anonymous]
-params[1] = 200
-params[2] = {"username":"user","roles":["user"]}
+data[0] = SignInCommand[plainPassword=plain-password,username=user,auth=anonymous]
+data[1] = 200
+data[2] = {"username":"user","roles":["user"]}

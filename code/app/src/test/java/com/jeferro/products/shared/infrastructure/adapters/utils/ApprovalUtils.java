@@ -11,6 +11,6 @@ public abstract class ApprovalUtils {
 		.map(Object::toString)
 		.toArray();
 
-	Approvals.verifyAll("params", array);
+	Approvals.verifyAll("data", array);
   }
 }
