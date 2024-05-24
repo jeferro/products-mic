@@ -1,0 +1,3 @@
+data[0] = ListProductsCommand[auth=user]
+data[1] = 200
+data[2] = [{"id":"apple","name":"Apple"},{"id":"pear","name":"Pear"}]

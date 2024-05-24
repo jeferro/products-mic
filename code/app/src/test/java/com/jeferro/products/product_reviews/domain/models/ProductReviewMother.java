@@ -14,12 +14,12 @@ public abstract class ProductReviewMother {
 	return new ProductReview(productReviewId, "Comment about apple");
   }
 
-	public static ProductReview otherUserReviewOfApple() {
+	public static ProductReview adminReviewOfApple() {
 	  var appleId = ProductIdMother.appleId();
-	  var otherUserAuth = AuthMother.otherUser();
+	  var adminAuth = AuthMother.admin();
 
-	  var productReviewId = ProductReviewId.createOf(otherUserAuth.getUsername(), appleId);
+	  var productReviewId = ProductReviewId.createOf(adminAuth.getUsername(), appleId);
 
-	  return new ProductReview(productReviewId, "Comment about apple");
+	  return new ProductReview(productReviewId, "I love apples");
 	}
 }

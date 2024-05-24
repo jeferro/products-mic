@@ -4,7 +4,6 @@ import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.domain.models.UserMother;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,13 +20,8 @@ class AuthenticationsRestControllerIT extends RestControllerIT {
     @Autowired
     private StubHandlerBus stubHandlerBus;
 
-    @BeforeEach
-    public void beforeEach() {
-        stubHandlerBus = new StubHandlerBus();
-    }
-
     @Test
-    void givenAnUsers_whenSignIn_thenExecutesSignInCommand() throws Exception {
+    void execute_sign_in_on_request() throws Exception {
         var user = UserMother.user();
         stubHandlerBus.init(user);
 
