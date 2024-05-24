@@ -1,15 +1,19 @@
 package com.jeferro.products.components.mongodb.shared.metadata.services;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-public class MetadataMongoTemplate extends MongoTemplate {
+public class CustomMongoTemplate extends MongoTemplate {
 
 	private static final String ID = "id";
 
@@ -17,7 +21,7 @@ public class MetadataMongoTemplate extends MongoTemplate {
 
 	private final MongoFieldManager mongoFieldManager;
 
-	public MetadataMongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
+	public CustomMongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
 		MongoAuditorAware mongoAuditorAware,
 		MongoFieldManager mongoFieldManager) {
 		super(mongoDatabaseFactory);
@@ -41,6 +45,22 @@ public class MetadataMongoTemplate extends MongoTemplate {
 		return objectToSave;
 	}
 
+  public <T> Page<T> findPage(Query query, Class<T> entityClass) {
+	List<T> content = find(query, entityClass);
+
+	if(!query.isLimited()) {
+	  return new PageImpl<>(content);
+	}
+
+	PageRequest pageRequest = createPageRequestFromQuery(query);
+
+	Query unlimitedQuery = Query.of(query).limit(0).skip(0);
+
+	long count = count(unlimitedQuery, entityClass);
+
+	return new PageImpl<>(content, pageRequest, count);
+  }
+
 	private void updateAllFields(Update update, Object objectToSave) {
 		final Map<String, Object> fieldsToUpdate = mongoFieldManager.calculateFieldToUpdate(objectToSave);
 
@@ -62,5 +82,12 @@ public class MetadataMongoTemplate extends MongoTemplate {
 		update.set("metadata.updatedAt", now);
 		update.set("metadata.updatedBy", username);
 	}
+
+  private static PageRequest createPageRequestFromQuery(Query query) {
+	int pageSize = query.getLimit();
+	int pageNumber = ((int) query.getSkip()) / pageSize;
+
+	return PageRequest.of(pageNumber, pageSize);
+  }
 
 }

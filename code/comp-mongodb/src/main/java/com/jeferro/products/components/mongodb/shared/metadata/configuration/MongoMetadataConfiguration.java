@@ -1,6 +1,6 @@
 package com.jeferro.products.components.mongodb.shared.metadata.configuration;
 
-import com.jeferro.products.components.mongodb.shared.metadata.services.MetadataMongoTemplate;
+import com.jeferro.products.components.mongodb.shared.metadata.services.CustomMongoTemplate;
 import com.jeferro.products.components.mongodb.shared.metadata.services.MongoAuditorAware;
 import com.jeferro.products.components.mongodb.shared.metadata.services.MongoFieldManager;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +17,6 @@ public class MongoMetadataConfiguration {
 	public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
 		MongoAuditorAware mongoAuditorAware,
 		MongoFieldManager mongoFieldManager) {
-		return new MetadataMongoTemplate(mongoDatabaseFactory, mongoAuditorAware, mongoFieldManager);
+		return new CustomMongoTemplate(mongoDatabaseFactory, mongoAuditorAware, mongoFieldManager);
 	}
 }
