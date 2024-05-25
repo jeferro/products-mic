@@ -1,9 +1,10 @@
-package com.jeferro.products.products.infrastructure.adapters.rest;
+package com.jeferro.products.product_reviews.infrastructure.adapters.rest;
 
+import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
+import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.domain.models.ProductMother;
-import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.shared.application.StubHandlerBus;
-import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
+import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@WebMvcTest(ProductsRestController.class)
-class ProductsRestControllerIT extends RestControllerIT {
+@WebMvcTest(ProductReviewRestController.class)
+class ProductReviewRestControllerTest extends RestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -23,14 +24,15 @@ class ProductsRestControllerIT extends RestControllerIT {
     private StubHandlerBus stubHandlerBus;
 
     @Test
-    void execute_list_products_on_request() throws Exception {
-        var products = Products.createOf(
-                ProductMother.apple(),
-                ProductMother.pear()
+    void execute_list_product_reviews_on_request() throws Exception {
+        var apple = ProductMother.apple();
+        var productReviews = ProductReviews.createOf(
+                ProductReviewMother.userReviewOfApple(),
+                ProductReviewMother.adminReviewOfApple()
         );
-        stubHandlerBus.init(products);
+        stubHandlerBus.init(productReviews);
 
-        var requestBuilder = MockMvcRequestBuilders.get("/v1/products")
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId() + "/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
 
@@ -46,15 +48,16 @@ class ProductsRestControllerIT extends RestControllerIT {
     @Test
     void execute_create_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
+        stubHandlerBus.init(userReviewOfProduct);
 
         var requestContent = """
                 {
-                  "name": "%s"
+                  "comment": "%s"
                 }"""
-                .formatted(apple.getName());
+                .formatted(userReviewOfProduct.getComment());
 
-        var requestBuilder = MockMvcRequestBuilders.post("/v1/products")
+        var requestBuilder = MockMvcRequestBuilders.post("/v1/products/" + apple.getId() + "/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT)
                 .content(requestContent);
@@ -71,9 +74,10 @@ class ProductsRestControllerIT extends RestControllerIT {
     @Test
     void execute_get_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
+        stubHandlerBus.init(userReviewOfProduct);
 
-        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId())
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
 
@@ -89,15 +93,16 @@ class ProductsRestControllerIT extends RestControllerIT {
     @Test
     void execute_update_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
+        stubHandlerBus.init(userReviewOfProduct);
 
         var requestContent = """
                 {
-                  "name": "%s"
+                  "comment": "%s"
                 }"""
-                .formatted(apple.getName());
+                .formatted(userReviewOfProduct.getComment());
 
-        var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId())
+        var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT)
                 .content(requestContent);
@@ -114,9 +119,10 @@ class ProductsRestControllerIT extends RestControllerIT {
     @Test
     void execute_delete_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
+        stubHandlerBus.init(userReviewOfProduct);
 
-        var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId())
+        var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
 
@@ -128,5 +134,4 @@ class ProductsRestControllerIT extends RestControllerIT {
                 response.getStatus(),
                 response.getContentAsString());
     }
-
 }

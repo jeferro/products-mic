@@ -1,7 +1,7 @@
 package com.jeferro.products.users.infrastructure.adapters.rest;
 
 import com.jeferro.products.shared.application.StubHandlerBus;
-import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerIT;
+import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.domain.models.UserMother;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(AuthenticationsRestController.class)
-class AuthenticationsRestControllerIT extends RestControllerIT {
+class AuthenticationsRestControllerTest extends RestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
