@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties({
 	RestSecurityProperties.class
 })
-public class RestControllerTest {
+public class RestControllerIT {
 
   protected static final String AUTHORIZATION_USER_CONTENT =
 	  "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9kdWN0cyIsImlhdCI6MTcxNjMyMDgzMiwic3ViIjoidXNlciIsInJvbGVzIjpbInVzZXIiXX0"

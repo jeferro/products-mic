@@ -16,11 +16,12 @@ dependencies {
     annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
 
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
+
+    testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
+
     testImplementation("org.springframework.boot", "spring-boot-testcontainers")
     testImplementation("org.testcontainers", "junit-jupiter")
     testImplementation("org.testcontainers", "mongodb", Versions.test_containers)
-
-    testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
 }
 
 tasks.withType<Test> {
