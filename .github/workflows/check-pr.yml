@@ -13,7 +13,7 @@ on:
 jobs:
 
   build:
-    name: Build & Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,7 +24,24 @@ jobs:
 
       - name: Build
         working-directory: code
-        run: gradle build
+        run: gradle build -x test
+        env:
+          # disable default JVM in container
+          JAVA_HOME:
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install asdf & tools
+        uses: asdf-vm/actions/install@v3
+
+      - name: Test
+        working-directory: code
+        run: gradle test
         env:
           # disable default JVM in container
           JAVA_HOME:

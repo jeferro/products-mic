@@ -9,23 +9,23 @@ import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
 
 public abstract class ProductReviewEvent extends Event {
 
-    private final ProductReviewId productReviewId;
+    private ProductReviewId productReviewId;
 
     protected ProductReviewEvent(EventId id, ProductReviewId productReviewId, String occurredBy, Instant occurredOn) {
         super(id, occurredBy, occurredOn);
 
-		validateProductReviewId(productReviewId);
-
-		this.productReviewId = productReviewId;
+		setProductReviewId(productReviewId);
     }
 
 	public ProductReviewId getProductReviewId() {
         return productReviewId;
     }
 
-	private static void validateProductReviewId(ProductReviewId productReviewId) {
+	private void setProductReviewId(ProductReviewId productReviewId) {
 		if (productReviewId == null) {
 			throw ValueValidationException.createOfMessage("Product review identifier is null");
 		}
+
+	  	this.productReviewId = productReviewId;
 	}
 }

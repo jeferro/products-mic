@@ -8,47 +8,47 @@ public abstract class Identifier<T> {
 
   protected static final String SEPARATOR = "::";
 
-	private final T value;
+  private T value;
 
-	public Identifier(T value) {
-		validateValue(value);
+  public Identifier(T value) {
+	setValue(value);
+  }
 
-		this.value = value;
+  public T getValue() {
+	return value;
+  }
+
+  @Override
+  public int hashCode() {
+	return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+	if (this == other) {
+	  return true;
 	}
 
-	public T getValue() {
-		return value;
+	if (other == null || getClass() != other.getClass()) {
+	  return false;
 	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	return EqualsBuilder.reflectionEquals(
+		this,
+		other
+	);
+  }
 
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
+  @Override
+  public String toString() {
+	return String.valueOf(value);
+  }
 
-		if (other == null || getClass() != other.getClass()) {
-			return false;
-		}
-
-        return EqualsBuilder.reflectionEquals(
-                this,
-                other
-        );
-    }
-
-	@Override
-	public String toString() {
-		return String.valueOf(value);
+  private void setValue(T value) {
+	if (value instanceof String && ((String) value).isBlank()) {
+	  throw ValueValidationException.createOfMessage("Value is blank");
 	}
 
-	private static <T> void validateValue(T value) {
-		if (value instanceof String && ((String) value).isBlank()) {
-			throw ValueValidationException.createOfMessage("Value is blank");
-		}
-	}
+	this.value = value;
+  }
 }

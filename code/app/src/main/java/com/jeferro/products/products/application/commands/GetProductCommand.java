@@ -8,23 +8,23 @@ import com.jeferro.products.shared.domain.models.auth.Auth;
 
 public class GetProductCommand extends Command<Product> {
 
-    private final ProductId productId;
+  private ProductId productId;
 
-    public GetProductCommand(Auth auth, ProductId productId) {
-        super(auth);
+  public GetProductCommand(Auth auth, ProductId productId) {
+	super(auth);
 
-		validateProductId(productId);
+	setProductId(productId);
+  }
 
-		this.productId = productId;
-    }
+  public ProductId getProductId() {
+	return productId;
+  }
 
-	public ProductId getProductId() {
-        return productId;
-    }
-
-	private static void validateProductId(ProductId productId) {
-		if (productId == null) {
-			throw ValueValidationException.createOfMessage("Product identifier is null");
-		}
+  private void setProductId(ProductId productId) {
+	if (productId == null) {
+	  throw ValueValidationException.createOfMessage("Product identifier is null");
 	}
+
+	this.productId = productId;
+  }
 }

@@ -92,9 +92,9 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	});
 
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	var otherUserReviewOfApple = ProductReviewMother.otherUserReviewOfApple();
+	var adminReviewOfApple = ProductReviewMother.adminReviewOfApple();
 	Set<ProductReviewId> deletedProductReviewIds = Set.of(userReviewOfApple.getId(),
-		otherUserReviewOfApple.getId());
+		adminReviewOfApple.getId());
 
 	assertEquals(deletedProductReviewIds, notifiedProductReviewIds);
   }
@@ -105,8 +105,8 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 
   private void givenSeveralAppleReviewsInDatabase() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	var otherUserReviewOfApple = ProductReviewMother.otherUserReviewOfApple();
-	productReviewsInMemoryRepository.init(userReviewOfApple, otherUserReviewOfApple);
+	var adminReviewOfApple = ProductReviewMother.adminReviewOfApple();
+	productReviewsInMemoryRepository.init(userReviewOfApple, adminReviewOfApple);
   }
 
 }

@@ -10,41 +10,42 @@ import org.springframework.util.CollectionUtils;
 
 public class User extends AggregateRoot<Username> {
 
-    private final String encodedPassword;
+  private String encodedPassword;
 
-    private final Set<String> roles;
+  private Set<String> roles;
 
-    public User(Username username, String encodedPassword, Set<String> roles) {
-        super(username);
+  public User(Username username, String encodedPassword, Set<String> roles) {
+	super(username);
 
-        validateEncodedPassword(encodedPassword);
-        validateRoles(roles);
+	setEncodedPassword(encodedPassword);
+	setRoles(roles);
+  }
 
-        this.encodedPassword = encodedPassword;
-        this.roles = roles;
-    }
+  public Username getUsername() {
+	return id;
+  }
 
-    public Username getUsername() {
-        return id;
-    }
+  public String getEncodedPassword() {
+	return encodedPassword;
+  }
 
-    public String getEncodedPassword() {
-        return encodedPassword;
-    }
+  public Set<String> getRoles() {
+	return roles;
+  }
 
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-	private static void validateEncodedPassword(String encodedPassword) {
-		if (StringUtils.isBlank(encodedPassword)) {
-			throw ValueValidationException.createOfMessage("Encoded password is blank");
-		}
+  private void setEncodedPassword(String encodedPassword) {
+	if (StringUtils.isBlank(encodedPassword)) {
+	  throw ValueValidationException.createOfMessage("Encoded password is blank");
 	}
 
-	private static void validateRoles(Set<String> roles) {
-		if (CollectionUtils.isEmpty(roles)) {
-			throw ValueValidationException.createOfMessage("Roles is empty");
-		}
+	this.encodedPassword = encodedPassword;
+  }
+
+  private void setRoles(Set<String> roles) {
+	if (CollectionUtils.isEmpty(roles)) {
+	  throw ValueValidationException.createOfMessage("Roles is empty");
 	}
+
+	this.roles = roles;
+  }
 }

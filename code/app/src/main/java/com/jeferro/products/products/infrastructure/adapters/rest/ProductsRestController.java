@@ -57,19 +57,6 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> updateProduct(String productId, ProductInputRestDTO productInputRestDTO) {
-		var command = new UpdateProductCommand(
-			authRestResolver.resolve(),
-			productIdRestMapper.toDomain(productId),
-			productInputRestDTO.getName()
-		);
-
-		var user = handlerBus.execute(command);
-
-		return productRestMapper.toOkResponseDTO(user);
-	}
-
-	@Override
 	public ResponseEntity<ProductRestDTO> getProduct(String productId) {
 		var command = new GetProductCommand(
 			authRestResolver.resolve(),
@@ -79,6 +66,19 @@ public class ProductsRestController implements ProductsApi {
 		var product = handlerBus.execute(command);
 
 		return productRestMapper.toOkResponseDTO(product);
+	}
+
+	@Override
+	public ResponseEntity<ProductRestDTO> updateProduct(String productId, ProductInputRestDTO productInputRestDTO) {
+		var command = new UpdateProductCommand(
+				authRestResolver.resolve(),
+				productIdRestMapper.toDomain(productId),
+				productInputRestDTO.getName()
+		);
+
+		var user = handlerBus.execute(command);
+
+		return productRestMapper.toOkResponseDTO(user);
 	}
 
 	@Override

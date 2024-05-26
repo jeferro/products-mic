@@ -9,37 +9,38 @@ import org.apache.commons.lang3.StringUtils;
 
 public class UpdateProductCommand extends Command<Product> {
 
-    private final ProductId productId;
+  private ProductId productId;
 
-    private final String name;
+  private String name;
 
-    public UpdateProductCommand(Auth auth, ProductId productId, String name) {
-        super(auth);
+  public UpdateProductCommand(Auth auth, ProductId productId, String name) {
+	super(auth);
 
-		validateProductId(productId);
-		validateName(name);
+	setProductId(productId);
+	setName(name);
+  }
 
-		this.productId = productId;
-        this.name = name;
-    }
+  public ProductId getProductId() {
+	return productId;
+  }
 
-	public ProductId getProductId() {
-        return productId;
-    }
+  public String getName() {
+	return name;
+  }
 
-    public String getName() {
-        return name;
-    }
-
-	private static void validateProductId(ProductId productId) {
-		if (productId == null) {
-			throw ValueValidationException.createOfMessage("Product identifier is null");
-		}
+  private void setProductId(ProductId productId) {
+	if (productId == null) {
+	  throw ValueValidationException.createOfMessage("Product identifier is null");
 	}
 
-	private static void validateName(String name) {
-		if (StringUtils.isBlank(name)) {
-			throw ValueValidationException.createOfMessage("Name is blank");
-		}
+	this.productId = productId;
+  }
+
+  private void setName(String name) {
+	if (StringUtils.isBlank(name)) {
+	  throw ValueValidationException.createOfMessage("Name is blank");
 	}
+
+	this.name = name;
+  }
 }

@@ -18,9 +18,7 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   public ProductReview(ProductReviewId id, String comment) {
 	super(id);
 
-	validateComment(comment);
-
-	this.comment = comment;
+	setComment(comment);
   }
 
   public static ProductReview createOf(Username username, ProductId productId, String comment, Auth auth) {
@@ -37,7 +35,7 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   public void update(String comment, Auth auth) {
 	ensureProductReviewBelongsToUserAuth(auth);
 
-	validateComment(comment);
+	setComment(comment);
 
 	this.comment = comment;
 
@@ -69,10 +67,12 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	return comment;
   }
 
-  private void validateComment(String comment) {
+  private void setComment(String comment) {
 	if (comment == null) {
 	  throw ValueValidationException.createOfMessage("Comment is null");
 	}
+
+	this.comment = comment;
   }
 
   private void ensureProductReviewBelongsToUserAuth(Auth auth) {

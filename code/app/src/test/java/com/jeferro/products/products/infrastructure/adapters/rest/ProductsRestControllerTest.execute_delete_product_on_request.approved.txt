@@ -1,0 +1,3 @@
+data[0] = DeleteProductCommand[productId=apple,auth=user]
+data[1] = 200
+data[2] = {"id":"apple","name":"Apple"}

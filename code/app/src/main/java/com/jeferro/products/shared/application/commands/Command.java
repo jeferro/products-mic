@@ -13,12 +13,10 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public abstract class Command<R> {
 
-  private final Auth auth;
+  private Auth auth;
 
   public Command(Auth auth) {
-	validateAuth(auth);
-
-	this.auth = auth;
+	setAuth(auth);
   }
 
   public Auth getAuth() {
@@ -59,9 +57,11 @@ public abstract class Command<R> {
 	return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
   }
 
-  private static void validateAuth(Auth auth) {
+  private void setAuth(Auth auth) {
 	if (auth == null) {
 	  throw ValueValidationException.createOfMessage("Auth is null");
 	}
+
+	this.auth = auth;
   }
 }

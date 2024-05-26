@@ -8,23 +8,23 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CreateProductCommand extends Command<Product> {
 
-    private final String name;
+  private String name;
 
-    public CreateProductCommand(Auth auth, String name) {
-        super(auth);
+  public CreateProductCommand(Auth auth, String name) {
+	super(auth);
 
-		validateName(name);
+	setName(name);
+  }
 
-		this.name = name;
-    }
+  public String getName() {
+	return name;
+  }
 
-	public String getName() {
-        return name;
-    }
-
-	private static void validateName(String name) {
-		if (StringUtils.isBlank(name)) {
-			throw ValueValidationException.createOfMessage("Name is blank");
-		}
+  private void setName(String name) {
+	if (StringUtils.isBlank(name)) {
+	  throw ValueValidationException.createOfMessage("Name is blank");
 	}
+
+	this.name = name;
+  }
 }

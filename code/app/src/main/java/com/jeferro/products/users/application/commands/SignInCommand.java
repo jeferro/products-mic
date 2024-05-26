@@ -9,18 +9,15 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SignInCommand extends Command<User> {
 
-    private final Username username;
+    private Username username;
 
-    private final String plainPassword;
+    private String plainPassword;
 
     public SignInCommand(Auth auth, Username username, String plainPassword) {
         super(auth);
 
-		validateUsername(username);
-		validatePlainPassword(plainPassword);
-
-		this.username = username;
-        this.plainPassword = plainPassword;
+		setUsername(username);
+		setPlainPassword(plainPassword);
     }
 
 	public Username getUsername() {
@@ -31,15 +28,19 @@ public class SignInCommand extends Command<User> {
         return plainPassword;
     }
 
-	private static void validateUsername(Username username) {
+	private void setUsername(Username username) {
 		if (username == null) {
 			throw ValueValidationException.createOfMessage("Username is null");
 		}
+
+	  this.username = username;
 	}
 
-	private static void validatePlainPassword(String plainPassword) {
+	private void setPlainPassword(String plainPassword) {
 		if (StringUtils.isBlank(plainPassword)) {
 			throw ValueValidationException.createOfMessage("Plain password is blank");
 		}
+
+	  this.plainPassword = plainPassword;
 	}
 }
