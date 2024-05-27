@@ -4,10 +4,12 @@ import com.jeferro.products.shared.domain.models.auth.Auth;
 
 import java.util.Set;
 
+import static com.jeferro.products.shared.domain.exceptions.SharedExceptionCodes.FORBIDDEN;
+
 public class ForbiddenException extends ApplicationException {
 
     protected ForbiddenException(String message) {
-        super(SharedExceptionCodes.FORBIDDEN.value, "Forbidden", message);
+        super(FORBIDDEN.value, "Forbidden", message);
     }
 
     public static ForbiddenException createOf(Auth auth, Set<String> mandatoryRoles) {

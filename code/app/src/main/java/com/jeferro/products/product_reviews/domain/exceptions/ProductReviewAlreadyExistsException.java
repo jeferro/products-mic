@@ -3,10 +3,12 @@ package com.jeferro.products.product_reviews.domain.exceptions;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.shared.domain.exceptions.ConstraintException;
 
+import static com.jeferro.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.REVIEW_ALREADY_EXISTS;
+
 public class ProductReviewAlreadyExistsException extends ConstraintException {
 
   protected ProductReviewAlreadyExistsException(String message) {
-	super(ProductReviewsExceptionCodes.REVIEW_ALREADY_EXISTS.value, "Product Review already exists", message);
+	super(REVIEW_ALREADY_EXISTS.value, "Product Review already exists", message);
   }
 
   public static ProductReviewAlreadyExistsException createOf(ProductReviewId productReviewId) {
