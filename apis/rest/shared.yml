@@ -60,34 +60,40 @@ components:
             BadRequestExample:
               summary: Bad request
               value:
-                "type": "data:E-00-00",
-                "title": "Bad Request",
-                "status": 400,
-                "detail": "Detail about bad request error",
+                "type": "data:E-00-00"
+                "title": "Bad Request"
+                "status": 400
+                "detail": "Detail about bad request error"
                 "instance": "/uri/to/resource"
             UnauthorizedExample:
               summary: Unauthorized
               value:
-                "type": "data:E-00-00",
-                "title": "Unauthorized",
-                "status": 401,
-                "detail": "Detail about unauthorized error",
+                "type": "data:E-00-00"
+                "title": "Unauthorized"
+                "status": 401
+                "detail": "Detail about unauthorized error"
                 "instance": "/uri/to/resource"
             ForbiddenExample:
               summary: Forbidden
               value:
-                code: 'UNAUTHORIZED'
-                message: 'Unauthorized operation'
+                "type": "data:E-00-00"
+                "title": "Forbidden"
+                "status": 403
+                "detail": "Detail about element forbidden error"
+                "instance": "/uri/to/resource"
             NotFoundExample:
               summary: Not Found
               value:
-                "type": "data:E-00-00",
-                "title": "Not Found",
-                "status": 404,
-                "detail": "Detail about element not found error",
+                "type": "data:E-00-00"
+                "title": "Not Found"
+                "status": 404
+                "detail": "Detail about element not found error"
                 "instance": "/uri/to/resource"
             InternalErrorExample:
               summary: Internal Error
               value:
-                code: 'INTERNAL_ERROR'
-                message: 'There was an internal error'
+                "type": "data:E-00-00"
+                "title": "Internal Error"
+                "status": 500
+                "detail": "Detail about element internal error"
+                "instance": "/uri/to/resource"
