@@ -2,7 +2,7 @@ package com.jeferro.products.shared.domain.exceptions;
 
 public abstract class ConstraintException extends ApplicationException {
 
-    protected ConstraintException(String message) {
-        super(message);
+    protected ConstraintException(String code, String title, String message) {
+        super(code, title, message);
     }
 }

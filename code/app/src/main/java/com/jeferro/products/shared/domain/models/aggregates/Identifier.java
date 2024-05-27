@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.domain.models.aggregates;
 
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

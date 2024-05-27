@@ -3,7 +3,7 @@ package com.jeferro.products.products.domain.models;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.events.ProductUpdated;
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
 import org.apache.commons.lang3.StringUtils;

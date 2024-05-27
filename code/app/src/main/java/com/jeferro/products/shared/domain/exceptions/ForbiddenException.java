@@ -1,13 +1,13 @@
 package com.jeferro.products.shared.domain.exceptions;
 
-import java.util.Set;
-
 import com.jeferro.products.shared.domain.models.auth.Auth;
+
+import java.util.Set;
 
 public class ForbiddenException extends ApplicationException {
 
     protected ForbiddenException(String message) {
-        super(message);
+        super(SharedExceptionCodes.FORBIDDEN.value, "Forbidden", message);
     }
 
     public static ForbiddenException createOf(Auth auth, Set<String> mandatoryRoles) {
