@@ -1,9 +1,5 @@
 package com.jeferro.products.components.mongodb.shared.metadata.services;
 
-import java.time.Instant;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -13,81 +9,85 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+
 public class CustomMongoTemplate extends MongoTemplate {
 
-	private static final String ID = "id";
+    private static final String ID = "id";
 
-	private final MongoAuditorAware mongoAuditorAware;
+    private final MongoAuditorAware mongoAuditorAware;
 
-	private final MongoFieldManager mongoFieldManager;
+    private final MongoFieldManager mongoFieldManager;
 
-	public CustomMongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
-		MongoAuditorAware mongoAuditorAware,
-		MongoFieldManager mongoFieldManager) {
-		super(mongoDatabaseFactory);
+    public CustomMongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
+                               MongoAuditorAware mongoAuditorAware,
+                               MongoFieldManager mongoFieldManager) {
+        super(mongoDatabaseFactory);
 
-		this.mongoAuditorAware = mongoAuditorAware;
-		this.mongoFieldManager = mongoFieldManager;
-	}
+        this.mongoAuditorAware = mongoAuditorAware;
+        this.mongoFieldManager = mongoFieldManager;
+    }
 
-	@Override
-	public <T> T save(T objectToSave, String collectionName) {
-		final Update update = new Update();
-		updateAllFields(update, objectToSave);
-		updateMetadataFields(update);
+    @Override
+    public <T> T save(T objectToSave, String collectionName) {
+        final Update update = new Update();
+        updateAllFields(update, objectToSave);
+        updateMetadataFields(update);
 
-		Criteria criteria = Criteria.where(ID)
-			.is(mongoFieldManager.getFieldIdValue(objectToSave));
-		final Query query = new Query(criteria);
+        Criteria criteria = Criteria.where(ID)
+                .is(mongoFieldManager.getFieldIdValue(objectToSave));
+        final Query query = new Query(criteria);
 
-		upsert(query, update, objectToSave.getClass());
+        upsert(query, update, objectToSave.getClass());
 
-		return objectToSave;
-	}
+        return objectToSave;
+    }
 
-  public <T> Page<T> findPage(Query query, Class<T> entityClass) {
-	List<T> content = find(query, entityClass);
+    public <T> Page<T> findPage(Query query, Class<T> entityClass) {
+        List<T> content = find(query, entityClass);
 
-	if(!query.isLimited()) {
-	  return new PageImpl<>(content);
-	}
+        if (!query.isLimited()) {
+            return new PageImpl<>(content);
+        }
 
-	PageRequest pageRequest = createPageRequestFromQuery(query);
+        PageRequest pageRequest = createPageRequestFromQuery(query);
 
-	Query unlimitedQuery = Query.of(query).limit(0).skip(0);
+        Query unlimitedQuery = Query.of(query).limit(0).skip(0);
 
-	long count = count(unlimitedQuery, entityClass);
+        long count = count(unlimitedQuery, entityClass);
 
-	return new PageImpl<>(content, pageRequest, count);
-  }
+        return new PageImpl<>(content, pageRequest, count);
+    }
 
-	private void updateAllFields(Update update, Object objectToSave) {
-		final Map<String, Object> fieldsToUpdate = mongoFieldManager.calculateFieldToUpdate(objectToSave);
+    private void updateAllFields(Update update, Object objectToSave) {
+        final Map<String, Object> fieldsToUpdate = mongoFieldManager.calculateFieldToUpdate(objectToSave);
 
-		if (fieldsToUpdate.isEmpty()) {
-			throw new RuntimeException("No updatable fields found in the document of type " + objectToSave.getClass().getSimpleName());
-		}
+        if (fieldsToUpdate.isEmpty()) {
+            throw new RuntimeException("No updatable fields found in the document of type " + objectToSave.getClass().getSimpleName());
+        }
 
-		fieldsToUpdate.forEach(update::set);
-	}
+        fieldsToUpdate.forEach(update::set);
+    }
 
-	private void updateMetadataFields(Update update) {
-		Instant now = Instant.now();
-		String username = mongoAuditorAware.getCurrentAuditor()
-			.orElseThrow();
+    private void updateMetadataFields(Update update) {
+        Instant now = Instant.now();
+        String username = mongoAuditorAware.getCurrentAuditor()
+                .orElseThrow();
 
-		update.setOnInsert("metadata.createdBy", username);
-		update.setOnInsert("metadata.createdAt", now);
+        update.setOnInsert("metadata.createdBy", username);
+        update.setOnInsert("metadata.createdAt", now);
 
-		update.set("metadata.updatedAt", now);
-		update.set("metadata.updatedBy", username);
-	}
+        update.set("metadata.updatedAt", now);
+        update.set("metadata.updatedBy", username);
+    }
 
-  private static PageRequest createPageRequestFromQuery(Query query) {
-	int pageSize = query.getLimit();
-	int pageNumber = ((int) query.getSkip()) / pageSize;
+    private static PageRequest createPageRequestFromQuery(Query query) {
+        int pageSize = query.getLimit();
+        int pageNumber = ((int) query.getSkip()) / pageSize;
 
-	return PageRequest.of(pageNumber, pageSize);
-  }
+        return PageRequest.of(pageNumber, pageSize);
+    }
 
 }

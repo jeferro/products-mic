@@ -11,12 +11,25 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-public abstract class EntityCollection<I extends Identifier, E extends Entity<I>> extends ValueObject {
+public abstract class EntityCollection<I extends Identifier<?>, E extends Entity<I>> extends ValueObject {
+
+    private Integer pageSize;
+
+    private Integer pageNumber;
+
+    private Long totalEntities;
 
     protected final List<E> entities;
 
     public EntityCollection(List<E> entities) {
+        this(entities, null, null, 0L);
+    }
+
+    public EntityCollection(List<E> entities, Integer pageSize, Integer pageNumber, long totalPages) {
         this.entities = entities;
+        setPageSize(pageSize);
+        setPageNumber(pageNumber);
+        setTotalEntities(totalPages);
     }
 
     public boolean isEmpty() {
@@ -72,6 +85,51 @@ public abstract class EntityCollection<I extends Identifier, E extends Entity<I>
         return entities.stream()
                 .filter(entity -> entity.hasSameId(id))
                 .findFirst();
+    }
+
+    public boolean isPageable() {
+        return pageNumber != null
+                && pageSize != null;
+    }
+
+    public boolean isNotPageable() {
+        return !isPageable();
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public Long getTotalEntities() {
+        return totalEntities;
+    }
+
+    public Long getTotalPages() {
+        if (isNotPageable()) {
+            return 1L;
+        }
+
+        if (totalEntities % pageSize == 0) {
+            return totalEntities / pageSize;
+        }
+
+        return totalEntities / pageSize + 1;
+    }
+
+    private void setTotalEntities(Long totalEntities) {
+        this.totalEntities = totalEntities;
+    }
+
+    private void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    private void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     @Override

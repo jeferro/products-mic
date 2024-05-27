@@ -1,15 +1,10 @@
 package com.jeferro.products.products.infrastructure.adapters.rest;
 
-import java.util.List;
-
 import com.jeferro.products.components.rest.generated.apis.ProductsApi;
 import com.jeferro.products.components.rest.generated.dtos.ProductInputRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.ProductRestDTO;
-import com.jeferro.products.products.application.commands.CreateProductCommand;
-import com.jeferro.products.products.application.commands.DeleteProductCommand;
-import com.jeferro.products.products.application.commands.GetProductCommand;
-import com.jeferro.products.products.application.commands.ListProductsCommand;
-import com.jeferro.products.products.application.commands.UpdateProductCommand;
+import com.jeferro.products.products.application.commands.*;
+import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
 import com.jeferro.products.shared.application.bus.HandlerBus;
@@ -17,12 +12,16 @@ import com.jeferro.products.shared.infrastructure.adapters.rest.services.AuthRes
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class ProductsRestController implements ProductsApi {
 
 	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
 	private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
+
+	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
 
 	private final AuthRestResolver authRestResolver;
 
@@ -34,9 +33,10 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<List<ProductRestDTO>> listProducts() {
+	public ResponseEntity<List<ProductRestDTO>> listProducts(Integer pageNumber, Integer pageSize, String name) {
 		var command = new ListProductsCommand(
-			authRestResolver.resolve()
+			authRestResolver.resolve(),
+			productCriteriaRestMapper.toDomain(pageNumber, pageSize, name)
 		);
 
 		var products = handlerBus.execute(command);

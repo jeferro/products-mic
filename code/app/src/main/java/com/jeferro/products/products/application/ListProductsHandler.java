@@ -26,6 +26,8 @@ public class ListProductsHandler extends SilentHandler<ListProductsCommand, Prod
 
     @Override
     public Products handle(ListProductsCommand command) {
-        return productsRepository.findAll();
+        var criteria = command.getProductCriteria();
+
+        return productsRepository.findAll(criteria);
     }
 }
