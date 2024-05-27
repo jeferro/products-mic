@@ -27,7 +27,6 @@ public class ErrorRestController {
 
     @ResponseBody
     @ExceptionHandler(value = {
-            IllegalArgumentException.class,
             ServerWebInputException.class,
             MissingServletRequestParameterException.class
     })

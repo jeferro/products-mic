@@ -9,6 +9,11 @@ The project uses:
   * Domain Driven Design
 
 
+* Patterns:
+  * Command / Handler
+  * Criteria
+
+
 * Tools:
   * Docker & Docker Compose
   * Spring Boot

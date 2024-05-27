@@ -55,6 +55,24 @@ paths:
       description: List products
       tags:
         - Products
+      parameters:
+        - in: query
+          name: pageNumber
+          schema:
+            type: integer
+          description: Number of the page
+          required: true
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          description: Size of the page
+          required: true
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Name of the product
       responses:
         '200':
           description: Ok

@@ -1,17 +1,24 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo;
 
-import java.util.Optional;
-
 import com.jeferro.products.components.mongodb.products.ProductsMongoDao;
+import com.jeferro.products.components.mongodb.products.dtos.ProductMongoDTO;
+import com.jeferro.products.components.mongodb.shared.metadata.services.CustomMongoTemplate;
 import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
 import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductMongoMapper;
-import org.springframework.stereotype.Repository;
+import com.jeferro.products.products.infrastructure.adapters.mongo.services.ProductCriteriaMongoCreator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
-@Repository
+import java.util.List;
+import java.util.Optional;
+
+@Component
 public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
@@ -20,8 +27,16 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductsMongoDao productsMongoDao;
 
-    public ProductsMongoRepository(ProductsMongoDao productsMongoDao) {
-		this.productsMongoDao = productsMongoDao;
+    private final ProductCriteriaMongoCreator productCriteriaMongoCreator;
+
+    private final CustomMongoTemplate customMongoTemplate;
+
+    public ProductsMongoRepository(ProductsMongoDao productsMongoDao,
+                                   ProductCriteriaMongoCreator productCriteriaMongoCreator,
+                                   CustomMongoTemplate customMongoTemplate) {
+        this.productsMongoDao = productsMongoDao;
+        this.productCriteriaMongoCreator = productCriteriaMongoCreator;
+        this.customMongoTemplate = customMongoTemplate;
     }
 
     @Override
@@ -47,11 +62,15 @@ public class ProductsMongoRepository implements ProductsRepository {
     }
 
     @Override
-    public Products findAll() {
-        var products = productsMongoDao.findAll().stream()
+    public Products findAll(ProductCriteria criteria) {
+        Query query = productCriteriaMongoCreator.create(criteria);
+
+        Page<ProductMongoDTO> page = customMongoTemplate.findPage(query, ProductMongoDTO.class);
+
+        List<Product> entities = page.getContent().stream()
                 .map(productMongoMapper::toDomain)
                 .toList();
 
-        return new Products(products);
+        return Products.createOfCriteria(entities, criteria, page.getTotalElements());
     }
 }

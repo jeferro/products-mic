@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.models.Products;
 
@@ -20,5 +21,5 @@ public interface ProductsRepository {
 
     void deleteById(ProductId productId);
 
-    Products findAll();
+    Products findAll(ProductCriteria productCriteria);
 }
