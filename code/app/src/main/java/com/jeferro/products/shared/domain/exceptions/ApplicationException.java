@@ -1,12 +1,42 @@
 package com.jeferro.products.shared.domain.exceptions;
 
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
+import org.apache.commons.lang3.StringUtils;
+
 public abstract class ApplicationException extends RuntimeException {
 
-    protected ApplicationException(String message) {
+    private String code;
+
+    private String title;
+
+    protected ApplicationException(String code, String title, String message) {
         super(message);
+
+        setCode(code);
+        setTitle(title);
     }
 
-    protected ApplicationException(Exception cause) {
-        super(cause);
+    public String getCode() {
+        return code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    private void setCode(String code) {
+        if(StringUtils.isEmpty(code)){
+            throw ValueValidationException.createOfMessage("Code is null or empty");
+        }
+
+        this.code = code;
+    }
+
+    private void setTitle(String title) {
+        if(StringUtils.isEmpty(title)){
+            throw ValueValidationException.createOfMessage("Title is null or empty");
+        }
+
+        this.title = title;
     }
 }

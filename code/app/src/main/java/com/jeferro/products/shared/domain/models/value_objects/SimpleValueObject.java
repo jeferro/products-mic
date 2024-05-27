@@ -2,7 +2,7 @@ package com.jeferro.products.shared.domain.models.value_objects;
 
 import java.io.Serializable;
 
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
 
 public class SimpleValueObject<T extends Serializable> extends ValueObject {
 

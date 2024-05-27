@@ -1,6 +1,6 @@
-package com.jeferro.products.shared.domain.exceptions;
+package com.jeferro.products.shared.domain.exceptions.internals;
 
-public class ValueValidationException extends ApplicationException {
+public class ValueValidationException extends InternalErrorException {
 
     private ValueValidationException(String message){
         super(message);

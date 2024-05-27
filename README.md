@@ -1,8 +1,28 @@
 # Products Microservice
 
-Example project using Hexagonal Architecture and Domain Driven Desing.
+Application which manages product and reviews.
 
-The project manages products and reviews.
+The project uses:
+
+* Architecture:
+  * Hexagonal Architecture
+  * Domain Driven Design
+
+
+* Tools:
+  * Docker & Docker Compose
+  * Spring Boot
+  * Java 21
+  * Gradle
+  * ASDF
+
+
+* Testing:
+  * Unit Testing
+  * Social Testing
+  * Approval Testing
+  * Mutation Testing
+  * Integration Testing (Test Container)
 
 
 ## Requirements

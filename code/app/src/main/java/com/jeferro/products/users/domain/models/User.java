@@ -2,7 +2,7 @@ package com.jeferro.products.users.domain.models;
 
 import java.util.Set;
 
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
 import com.jeferro.products.shared.domain.models.users.Username;
 import org.apache.commons.lang3.StringUtils;

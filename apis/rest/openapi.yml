@@ -45,7 +45,7 @@ paths:
               schema:
                 $ref: './authentications.yml#/components/schemas/Auth'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
 
   /v1/products:
@@ -65,7 +65,7 @@ paths:
                 items:
                   $ref: './products.yml#/components/schemas/Product'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     post:
       operationId: create-product
@@ -87,7 +87,7 @@ paths:
               schema:
                 $ref: './products.yml#/components/schemas/Product'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
   /v1/products/{productId}:
     get:
@@ -106,7 +106,7 @@ paths:
               schema:
                 $ref: './products.yml#/components/schemas/Product'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     put:
       operationId: update-product
@@ -130,7 +130,7 @@ paths:
               schema:
                 $ref: './products.yml#/components/schemas/Product'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     delete:
       operationId: delete-product
@@ -148,7 +148,7 @@ paths:
               schema:
                 $ref: './products.yml#/components/schemas/Product'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
 
   /v1/products/{productId}/reviews:
@@ -174,7 +174,7 @@ paths:
               schema:
                 $ref: './product-reviews.yml#/components/schemas/ProductReview'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     get:
       operationId: list-product-reviews
@@ -194,7 +194,7 @@ paths:
                 items:
                   $ref: './product-reviews.yml#/components/schemas/ProductReview'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
   /v1/products/{productId}/reviews/{username}:
     get:
@@ -214,7 +214,7 @@ paths:
               schema:
                 $ref: './product-reviews.yml#/components/schemas/ProductReview'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     put:
       operationId: update-product-review
@@ -239,7 +239,7 @@ paths:
               schema:
                 $ref: './product-reviews.yml#/components/schemas/ProductReview'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     delete:
       operationId: delete-product-review
@@ -258,7 +258,7 @@ paths:
               schema:
                 $ref: './product-reviews.yml#/components/schemas/ProductReview'
         default:
-          $ref: './shared.yml#/components/responses/ErrorResponse'
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
 components:
 

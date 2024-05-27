@@ -1,7 +1,7 @@
 package com.jeferro.products.users.application.commands;
 
 import com.jeferro.products.shared.application.commands.Command;
-import com.jeferro.products.shared.domain.exceptions.ValueValidationException;
+import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.products.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.users.Username;
 import com.jeferro.products.users.domain.models.User;

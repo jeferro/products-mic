@@ -1,18 +1,29 @@
 package com.jeferro.products.shared.infrastructure.adapters.rest.mappers;
 
-import com.jeferro.products.components.rest.shared.dtos.ErrorRestDTO;
+import com.jeferro.products.shared.domain.exceptions.ApplicationException;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+
+import java.net.URI;
 
 @Mapper
 public class ErrorRestMapper {
 
     public static final ErrorRestMapper INSTANCE = Mappers.getMapper(ErrorRestMapper.class);
 
-    public ResponseEntity<ErrorRestDTO> toDTO(HttpStatus status, Exception cause) {
-        ErrorRestDTO dto = new ErrorRestDTO(cause.getMessage());
+    public ResponseEntity<ProblemDetail> toDTO(HttpStatus status, Exception cause) {
+        var dto = ProblemDetail.forStatus(status);
+        dto.setDetail(cause.getMessage());
+
+        if(cause instanceof ApplicationException applicationException){
+            var type = URI.create("data:" + applicationException.getCode());
+            dto.setType(type);
+
+            dto.setTitle(applicationException.getTitle());
+        }
 
         return ResponseEntity
                 .status(status)
