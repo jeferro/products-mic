@@ -11,11 +11,13 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
 
     @Override
     public Products findAll(ProductCriteria criteria) {
-        var products = data.values().stream()
+        var entities = data.values().stream()
                 .filter(product -> matchProduct(criteria, product))
                 .toList();
 
-        return new Products(products);
+        var paginatedEntities = paginateEntities(entities, criteria);
+
+        return new Products(paginatedEntities);
     }
 
     private boolean matchProduct(ProductCriteria criteria, Product product) {

@@ -30,7 +30,7 @@ class ProductsRestControllerTest extends RestControllerTest {
         );
         stubHandlerBus.init(products);
 
-        var requestBuilder = MockMvcRequestBuilders.get("/v1/products")
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/products?pageNumber=0&pageSize=10&name=apple")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
 
