@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-public class MongoConfiguration {
+public class MetadataMongoConfiguration {
 
 	@Bean
 	@Primary
