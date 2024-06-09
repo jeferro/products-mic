@@ -14,34 +14,35 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @WebMvcTest(AuthenticationsRestController.class)
 class AuthenticationsRestControllerTest extends RestControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @Autowired
-    private StubHandlerBus stubHandlerBus;
+  @Autowired
+  private StubHandlerBus stubHandlerBus;
 
-    @Test
-    void execute_sign_in_on_request() throws Exception {
-        var user = UserMother.user();
-        stubHandlerBus.init(user);
+  @Test
+  void execute_sign_in_on_request() throws Exception {
+    var user = UserMother.user();
+    stubHandlerBus.init(user);
 
-        var requestContent = """
-                {
-                  "username": "%s",
-                  "password": "plain-password"
-                }"""
-                .formatted(user.getUsername());
+    var requestContent = """
+        {
+          "username": "%s",
+          "password": "plain-password"
+        }"""
+        .formatted(user.getUsername());
 
-        var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestContent);
+    var requestBuilder = MockMvcRequestBuilders.post("/v1/authentications")
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(TENANT_ID_HEADER, "test")
+        .content(requestContent);
 
-        var response = mockMvc.perform(requestBuilder)
-                .andReturn()
-                .getResponse();
+    var response = mockMvc.perform(requestBuilder)
+        .andReturn()
+        .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
-                response.getStatus(),
-                response.getContentAsString());
-    }
+    ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        response.getStatus(),
+        response.getContentAsString());
+  }
 }
