@@ -6,9 +6,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":comp-mongodb"))
-    implementation(project(":comp-kafka"))
-    implementation(project(":comp-rest"))
+    implementation(project(":components:comp-mongodb"))
+    implementation(project(":components:comp-kafka"))
+    implementation(project(":components:comp-rest"))
 
     implementation("org.apache.commons", "commons-lang3", Versions.commons_lang3)
 

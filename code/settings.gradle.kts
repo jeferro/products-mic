@@ -2,6 +2,7 @@ rootProject.name = "products"
 
 include(":app")
 
-include(":comp-mongodb")
-include(":comp-kafka")
-include(":comp-rest")
+include(":components:comp-mongodb")
+include(":components:comp-kafka")
+include(":components:comp-rest")
+include(":components:comp-shared")
