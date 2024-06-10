@@ -1,4 +1,4 @@
-package com.jeferro.products.components.mongodb.shared.tenant.configurations;
+package com.jeferro.products.components.mongodb.shared.configuration;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.jeferro.products.components.rest.shared.securtiy.services;
+package com.jeferro.products.components.rest.shared.services;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -9,8 +9,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.jeferro.products.components.rest.shared.securtiy.configurations.RestSecurityProperties;
-import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
+import com.jeferro.products.components.rest.shared.configurations.RestProperties;
+import com.jeferro.products.components.rest.shared.dtos.JwtToken;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +21,17 @@ public class JwtDecoder {
 
 	public static final String ROLES_CLAIM = "roles";
 
-	private final RestSecurityProperties jwtProperties;
+	private final RestProperties jwtProperties;
 
 	private final Algorithm hmac512;
 
 	private final JWTVerifier jwtVerifier;
 
-	public JwtDecoder(RestSecurityProperties restSecurityProperties) {
-		hmac512 = Algorithm.HMAC512(restSecurityProperties.issuer());
+	public JwtDecoder(RestProperties restProperties) {
+		hmac512 = Algorithm.HMAC512(restProperties.issuer());
 		jwtVerifier = JWT.require(hmac512).build();
 
-		this.jwtProperties = restSecurityProperties;
+		this.jwtProperties = restProperties;
 	}
 
 	public JwtToken decode(HttpServletRequest request) {

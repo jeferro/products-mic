@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     api("org.springframework.boot", "spring-boot-starter-web")
+    api("org.springframework.boot", "spring-boot-starter-data-mongodb")
 }
 
 tasks.getByName<BootJar>("bootJar") {

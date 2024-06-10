@@ -1,4 +1,4 @@
-package com.jeferro.products.components.rest.shared.tenant;
+package com.jeferro.products.components.rest.shared.filters;
 
 import java.io.IOException;
 

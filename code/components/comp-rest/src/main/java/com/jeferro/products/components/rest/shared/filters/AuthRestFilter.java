@@ -1,9 +1,9 @@
-package com.jeferro.products.components.rest.shared.securtiy.filters;
+package com.jeferro.products.components.rest.shared.filters;
 
 import java.io.IOException;
 
-import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
-import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
+import com.jeferro.products.components.rest.shared.dtos.JwtToken;
+import com.jeferro.products.components.rest.shared.services.JwtDecoder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,5 +1,7 @@
-package com.jeferro.products.components.mongodb.shared.metadata.services;
+package com.jeferro.products.components.mongodb.shared.services;
 
+import com.jeferro.products.components.mongodb.shared.services.auditor.MongoAuditorAware;
+import com.jeferro.products.components.mongodb.shared.services.auditor.MongoFieldManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
