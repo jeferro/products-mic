@@ -1,7 +1,7 @@
 package com.jeferro.products.product_reviews.domain.exceptions;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.products.shared.domain.exceptions.NotFoundException;
+import com.jeferro.shared.domain.exceptions.NotFoundException;
 import com.jeferro.shared.domain.models.auth.Auth;
 
 import static com.jeferro.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.FORBIDDEN_REVIEW_OPERATION;

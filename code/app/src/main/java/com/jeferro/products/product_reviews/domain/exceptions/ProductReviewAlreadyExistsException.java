@@ -1,7 +1,7 @@
 package com.jeferro.products.product_reviews.domain.exceptions;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.products.shared.domain.exceptions.ConstraintException;
+import com.jeferro.shared.domain.exceptions.ConstraintException;
 
 import static com.jeferro.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.REVIEW_ALREADY_EXISTS;
 

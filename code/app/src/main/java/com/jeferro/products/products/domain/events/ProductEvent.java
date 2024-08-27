@@ -5,7 +5,7 @@ import java.time.Instant;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.shared.domain.events.Event;
 import com.jeferro.shared.domain.events.EventId;
-import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 
 public abstract class ProductEvent extends Event {
 

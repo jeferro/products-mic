@@ -3,7 +3,7 @@ package com.jeferro.products.users.application;
 import java.util.Set;
 
 import com.jeferro.shared.application.Handler;
-import com.jeferro.products.shared.domain.exceptions.UnauthorizedException;
+import com.jeferro.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
