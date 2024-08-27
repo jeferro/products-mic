@@ -10,9 +10,9 @@ spring:
   profiles:
     active: local
     include:
+      - shared
       - kafka
       - mongo
-      - rest
 
   threads:
     virtual:

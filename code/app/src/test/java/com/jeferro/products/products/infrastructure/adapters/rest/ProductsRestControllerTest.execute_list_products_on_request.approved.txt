@@ -1,3 +1,3 @@
-data[0] = ListProductsParams[productCriteria=ProductCriteria[name=apple,pageNumber=0,pageSize=10],auth=user]
+data[0] = ListProductsParams[productCriteria=ProductCriteria[name=apple,pageNumber=0,pageSize=10]]
 data[1] = 200
 data[2] = [{"id":"apple","name":"Apple"},{"id":"pear","name":"Pear"}]

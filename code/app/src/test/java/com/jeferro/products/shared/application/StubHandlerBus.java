@@ -1,16 +1,12 @@
 package com.jeferro.products.shared.application;
 
-import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.models.auth.AnonymousAuth;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import com.jeferro.shared.application.HandlerBus;
+import com.jeferro.shared.application.Params;
+import com.jeferro.shared.domain.models.auth.Auth;
+import jakarta.el.MethodNotFoundException;
 
 public class StubHandlerBus extends HandlerBus {
 
@@ -32,16 +28,7 @@ public class StubHandlerBus extends HandlerBus {
 
     @Override
     protected Auth getAuth() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null){
-            return AnonymousAuth.create();
-        }
-
-        var username = new Username(authentication.getPrincipal().toString());
-        var roles = (Set<String>) authentication.getCredentials();
-
-        return UserAuth.create(username, roles);
+        throw new MethodNotFoundException();
     }
 
     public void init(Object result) {

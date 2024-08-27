@@ -1,3 +1,3 @@
-data[0] = DeleteProductReviewParams[productReviewId=user::apple,auth=user]
+data[0] = DeleteProductReviewParams[productReviewId=user::apple]
 data[1] = 200
 data[2] = {"id":"user::apple","comment":"Comment about apple"}
