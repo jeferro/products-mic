@@ -8,7 +8,7 @@ import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductCreatedKafkaMapper;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductDeletedKafkaMapper;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductUpdatedKafkaMapper;
-import com.jeferro.products.shared.domain.events.EventBusPublisher;
+import com.jeferro.shared.domain.events.EventBusPublisher;
 import org.springframework.stereotype.Component;
 
 @Component

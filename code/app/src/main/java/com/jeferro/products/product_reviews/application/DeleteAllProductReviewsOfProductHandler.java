@@ -1,13 +1,13 @@
 package com.jeferro.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.ADMIN;
+import static com.jeferro.shared.application.Roles.ADMIN;
 
 import java.util.Set;
 
 import com.jeferro.products.product_reviews.application.commands.DeleteAllProductReviewsOfProductCommand;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.application.Handler;
+import com.jeferro.shared.domain.events.EventBus;
 
 public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductCommand, Void> {
 

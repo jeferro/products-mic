@@ -6,7 +6,7 @@ import com.jeferro.products.products.application.GetProductHandler;
 import com.jeferro.products.products.application.ListProductsHandler;
 import com.jeferro.products.products.application.UpdateProductHandler;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.events.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

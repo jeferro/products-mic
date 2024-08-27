@@ -13,7 +13,7 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;

@@ -7,8 +7,8 @@ import com.jeferro.products.products.application.commands.*;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
-import com.jeferro.products.shared.application.bus.HandlerBus;
-import com.jeferro.products.shared.infrastructure.adapters.rest.services.AuthRestResolver;
+import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

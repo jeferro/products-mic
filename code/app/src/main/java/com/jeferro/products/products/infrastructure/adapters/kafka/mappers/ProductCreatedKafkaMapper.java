@@ -2,8 +2,8 @@ package com.jeferro.products.products.infrastructure.adapters.kafka.mappers;
 
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductCreatedAvroDTO;
 import com.jeferro.products.products.domain.events.ProductCreated;
-import com.jeferro.products.shared.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
-import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
+import com.jeferro.shared.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
+import com.jeferro.shared.infrastructure.mappers.ToDTOMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

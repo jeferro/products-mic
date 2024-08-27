@@ -1,9 +1,9 @@
 package com.jeferro.products.product_reviews.domain.models;
 
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.products.shared.domain.models.aggregates.Identifier;
-import com.jeferro.products.shared.domain.models.users.Username;
+import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.domain.models.aggregates.Identifier;
+import com.jeferro.shared.domain.models.auth.Username;
 
 public class ProductReviewId extends Identifier<String> {
 

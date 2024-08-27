@@ -1,6 +1,6 @@
 package com.jeferro.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
@@ -11,10 +11,10 @@ import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
-import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.users.Username;
+import com.jeferro.shared.application.Handler;
+import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.Username;
 
 public class CreateProductReviewHandler extends Handler<CreateProductReviewCommand, ProductReview> {
 

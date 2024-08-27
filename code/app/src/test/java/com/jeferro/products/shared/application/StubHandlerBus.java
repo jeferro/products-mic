@@ -1,7 +1,7 @@
 package com.jeferro.products.shared.application;
 
-import com.jeferro.products.shared.application.bus.HandlerBus;
-import com.jeferro.products.shared.application.commands.Command;
+import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.application.commands.Command;
 
 import java.util.ArrayList;
 import java.util.List;

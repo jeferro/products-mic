@@ -5,7 +5,7 @@ import java.util.List;
 import com.jeferro.products.components.rest.generated.dtos.ProductRestDTO;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.Products;
-import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.ToDTOMapper;
+import com.jeferro.shared.infrastructure.mappers.ToDTOMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;

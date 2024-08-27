@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.jeferro.shared.domain.events.Event;
+import com.jeferro.shared.domain.events.EventBus;
+
 public class EventInMemoryBus extends EventBus {
 
   private final List<Event> events = new ArrayList<>();

@@ -4,9 +4,9 @@ import java.time.Instant;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.products.shared.domain.events.EventId;
-import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.services.time.TimeService;
+import com.jeferro.shared.domain.events.EventId;
+import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.services.time.TimeService;
 
 public class ProductReviewDeleted extends ProductReviewEvent {
 

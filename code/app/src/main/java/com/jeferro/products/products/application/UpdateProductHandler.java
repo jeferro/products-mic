@@ -1,14 +1,14 @@
 package com.jeferro.products.products.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.application.commands.UpdateProductCommand;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.application.Handler;
+import com.jeferro.shared.domain.events.EventBus;
 
 public class UpdateProductHandler extends Handler<UpdateProductCommand, Product> {
 

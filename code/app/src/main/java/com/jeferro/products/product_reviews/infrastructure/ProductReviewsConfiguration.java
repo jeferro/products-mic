@@ -8,7 +8,7 @@ import com.jeferro.products.product_reviews.application.ListProductReviewHandler
 import com.jeferro.products.product_reviews.application.UpdateProductReviewHandler;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.events.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

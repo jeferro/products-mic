@@ -1,14 +1,14 @@
 package com.jeferro.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.application.Handler;
+import com.jeferro.shared.domain.events.EventBus;
 
 public class UpdateProductReviewHandler extends Handler<UpdateProductReviewCommand, ProductReview> {
 

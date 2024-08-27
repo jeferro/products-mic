@@ -3,8 +3,8 @@ package com.jeferro.products.users.infrastructure.adapters.mongo;
 import java.util.Optional;
 
 import com.jeferro.products.components.mongodb.users.UsersMongoDao;
-import com.jeferro.products.shared.domain.models.users.Username;
-import com.jeferro.products.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
+import com.jeferro.shared.domain.models.auth.Username;
+import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.infrastructure.adapters.mongo.mappers.UsersMongoMapper;

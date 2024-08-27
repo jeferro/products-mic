@@ -1,9 +1,9 @@
 package com.jeferro.products.products.application.commands;
 
 import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.shared.application.commands.Command;
-import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.products.shared.domain.models.auth.Auth;
+import com.jeferro.shared.application.commands.Command;
+import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.domain.models.auth.Auth;
 import org.apache.commons.lang3.StringUtils;
 
 public class CreateProductCommand extends Command<Product> {

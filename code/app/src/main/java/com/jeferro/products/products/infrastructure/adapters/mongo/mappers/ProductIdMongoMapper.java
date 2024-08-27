@@ -1,7 +1,7 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo.mappers;
 
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.IdentifierMapper;
+import com.jeferro.shared.infrastructure.mappers.IdentifierMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

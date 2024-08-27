@@ -1,7 +1,7 @@
 package com.jeferro.products.products.domain.exceptions;
 
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.domain.exceptions.NotFoundException;
+import com.jeferro.shared.domain.exceptions.NotFoundException;
 
 import static com.jeferro.products.products.domain.exceptions.ProductExceptionCodes.PRODUCT_NOT_FOUND;
 

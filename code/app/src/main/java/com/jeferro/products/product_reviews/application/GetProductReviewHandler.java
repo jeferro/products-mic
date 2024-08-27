@@ -1,13 +1,13 @@
 package com.jeferro.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.shared.application.SilentHandler;
+import com.jeferro.shared.application.SilentHandler;
 
 public class GetProductReviewHandler extends SilentHandler<GetProductReviewCommand, ProductReview> {
 

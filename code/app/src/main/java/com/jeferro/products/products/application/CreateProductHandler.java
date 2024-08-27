@@ -3,12 +3,12 @@ package com.jeferro.products.products.application;
 import com.jeferro.products.products.application.commands.CreateProductCommand;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.application.Handler;
-import com.jeferro.products.shared.domain.events.EventBus;
+import com.jeferro.shared.application.Handler;
+import com.jeferro.shared.domain.events.EventBus;
 
 import java.util.Set;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 public class CreateProductHandler extends Handler<CreateProductCommand, Product> {
 

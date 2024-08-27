@@ -1,7 +1,7 @@
 package com.jeferro.products.users.domain.repositories;
 
 import com.jeferro.products.users.domain.models.User;
-import com.jeferro.products.shared.domain.models.users.Username;
+import com.jeferro.shared.domain.models.auth.Username;
 
 import java.util.Optional;
 
