@@ -5,6 +5,7 @@ import java.util.Set;
 import com.jeferro.products.users.application.params.SignInParams;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.exceptions.UnauthorizedException;
+import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
@@ -30,7 +31,7 @@ public class SignInHandler extends Handler<SignInParams, User> {
   }
 
   @Override
-  protected User handle(SignInParams params) {
+  protected User handle(Auth auth, SignInParams params) {
 	var username = params.getUsername();
 	var plainPassword = params.getPlainPassword();
 

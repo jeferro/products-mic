@@ -38,9 +38,9 @@ class CreateProductHandlerTest {
 
 	var userAuth = AuthMother.user();
 	var productName = "Apple";
-	var params = new CreateProductParams(userAuth, productName);
+	var params = new CreateProductParams(productName);
 
-	var result = createProductHandler.execute(params);
+	var result = createProductHandler.execute(userAuth, params);
 
 	assertEquals(productName, result.getName());
 

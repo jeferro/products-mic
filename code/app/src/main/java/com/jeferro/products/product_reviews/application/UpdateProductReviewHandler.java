@@ -9,6 +9,7 @@ import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParams, ProductReview> {
 
@@ -29,8 +30,7 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
   }
 
   @Override
-  protected ProductReview handle(UpdateProductReviewParams params) {
-	var auth = params.getAuth();
+  protected ProductReview handle(Auth auth, UpdateProductReviewParams params) {
 	var productReviewId = params.getProductReviewId();
 	var comment = params.getComment();
 

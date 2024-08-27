@@ -14,4 +14,9 @@ public class AnonymousAuth extends Auth {
     public String who() {
         return "anonymous";
     }
+
+    @Override
+    public boolean isUser() {
+        return false;
+    }
 }

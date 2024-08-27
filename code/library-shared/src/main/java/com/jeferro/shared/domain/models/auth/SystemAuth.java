@@ -17,4 +17,9 @@ public class SystemAuth extends Auth {
     public String who() {
         return name;
     }
+
+    @Override
+    public boolean isUser() {
+        return false;
+    }
 }

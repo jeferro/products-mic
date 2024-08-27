@@ -5,13 +5,10 @@ import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvro
 import com.jeferro.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductIdKafkaMapper;
 import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.domain.models.auth.SystemAuth;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductReviewsProductsKafkaListener extends BaseProductsKafkaListener {
-
-  private static final SystemAuth systemAuth = SystemAuth.create("products");
 
   private final ProductIdKafkaMapper productIdKafkaMapper = ProductIdKafkaMapper.INSTANCE;
 
@@ -29,7 +26,6 @@ public class ProductReviewsProductsKafkaListener extends BaseProductsKafkaListen
   @Override
   protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
 	var params = new DeleteAllProductReviewsOfProductParams(
-		systemAuth,
 		productIdKafkaMapper.toDomain(productDeletedAvroDTO.getProductId().toString())
 	);
 

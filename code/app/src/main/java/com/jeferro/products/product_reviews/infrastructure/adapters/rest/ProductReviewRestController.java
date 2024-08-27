@@ -15,7 +15,6 @@ import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers
 import com.jeferro.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,20 +27,15 @@ public class ProductReviewRestController implements ProductReviewsApi {
 
   private final ProductReviewIdRestMapper productReviewIdRestMapper = ProductReviewIdRestMapper.INSTANCE;
 
-  private final AuthRestResolver authRestResolver;
-
   private final HandlerBus handlerBus;
 
-  public ProductReviewRestController(AuthRestResolver authRestResolver,
-	  HandlerBus handlerBus) {
-	this.authRestResolver = authRestResolver;
+  public ProductReviewRestController(HandlerBus handlerBus) {
 	this.handlerBus = handlerBus;
   }
 
   @Override
   public ResponseEntity<List<ProductReviewRestDTO>> listProductReviews(String productId) {
 	var params = new ListProductReviewParams(
-		authRestResolver.resolve(),
 		productIdRestMapper.toDomain(productId)
 	);
 
@@ -54,7 +48,6 @@ public class ProductReviewRestController implements ProductReviewsApi {
   public ResponseEntity<ProductReviewRestDTO> createProductReview(String productId,
 	  CreateProductReviewInputRestDTO createProductReviewInputRestDTO) {
 	var params = new CreateProductReviewParams(
-		authRestResolver.resolve(),
 		productIdRestMapper.toDomain(productId),
 		createProductReviewInputRestDTO.getComment()
 	);
@@ -67,7 +60,6 @@ public class ProductReviewRestController implements ProductReviewsApi {
   @Override
   public ResponseEntity<ProductReviewRestDTO> getProductReview(String productId, String username) {
 	var params = new GetProductReviewParams(
-		authRestResolver.resolve(),
 		productReviewIdRestMapper.toDomain(productId, username)
 	);
 
@@ -80,7 +72,6 @@ public class ProductReviewRestController implements ProductReviewsApi {
   public ResponseEntity<ProductReviewRestDTO> updateProductReview(String productId, String username,
 	  UpdateProductReviewInputRestDTO updateProductReviewInputRestDTO) {
 	var params = new UpdateProductReviewParams(
-		authRestResolver.resolve(),
 		productReviewIdRestMapper.toDomain(productId, username),
 		updateProductReviewInputRestDTO.getComment()
 	);
@@ -93,7 +84,6 @@ public class ProductReviewRestController implements ProductReviewsApi {
   @Override
   public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productId, String username) {
 	var params = new DeleteProductReviewParams(
-		authRestResolver.resolve(),
 		productReviewIdRestMapper.toDomain(productId, username)
 	);
 

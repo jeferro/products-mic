@@ -28,28 +28,28 @@ class GetProductReviewHandlerTest {
 
   @Test
   void givenAProductReview_whenGetProductReview_thenReturnsProductReview() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new GetProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
-	var result = getProductReviewHandler.handle(params);
+	var result = getProductReviewHandler.handle(userAuth, params);
 
 	assertEquals(userReviewOfApple, result);
   }
 
   @Test
   void givenNoProductReview_whenGetProductReview_thenThrowsException() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var params = new GetProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> getProductReviewHandler.handle(params));
+		() -> getProductReviewHandler.handle(userAuth, params));
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

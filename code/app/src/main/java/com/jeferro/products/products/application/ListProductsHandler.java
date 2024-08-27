@@ -4,6 +4,7 @@ import com.jeferro.products.products.application.params.ListProductsParams;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.SilentHandler;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class ListProductsHandler extends SilentHandler<ListProductsParams, Produ
     }
 
     @Override
-    public Products handle(ListProductsParams params) {
+    public Products handle(Auth auth, ListProductsParams params) {
         var criteria = params.getProductCriteria();
 
         return productsRepository.findAll(criteria);

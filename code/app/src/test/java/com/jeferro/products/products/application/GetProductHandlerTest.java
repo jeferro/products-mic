@@ -30,12 +30,12 @@ class GetProductHandlerTest {
     void givenOneProduct_whenGetProduct_thenReturnsProduct() {
         var apple = givenAnAppleInDatabase();
 
+        var userAuth = AuthMother.user();
         var params = new GetProductParams(
-                AuthMother.user(),
                 apple.getId()
         );
 
-        var result = getProductHandler.execute(params);
+        var result = getProductHandler.execute(userAuth, params);
 
         assertEquals(apple, result);
     }
@@ -44,13 +44,13 @@ class GetProductHandlerTest {
     void givenNoProducts_whenGetProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
+        var userAuth = AuthMother.user();
         var params = new GetProductParams(
-                AuthMother.user(),
                 apple.getId()
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> getProductHandler.execute(params));
+                () -> getProductHandler.execute(userAuth, params));
     }
 
     private Product givenAnAppleInDatabase() {

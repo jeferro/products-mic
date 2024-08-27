@@ -8,7 +8,6 @@ import com.jeferro.products.products.infrastructure.adapters.rest.mappers.Produc
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
 import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,19 +22,15 @@ public class ProductsRestController implements ProductsApi {
 
 	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
 
-	private final AuthRestResolver authRestResolver;
-
 	private final HandlerBus handlerBus;
 
-	public ProductsRestController(AuthRestResolver authRestResolver, HandlerBus handlerBus) {
-		this.authRestResolver = authRestResolver;
+	public ProductsRestController(HandlerBus handlerBus) {
 		this.handlerBus = handlerBus;
 	}
 
 	@Override
 	public ResponseEntity<List<ProductRestDTO>> listProducts(Integer pageNumber, Integer pageSize, String name) {
 		var params = new ListProductsParams(
-			authRestResolver.resolve(),
 			productCriteriaRestMapper.toDomain(pageNumber, pageSize, name)
 		);
 
@@ -47,7 +42,6 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
 		var params = new CreateProductParams(
-			authRestResolver.resolve(),
 			productInputRestDTO.getName()
 		);
 
@@ -59,7 +53,6 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> getProduct(String productId) {
 		var params = new GetProductParams(
-			authRestResolver.resolve(),
 			productIdRestMapper.toDomain(productId)
 		);
 
@@ -71,7 +64,6 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> updateProduct(String productId, ProductInputRestDTO productInputRestDTO) {
 		var params = new UpdateProductParams(
-				authRestResolver.resolve(),
 				productIdRestMapper.toDomain(productId),
 				productInputRestDTO.getName()
 		);
@@ -84,7 +76,6 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> deleteProduct(String productId) {
 		var params = new DeleteProductParams(
-			authRestResolver.resolve(),
 			productIdRestMapper.toDomain(productId)
 		);
 

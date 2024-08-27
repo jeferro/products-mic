@@ -1,4 +1,4 @@
-package com.jeferro.products.components.rest.shared.securtiy.services;
+package com.jeferro.shared.infrastructure.adapters.rest.services.jwt;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -9,8 +9,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.jeferro.products.components.rest.shared.securtiy.configurations.RestSecurityProperties;
-import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
+import com.jeferro.shared.infrastructure.adapters.rest.configurations.RestSecurityProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -61,7 +60,6 @@ public class JwtDecoder {
 
 	public String encode(JwtToken jwtToken) {
 		var issuedAt = Instant.now();
-
 
 		var jwtBuilder = JWT.create()
 			.withIssuer(jwtProperties.issuer())

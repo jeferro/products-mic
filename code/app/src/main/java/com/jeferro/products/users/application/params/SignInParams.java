@@ -1,10 +1,9 @@
 package com.jeferro.products.users.application.params;
 
+import com.jeferro.products.users.domain.models.User;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.Username;
-import com.jeferro.products.users.domain.models.User;
 import org.apache.commons.lang3.StringUtils;
 
 public class SignInParams extends Params<User> {
@@ -13,8 +12,8 @@ public class SignInParams extends Params<User> {
 
     private String plainPassword;
 
-    public SignInParams(Auth auth, Username username, String plainPassword) {
-        super(auth);
+    public SignInParams(Username username, String plainPassword) {
+        super();
 
 		setUsername(username);
 		setPlainPassword(plainPassword);

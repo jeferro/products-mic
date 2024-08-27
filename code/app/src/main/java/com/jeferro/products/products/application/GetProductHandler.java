@@ -8,6 +8,7 @@ import com.jeferro.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.SilentHandler;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class GetProductHandler extends SilentHandler<GetProductParams, Product> {
 
@@ -25,7 +26,7 @@ public class GetProductHandler extends SilentHandler<GetProductParams, Product> 
     }
 
     @Override
-    public Product handle(GetProductParams params) {
+    public Product handle(Auth auth, GetProductParams params) {
         var productId = params.getProductId();
 
         return productsRepository.findByIdOrError(productId);

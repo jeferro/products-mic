@@ -26,14 +26,14 @@ class ListProductReviewHandlerTest {
 
   @Test
   void givenProductReviews_whenListProductReviews_thenReturnsProductReviews() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new ListProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getProductId()
 	);
 
-	var result = listProductReviewHandler.handle(params);
+	var result = listProductReviewHandler.handle(userAuth, params);
 
 	assertEquals(1, result.size());
 	assertTrue(result.contains(userReviewOfApple));
@@ -41,14 +41,14 @@ class ListProductReviewHandlerTest {
 
   @Test
   void givenNoProductReviews_whenListProductReviews_thenReturnsEmptyList() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 
 	var params = new ListProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getProductId()
 	);
 
-	var result = listProductReviewHandler.handle(params);
+	var result = listProductReviewHandler.handle(userAuth, params);
 
 	assertTrue(result.isEmpty());
   }

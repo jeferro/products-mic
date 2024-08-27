@@ -45,11 +45,10 @@ class UpdateProductReviewHandlerTest {
 	var newComment = "New comment about apple";
 	var userAuth = AuthMother.user();
 	var params = new UpdateProductReviewParams(
-		userAuth,
 		userReviewOfApple.getId(),
 		newComment
 	);
-	var result = updateProductReviewHandler.handle(params);
+	var result = updateProductReviewHandler.handle(userAuth, params);
 
 	assertResult(userReviewOfApple, result, newComment);
 
@@ -60,31 +59,31 @@ class UpdateProductReviewHandlerTest {
 
   @Test
   void givenNoProductReview_whenUpdateProductReview_thenThrowsException() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var newComment = "New comment about apple";
 	var params = new UpdateProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getId(),
 		newComment
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> updateProductReviewHandler.handle(params));
+		() -> updateProductReviewHandler.handle(userAuth, params));
   }
 
   @Test
   void givenOtherUserCommentsOnProduct_whenUpdateProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
+	var userAuth = AuthMother.user();
 	var newComment = "New comment about apple";
 	var params = new UpdateProductReviewParams(
-		AuthMother.admin(),
 		userReviewOfApple.getId(),
 		newComment
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> updateProductReviewHandler.handle(params));
+		() -> updateProductReviewHandler.handle(userAuth, params));
   }
 
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {

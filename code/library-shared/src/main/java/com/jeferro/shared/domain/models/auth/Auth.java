@@ -6,6 +6,8 @@ public abstract class Auth extends ValueObject {
 
     public abstract String who();
 
+    public abstract boolean isUser();
+
     @Override
     public String toString() {
         return who();

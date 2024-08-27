@@ -3,7 +3,6 @@ package com.jeferro.products.product_reviews.application.params;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.models.auth.Auth;
 
 public class CreateProductReviewParams extends Params<ProductReview> {
 
@@ -11,8 +10,8 @@ public class CreateProductReviewParams extends Params<ProductReview> {
 
   private final String comment;
 
-  public CreateProductReviewParams(Auth auth, ProductId productId, String comment) {
-	super(auth);
+  public CreateProductReviewParams(ProductId productId, String comment) {
+	super();
 	this.productId = productId;
 	this.comment = comment;
   }

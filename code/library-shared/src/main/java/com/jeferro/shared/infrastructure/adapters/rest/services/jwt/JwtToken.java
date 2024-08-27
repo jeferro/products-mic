@@ -1,4 +1,4 @@
-package com.jeferro.products.components.rest.shared.securtiy.dtos;
+package com.jeferro.shared.infrastructure.adapters.rest.services.jwt;
 
 import java.util.Set;
 

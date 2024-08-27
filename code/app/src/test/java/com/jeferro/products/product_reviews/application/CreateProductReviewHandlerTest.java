@@ -52,14 +52,12 @@ class CreateProductReviewHandlerTest {
 	var userAuth = AuthMother.user();
 	var productId = ProductIdMother.appleId();
 	var comment = "New comment about product";
-
 	var params = new CreateProductReviewParams(
-		userAuth,
 		productId,
 		comment
 	);
 
-	var result = createProductReviewHandler.handle(params);
+	var result = createProductReviewHandler.handle(userAuth, params);
 
 	assertResult(userAuth, result, productId, comment);
 
@@ -73,15 +71,13 @@ class CreateProductReviewHandlerTest {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var userAuth = AuthMother.user();
-
 	var params = new CreateProductReviewParams(
-		userAuth,
 		userReviewOfApple.getProductId(),
 		"other comment"
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
-		() -> createProductReviewHandler.handle(params));
+		() -> createProductReviewHandler.handle(userAuth, params));
   }
 
   private static void assertResult(UserAuth userAuth, ProductReview result, ProductId productId, String comment) {

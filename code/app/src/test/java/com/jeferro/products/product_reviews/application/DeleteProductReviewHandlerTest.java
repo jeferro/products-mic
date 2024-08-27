@@ -45,11 +45,10 @@ class DeleteProductReviewHandlerTest {
 
 	var userAuth = AuthMother.user();
 	var params = new DeleteProductReviewParams(
-		userAuth,
 		userReviewOfApple.getId()
 	);
 
-	var result = deleteProductReviewHandler.handle(params);
+	var result = deleteProductReviewHandler.handle(userAuth, params);
 
 	assertEquals(userReviewOfApple, result);
 
@@ -60,27 +59,27 @@ class DeleteProductReviewHandlerTest {
 
   @Test
   void givenUserDoesNotCommentOnProduct_whenDeleteProductReview_throwsException() {
+	var userAuth = AuthMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var params = new DeleteProductReviewParams(
-		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> deleteProductReviewHandler.handle(params));
+		() -> deleteProductReviewHandler.handle(userAuth, params));
   }
 
   @Test
   void givenOtherUserCommentsOnProduct_whenDeleteProductReviewOfOtherUser_throwsException() {
+	var adminAuth = AuthMother.admin();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new DeleteProductReviewParams(
-		AuthMother.admin(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> deleteProductReviewHandler.handle(params));
+		() -> deleteProductReviewHandler.handle(adminAuth, params));
   }
 
   private void assertProductReviewDeletedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {

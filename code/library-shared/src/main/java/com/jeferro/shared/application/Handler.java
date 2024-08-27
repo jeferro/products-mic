@@ -21,10 +21,9 @@ public abstract class Handler<P extends Params<R>, R> {
 
     protected abstract Set<String> getMandatoryUserRoles();
 
-    public R execute(P params) {
+    public R execute(Auth auth, P params) {
         Instant startAt = Instant.now();
 
-        var auth = params.getAuth();
         var mandatoryUserRoles = getMandatoryUserRoles();
 
         try {
@@ -32,15 +31,15 @@ public abstract class Handler<P extends Params<R>, R> {
                 throw ForbiddenException.createOf(auth, mandatoryUserRoles);
             }
 
-            R result = handle(params);
+            R result = handle(auth, params);
 
             if (shouldLogExecution()) {
-                logSuccessExecution(startAt, params, result);
+                logSuccessExecution(startAt, auth, params, result);
             }
 
             return result;
         } catch (Exception cause) {
-            logErrorExecution(startAt, params, cause);
+            logErrorExecution(startAt, auth, params, cause);
 
             throw cause;
         }
@@ -50,7 +49,7 @@ public abstract class Handler<P extends Params<R>, R> {
         return !(this instanceof SilentHandler<P, R>);
     }
 
-    protected abstract R handle(P params);
+    protected abstract R handle(Auth auth, P params);
 
     private boolean canAuthExecuteHandler(Auth auth, Set<String> mandatoryUserRoles) {
         if(auth instanceof SystemAuth){
@@ -66,22 +65,24 @@ public abstract class Handler<P extends Params<R>, R> {
 
     private void logSuccessExecution(
             Instant startAt,
+            Auth auth,
             P params,
             R result
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.info("{} \n\t params: {} \n\t result: {}\n", duration, params, result);
+        logger.info("{} \n\t user: {} \n\t params: {} \n\t result: {}\n", duration, auth, params, result);
     }
 
     private void logErrorExecution(
             Instant startAt,
+            Auth auth,
             P params,
             Exception cause
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.error("{} \n\t params: {}", duration, params, cause);
+        logger.error("{} \n\t user: {} \n\t params: {}", duration, auth, params, cause);
     }
 
     private Duration calculateDuration(Instant startAt) {

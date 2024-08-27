@@ -44,12 +44,11 @@ class UpdateProductHandlerTest {
         var userAuth = AuthMother.user();
         var newProductName = "new product name";
         var params = new UpdateProductParams(
-                userAuth,
                 apple.getId(),
                 newProductName
         );
 
-        var result = updateProductHandler.execute(params);
+        var result = updateProductHandler.execute(userAuth, params);
 
         assertEquals(newProductName, result.getName());
 
@@ -62,14 +61,14 @@ class UpdateProductHandlerTest {
     void givenNoProducts_whenUpdateProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
+        var userAuth = AuthMother.user();
         var params = new UpdateProductParams(
-                AuthMother.user(),
                 apple.getId(),
                 "new product name"
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> updateProductHandler.execute(params));
+                () -> updateProductHandler.execute(userAuth, params));
     }
 
     private void assertProductDataInDatabase(Product product) {

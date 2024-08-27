@@ -9,6 +9,7 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class UpdateProductHandler extends Handler<UpdateProductParams, Product> {
 
@@ -30,8 +31,7 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     }
 
     @Override
-    public Product handle(UpdateProductParams params) {
-        var auth = params.getAuth();
+    public Product handle(Auth auth, UpdateProductParams params) {
         var productId = params.getProductId();
         var name = params.getName();
 
