@@ -1,4 +1,4 @@
-package com.jeferro.products.shared.domain.models.users;
+package com.jeferro.products.shared.domain.models.auth;
 
 import com.jeferro.shared.domain.models.auth.Username;
 
