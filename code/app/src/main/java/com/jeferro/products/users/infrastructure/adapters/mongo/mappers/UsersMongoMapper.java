@@ -1,8 +1,8 @@
 package com.jeferro.products.users.infrastructure.adapters.mongo.mappers;
 
 import com.jeferro.products.components.mongodb.users.dtos.UserMongoDTO;
-import com.jeferro.products.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
-import com.jeferro.products.shared.infrastructure.adapters.shared.mappers.BidirectionalMapper;
+import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
+import com.jeferro.shared.infrastructure.mappers.BidirectionalMapper;
 import com.jeferro.products.users.domain.models.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

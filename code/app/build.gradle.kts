@@ -6,14 +6,11 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":library-shared"))
+
     implementation(project(":comp-mongodb"))
     implementation(project(":comp-kafka"))
     implementation(project(":comp-rest"))
-
-    implementation("org.apache.commons", "commons-lang3", Versions.commons_lang3)
-
-    implementation("org.mapstruct", "mapstruct", Versions.mapstruct)
-    annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
 
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
     testImplementation("org.springframework.boot", "spring-boot-testcontainers")

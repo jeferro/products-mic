@@ -3,8 +3,8 @@ package com.jeferro.products.users.domain.models;
 import java.util.Set;
 
 import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
-import com.jeferro.products.shared.domain.models.users.Username;
+import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.domain.models.auth.Username;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 

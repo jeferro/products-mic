@@ -4,8 +4,8 @@ import com.jeferro.products.components.kafka.products.BaseProductsKafkaListener;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
 import com.jeferro.products.product_reviews.application.commands.DeleteAllProductReviewsOfProductCommand;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductIdKafkaMapper;
-import com.jeferro.products.shared.application.bus.HandlerBus;
-import com.jeferro.products.shared.domain.models.auth.SystemAuth;
+import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.domain.models.auth.SystemAuth;
 import org.springframework.stereotype.Component;
 
 @Component

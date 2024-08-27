@@ -1,13 +1,13 @@
 package com.jeferro.products.products.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
+import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.application.commands.GetProductCommand;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.shared.application.SilentHandler;
+import com.jeferro.shared.application.SilentHandler;
 
 public class GetProductHandler extends SilentHandler<GetProductCommand, Product> {
 

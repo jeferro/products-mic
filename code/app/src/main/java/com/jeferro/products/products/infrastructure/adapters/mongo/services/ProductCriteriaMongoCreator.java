@@ -1,7 +1,7 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo.services;
 
 import com.jeferro.products.products.domain.models.ProductCriteria;
-import com.jeferro.products.shared.infrastructure.adapters.mongo.services.CriteriaMongoCreator;
+import com.jeferro.shared.infrastructure.adapters.mongo.services.CriteriaMongoCreator;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;

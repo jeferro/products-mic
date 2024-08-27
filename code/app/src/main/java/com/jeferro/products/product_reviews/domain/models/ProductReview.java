@@ -6,10 +6,10 @@ import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.products.shared.domain.models.aggregates.AggregateRoot;
-import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.auth.UserAuth;
-import com.jeferro.products.shared.domain.models.users.Username;
+import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.UserAuth;
+import com.jeferro.shared.domain.models.auth.Username;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 

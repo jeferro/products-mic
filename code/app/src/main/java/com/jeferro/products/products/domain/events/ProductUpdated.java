@@ -4,9 +4,9 @@ import java.time.Instant;
 
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.shared.domain.events.EventId;
-import com.jeferro.products.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.services.time.TimeService;
+import com.jeferro.shared.domain.events.EventId;
+import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.services.time.TimeService;
 
 public class ProductUpdated extends ProductEvent {
 

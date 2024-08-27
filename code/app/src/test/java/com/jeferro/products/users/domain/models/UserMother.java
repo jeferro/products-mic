@@ -2,7 +2,7 @@ package com.jeferro.products.users.domain.models;
 
 import java.util.Set;
 
-import com.jeferro.products.shared.application.Roles;
+import com.jeferro.shared.application.Roles;
 import com.jeferro.products.shared.domain.models.users.UsernameMother;
 
 public class UserMother {
