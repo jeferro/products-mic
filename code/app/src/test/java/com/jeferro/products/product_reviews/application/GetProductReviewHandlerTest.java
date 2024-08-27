@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.GetProductReviewParams;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
@@ -30,12 +30,12 @@ class GetProductReviewHandlerTest {
   void givenAProductReview_whenGetProductReview_thenReturnsProductReview() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var command = new GetProductReviewCommand(
+	var params = new GetProductReviewParams(
 		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
-	var result = getProductReviewHandler.handle(command);
+	var result = getProductReviewHandler.handle(params);
 
 	assertEquals(userReviewOfApple, result);
   }
@@ -43,13 +43,13 @@ class GetProductReviewHandlerTest {
   @Test
   void givenNoProductReview_whenGetProductReview_thenThrowsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	var command = new GetProductReviewCommand(
+	var params = new GetProductReviewParams(
 		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> getProductReviewHandler.handle(command));
+		() -> getProductReviewHandler.handle(params));
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

@@ -4,12 +4,12 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.products.application.commands.GetProductCommand;
+import com.jeferro.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.SilentHandler;
 
-public class GetProductHandler extends SilentHandler<GetProductCommand, Product> {
+public class GetProductHandler extends SilentHandler<GetProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
@@ -25,8 +25,8 @@ public class GetProductHandler extends SilentHandler<GetProductCommand, Product>
     }
 
     @Override
-    public Product handle(GetProductCommand command) {
-        var productId = command.getProductId();
+    public Product handle(GetProductParams params) {
+        var productId = params.getProductId();
 
         return productsRepository.findByIdOrError(productId);
     }

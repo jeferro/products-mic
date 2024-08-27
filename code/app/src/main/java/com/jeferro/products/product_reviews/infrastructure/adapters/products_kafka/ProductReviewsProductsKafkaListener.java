@@ -2,9 +2,9 @@ package com.jeferro.products.product_reviews.infrastructure.adapters.products_ka
 
 import com.jeferro.products.components.kafka.products.BaseProductsKafkaListener;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
-import com.jeferro.products.product_reviews.application.commands.DeleteAllProductReviewsOfProductCommand;
+import com.jeferro.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductIdKafkaMapper;
-import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.domain.models.auth.SystemAuth;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +28,11 @@ public class ProductReviewsProductsKafkaListener extends BaseProductsKafkaListen
 
   @Override
   protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
-	var command = new DeleteAllProductReviewsOfProductCommand(
+	var params = new DeleteAllProductReviewsOfProductParams(
 		systemAuth,
 		productIdKafkaMapper.toDomain(productDeletedAvroDTO.getProductId().toString())
 	);
 
-	handlerBus.execute(command);
+	handlerBus.execute(params);
   }
 }

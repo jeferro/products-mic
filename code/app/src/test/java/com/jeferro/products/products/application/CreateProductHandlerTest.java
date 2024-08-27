@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.products.application.commands.CreateProductCommand;
+import com.jeferro.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
@@ -38,9 +38,9 @@ class CreateProductHandlerTest {
 
 	var userAuth = AuthMother.user();
 	var productName = "Apple";
-	var command = new CreateProductCommand(userAuth, productName);
+	var params = new CreateProductParams(userAuth, productName);
 
-	var result = createProductHandler.execute(command);
+	var result = createProductHandler.execute(params);
 
 	assertEquals(productName, result.getName());
 

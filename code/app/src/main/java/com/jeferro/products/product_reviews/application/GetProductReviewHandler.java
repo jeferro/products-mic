@@ -4,12 +4,12 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.GetProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.GetProductReviewParams;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.SilentHandler;
 
-public class GetProductReviewHandler extends SilentHandler<GetProductReviewCommand, ProductReview> {
+public class GetProductReviewHandler extends SilentHandler<GetProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
@@ -25,8 +25,8 @@ public class GetProductReviewHandler extends SilentHandler<GetProductReviewComma
   }
 
   @Override
-  protected ProductReview handle(GetProductReviewCommand command) {
-	var productReviewId = command.getProductReviewId();
+  protected ProductReview handle(GetProductReviewParams params) {
+	var productReviewId = params.getProductReviewId();
 
 	return productReviewsRepository.findByIdOrError(productReviewId);
   }

@@ -4,13 +4,13 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.products.application.commands.DeleteProductCommand;
+import com.jeferro.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 
-public class DeleteProductHandler extends Handler<DeleteProductCommand, Product> {
+public class DeleteProductHandler extends Handler<DeleteProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
@@ -30,9 +30,9 @@ public class DeleteProductHandler extends Handler<DeleteProductCommand, Product>
     }
 
     @Override
-    public Product handle(DeleteProductCommand command) {
-        var auth = command.getAuth();
-        var productId = command.getProductId();
+    public Product handle(DeleteProductParams params) {
+        var auth = params.getAuth();
+        var productId = params.getProductId();
 
         var product = productsRepository.findByIdOrError(productId);
 

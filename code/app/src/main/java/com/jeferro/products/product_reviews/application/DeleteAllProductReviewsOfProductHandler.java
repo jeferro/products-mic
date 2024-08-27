@@ -4,12 +4,12 @@ import static com.jeferro.shared.application.Roles.ADMIN;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.DeleteAllProductReviewsOfProductCommand;
+import com.jeferro.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 
-public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductCommand, Void> {
+public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
@@ -28,9 +28,9 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
   }
 
   @Override
-  protected Void handle(DeleteAllProductReviewsOfProductCommand command) {
-	var auth = command.getAuth();
-	var productId = command.getProductId();
+  protected Void handle(DeleteAllProductReviewsOfProductParams params) {
+	var auth = params.getAuth();
+	var productId = params.getProductId();
 
 	var productReviews = productReviewsRepository.findAllByProductId(productId);
 

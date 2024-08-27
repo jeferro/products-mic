@@ -4,13 +4,13 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.products.application.commands.UpdateProductCommand;
+import com.jeferro.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 
-public class UpdateProductHandler extends Handler<UpdateProductCommand, Product> {
+public class UpdateProductHandler extends Handler<UpdateProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
@@ -30,10 +30,10 @@ public class UpdateProductHandler extends Handler<UpdateProductCommand, Product>
     }
 
     @Override
-    public Product handle(UpdateProductCommand command) {
-        var auth = command.getAuth();
-        var productId = command.getProductId();
-        var name = command.getName();
+    public Product handle(UpdateProductParams params) {
+        var auth = params.getAuth();
+        var productId = params.getProductId();
+        var name = params.getName();
 
         var product = productsRepository.findByIdOrError(productId);
 

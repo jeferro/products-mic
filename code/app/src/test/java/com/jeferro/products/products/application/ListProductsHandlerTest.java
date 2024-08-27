@@ -1,6 +1,6 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.ListProductsCommand;
+import com.jeferro.products.products.application.params.ListProductsParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.domain.models.ProductMother;
@@ -28,12 +28,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsAllProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
-        var command = new ListProductsCommand(
+        var params = new ListProductsParams(
                 AuthMother.user(),
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(command);
+        var result = listProductsHandler.execute(params);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(databaseData.apple()));
@@ -44,12 +44,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsFilteredProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
-        var command = new ListProductsCommand(
+        var params = new ListProductsParams(
                 AuthMother.user(),
                 ProductCriteria.createOfName("pe")
         );
 
-        var result = listProductsHandler.execute(command);
+        var result = listProductsHandler.execute(params);
 
         assertEquals(1, result.size());
         assertFalse(result.contains(databaseData.apple()));
@@ -58,12 +58,12 @@ class ListProductsHandlerTest {
 
     @Test
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
-        var command = new ListProductsCommand(
+        var params = new ListProductsParams(
                 AuthMother.user(),
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(command);
+        var result = listProductsHandler.execute(params);
 
         assertTrue(result.isEmpty());
     }

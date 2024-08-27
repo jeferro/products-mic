@@ -4,7 +4,7 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.CreateProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.CreateProductReviewParams;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlreadyExistsException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
@@ -16,7 +16,7 @@ import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.Username;
 
-public class CreateProductReviewHandler extends Handler<CreateProductReviewCommand, ProductReview> {
+public class CreateProductReviewHandler extends Handler<CreateProductReviewParams, ProductReview> {
 
   private final ProductsRepository productsRepository;
 
@@ -40,11 +40,11 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewComma
   }
 
   @Override
-  protected ProductReview handle(CreateProductReviewCommand command) {
-	var auth = command.getAuth();
-	var username = command.getAuthUsernameOrError();
-	var productId = command.getProductId();
-	var comment = command.getComment();
+  protected ProductReview handle(CreateProductReviewParams params) {
+	var auth = params.getAuth();
+	var username = params.getAuthUsernameOrError();
+	var productId = params.getProductId();
+	var comment = params.getComment();
 
 	ensureProductExists(productId);
 

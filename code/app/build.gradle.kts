@@ -46,7 +46,7 @@ tasks.withType<JacocoReport> {
                         "**/*Configuration*",
                         "**/dtos/**",
                         "**/daos/**",
-                        "**/commands/**",
+                        "**/params/**",
                         "**/mappers/**"
                     )
                 }

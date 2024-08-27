@@ -1,6 +1,6 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.CreateProductCommand;
+import com.jeferro.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static com.jeferro.shared.application.Roles.USER;
 
-public class CreateProductHandler extends Handler<CreateProductCommand, Product> {
+public class CreateProductHandler extends Handler<CreateProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
@@ -29,9 +29,9 @@ public class CreateProductHandler extends Handler<CreateProductCommand, Product>
     }
 
     @Override
-    public Product handle(CreateProductCommand command) {
-        var auth = command.getAuth();
-        var name = command.getName();
+    public Product handle(CreateProductParams params) {
+        var auth = params.getAuth();
+        var name = params.getName();
 
         var product = Product.create(name, auth);
 

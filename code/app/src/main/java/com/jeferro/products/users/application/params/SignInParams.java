@@ -1,19 +1,19 @@
-package com.jeferro.products.users.application.commands;
+package com.jeferro.products.users.application.params;
 
-import com.jeferro.shared.application.commands.Command;
+import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.products.users.domain.models.User;
 import org.apache.commons.lang3.StringUtils;
 
-public class SignInCommand extends Command<User> {
+public class SignInParams extends Params<User> {
 
     private Username username;
 
     private String plainPassword;
 
-    public SignInCommand(Auth auth, Username username, String plainPassword) {
+    public SignInParams(Auth auth, Username username, String plainPassword) {
         super(auth);
 
 		setUsername(username);
