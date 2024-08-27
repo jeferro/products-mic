@@ -17,6 +17,8 @@ dependencies {
     testImplementation("org.testcontainers", "junit-jupiter")
     testImplementation("org.testcontainers", "mongodb", Versions.test_containers)
 
+    annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
+
     testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
 }
 
