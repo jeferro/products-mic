@@ -4,7 +4,7 @@ public class SystemAuth extends Auth {
 
     private final String name;
 
-    protected SystemAuth(String name) {
+    public SystemAuth(String name) {
         super();
         this.name = name;
     }

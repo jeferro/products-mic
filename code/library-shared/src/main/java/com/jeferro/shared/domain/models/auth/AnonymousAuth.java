@@ -2,7 +2,7 @@ package com.jeferro.shared.domain.models.auth;
 
 public class AnonymousAuth extends Auth {
 
-    protected AnonymousAuth() {
+    public AnonymousAuth() {
         super();
     }
 

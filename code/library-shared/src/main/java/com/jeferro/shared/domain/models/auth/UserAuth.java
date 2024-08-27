@@ -8,7 +8,7 @@ public class UserAuth extends Auth {
 
     private final Set<String> roles;
 
-    protected UserAuth(Username username, Set<String> roles) {
+    public UserAuth(Username username, Set<String> roles) {
         super();
 
         this.username = username;

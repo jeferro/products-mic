@@ -10,7 +10,7 @@ public abstract class TimeService {
         return timeGenerator.generate();
     }
 
-    protected static void configure(TimeGenerator timeGenerator) {
+    public static void configure(TimeGenerator timeGenerator) {
         TimeService.timeGenerator = timeGenerator;
     }
 
