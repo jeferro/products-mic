@@ -3,11 +3,11 @@ package com.jeferro.products.products.infrastructure.adapters.rest;
 import com.jeferro.products.components.rest.generated.apis.ProductsApi;
 import com.jeferro.products.components.rest.generated.dtos.ProductInputRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.ProductRestDTO;
-import com.jeferro.products.products.application.commands.*;
+import com.jeferro.products.products.application.params.*;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
-import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,61 +34,61 @@ public class ProductsRestController implements ProductsApi {
 
 	@Override
 	public ResponseEntity<List<ProductRestDTO>> listProducts(Integer pageNumber, Integer pageSize, String name) {
-		var command = new ListProductsCommand(
+		var params = new ListProductsParams(
 			authRestResolver.resolve(),
 			productCriteriaRestMapper.toDomain(pageNumber, pageSize, name)
 		);
 
-		var products = handlerBus.execute(command);
+		var products = handlerBus.execute(params);
 
 		return productRestMapper.toOkResponseDTO(products);
 	}
 
 	@Override
 	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
-		var command = new CreateProductCommand(
+		var params = new CreateProductParams(
 			authRestResolver.resolve(),
 			productInputRestDTO.getName()
 		);
 
-		var product = handlerBus.execute(command);
+		var product = handlerBus.execute(params);
 
 		return productRestMapper.toCreatedResponseDTO(product);
 	}
 
 	@Override
 	public ResponseEntity<ProductRestDTO> getProduct(String productId) {
-		var command = new GetProductCommand(
+		var params = new GetProductParams(
 			authRestResolver.resolve(),
 			productIdRestMapper.toDomain(productId)
 		);
 
-		var product = handlerBus.execute(command);
+		var product = handlerBus.execute(params);
 
 		return productRestMapper.toOkResponseDTO(product);
 	}
 
 	@Override
 	public ResponseEntity<ProductRestDTO> updateProduct(String productId, ProductInputRestDTO productInputRestDTO) {
-		var command = new UpdateProductCommand(
+		var params = new UpdateProductParams(
 				authRestResolver.resolve(),
 				productIdRestMapper.toDomain(productId),
 				productInputRestDTO.getName()
 		);
 
-		var user = handlerBus.execute(command);
+		var user = handlerBus.execute(params);
 
 		return productRestMapper.toOkResponseDTO(user);
 	}
 
 	@Override
 	public ResponseEntity<ProductRestDTO> deleteProduct(String productId) {
-		var command = new DeleteProductCommand(
+		var params = new DeleteProductParams(
 			authRestResolver.resolve(),
 			productIdRestMapper.toDomain(productId)
 		);
 
-		var user = handlerBus.execute(command);
+		var user = handlerBus.execute(params);
 
 		return productRestMapper.toOkResponseDTO(user);
 	}

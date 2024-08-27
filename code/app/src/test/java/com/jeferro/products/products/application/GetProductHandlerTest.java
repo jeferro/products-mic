@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jeferro.products.products.application.commands.GetProductCommand;
+import com.jeferro.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
@@ -30,12 +30,12 @@ class GetProductHandlerTest {
     void givenOneProduct_whenGetProduct_thenReturnsProduct() {
         var apple = givenAnAppleInDatabase();
 
-        var command = new GetProductCommand(
+        var params = new GetProductParams(
                 AuthMother.user(),
                 apple.getId()
         );
 
-        var result = getProductHandler.execute(command);
+        var result = getProductHandler.execute(params);
 
         assertEquals(apple, result);
     }
@@ -44,13 +44,13 @@ class GetProductHandlerTest {
     void givenNoProducts_whenGetProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
-        var command = new GetProductCommand(
+        var params = new GetProductParams(
                 AuthMother.user(),
                 apple.getId()
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> getProductHandler.execute(command));
+                () -> getProductHandler.execute(params));
     }
 
     private Product givenAnAppleInDatabase() {

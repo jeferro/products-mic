@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.product_reviews.application.commands.CreateProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.CreateProductReviewParams;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlreadyExistsException;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
@@ -53,13 +53,13 @@ class CreateProductReviewHandlerTest {
 	var productId = ProductIdMother.appleId();
 	var comment = "New comment about product";
 
-	var command = new CreateProductReviewCommand(
+	var params = new CreateProductReviewParams(
 		userAuth,
 		productId,
 		comment
 	);
 
-	var result = createProductReviewHandler.handle(command);
+	var result = createProductReviewHandler.handle(params);
 
 	assertResult(userAuth, result, productId, comment);
 
@@ -74,14 +74,14 @@ class CreateProductReviewHandlerTest {
 
 	var userAuth = AuthMother.user();
 
-	var command = new CreateProductReviewCommand(
+	var params = new CreateProductReviewParams(
 		userAuth,
 		userReviewOfApple.getProductId(),
 		"other comment"
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
-		() -> createProductReviewHandler.handle(command));
+		() -> createProductReviewHandler.handle(params));
   }
 
   private static void assertResult(UserAuth userAuth, ProductReview result, ProductId productId, String comment) {

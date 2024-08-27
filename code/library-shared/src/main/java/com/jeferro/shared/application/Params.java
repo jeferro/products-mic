@@ -1,4 +1,4 @@
-package com.jeferro.shared.application.commands;
+package com.jeferro.shared.application;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
@@ -11,11 +11,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-public abstract class Command<R> {
+public abstract class Params<R> {
 
   private Auth auth;
 
-  public Command(Auth auth) {
+  public Params(Auth auth) {
 	setAuth(auth);
   }
 

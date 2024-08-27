@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
@@ -44,12 +44,12 @@ class UpdateProductReviewHandlerTest {
 
 	var newComment = "New comment about apple";
 	var userAuth = AuthMother.user();
-	var command = new UpdateProductReviewCommand(
+	var params = new UpdateProductReviewParams(
 		userAuth,
 		userReviewOfApple.getId(),
 		newComment
 	);
-	var result = updateProductReviewHandler.handle(command);
+	var result = updateProductReviewHandler.handle(params);
 
 	assertResult(userReviewOfApple, result, newComment);
 
@@ -62,14 +62,14 @@ class UpdateProductReviewHandlerTest {
   void givenNoProductReview_whenUpdateProductReview_thenThrowsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var newComment = "New comment about apple";
-	var command = new UpdateProductReviewCommand(
+	var params = new UpdateProductReviewParams(
 		AuthMother.user(),
 		userReviewOfApple.getId(),
 		newComment
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> updateProductReviewHandler.handle(command));
+		() -> updateProductReviewHandler.handle(params));
   }
 
   @Test
@@ -77,14 +77,14 @@ class UpdateProductReviewHandlerTest {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var newComment = "New comment about apple";
-	var command = new UpdateProductReviewCommand(
+	var params = new UpdateProductReviewParams(
 		AuthMother.admin(),
 		userReviewOfApple.getId(),
 		newComment
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> updateProductReviewHandler.handle(command));
+		() -> updateProductReviewHandler.handle(params));
   }
 
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {

@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.DeleteAllProductReviewsOfProductCommand;
+import com.jeferro.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
@@ -47,12 +47,12 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	var adminAuth = AuthMother.admin();
 	var appleId = ProductIdMother.appleId();
 
-	var command = new DeleteAllProductReviewsOfProductCommand(
+	var params = new DeleteAllProductReviewsOfProductParams(
 		adminAuth,
 		appleId
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(command);
+	deleteAllProductReviewsOfProductHandler.handle(params);
 
 	assertThereAreNotReviewsOfApple();
 
@@ -64,12 +64,12 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	var adminAuth = AuthMother.admin();
 	var appleId = ProductIdMother.appleId();
 
-	var command = new DeleteAllProductReviewsOfProductCommand(
+	var params = new DeleteAllProductReviewsOfProductParams(
 		adminAuth,
 		appleId
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(command);
+	deleteAllProductReviewsOfProductHandler.handle(params);
 
 	assertNoEventsWerePublished();
   }

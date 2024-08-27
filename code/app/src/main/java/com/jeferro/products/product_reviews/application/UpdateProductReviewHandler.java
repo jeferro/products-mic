@@ -4,13 +4,13 @@ import static com.jeferro.shared.application.Roles.USER;
 
 import java.util.Set;
 
-import com.jeferro.products.product_reviews.application.commands.UpdateProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 
-public class UpdateProductReviewHandler extends Handler<UpdateProductReviewCommand, ProductReview> {
+public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
@@ -29,10 +29,10 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewComma
   }
 
   @Override
-  protected ProductReview handle(UpdateProductReviewCommand command) {
-	var auth = command.getAuth();
-	var productReviewId = command.getProductReviewId();
-	var comment = command.getComment();
+  protected ProductReview handle(UpdateProductReviewParams params) {
+	var auth = params.getAuth();
+	var productReviewId = params.getProductReviewId();
+	var comment = params.getComment();
 
 	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
 

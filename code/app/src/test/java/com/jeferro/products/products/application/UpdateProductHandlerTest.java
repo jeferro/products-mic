@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.products.application.commands.UpdateProductCommand;
+import com.jeferro.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
@@ -43,13 +43,13 @@ class UpdateProductHandlerTest {
 
         var userAuth = AuthMother.user();
         var newProductName = "new product name";
-        var command = new UpdateProductCommand(
+        var params = new UpdateProductParams(
                 userAuth,
                 apple.getId(),
                 newProductName
         );
 
-        var result = updateProductHandler.execute(command);
+        var result = updateProductHandler.execute(params);
 
         assertEquals(newProductName, result.getName());
 
@@ -62,14 +62,14 @@ class UpdateProductHandlerTest {
     void givenNoProducts_whenUpdateProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
-        var command = new UpdateProductCommand(
+        var params = new UpdateProductParams(
                 AuthMother.user(),
                 apple.getId(),
                 "new product name"
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> updateProductHandler.execute(command));
+                () -> updateProductHandler.execute(params));
     }
 
     private void assertProductDataInDatabase(Product product) {

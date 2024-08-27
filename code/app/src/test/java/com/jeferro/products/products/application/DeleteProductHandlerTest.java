@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.products.application.commands.DeleteProductCommand;
+import com.jeferro.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.domain.models.Product;
@@ -42,12 +42,12 @@ class DeleteProductHandlerTest {
 	var apple = givenAnAppleInDatabase();
 
 	var userAuth = AuthMother.user();
-	var command = new DeleteProductCommand(
+	var params = new DeleteProductParams(
 		userAuth,
 		apple.getId()
 	);
 
-	var result = deleteProductHandler.execute(command);
+	var result = deleteProductHandler.execute(params);
 
 	assertEquals(apple, result);
 
@@ -60,13 +60,13 @@ class DeleteProductHandlerTest {
   void givenNoProducts_whenDeleteProduct_thenThrowsException() {
 	var apple = ProductMother.apple();
 
-	var command = new DeleteProductCommand(
+	var params = new DeleteProductParams(
 		AuthMother.user(),
 		apple.getId()
 	);
 
 	assertThrows(ProductNotFoundException.class,
-		() -> deleteProductHandler.execute(command));
+		() -> deleteProductHandler.execute(params));
   }
 
   private void assertProductDoesNotExistInDatabase() {

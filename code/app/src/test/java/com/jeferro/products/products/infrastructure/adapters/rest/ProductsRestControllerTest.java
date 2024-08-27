@@ -38,7 +38,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -63,7 +63,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -81,7 +81,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -106,7 +106,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -124,7 +124,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstCommandOrError(),
+        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }

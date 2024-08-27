@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 
-import com.jeferro.products.product_reviews.application.commands.DeleteProductReviewCommand;
+import com.jeferro.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
@@ -44,12 +44,12 @@ class DeleteProductReviewHandlerTest {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var userAuth = AuthMother.user();
-	var command = new DeleteProductReviewCommand(
+	var params = new DeleteProductReviewParams(
 		userAuth,
 		userReviewOfApple.getId()
 	);
 
-	var result = deleteProductReviewHandler.handle(command);
+	var result = deleteProductReviewHandler.handle(params);
 
 	assertEquals(userReviewOfApple, result);
 
@@ -61,26 +61,26 @@ class DeleteProductReviewHandlerTest {
   @Test
   void givenUserDoesNotCommentOnProduct_whenDeleteProductReview_throwsException() {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
-	var command = new DeleteProductReviewCommand(
+	var params = new DeleteProductReviewParams(
 		AuthMother.user(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> deleteProductReviewHandler.handle(command));
+		() -> deleteProductReviewHandler.handle(params));
   }
 
   @Test
   void givenOtherUserCommentsOnProduct_whenDeleteProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var command = new DeleteProductReviewCommand(
+	var params = new DeleteProductReviewParams(
 		AuthMother.admin(),
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> deleteProductReviewHandler.handle(command));
+		() -> deleteProductReviewHandler.handle(params));
   }
 
   private void assertProductReviewDeletedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {

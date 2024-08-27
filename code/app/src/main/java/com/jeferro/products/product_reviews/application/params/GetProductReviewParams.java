@@ -1,15 +1,15 @@
-package com.jeferro.products.product_reviews.application.commands;
+package com.jeferro.products.product_reviews.application.params;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.application.commands.Command;
+import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.models.auth.Auth;
 
-public class GetProductReviewCommand extends Command<ProductReview> {
+public class GetProductReviewParams extends Params<ProductReview> {
 
   private final ProductReviewId productReviewId;
 
-  public GetProductReviewCommand(Auth auth, ProductReviewId productReviewId) {
+  public GetProductReviewParams(Auth auth, ProductReviewId productReviewId) {
 	super(auth);
 	this.productReviewId = productReviewId;
   }

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.jeferro.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.users.application.commands.SignInCommand;
+import com.jeferro.products.users.application.params.SignInParams;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.models.UserMother;
 import com.jeferro.products.users.domain.repositories.UsersInMemoryRepository;
@@ -31,13 +31,13 @@ class SignInHandlerTest {
   void givenOneUSer_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
 
-	var command = new SignInCommand(
+	var params = new SignInParams(
 		AuthMother.anonymous(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(command);
+	var result = signInHandler.execute(params);
 
 	assertEquals(user, result);
   }
@@ -46,13 +46,13 @@ class SignInHandlerTest {
   void givenAnAuthenticatedUser_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
 
-	var command = new SignInCommand(
+	var params = new SignInParams(
 		AuthMother.user(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(command);
+	var result = signInHandler.execute(params);
 
 	assertEquals(user, result);
   }
@@ -61,28 +61,28 @@ class SignInHandlerTest {
   void givenNoUsers_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = UserMother.user();
 
-	var command = new SignInCommand(
+	var params = new SignInParams(
 		AuthMother.anonymous(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(command));
+		() -> signInHandler.execute(params));
   }
 
   @Test
   void givenWrongCredentials_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = givenAnUserInDatabase();
 
-	var command = new SignInCommand(
+	var params = new SignInParams(
 		AuthMother.anonymous(),
 		user.getUsername(),
 		"wrong-password"
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(command));
+		() -> signInHandler.execute(params));
   }
 
   private User givenAnUserInDatabase() {

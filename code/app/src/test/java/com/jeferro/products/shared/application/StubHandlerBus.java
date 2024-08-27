@@ -1,41 +1,41 @@
 package com.jeferro.products.shared.application;
 
-import com.jeferro.shared.application.bus.HandlerBus;
-import com.jeferro.shared.application.commands.Command;
+import com.jeferro.shared.application.HandlerBus;
+import com.jeferro.shared.application.Params;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StubHandlerBus extends HandlerBus {
 
-    private final List<Command<?>> commands;
+    private final List<Params<?>> params;
 
     private Object result;
 
     public StubHandlerBus() {
-        commands = new ArrayList<>();
+        params = new ArrayList<>();
         result = null;
     }
 
     @Override
-    public <R> R execute(Command<R> command) {
-        commands.add(command);
+    public <R> R execute(Params<R> params) {
+        this.params.add(params);
 
         return (R) result;
     }
 
     public void init(Object result) {
-        commands.clear();
+        params.clear();
 
         this.result = result;
     }
 
     public int size() {
-        return commands.size();
+        return params.size();
     }
 
-    public Command<?> getFirstCommandOrError() {
-        return commands.stream()
+    public Params<?> getFirstParamOrError() {
+        return params.stream()
                 .findFirst()
                 .orElseThrow();
     }

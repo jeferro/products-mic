@@ -7,10 +7,10 @@ import com.jeferro.products.components.rest.generated.dtos.AuthRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.SignInInputRestDTO;
 import com.jeferro.products.components.rest.shared.securtiy.dtos.JwtToken;
 import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
-import com.jeferro.shared.application.bus.HandlerBus;
+import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
 import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
-import com.jeferro.products.users.application.commands.SignInCommand;
+import com.jeferro.products.users.application.params.SignInParams;
 import com.jeferro.products.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,13 +36,13 @@ public class AuthenticationsRestController implements AuthenticationsApi {
 
 	@Override
 	public ResponseEntity<AuthRestDTO> authenticate(SignInInputRestDTO signInInputRestDTO) {
-		var command = new SignInCommand(
+		var params = new SignInParams(
 			authRestResolver.resolve(),
 			usernameRestMapper.toDomain(signInInputRestDTO.getUsername()),
 			signInInputRestDTO.getPassword()
 		);
 
-		var user = handlerBus.execute(command);
+		var user = handlerBus.execute(params);
 
 		var jwtToken = new JwtToken(user.getUsername().getValue(), user.getRoles());
 		var jwtHeader = jwtDecoder.encode(jwtToken);

@@ -1,6 +1,5 @@
 package com.jeferro.shared.application;
 
-import com.jeferro.shared.application.commands.Command;
 import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.SystemAuth;
@@ -12,7 +11,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Set;
 
-public abstract class Handler<C extends Command<R>, R> {
+public abstract class Handler<P extends Params<R>, R> {
 
     protected final Logger logger;
 
@@ -22,38 +21,38 @@ public abstract class Handler<C extends Command<R>, R> {
 
     protected abstract Set<String> getMandatoryUserRoles();
 
-    public R execute(C command) {
+    public R execute(P params) {
         Instant startAt = Instant.now();
 
-        var auth = command.getAuth();
+        var auth = params.getAuth();
         var mandatoryUserRoles = getMandatoryUserRoles();
 
         try {
-            if(! canAuthExecuteCommand(auth, mandatoryUserRoles)) {
+            if(! canAuthExecuteHandler(auth, mandatoryUserRoles)) {
                 throw ForbiddenException.createOf(auth, mandatoryUserRoles);
             }
 
-            R result = handle(command);
+            R result = handle(params);
 
             if (shouldLogExecution()) {
-                logSuccessExecution(startAt, command, result);
+                logSuccessExecution(startAt, params, result);
             }
 
             return result;
         } catch (Exception cause) {
-            logErrorExecution(startAt, command, cause);
+            logErrorExecution(startAt, params, cause);
 
             throw cause;
         }
     }
 
     private boolean shouldLogExecution() {
-        return !(this instanceof SilentHandler<C, R>);
+        return !(this instanceof SilentHandler<P, R>);
     }
 
-    protected abstract R handle(C command);
+    protected abstract R handle(P params);
 
-    private boolean canAuthExecuteCommand(Auth auth, Set<String> mandatoryUserRoles) {
+    private boolean canAuthExecuteHandler(Auth auth, Set<String> mandatoryUserRoles) {
         if(auth instanceof SystemAuth){
             return true;
         }
@@ -67,22 +66,22 @@ public abstract class Handler<C extends Command<R>, R> {
 
     private void logSuccessExecution(
             Instant startAt,
-            C command,
+            P params,
             R result
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.info("{} \n\t command: {} \n\t result: {}\n", duration, command, result);
+        logger.info("{} \n\t params: {} \n\t result: {}\n", duration, params, result);
     }
 
     private void logErrorExecution(
             Instant startAt,
-            C command,
+            P params,
             Exception cause
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.error("{} \n\t command: {}", duration, command, cause);
+        logger.error("{} \n\t params: {}", duration, params, cause);
     }
 
     private Duration calculateDuration(Instant startAt) {

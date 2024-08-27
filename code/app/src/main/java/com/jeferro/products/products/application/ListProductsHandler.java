@@ -1,6 +1,6 @@
 package com.jeferro.products.products.application;
 
-import com.jeferro.products.products.application.commands.ListProductsCommand;
+import com.jeferro.products.products.application.params.ListProductsParams;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.SilentHandler;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static com.jeferro.shared.application.Roles.USER;
 
-public class ListProductsHandler extends SilentHandler<ListProductsCommand, Products> {
+public class ListProductsHandler extends SilentHandler<ListProductsParams, Products> {
 
     private final ProductsRepository productsRepository;
 
@@ -25,8 +25,8 @@ public class ListProductsHandler extends SilentHandler<ListProductsCommand, Prod
     }
 
     @Override
-    public Products handle(ListProductsCommand command) {
-        var criteria = command.getProductCriteria();
+    public Products handle(ListProductsParams params) {
+        var criteria = params.getProductCriteria();
 
         return productsRepository.findAll(criteria);
     }

@@ -1,7 +1,5 @@
-package com.jeferro.shared.application.bus;
+package com.jeferro.shared.application;
 
-import com.jeferro.shared.application.Handler;
-import com.jeferro.shared.application.commands.Command;
 import com.jeferro.shared.domain.exceptions.internals.InternalErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,18 +13,18 @@ public abstract class HandlerBus {
 
     private static final Logger logger = LoggerFactory.getLogger(HandlerBus.class);
 
-    private final Map<Class<Command<?>>, Handler<?, ?>> handlers = new HashMap<>();
+    private final Map<Class<Params<?>>, Handler<?, ?>> handlers = new HashMap<>();
 
-    public <R> R execute(Command<R> command) {
-        var handler = getHandler(command);
+    public <R> R execute(Params<R> params) {
+        var handler = getHandler(params);
 
         if (handler == null) {
-            logger.error("Handler not found by command {}", command.getClass().getSimpleName());
+            logger.error("Handler not found by params {}", params.getClass().getSimpleName());
 
             throw InternalErrorException.createOfHandlerNotFound();
         }
 
-        return handler.execute(command);
+        return handler.execute(params);
     }
 
     protected void registryHandler(Handler<?, ?> handler) {
@@ -36,18 +34,18 @@ public abstract class HandlerBus {
             throw new IllegalArgumentException("Handler superclass is not a parameterized type");
         }
 
-        Class<Command<?>> commandClass = (Class<Command<?>>) parameterizedType.getActualTypeArguments()[0];
+        Class<Params<?>> paramsClass = (Class<Params<?>>) parameterizedType.getActualTypeArguments()[0];
 
-        handlers.put(commandClass, handler);
+        handlers.put(paramsClass, handler);
     }
 
-    private <R> Handler<Command<R>, R> getHandler(Command<R> command) {
-        Class<?> commandClass = command.getClass();
+    private <R> Handler<Params<R>, R> getHandler(Params<R> params) {
+        Class<?> paramsClass = params.getClass();
 
-        if (!handlers.containsKey(commandClass)) {
+        if (!handlers.containsKey(paramsClass)) {
             return null;
         }
 
-        return (Handler<Command<R>, R>) handlers.get(commandClass);
+        return (Handler<Params<R>, R>) handlers.get(paramsClass);
     }
 }

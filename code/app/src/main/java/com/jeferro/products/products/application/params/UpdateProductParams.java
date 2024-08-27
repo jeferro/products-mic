@@ -1,19 +1,19 @@
-package com.jeferro.products.products.application.commands;
+package com.jeferro.products.products.application.params;
 
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.shared.application.commands.Command;
+import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.auth.Auth;
 import org.apache.commons.lang3.StringUtils;
 
-public class UpdateProductCommand extends Command<Product> {
+public class UpdateProductParams extends Params<Product> {
 
   private ProductId productId;
 
   private String name;
 
-  public UpdateProductCommand(Auth auth, ProductId productId, String name) {
+  public UpdateProductParams(Auth auth, ProductId productId, String name) {
 	super(auth);
 
 	setProductId(productId);

@@ -2,15 +2,15 @@ package com.jeferro.products.users.application;
 
 import java.util.Set;
 
+import com.jeferro.products.users.application.params.SignInParams;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.shared.domain.models.auth.Username;
-import com.jeferro.products.users.application.commands.SignInCommand;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.domain.services.PasswordEncoder;
 
-public class SignInHandler extends Handler<SignInCommand, User> {
+public class SignInHandler extends Handler<SignInParams, User> {
 
   private final UsersRepository usersRepository;
 
@@ -30,9 +30,9 @@ public class SignInHandler extends Handler<SignInCommand, User> {
   }
 
   @Override
-  protected User handle(SignInCommand command) {
-	var username = command.getUsername();
-	var plainPassword = command.getPlainPassword();
+  protected User handle(SignInParams params) {
+	var username = params.getUsername();
+	var plainPassword = params.getPlainPassword();
 
 	var user = ensureUserExists(username);
 
