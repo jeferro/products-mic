@@ -29,6 +29,9 @@ dependencies {
 
     // Kafka
     api("org.springframework.kafka", "spring-kafka", Versions.spring_kafka)
+
+    api("org.apache.avro", "avro", Versions.avro)
+    implementation("io.confluent", "kafka-avro-serializer", Versions.kafka_avro_serializer)
 }
 
 tasks.getByName<BootJar>("bootJar") {

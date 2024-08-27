@@ -6,6 +6,7 @@ import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.domain.models.auth.AnonymousAuth;
 import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.SystemAuth;
 import com.jeferro.shared.domain.models.auth.UserAuth;
 import com.jeferro.shared.domain.models.auth.Username;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +28,10 @@ public class SpringHandlerBus extends HandlerBus {
 
         if (authentication == null){
             return AnonymousAuth.create();
+        }
+
+        if (authentication.getPrincipal() == "system"){
+            return SystemAuth.create("kafka");
         }
 
         var username = new Username(authentication.getPrincipal().toString());
