@@ -75,7 +75,7 @@ class UpdateProductReviewHandlerTest {
   void givenOtherUserCommentsOnProduct_whenUpdateProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var adminAuth = AuthMother.admin();
 	var newComment = "New comment about apple";
 	var params = new UpdateProductReviewParams(
 		userReviewOfApple.getId(),
@@ -83,7 +83,7 @@ class UpdateProductReviewHandlerTest {
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> updateProductReviewHandler.handle(userAuth, params));
+		() -> updateProductReviewHandler.handle(adminAuth, params));
   }
 
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {
