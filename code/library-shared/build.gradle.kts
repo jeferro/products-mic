@@ -21,9 +21,6 @@ dependencies {
     api("org.springframework.boot", "spring-boot-starter-web")
     implementation("org.springframework.boot", "spring-boot-starter-actuator")
 
-    api("jakarta.validation", "jakarta.validation-api", "3.0.2")
-    api("org.openapitools", "jackson-databind-nullable", "0.2.6")
-
     implementation("com.auth0", "java-jwt", Versions.jwt)
 
     // Mongo

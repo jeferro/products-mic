@@ -22,8 +22,8 @@ dependencies {
     testImplementation("org.testcontainers", "junit-jupiter")
 
     // Rest
-    api("jakarta.validation", "jakarta.validation-api", "3.0.2")
-    implementation("org.openapitools", "jackson-databind-nullable", "0.2.6")
+    api("jakarta.validation", "jakarta.validation-api", Versions.jakarta_validation_api)
+    implementation("org.openapitools", "jackson-databind-nullable", Versions.jackson_databind_nullable)
 
     // Mongo
     testImplementation("org.testcontainers", "mongodb", Versions.test_containers)
