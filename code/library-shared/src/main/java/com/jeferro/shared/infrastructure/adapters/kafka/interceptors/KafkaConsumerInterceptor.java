@@ -2,6 +2,7 @@ package com.jeferro.shared.infrastructure.adapters.kafka.interceptors;
 
 import java.util.Map;
 
+import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
 import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -11,11 +12,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class KafkaConsumerInterceptor implements ConsumerInterceptor<String, String> {
 
+  public static final String CONFIG_SECURITY_MANAGER = "security-manager";
+
+  private SecurityManager securityManager;
+
+  @Override
+  public void configure(Map<String, ?> configs) {
+	this.securityManager = (SecurityManager) configs.get(CONFIG_SECURITY_MANAGER);
+  }
+
   @Override
   public ConsumerRecords<String, String> onConsume(ConsumerRecords<String, String> consumerRecords) {
-	var authentication = createAuthenticationToken();
-
-	SecurityContextHolder.getContext().setAuthentication(authentication);
+	securityManager.signInSystem();
 
 	return consumerRecords;
   }
@@ -27,11 +35,6 @@ public class KafkaConsumerInterceptor implements ConsumerInterceptor<String, Str
 
   @Override
   public void close() {
-	// Do nothing
-  }
-
-  @Override
-  public void configure(Map<String, ?> map) {
 	// Do nothing
   }
 

@@ -71,7 +71,11 @@ public abstract class Handler<P extends Params<R>, R> {
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.info("{} \n\t user: {} \n\t params: {} \n\t result: {}\n", duration, auth, params, result);
+        logger.info("\n\t Handler: {} "
+            + "\n\t auth: {} "
+            + "\n\t params: {} "
+            + "\n\t result: {}"
+            + "\n\t duration: {} \n", getClass().getSimpleName(), auth, params, result, duration);
     }
 
     private void logErrorExecution(
@@ -82,7 +86,10 @@ public abstract class Handler<P extends Params<R>, R> {
     ) {
         Duration duration = calculateDuration(startAt);
 
-        logger.error("{} \n\t user: {} \n\t params: {}", duration, auth, params, cause);
+        logger.error("\n\t Handler: {} "
+            + "\n\t auth: {} "
+            + "\n\t params: {}"
+            + "\n\t duration: {} \n", getClass().getSimpleName(), auth, params, duration, cause);
     }
 
     private Duration calculateDuration(Instant startAt) {

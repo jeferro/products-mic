@@ -5,12 +5,11 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import com.jeferro.products.components.rest.generated.apis.AuthenticationsApi;
 import com.jeferro.products.components.rest.generated.dtos.AuthRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.SignInInputRestDTO;
-import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtToken;
-import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
-import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
 import com.jeferro.products.users.application.params.SignInParams;
 import com.jeferro.products.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
+import com.jeferro.shared.application.HandlerBus;
+import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
+import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,11 +38,8 @@ public class AuthenticationsRestController implements AuthenticationsApi {
 
 		var user = handlerBus.execute(params);
 
-		var jwtToken = new JwtToken(user.getUsername().getValue(), user.getRoles());
-		var jwtHeader = jwtDecoder.encode(jwtToken);
-
 		return ResponseEntity.ok()
-			.header(AUTHORIZATION, jwtHeader)
+			.header(AUTHORIZATION, jwtDecoder.encode(user.getUsername(), user.getRoles()))
 			.body(authRestMapper.toDTO(user));
 	}
 }

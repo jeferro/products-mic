@@ -1,80 +1,80 @@
 package com.jeferro.shared.infrastructure.adapters.rest.services.jwt;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.UserAuth;
+import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.shared.infrastructure.adapters.rest.configurations.RestSecurityProperties;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtDecoder {
 
-	private static final String BEARER_PREFIX = "Bearer ";
+  private static final String BEARER_PREFIX = "Bearer ";
 
-	public static final String ROLES_CLAIM = "roles";
+  public static final String ROLES_CLAIM = "roles";
 
-	private final RestSecurityProperties jwtProperties;
+  private final RestSecurityProperties jwtProperties;
 
-	private final Algorithm hmac512;
+  private final Algorithm hmac512;
 
-	private final JWTVerifier jwtVerifier;
+  private final JWTVerifier jwtVerifier;
 
-	public JwtDecoder(RestSecurityProperties restSecurityProperties) {
-		hmac512 = Algorithm.HMAC512(restSecurityProperties.issuer());
-		jwtVerifier = JWT.require(hmac512).build();
+  public JwtDecoder(RestSecurityProperties restSecurityProperties) {
+	hmac512 = Algorithm.HMAC512(restSecurityProperties.issuer());
+	jwtVerifier = JWT.require(hmac512).build();
 
-		this.jwtProperties = restSecurityProperties;
+	this.jwtProperties = restSecurityProperties;
+  }
+
+  public boolean belongsToJwt(String header) {
+	return header.startsWith(BEARER_PREFIX);
+  }
+
+  public Auth decode(String header) {
+	try {
+	  if (header == null
+		  || !belongsToJwt(header)) {
+		return null;
+	  }
+
+	  var jwtToken = header.substring(BEARER_PREFIX.length());
+	  var jwt = jwtVerifier.verify(jwtToken);
+
+	  var username = new Username(jwt.getSubject());
+	  var roles = new HashSet<>(jwt.getClaim(ROLES_CLAIM)
+		  .asList(String.class));
+
+	  return UserAuth.create(username, roles);
+	} catch (JWTVerificationException cause) {
+	  return null;
+	}
+  }
+
+  public String encode(Username username, Set<String> roles) {
+	var issuedAt = Instant.now();
+
+	var jwtBuilder = JWT.create()
+		.withIssuer(jwtProperties.issuer())
+		.withIssuedAt(issuedAt)
+		.withSubject(username.getValue())
+		.withArrayClaim(ROLES_CLAIM, roles.toArray(String[]::new));
+
+	if (jwtProperties.hasDuration()) {
+	  var expiresAt = issuedAt.plusMillis(jwtProperties.durationAsMillis());
+
+	  jwtBuilder.withExpiresAt(expiresAt);
 	}
 
-	public JwtToken decode(HttpServletRequest request) {
-		try {
-			var header = request.getHeader(AUTHORIZATION);
+	var token = jwtBuilder.sign(hmac512);
 
-			if (header == null) {
-				return null;
-			}
-
-			if (!header.startsWith(BEARER_PREFIX)) {
-				return null;
-			}
-
-			var jwtToken = header.substring(BEARER_PREFIX.length());
-			var jwt = jwtVerifier.verify(jwtToken);
-
-			var username = jwt.getSubject();
-			var roles = new HashSet<>(jwt.getClaim(ROLES_CLAIM)
-				.asList(String.class));
-
-			return new JwtToken(username, roles);
-		} catch (JWTVerificationException cause) {
-			return null;
-		}
-	}
-
-	public String encode(JwtToken jwtToken) {
-		var issuedAt = Instant.now();
-
-		var jwtBuilder = JWT.create()
-			.withIssuer(jwtProperties.issuer())
-			.withIssuedAt(issuedAt)
-			.withSubject(jwtToken.username())
-			.withArrayClaim(ROLES_CLAIM, jwtToken.roles().toArray(String[]::new));
-
-		if (jwtProperties.hasDuration()) {
-			var expiresAt = issuedAt.plusMillis(jwtProperties.durationAsMillis());
-
-			jwtBuilder.withExpiresAt(expiresAt);
-		}
-
-		var token = jwtBuilder.sign(hmac512);
-
-		return BEARER_PREFIX + token;
-	}
+	return BEARER_PREFIX + token;
+  }
 }

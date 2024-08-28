@@ -1,42 +1,27 @@
 package com.jeferro.shared.infrastructure.handler_bus;
 
-import java.util.Set;
-
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.domain.models.auth.AnonymousAuth;
 import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.SystemAuth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
+import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SpringHandlerBus extends HandlerBus {
 
-    public SpringHandlerBus(ApplicationContext applicationContext) {
-        applicationContext.getBeansOfType(Handler.class)
-                .values()
-                .forEach(this::registryHandler);
-    }
+  private final SecurityManager securityManager;
 
-    @Override
-    protected Auth getAuth() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
+  public SpringHandlerBus(ApplicationContext applicationContext, SecurityManager securityManager) {
+	this.securityManager = securityManager;
 
-        if (authentication == null){
-            return AnonymousAuth.create();
-        }
+	applicationContext.getBeansOfType(Handler.class)
+		.values()
+		.forEach(this::registryHandler);
+  }
 
-        if (authentication.getPrincipal() == "system"){
-            return SystemAuth.create("kafka");
-        }
-
-        var username = new Username(authentication.getPrincipal().toString());
-        var roles = (Set<String>) authentication.getCredentials();
-
-        return UserAuth.create(username, roles);
-    }
+  @Override
+  protected Auth getAuth() {
+	return securityManager.getAuth();
+  }
 }
