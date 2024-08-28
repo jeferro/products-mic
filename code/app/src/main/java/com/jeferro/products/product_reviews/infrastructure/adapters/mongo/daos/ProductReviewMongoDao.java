@@ -1,8 +1,8 @@
-package com.jeferro.products.components.mongodb.product_reviews;
+package com.jeferro.products.product_reviews.infrastructure.adapters.mongo.daos;
 
 import java.util.List;
 
-import com.jeferro.products.components.mongodb.product_reviews.dtos.ProductReviewMongoDTO;
+import com.jeferro.products.product_reviews.infrastructure.adapters.mongo.dtos.ProductReviewMongoDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

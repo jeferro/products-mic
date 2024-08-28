@@ -7,21 +7,24 @@ plugins {
 }
 
 dependencies {
+    // General
     implementation(project(":library-shared"))
 
     annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
 
+    testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
+
+    // Spring
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
 
     testImplementation("org.springframework.boot", "spring-boot-testcontainers")
     testImplementation("org.testcontainers", "junit-jupiter")
 
+    // Rest
     implementation(project(":comp-rest"))
 
-    implementation(project(":comp-mongodb"))
+    // Mongo
     testImplementation("org.testcontainers", "mongodb", Versions.test_containers)
-
-    testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
 }
 
 tasks.withType<Test> {

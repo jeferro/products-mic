@@ -1,8 +1,8 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo;
 
-import com.jeferro.products.components.mongodb.products.ProductsMongoDao;
-import com.jeferro.products.components.mongodb.products.dtos.ProductMongoDTO;
-import com.jeferro.products.components.mongodb.shared.metadata.services.CustomMongoTemplate;
+import com.jeferro.products.products.infrastructure.adapters.mongo.daos.ProductsMongoDao;
+import com.jeferro.products.products.infrastructure.adapters.mongo.dtos.ProductMongoDTO;
+import com.jeferro.shared.infrastructure.adapters.mongo.services.auditor.CustomMongoTemplate;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.domain.models.ProductId;

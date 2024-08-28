@@ -1,4 +1,4 @@
-package com.jeferro.products.components.mongodb.shared.metadata.services;
+package com.jeferro.shared.infrastructure.adapters.mongo.services.auditor;
 
 import java.util.Optional;
 

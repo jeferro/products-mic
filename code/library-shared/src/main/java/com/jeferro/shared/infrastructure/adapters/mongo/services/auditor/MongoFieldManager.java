@@ -1,4 +1,4 @@
-package com.jeferro.products.components.mongodb.shared.metadata.services;
+package com.jeferro.shared.infrastructure.adapters.mongo.services.auditor;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

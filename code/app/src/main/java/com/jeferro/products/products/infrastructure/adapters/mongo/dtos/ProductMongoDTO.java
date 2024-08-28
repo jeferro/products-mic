@@ -1,4 +1,4 @@
-package com.jeferro.products.components.mongodb.products.dtos;
+package com.jeferro.products.products.infrastructure.adapters.mongo.dtos;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

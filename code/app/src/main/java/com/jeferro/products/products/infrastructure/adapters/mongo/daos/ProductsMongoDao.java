@@ -1,6 +1,6 @@
-package com.jeferro.products.components.mongodb.products;
+package com.jeferro.products.products.infrastructure.adapters.mongo.daos;
 
-import com.jeferro.products.components.mongodb.products.dtos.ProductMongoDTO;
+import com.jeferro.products.products.infrastructure.adapters.mongo.dtos.ProductMongoDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
 

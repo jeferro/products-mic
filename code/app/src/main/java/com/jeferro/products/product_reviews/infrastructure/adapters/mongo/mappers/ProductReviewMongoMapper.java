@@ -1,6 +1,6 @@
 package com.jeferro.products.product_reviews.infrastructure.adapters.mongo.mappers;
 
-import com.jeferro.products.components.mongodb.product_reviews.dtos.ProductReviewMongoDTO;
+import com.jeferro.products.product_reviews.infrastructure.adapters.mongo.dtos.ProductReviewMongoDTO;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
 import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;

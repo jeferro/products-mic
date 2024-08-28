@@ -1,6 +1,6 @@
 package com.jeferro.products.product_reviews.infrastructure.adapters.mongo;
 
-import com.jeferro.products.components.mongodb.product_reviews.ProductReviewMongoDao;
+import com.jeferro.products.product_reviews.infrastructure.adapters.mongo.daos.ProductReviewMongoDao;
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;

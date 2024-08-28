@@ -1,8 +1,8 @@
-package com.jeferro.products.components.mongodb.shared.metadata.configuration;
+package com.jeferro.shared.infrastructure.adapters.mongo.configuration;
 
-import com.jeferro.products.components.mongodb.shared.metadata.services.CustomMongoTemplate;
-import com.jeferro.products.components.mongodb.shared.metadata.services.MongoAuditorAware;
-import com.jeferro.products.components.mongodb.shared.metadata.services.MongoFieldManager;
+import com.jeferro.shared.infrastructure.adapters.mongo.services.auditor.CustomMongoTemplate;
+import com.jeferro.shared.infrastructure.adapters.mongo.services.auditor.MongoAuditorAware;
+import com.jeferro.shared.infrastructure.adapters.mongo.services.auditor.MongoFieldManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
