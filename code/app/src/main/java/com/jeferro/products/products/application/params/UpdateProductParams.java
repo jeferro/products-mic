@@ -4,7 +4,6 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.apache.commons.lang3.StringUtils;
 
 public class UpdateProductParams extends Params<Product> {
@@ -13,8 +12,8 @@ public class UpdateProductParams extends Params<Product> {
 
   private String name;
 
-  public UpdateProductParams(Auth auth, ProductId productId, String name) {
-	super(auth);
+  public UpdateProductParams(ProductId productId, String name) {
+	super();
 
 	setProductId(productId);
 	setName(name);

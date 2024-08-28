@@ -2,19 +2,21 @@ package com.jeferro.shared.domain.models.auth;
 
 public class SystemAuth extends Auth {
 
-    private final String name;
-
-    public SystemAuth(String name) {
+    public SystemAuth() {
         super();
-        this.name = name;
     }
 
-    public static SystemAuth create(String name) {
-        return new SystemAuth(name);
+    public static SystemAuth create() {
+        return new SystemAuth();
     }
 
     @Override
     public String who() {
-        return name;
+        return "system";
+    }
+
+    @Override
+    public boolean isUser() {
+        return false;
     }
 }

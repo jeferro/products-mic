@@ -1,9 +1,9 @@
-package com.jeferro.products.components.kafka.products;
+package com.jeferro.products.products.infrastructure.adapters.kafka;
 
-import com.jeferro.products.components.kafka.products.configurations.ProductsKafkaProperties;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductCreatedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductUpdatedAvroDTO;
+import com.jeferro.products.products.infrastructure.adapters.kafka.configurations.ProductsKafkaProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

@@ -13,9 +13,9 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.products.shared.domain.services.time.FakeTimeService;
+import com.jeferro.shared.domain.models.auth.Auth;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,11 +43,10 @@ class DeleteProductHandlerTest {
 
 	var userAuth = AuthMother.user();
 	var params = new DeleteProductParams(
-		userAuth,
 		apple.getId()
 	);
 
-	var result = deleteProductHandler.execute(params);
+	var result = deleteProductHandler.execute(userAuth, params);
 
 	assertEquals(apple, result);
 
@@ -60,13 +59,13 @@ class DeleteProductHandlerTest {
   void givenNoProducts_whenDeleteProduct_thenThrowsException() {
 	var apple = ProductMother.apple();
 
+	var userAuth = AuthMother.user();
 	var params = new DeleteProductParams(
-		AuthMother.user(),
 		apple.getId()
 	);
 
 	assertThrows(ProductNotFoundException.class,
-		() -> deleteProductHandler.execute(params));
+		() -> deleteProductHandler.execute(userAuth, params));
   }
 
   private void assertProductDoesNotExistInDatabase() {

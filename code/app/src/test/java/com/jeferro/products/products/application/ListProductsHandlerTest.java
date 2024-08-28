@@ -28,12 +28,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsAllProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
+        var userAuth = AuthMother.user();
         var params = new ListProductsParams(
-                AuthMother.user(),
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(params);
+        var result = listProductsHandler.execute(userAuth, params);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(databaseData.apple()));
@@ -44,12 +44,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsFilteredProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
+        var userAuth = AuthMother.user();
         var params = new ListProductsParams(
-                AuthMother.user(),
                 ProductCriteria.createOfName("pe")
         );
 
-        var result = listProductsHandler.execute(params);
+        var result = listProductsHandler.execute(userAuth, params);
 
         assertEquals(1, result.size());
         assertFalse(result.contains(databaseData.apple()));
@@ -58,12 +58,12 @@ class ListProductsHandlerTest {
 
     @Test
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
+        var userAuth = AuthMother.user();
         var params = new ListProductsParams(
-                AuthMother.user(),
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(params);
+        var result = listProductsHandler.execute(userAuth, params);
 
         assertTrue(result.isEmpty());
     }

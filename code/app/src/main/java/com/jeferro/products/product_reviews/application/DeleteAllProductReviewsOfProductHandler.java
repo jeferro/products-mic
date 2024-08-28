@@ -8,6 +8,7 @@ import com.jeferro.products.product_reviews.application.params.DeleteAllProductR
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
 
@@ -28,8 +29,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
   }
 
   @Override
-  protected Void handle(DeleteAllProductReviewsOfProductParams params) {
-	var auth = params.getAuth();
+  protected Void handle(Auth auth, DeleteAllProductReviewsOfProductParams params) {
 	var productId = params.getProductId();
 
 	var productReviews = productReviewsRepository.findAllByProductId(productId);

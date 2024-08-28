@@ -1,16 +1,16 @@
 package com.jeferro.products.shared.infrastructure.adapters.rest;
 
-import com.jeferro.products.components.rest.shared.securtiy.configurations.RestSecurityProperties;
-import com.jeferro.products.components.rest.shared.securtiy.services.JwtDecoder;
 import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.shared.infrastructure.adapters.rest.ErrorRestController;
-import com.jeferro.shared.infrastructure.adapters.rest.services.AuthRestResolver;
+import com.jeferro.shared.infrastructure.adapters.rest.configurations.RestSecurityProperties;
+import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
+import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
 @Import({
-	AuthRestResolver.class,
 	JwtDecoder.class,
+	SecurityManager.class,
 	ErrorRestController.class,
 	StubHandlerBus.class
 })

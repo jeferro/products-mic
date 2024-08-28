@@ -1,6 +1,5 @@
 package com.jeferro.products.products.infrastructure.adapters.kafka;
 
-import com.jeferro.products.components.kafka.products.ProductsKafkaTemplate;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.events.ProductEvent;

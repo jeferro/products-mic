@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import java.net.URI;
 
 @Mapper
-public class ErrorRestMapper {
+public class ProblemDetailRestMapper {
 
-    public static final ErrorRestMapper INSTANCE = Mappers.getMapper(ErrorRestMapper.class);
+    public static final ProblemDetailRestMapper INSTANCE = Mappers.getMapper(ProblemDetailRestMapper.class);
 
     public ResponseEntity<ProblemDetail> toDTO(HttpStatus status, Exception cause) {
         var dto = ProblemDetail.forStatus(status);

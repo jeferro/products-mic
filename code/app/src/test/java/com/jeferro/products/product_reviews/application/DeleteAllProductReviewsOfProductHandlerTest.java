@@ -48,11 +48,10 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	var appleId = ProductIdMother.appleId();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
-		adminAuth,
 		appleId
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(params);
+	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);
 
 	assertThereAreNotReviewsOfApple();
 
@@ -65,11 +64,10 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	var appleId = ProductIdMother.appleId();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
-		adminAuth,
 		appleId
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(params);
+	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);
 
 	assertNoEventsWerePublished();
   }

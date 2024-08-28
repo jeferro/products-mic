@@ -1,19 +1,30 @@
+metadata:
+  application-id: products
+  environment: local
+
+
+spring:
+  application:
+    name: ${metadata.application-id}
+
+  profiles:
+    active: ${metadata.environment}
+    include:
+      - shared
+
+
 logging:
   level:
     root: WARN
     com.jeferro: INFO
 
-spring:
-  application:
-    name: products
 
-  profiles:
-    active: local
-    include:
-      - kafka
-      - mongo
-      - rest
+application:
+  products:
+    topic: com.jeferro.${metadata.application-id}.products.${metadata.environment}.v1
 
-  threads:
-    virtual:
-      enabled: true
+  product-reviews:
+    consumer-group-id: ${metadata.application-id}.product-reviews.${metadata.environment}
+
+  product-details:
+    consumer-group-id: ${metadata.application-id}.product-details.${metadata.environment}

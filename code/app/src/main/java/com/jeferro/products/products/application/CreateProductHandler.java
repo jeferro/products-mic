@@ -5,6 +5,7 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 import java.util.Set;
 
@@ -29,8 +30,7 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     }
 
     @Override
-    public Product handle(CreateProductParams params) {
-        var auth = params.getAuth();
+    public Product handle(Auth auth, CreateProductParams params) {
         var name = params.getName();
 
         var product = Product.create(name, auth);

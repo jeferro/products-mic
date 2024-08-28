@@ -4,14 +4,13 @@ import com.jeferro.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
 
 public class ListProductsParams extends Params<Products> {
 
     private ProductCriteria productCriteria;
 
-    public ListProductsParams(Auth auth, ProductCriteria productCriteria) {
-        super(auth);
+    public ListProductsParams(ProductCriteria productCriteria) {
+        super();
 
         setProductCriteria(productCriteria);
     }

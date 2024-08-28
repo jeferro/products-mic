@@ -5,7 +5,7 @@ import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.exceptions.NotFoundException;
 import com.jeferro.shared.domain.exceptions.UnauthorizedException;
 import com.jeferro.shared.domain.exceptions.internals.InternalErrorException;
-import com.jeferro.shared.infrastructure.adapters.rest.mappers.ErrorRestMapper;
+import com.jeferro.shared.infrastructure.adapters.rest.mappers.ProblemDetailRestMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class ErrorRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(ErrorRestController.class);
 
-    public static ErrorRestMapper errorRestMapper = ErrorRestMapper.INSTANCE;
+    public static ProblemDetailRestMapper problemDetailRestMapper = ProblemDetailRestMapper.INSTANCE;
 
     @ResponseBody
     @ExceptionHandler(value = {
@@ -31,7 +31,7 @@ public class ErrorRestController {
             MissingServletRequestParameterException.class
     })
     public ResponseEntity<ProblemDetail> handleBadRequest(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.BAD_REQUEST, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.BAD_REQUEST, cause);
     }
 
     @ResponseBody
@@ -40,7 +40,7 @@ public class ErrorRestController {
             NoResourceFoundException.class
     })
     public ResponseEntity<ProblemDetail> handleNotFound(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.NOT_FOUND, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.NOT_FOUND, cause);
     }
 
     @ResponseBody
@@ -48,7 +48,7 @@ public class ErrorRestController {
             UnauthorizedException.class
     })
     public ResponseEntity<ProblemDetail> handleUnauthorized(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.UNAUTHORIZED, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.UNAUTHORIZED, cause);
     }
 
     @ResponseBody
@@ -56,7 +56,7 @@ public class ErrorRestController {
             ForbiddenException.class
     })
     public ResponseEntity<ProblemDetail> handleForbidden(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.FORBIDDEN, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.FORBIDDEN, cause);
     }
 
     @ResponseBody
@@ -64,7 +64,7 @@ public class ErrorRestController {
             ConstraintException.class
     })
     public ResponseEntity<ProblemDetail> handleConstraint(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.CONFLICT, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.CONFLICT, cause);
     }
 
     @ResponseBody
@@ -72,7 +72,7 @@ public class ErrorRestController {
             InternalErrorException.class
     })
     public ResponseEntity<ProblemDetail> handleInternalError(Exception cause) {
-        return errorRestMapper.toDTO(HttpStatus.INTERNAL_SERVER_ERROR, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.INTERNAL_SERVER_ERROR, cause);
     }
 
     @ResponseBody
@@ -82,7 +82,7 @@ public class ErrorRestController {
     public ResponseEntity<ProblemDetail> handleException(Exception cause) {
         logger.error("Catch an unknown exception", cause);
 
-        return errorRestMapper.toDTO(HttpStatus.INTERNAL_SERVER_ERROR, cause);
+        return problemDetailRestMapper.toDTO(HttpStatus.INTERNAL_SERVER_ERROR, cause);
     }
 
 }

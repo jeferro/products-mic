@@ -13,7 +13,9 @@ import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.domain.models.auth.UserAuth;
 import com.jeferro.shared.domain.models.auth.Username;
 
 public class CreateProductReviewHandler extends Handler<CreateProductReviewParams, ProductReview> {
@@ -40,17 +42,25 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
   }
 
   @Override
-  protected ProductReview handle(CreateProductReviewParams params) {
-	var auth = params.getAuth();
-	var username = params.getAuthUsernameOrError();
+  protected ProductReview handle(Auth auth, CreateProductReviewParams params) {
 	var productId = params.getProductId();
 	var comment = params.getComment();
+
+	var username = getAuthUsernameOrError(auth);
 
 	ensureProductExists(productId);
 
 	ensureUserDidNotCommentOnProduct(username, productId);
 
 	return createProductReview(username, productId, comment, auth);
+  }
+
+  public Username getAuthUsernameOrError(Auth auth) {
+	if (auth instanceof UserAuth userAuth) {
+	  return userAuth.getUsername();
+	}
+
+	throw ForbiddenException.createOfNotUserAuth(auth);
   }
 
   private void ensureProductExists(ProductId productId) {

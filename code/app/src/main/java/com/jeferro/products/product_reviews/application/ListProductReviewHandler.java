@@ -8,6 +8,7 @@ import com.jeferro.products.product_reviews.application.params.ListProductReview
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.SilentHandler;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class ListProductReviewHandler extends SilentHandler<ListProductReviewParams, ProductReviews> {
 
@@ -25,7 +26,7 @@ public class ListProductReviewHandler extends SilentHandler<ListProductReviewPar
   }
 
   @Override
-  protected ProductReviews handle(ListProductReviewParams params) {
+  protected ProductReviews handle(Auth auth, ListProductReviewParams params) {
 	var productId = params.getProductId();
 
 	return productReviewsRepository.findAllByProductId(productId);

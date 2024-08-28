@@ -9,6 +9,7 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
+import com.jeferro.shared.domain.models.auth.Auth;
 
 public class DeleteProductHandler extends Handler<DeleteProductParams, Product> {
 
@@ -30,8 +31,7 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
     }
 
     @Override
-    public Product handle(DeleteProductParams params) {
-        var auth = params.getAuth();
+    public Product handle(Auth auth, DeleteProductParams params) {
         var productId = params.getProductId();
 
         var product = productsRepository.findByIdOrError(productId);

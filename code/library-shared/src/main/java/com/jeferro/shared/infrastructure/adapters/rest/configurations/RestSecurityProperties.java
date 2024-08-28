@@ -1,4 +1,4 @@
-package com.jeferro.products.components.rest.shared.securtiy.configurations;
+package com.jeferro.shared.infrastructure.adapters.rest.configurations;
 
 import java.time.Duration;
 

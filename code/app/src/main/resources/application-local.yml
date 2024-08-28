@@ -2,12 +2,11 @@
 server:
   port: 8088
 
+
 components:
   kafka:
     bootstrap-servers: localhost:9092
     schema-registry-url: http://localhost:8081
-    products:
-      topic: com.jeferro.products.products.local
 
   mongodb:
     uri: mongodb://root:root@127.0.0.1:27017/test?authSource=admin

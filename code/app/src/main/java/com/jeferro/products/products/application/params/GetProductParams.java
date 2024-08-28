@@ -4,14 +4,13 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
 
 public class GetProductParams extends Params<Product> {
 
   private ProductId productId;
 
-  public GetProductParams(Auth auth, ProductId productId) {
-	super(auth);
+  public GetProductParams(ProductId productId) {
+	super();
 
 	setProductId(productId);
   }

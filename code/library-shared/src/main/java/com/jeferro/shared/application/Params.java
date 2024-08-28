@@ -2,34 +2,11 @@ package com.jeferro.shared.application;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
-import com.jeferro.shared.domain.exceptions.ForbiddenException;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public abstract class Params<R> {
-
-  private Auth auth;
-
-  public Params(Auth auth) {
-	setAuth(auth);
-  }
-
-  public Auth getAuth() {
-	return auth;
-  }
-
-  public Username getAuthUsernameOrError() {
-	if (auth instanceof UserAuth userAuth) {
-	  return userAuth.getUsername();
-	}
-
-	throw ForbiddenException.createOfNotUserAuth(auth);
-  }
 
   @Override
   public int hashCode() {
@@ -55,13 +32,5 @@ public abstract class Params<R> {
   @Override
   public String toString() {
 	return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
-  }
-
-  private void setAuth(Auth auth) {
-	if (auth == null) {
-	  throw ValueValidationException.createOfMessage("Auth is null");
-	}
-
-	this.auth = auth;
   }
 }

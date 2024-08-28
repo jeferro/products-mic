@@ -1,6 +1,6 @@
-package com.jeferro.products.components.rest.shared.securtiy.configurations;
+package com.jeferro.shared.infrastructure.adapters.rest.configurations;
 
-import com.jeferro.products.components.rest.shared.securtiy.filters.AuthRestFilter;
+import com.jeferro.shared.infrastructure.adapters.rest.filters.AuthRestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

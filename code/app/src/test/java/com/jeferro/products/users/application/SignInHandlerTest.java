@@ -31,13 +31,13 @@ class SignInHandlerTest {
   void givenOneUSer_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
 
+	var anonymousAuth = AuthMother.anonymous();
 	var params = new SignInParams(
-		AuthMother.anonymous(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(params);
+	var result = signInHandler.execute(anonymousAuth, params);
 
 	assertEquals(user, result);
   }
@@ -45,14 +45,14 @@ class SignInHandlerTest {
   @Test
   void givenAnAuthenticatedUser_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
+	var userAuth = AuthMother.user();
 
 	var params = new SignInParams(
-		AuthMother.user(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(params);
+	var result = signInHandler.execute(userAuth, params);
 
 	assertEquals(user, result);
   }
@@ -60,29 +60,29 @@ class SignInHandlerTest {
   @Test
   void givenNoUsers_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = UserMother.user();
+	var anonymousAuth = AuthMother.anonymous();
 
 	var params = new SignInParams(
-		AuthMother.anonymous(),
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(params));
+		() -> signInHandler.execute(anonymousAuth, params));
   }
 
   @Test
   void givenWrongCredentials_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = givenAnUserInDatabase();
+	var anonymousAuth = AuthMother.anonymous();
 
 	var params = new SignInParams(
-		AuthMother.anonymous(),
 		user.getUsername(),
 		"wrong-password"
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(params));
+		() -> signInHandler.execute(anonymousAuth, params));
   }
 
   private User givenAnUserInDatabase() {
