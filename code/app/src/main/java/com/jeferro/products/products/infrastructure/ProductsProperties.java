@@ -1,10 +1,10 @@
-package com.jeferro.products.products.infrastructure.adapters.kafka.configurations;
+package com.jeferro.products.products.infrastructure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 @ConfigurationProperties("application.products")
-public record ProductsKafkaProperties(
+public record ProductsProperties(
 		String topic
 ) {
 

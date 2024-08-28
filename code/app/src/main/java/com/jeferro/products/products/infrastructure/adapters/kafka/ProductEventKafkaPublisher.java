@@ -1,55 +1,41 @@
 package com.jeferro.products.products.infrastructure.adapters.kafka;
 
-import com.jeferro.products.products.domain.events.ProductCreated;
-import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.events.ProductEvent;
-import com.jeferro.products.products.domain.events.ProductUpdated;
-import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductCreatedKafkaMapper;
-import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductDeletedKafkaMapper;
-import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductUpdatedKafkaMapper;
+import com.jeferro.products.products.infrastructure.ProductsProperties;
+import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductEventKafkaMapper;
 import com.jeferro.shared.domain.events.EventBusPublisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductEventKafkaPublisher implements EventBusPublisher<ProductEvent> {
 
-	private final ProductCreatedKafkaMapper productCreatedKafkaMapper = ProductCreatedKafkaMapper.INSTANCE;
+  private static final Logger logger = LoggerFactory.getLogger(ProductEventKafkaPublisher.class);
 
-	private final ProductUpdatedKafkaMapper productUpdatedKafkaMapper = ProductUpdatedKafkaMapper.INSTANCE;
+  private final ProductEventKafkaMapper productEventKafkaMapper = ProductEventKafkaMapper.INSTANCE;
 
-	private final ProductDeletedKafkaMapper productDeletedKafkaMapper = ProductDeletedKafkaMapper.INSTANCE;
+  private final ProductsProperties productsProperties;
 
-	private final ProductsKafkaTemplate productsKafkaTemplate;
+  private final KafkaTemplate<String, Object> kafkaTemplate;
 
-	public ProductEventKafkaPublisher(ProductsKafkaTemplate productsKafkaTemplate) {
-		this.productsKafkaTemplate = productsKafkaTemplate;
-	}
+  public ProductEventKafkaPublisher(ProductsProperties productsProperties,
+	  KafkaTemplate<String, Object> kafkaTemplate) {
+	this.productsProperties = productsProperties;
+	this.kafkaTemplate = kafkaTemplate;
+  }
 
-	@Override
-	public void publish(ProductEvent event) {
-		switch (event) {
-			case ProductCreated productCreated -> sendProductCreated(productCreated);
-			case ProductUpdated productUpdated -> sendProductUpdated(productUpdated);
-			case ProductDeleted productDeleted -> sendProductDeleted(productDeleted);
-			default -> throw new IllegalStateException("Unexpected value: " + event);
-		}
-	}
+  @Override
+  public void publish(ProductEvent event) {
+	String key = event.getProductId().toString();
+	var data = productEventKafkaMapper.toDTO(event);
 
-	private void sendProductCreated(ProductCreated event) {
-		var eventDto = productCreatedKafkaMapper.toDTO(event);
+	kafkaTemplate.send(productsProperties.topic(), key, data)
+		.exceptionally(cause -> {
+		  logger.error("Error sending event {}", data, cause);
+		  return null;
+		});
+  }
 
-		productsKafkaTemplate.send(eventDto);
-	}
-
-	private void sendProductUpdated(ProductUpdated event) {
-		var eventDto = productUpdatedKafkaMapper.toDTO(event);
-
-		productsKafkaTemplate.send(eventDto);
-	}
-
-	private void sendProductDeleted(ProductDeleted event) {
-		var eventDto = productDeletedKafkaMapper.toDTO(event);
-
-		productsKafkaTemplate.send(eventDto);
-	}
 }
