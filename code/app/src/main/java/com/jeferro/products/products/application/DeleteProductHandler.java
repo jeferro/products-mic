@@ -10,7 +10,9 @@ import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteProductHandler extends Handler<DeleteProductParams, Product> {
 
     private final ProductsRepository productsRepository;

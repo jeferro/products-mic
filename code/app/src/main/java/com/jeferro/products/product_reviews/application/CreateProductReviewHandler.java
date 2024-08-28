@@ -17,7 +17,9 @@ import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.UserAuth;
 import com.jeferro.shared.domain.models.auth.Username;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateProductReviewHandler extends Handler<CreateProductReviewParams, ProductReview> {
 
   private final ProductsRepository productsRepository;

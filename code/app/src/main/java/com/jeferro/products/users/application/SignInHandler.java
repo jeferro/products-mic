@@ -10,7 +10,9 @@ import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.products.users.domain.models.User;
 import com.jeferro.products.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.domain.services.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SignInHandler extends Handler<SignInParams, User> {
 
   private final UsersRepository usersRepository;

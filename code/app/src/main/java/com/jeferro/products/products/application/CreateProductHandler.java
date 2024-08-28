@@ -6,11 +6,13 @@ import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 import static com.jeferro.shared.application.Roles.USER;
 
+@Component
 public class CreateProductHandler extends Handler<CreateProductParams, Product> {
 
     private final ProductsRepository productsRepository;

@@ -10,7 +10,9 @@ import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRe
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
