@@ -31,7 +31,7 @@ public class AuthMother {
     }
 
     public static SystemAuth system() {
-        return new SystemAuth("external-service");
+        return new SystemAuth();
     }
 
 }
