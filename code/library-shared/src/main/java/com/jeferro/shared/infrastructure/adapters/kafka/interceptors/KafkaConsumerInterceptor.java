@@ -37,11 +37,4 @@ public class KafkaConsumerInterceptor implements ConsumerInterceptor<String, Str
   public void close() {
 	// Do nothing
   }
-
-  private UsernamePasswordAuthenticationToken createAuthenticationToken() {
-	return UsernamePasswordAuthenticationToken.authenticated(
-		"system",
-		null,
-		null);
-  }
 }
