@@ -1,4 +1,4 @@
-package com.jeferro.shared.infrastructure.adapters.mongo.services;
+package com.jeferro.shared.infrastructure.adapters.mongo.services.criteria;
 
 import com.jeferro.shared.domain.models.criteria.Criteria;
 import org.springframework.data.domain.PageRequest;

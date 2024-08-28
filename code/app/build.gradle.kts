@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("com.jeferro.plugins.avro-generator")
+    id ("com.jeferro.plugins.api-first-generator")
     id("jacoco")
 }
 
@@ -21,7 +22,8 @@ dependencies {
     testImplementation("org.testcontainers", "junit-jupiter")
 
     // Rest
-    implementation(project(":comp-rest"))
+    api("jakarta.validation", "jakarta.validation-api", "3.0.2")
+    implementation("org.openapitools", "jackson-databind-nullable", "0.2.6")
 
     // Mongo
     testImplementation("org.testcontainers", "mongodb", Versions.test_containers)
@@ -37,6 +39,14 @@ tasks.withType<JavaCompile> {
     options.compilerArgs = listOf(
         "-Amapstruct.unmappedTargetPolicy=ERROR"
     )
+}
+
+
+// Rest
+apiFirstGenerator {
+    basePackage = "com.jeferro.products.components.rest.generated"
+    specFile = file("${projectDir}/../../apis/rest/openapi.yml")
+    targetDir = file("${projectDir}/build/generated-resources/openapi")
 }
 
 
