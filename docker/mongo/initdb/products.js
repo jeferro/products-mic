@@ -2,7 +2,7 @@ let now = new Date()
 
 db['products'].insertMany([
     {
-        _id: "18ff00eb-eb6b-46d3-bcc4-dc3fafc927c1",
+        _id: "apple",
         name: "Apple",
         metadata: {
             createdBy: 'user',
@@ -12,7 +12,7 @@ db['products'].insertMany([
         }
     },
     {
-        _id: "bd0d848e-d8a4-4c80-bd4f-d064be1d7ce0",
+        _id: "kiwi",
         name: "Kiwi",
         metadata: {
             createdBy: 'user',
@@ -22,7 +22,7 @@ db['products'].insertMany([
         }
     },
     {
-        _id: "f43914a7-4f44-4c93-bf0f-9cfae1f322c9",
+        _id: "banana",
         name: "Banana",
         metadata: {
             createdBy: 'user',

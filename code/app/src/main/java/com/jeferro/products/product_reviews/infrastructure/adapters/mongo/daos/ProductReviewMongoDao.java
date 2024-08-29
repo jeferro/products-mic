@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductReviewMongoDao extends MongoRepository<ProductReviewMongoDTO, String> {
 
-  List<ProductReviewMongoDTO> findAllByProductId(String productId);
+  List<ProductReviewMongoDTO> findAllByProductCode(String productCode);
 }

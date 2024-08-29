@@ -40,7 +40,7 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
     public ProductReviews findAllByProductCode(ProductCode productCode) {
         var productCodeDto = productCodeMongoMapper.toDTO(productCode);
 
-        var products = productReviewMongoDao.findAllByProductId(productCodeDto).stream()
+        var products = productReviewMongoDao.findAllByProductCode(productCodeDto).stream()
                 .map(productReviewMongoMapper::toDomain)
                 .toList();
 
