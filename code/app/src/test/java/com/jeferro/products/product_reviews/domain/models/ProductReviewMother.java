@@ -6,19 +6,19 @@ import com.jeferro.products.shared.domain.models.auth.AuthMother;
 public abstract class ProductReviewMother {
 
   public static ProductReview userReviewOfApple() {
-	var appleId = ProductCodeMother.appleId();
+	var appleCode = ProductCodeMother.appleCode();
 	var userAuth = AuthMother.user();
 
-	var productReviewId = ProductReviewId.createOf(userAuth.getUsername(), appleId);
+	var productReviewId = ProductReviewId.createOf(userAuth.getUsername(), appleCode);
 
 	return new ProductReview(productReviewId, "Comment about apple");
   }
 
 	public static ProductReview adminReviewOfApple() {
-	  var appleId = ProductCodeMother.appleId();
+	  var appleCode = ProductCodeMother.appleCode();
 	  var adminAuth = AuthMother.admin();
 
-	  var productReviewId = ProductReviewId.createOf(adminAuth.getUsername(), appleId);
+	  var productReviewId = ProductReviewId.createOf(adminAuth.getUsername(), appleCode);
 
 	  return new ProductReview(productReviewId, "I love apples");
 	}

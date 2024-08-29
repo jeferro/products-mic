@@ -34,10 +34,19 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, UpdateProductParams params) {
-        var productCode = params.getProductCode();
-        var name = params.getName();
+        var product = ensureProductExists(params);
 
-        var product = productsRepository.findByIdOrError(productCode);
+        return updateProduct(auth, params, product);
+    }
+
+    private Product ensureProductExists(UpdateProductParams params) {
+        var productCode = params.getProductCode();
+
+	  return productsRepository.findByIdOrError(productCode);
+    }
+
+    private Product updateProduct(Auth auth, UpdateProductParams params, Product product) {
+        var name = params.getName();
 
         product.update(name, auth);
 

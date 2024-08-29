@@ -34,16 +34,24 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, DeleteProductParams params) {
-        var productCode = params.getProductCode();
+        var product = ensureProductExists(params);
 
-        var product = productsRepository.findByIdOrError(productCode);
-
-        product.delete(auth);
-
-        productsRepository.deleteById(productCode);
-
-        eventBus.publishAll(product);
+        deleteProduct(auth, product);
 
         return product;
+    }
+
+    private Product ensureProductExists(DeleteProductParams params) {
+        var productCode = params.getProductCode();
+
+	  return productsRepository.findByIdOrError(productCode);
+    }
+
+    private void deleteProduct(Auth auth, Product product) {
+        product.delete(auth);
+
+        productsRepository.deleteById(product.getCode());
+
+        eventBus.publishAll(product);
     }
 }

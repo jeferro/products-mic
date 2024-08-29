@@ -18,8 +18,7 @@ public class Product extends AggregateRoot<ProductCode> {
         setName(name);
     }
 
-    public static Product create(String name, Auth auth) {
-        var productCode = ProductCode.create();
+    public static Product create(ProductCode productCode, String name, Auth auth) {
         var product = new Product(productCode, name);
 
         var event = ProductCreated.create(product, auth);

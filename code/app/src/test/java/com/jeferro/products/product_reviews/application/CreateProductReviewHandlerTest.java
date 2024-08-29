@@ -50,7 +50,7 @@ class CreateProductReviewHandlerTest {
 	givenAnAppleInDatabase();
 
 	var userAuth = AuthMother.user();
-	var productCode = ProductCodeMother.appleId();
+	var productCode = ProductCodeMother.appleCode();
 	var comment = "New comment about product";
 	var params = new CreateProductReviewParams(
 		productCode,

@@ -8,6 +8,7 @@ import java.time.Instant;
 import com.jeferro.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.models.Product;
+import com.jeferro.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.shared.domain.models.auth.Auth;
@@ -37,8 +38,9 @@ class CreateProductHandlerTest {
 	var now = FakeTimeService.fakesNow();
 
 	var userAuth = AuthMother.user();
+	var productCode = ProductCodeMother.appleCode();
 	var productName = "Apple";
-	var params = new CreateProductParams(productName);
+	var params = new CreateProductParams(productCode, productName);
 
 	var result = createProductHandler.execute(userAuth, params);
 

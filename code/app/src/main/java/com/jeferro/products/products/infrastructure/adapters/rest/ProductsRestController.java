@@ -42,6 +42,7 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
 		var params = new CreateProductParams(
+			productCodeRestMapper.toDomain(productInputRestDTO.getCode()),
 			productInputRestDTO.getName()
 		);
 

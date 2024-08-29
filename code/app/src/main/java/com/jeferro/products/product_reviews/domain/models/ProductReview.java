@@ -21,7 +21,9 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	setComment(comment);
   }
 
-  public static ProductReview createOf(Username username, ProductCode productCode, String comment, Auth auth) {
+  public static ProductReview createOf(ProductCode productCode, String comment, Auth auth) {
+	var username = auth.getUsernameOrError();
+
 	var productReviewId = ProductReviewId.createOf(username, productCode);
 
 	var productReview = new ProductReview(productReviewId, comment);

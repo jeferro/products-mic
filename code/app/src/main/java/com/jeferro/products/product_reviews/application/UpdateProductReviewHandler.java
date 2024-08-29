@@ -33,10 +33,20 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
 
   @Override
   protected ProductReview handle(Auth auth, UpdateProductReviewParams params) {
-	var productReviewId = params.getProductReviewId();
-	var comment = params.getComment();
 
-	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
+	var productReview = ensureProductReviewExists(params);
+
+	return updateProductReview(auth, params, productReview);
+  }
+
+  private ProductReview ensureProductReviewExists(UpdateProductReviewParams params) {
+	var productReviewId = params.getProductReviewId();
+
+	return productReviewsRepository.findByIdOrError(productReviewId);
+  }
+
+  private ProductReview updateProductReview(Auth auth, UpdateProductReviewParams params, ProductReview productReview) {
+	var comment = params.getComment();
 
 	productReview.update(comment, auth);
 

@@ -45,10 +45,10 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	givenSeveralAppleReviewsInDatabase();
 
 	var adminAuth = AuthMother.admin();
-	var appleId = ProductCodeMother.appleId();
+	var appleCode = ProductCodeMother.appleCode();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
-		appleId
+		appleCode
 	);
 
 	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);
@@ -61,10 +61,10 @@ class DeleteAllProductReviewsOfProductHandlerTest {
   @Test
   void givenProductDoNotHaveReviews_whenDeleteItsReviews_thenDoNothing() {
 	var adminAuth = AuthMother.admin();
-	var appleId = ProductCodeMother.appleId();
+	var appleCode = ProductCodeMother.appleCode();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
-		appleId
+		appleCode
 	);
 
 	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);

@@ -50,9 +50,10 @@ class ProductsRestControllerTest extends RestControllerTest {
 
         var requestContent = """
                 {
+                  "code": "%s",
                   "name": "%s"
                 }"""
-                .formatted(apple.getName());
+                .formatted(apple.getCode(), apple.getName());
 
         var requestBuilder = MockMvcRequestBuilders.post("/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
