@@ -1,4 +1,4 @@
-package com.jeferro.products.users.users.adapters.mongo.dtos;
+package com.jeferro.products.users.users.infrastructure.adapters.mongo.dtos;
 
 import java.util.Set;
 

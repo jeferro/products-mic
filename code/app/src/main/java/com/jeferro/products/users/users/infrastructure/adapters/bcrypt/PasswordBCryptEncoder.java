@@ -1,4 +1,4 @@
-package com.jeferro.products.users.users.adapters.bcrypt;
+package com.jeferro.products.users.users.infrastructure.adapters.bcrypt;
 
 import com.jeferro.products.users.users.domain.services.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,4 +1,4 @@
-package com.jeferro.products.users.users.adapters.rest;
+package com.jeferro.products.users.users.infrastructure.adapters.rest;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -6,7 +6,7 @@ import com.jeferro.products.generated.rest.v1.apis.AuthenticationsApi;
 import com.jeferro.products.generated.rest.v1.dtos.AuthRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.SignInInputRestDTO;
 import com.jeferro.products.users.users.application.params.SignInParams;
-import com.jeferro.products.users.users.adapters.rest.mappers.AuthRestMapper;
+import com.jeferro.products.users.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
 import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
 import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;

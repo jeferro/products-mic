@@ -1,4 +1,4 @@
-package com.jeferro.products.users.users.adapters.rest.mappers;
+package com.jeferro.products.users.users.infrastructure.adapters.rest.mappers;
 
 import com.jeferro.products.generated.rest.v1.dtos.AuthRestDTO;
 import com.jeferro.products.users.users.domain.models.User;

@@ -1,6 +1,6 @@
-package com.jeferro.products.users.users.adapters.mongo.mappers;
+package com.jeferro.products.users.users.infrastructure.adapters.mongo.mappers;
 
-import com.jeferro.products.users.users.adapters.mongo.dtos.UserMongoDTO;
+import com.jeferro.products.users.users.infrastructure.adapters.mongo.dtos.UserMongoDTO;
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
 import com.jeferro.shared.infrastructure.mappers.BidirectionalMapper;

@@ -1,13 +1,13 @@
-package com.jeferro.products.users.users.adapters.mongo;
+package com.jeferro.products.users.users.infrastructure.adapters.mongo;
 
 import java.util.Optional;
 
-import com.jeferro.products.users.users.adapters.mongo.daos.UsersMongoDao;
+import com.jeferro.products.users.users.infrastructure.adapters.mongo.daos.UsersMongoDao;
 import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.repositories.UsersRepository;
-import com.jeferro.products.users.users.adapters.mongo.mappers.UsersMongoMapper;
+import com.jeferro.products.users.users.infrastructure.adapters.mongo.mappers.UsersMongoMapper;
 import org.springframework.stereotype.Component;
 
 @Component

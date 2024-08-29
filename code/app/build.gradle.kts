@@ -45,15 +45,15 @@ tasks.withType<JavaCompile> {
 // Rest
 apiFirstGenerator {
     basePackage = "com.jeferro.products.generated.rest.v1"
-    specFile = file("${projectDir}/../../apis/rest/openapi.yml")
-    targetDir = file("${projectDir}/build/generated-resources/openapi")
+    specFile = file("${projectDir}/../../apis/rest/v1/openapi.yml")
+    targetDir = file("${projectDir}/build/generated-resources/rest/v1")
 }
 
 
 // Avro
 avroGenerator {
-    schemaDir = file("${projectDir}/../../apis/avro")
-    targetDir = file("${projectDir}/build/generated/sources/avro")
+    schemaDir = file("${projectDir}/../../apis/avro/v1")
+    targetDir = file("${projectDir}/build/generated/sources/avro/v1")
 }
 
 

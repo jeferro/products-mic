@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.infrastructure.adapters.mongo.dto
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "products")
+@Document(collection = "v1/products")
 public record ProductMongoDTO(
         String id,
         String name
