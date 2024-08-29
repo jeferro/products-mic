@@ -9,7 +9,9 @@ import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.SilentHandler;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GetProductHandler extends SilentHandler<GetProductParams, Product> {
 
     private final ProductsRepository productsRepository;
@@ -27,8 +29,8 @@ public class GetProductHandler extends SilentHandler<GetProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, GetProductParams params) {
-        var productId = params.getProductId();
+        var productCode = params.getProductCode();
 
-        return productsRepository.findByIdOrError(productId);
+        return productsRepository.findByIdOrError(productCode);
     }
 }

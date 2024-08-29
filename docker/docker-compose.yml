@@ -1,5 +1,10 @@
 version: '3.9'
 
+
+volumes:
+  mongodb-data:
+
+
 services:
 
   mongodb:
@@ -9,14 +14,15 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: test
+      MONGO_INITDB_DATABASE: local
     ports:
       - "27017:27017"
     volumes:
+      - mongodb-data:/data/db
       - ./mongo/initdb:/docker-entrypoint-initdb.d:ro
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.0
+    image: confluentinc/cp-zookeeper:7.6.1
     container_name: products_zookeeper
     hostname: zookeeper
     restart: always
@@ -28,7 +34,7 @@ services:
       - "2181:2181"
 
   kafka:
-    image: confluentinc/cp-kafka:7.3.0
+    image: confluentinc/cp-kafka:7.6.1
     container_name: products_kafka
     hostname: kafka
     restart: always
@@ -46,6 +52,8 @@ services:
       KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: "kafka:9092"
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -54,7 +62,7 @@ services:
       - zookeeper
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.3.0
+    image: confluentinc/cp-schema-registry:7.6.1
     container_name: products_schema-registry
     hostname: schema-registry
     restart: always
@@ -68,35 +76,14 @@ services:
       - zookeeper
       - kafka
 
-  postgresql:
-    image: postgres:14
-    container_name: products_postgresql
-    hostname: postgresql
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
     restart: always
-    environment:
-      POSTGRES_DB: "conduktor-console"
-      POSTGRES_USER: "conduktor"
-      POSTGRES_PASSWORD: "conduktor"
-      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
-
-  conduktor:
-    image: conduktor/conduktor-platform:1.18.1
-    container_name: products_conduktor
-    hostname: conduktor
-    restart: always
-    environment:
-      CDK_IN_CONF_FILE: /opt/conduktor/platform-config.yaml
+    container_name: kafka-ui
     ports:
-      - "8080:8080"
-    volumes:
-      - ./conduktor/platform-config.yml:/opt/conduktor/platform-config.yaml:ro
-    depends_on:
-      - postgresql
-
-  conduktor-cortex:
-    image: conduktor/conduktor-platform-cortex:1.18.1
-    container_name: products_conduktor-cortex
-    hostname: conduktor-cortex
-    restart: always
+      - "9021:8080"
     environment:
-      CDK_CONSOLE-URL: "http://conduktor-console:8080"
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081

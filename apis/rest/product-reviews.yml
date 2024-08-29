@@ -32,7 +32,7 @@ components:
       properties:
         id:
           type: string
-          example: 'adc65c2d-e623-4466-9791-dc76fd6bd1b8:johndoe'
+          example: '123456789:johndoe'
         comment:
           type: string
           description: Comment of the review

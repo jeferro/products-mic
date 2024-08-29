@@ -30,7 +30,7 @@ class ListProductReviewHandlerTest {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new ListProductReviewParams(
-		userReviewOfApple.getProductId()
+		userReviewOfApple.getProductCode()
 	);
 
 	var result = listProductReviewHandler.handle(userAuth, params);
@@ -45,7 +45,7 @@ class ListProductReviewHandlerTest {
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 
 	var params = new ListProductReviewParams(
-		userReviewOfApple.getProductId()
+		userReviewOfApple.getProductCode()
 	);
 
 	var result = listProductReviewHandler.handle(userAuth, params);

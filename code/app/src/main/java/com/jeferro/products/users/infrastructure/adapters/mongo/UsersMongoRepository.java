@@ -2,7 +2,7 @@ package com.jeferro.products.users.infrastructure.adapters.mongo;
 
 import java.util.Optional;
 
-import com.jeferro.products.components.mongodb.users.UsersMongoDao;
+import com.jeferro.products.users.infrastructure.adapters.mongo.daos.UsersMongoDao;
 import com.jeferro.shared.domain.models.auth.Username;
 import com.jeferro.shared.infrastructure.adapters.mongo.mappers.UsernameMongoMapper;
 import com.jeferro.products.users.domain.models.User;

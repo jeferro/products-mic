@@ -32,11 +32,6 @@ public class UserAuth extends Auth {
         return username.toString();
     }
 
-    @Override
-    public boolean isUser() {
-        return true;
-    }
-
     public boolean hasAllPermissions(Set<String> mandatoryRoles) {
         return mandatoryRoles.isEmpty()
                 || roles.containsAll(mandatoryRoles);

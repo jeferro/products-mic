@@ -11,6 +11,9 @@ public interface Versions {
 	String commons_lang3 = "3.14.0";
 	String test_containers = "1.19.7";
 
+  	String jakarta_validation_api = "3.0.2";
+  	String jackson_databind_nullable = "0.2.6";
+
 	String mapstruct = "1.5.5.Final";
 
 	String jacoco = "0.8.11";

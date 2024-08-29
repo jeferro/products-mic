@@ -5,7 +5,7 @@ import com.jeferro.shared.domain.models.aggregates.EntityCollection;
 import java.util.Arrays;
 import java.util.List;
 
-public class Products extends EntityCollection<ProductId, Product> {
+public class Products extends EntityCollection<ProductCode, Product> {
 
     public Products(List<Product> entities) {
         super(entities);

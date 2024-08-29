@@ -9,7 +9,9 @@ import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRe
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
 
   private final ProductReviewsRepository productReviewsRepository;
@@ -30,9 +32,9 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 
   @Override
   protected Void handle(Auth auth, DeleteAllProductReviewsOfProductParams params) {
-	var productId = params.getProductId();
+	var productCode = params.getProductCode();
 
-	var productReviews = productReviewsRepository.findAllByProductId(productId);
+	var productReviews = productReviewsRepository.findAllByProductCode(productCode);
 
 	if (productReviews.isEmpty()) {
 	  return null;

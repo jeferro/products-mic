@@ -9,7 +9,9 @@ import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.SilentHandler;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ListProductReviewHandler extends SilentHandler<ListProductReviewParams, ProductReviews> {
 
   private final ProductReviewsRepository productReviewsRepository;
@@ -27,8 +29,8 @@ public class ListProductReviewHandler extends SilentHandler<ListProductReviewPar
 
   @Override
   protected ProductReviews handle(Auth auth, ListProductReviewParams params) {
-	var productId = params.getProductId();
+	var productCode = params.getProductCode();
 
-	return productReviewsRepository.findAllByProductId(productId);
+	return productReviewsRepository.findAllByProductCode(productCode);
   }
 }

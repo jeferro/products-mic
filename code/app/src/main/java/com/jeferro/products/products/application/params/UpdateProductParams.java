@@ -1,38 +1,38 @@
 package com.jeferro.products.products.application.params;
 
 import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import org.apache.commons.lang3.StringUtils;
 
 public class UpdateProductParams extends Params<Product> {
 
-  private ProductId productId;
+  private ProductCode productCode;
 
   private String name;
 
-  public UpdateProductParams(ProductId productId, String name) {
+  public UpdateProductParams(ProductCode productCode, String name) {
 	super();
 
-	setProductId(productId);
+	setProductCode(productCode);
 	setName(name);
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 
   public String getName() {
 	return name;
   }
 
-  private void setProductId(ProductId productId) {
-	if (productId == null) {
-	  throw ValueValidationException.createOfMessage("Product identifier is null");
+  private void setProductCode(ProductCode productCode) {
+	if (productCode == null) {
+	  throw ValueValidationException.createOfMessage("Product code is null");
 	}
 
-	this.productId = productId;
+	this.productCode = productCode;
   }
 
   private void setName(String name) {

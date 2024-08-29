@@ -9,7 +9,9 @@ import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.SilentHandler;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GetProductReviewHandler extends SilentHandler<GetProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;

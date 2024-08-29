@@ -1,19 +1,19 @@
 package com.jeferro.products.product_reviews.application.params;
 
 import com.jeferro.products.product_reviews.domain.models.ProductReviews;
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.application.Params;
 
 public class ListProductReviewParams extends Params<ProductReviews> {
 
-  private final ProductId productId;
+  private final ProductCode productCode;
 
-  public ListProductReviewParams(ProductId productId) {
+  public ListProductReviewParams(ProductCode productCode) {
 	super();
-	this.productId = productId;
+	this.productCode = productCode;
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 }

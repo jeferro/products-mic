@@ -9,15 +9,14 @@ import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlrea
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateProductReviewHandler extends Handler<CreateProductReviewParams, ProductReview> {
 
   private final ProductsRepository productsRepository;
@@ -43,39 +42,34 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
 
   @Override
   protected ProductReview handle(Auth auth, CreateProductReviewParams params) {
-	var productId = params.getProductId();
-	var comment = params.getComment();
+	var productCode = ensureProductExists(params);
 
-	var username = getAuthUsernameOrError(auth);
+	ensureProductReviewDoesNotExists(auth, productCode);
 
-	ensureProductExists(productId);
-
-	ensureUserDidNotCommentOnProduct(username, productId);
-
-	return createProductReview(username, productId, comment, auth);
+	return createProductReview(auth, params, productCode);
   }
 
-  public Username getAuthUsernameOrError(Auth auth) {
-	if (auth instanceof UserAuth userAuth) {
-	  return userAuth.getUsername();
-	}
+  private ProductCode ensureProductExists(CreateProductReviewParams params) {
+	var productCode = params.getProductCode();
 
-	throw ForbiddenException.createOfNotUserAuth(auth);
+	var product = productsRepository.findByIdOrError(productCode);
+
+	return product.getCode();
   }
 
-  private void ensureProductExists(ProductId productId) {
-	productsRepository.findByIdOrError(productId);
-  }
+  private void ensureProductReviewDoesNotExists(Auth auth, ProductCode productCode) {
+	var username = auth.getUsernameOrError();
 
-  private void ensureUserDidNotCommentOnProduct(Username username, ProductId productId) {
-	var productReviewId = ProductReviewId.createOf(username, productId);
+	var productReviewId = ProductReviewId.createOf(username, productCode);
 
 	productReviewsRepository.findById(productReviewId)
 		.ifPresent(current -> { throw ProductReviewAlreadyExistsException.createOf(productReviewId); });
   }
 
-  private ProductReview createProductReview(Username username, ProductId productId, String comment, Auth auth) {
-	var productReview = ProductReview.createOf(username, productId, comment, auth);
+  private ProductReview createProductReview(Auth auth, CreateProductReviewParams params, ProductCode productCode) {
+	var comment = params.getComment();
+
+	var productReview = ProductReview.createOf(productCode, comment, auth);
 
 	productReviewsRepository.save(productReview);
 

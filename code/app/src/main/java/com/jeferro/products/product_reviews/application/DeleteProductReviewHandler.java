@@ -10,7 +10,9 @@ import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRe
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
@@ -31,13 +33,21 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParam
 
   @Override
   protected ProductReview handle(Auth auth, DeleteProductReviewParams params) {
+	var productReview = ensureProductReviewExists(params);
+
+	return deleteProductReview(auth, productReview);
+  }
+
+  private ProductReview ensureProductReviewExists(DeleteProductReviewParams params) {
 	var productReviewId = params.getProductReviewId();
 
-	var productReview = productReviewsRepository.findByIdOrError(productReviewId);
+	return productReviewsRepository.findByIdOrError(productReviewId);
+  }
 
+  private ProductReview deleteProductReview(Auth auth, ProductReview productReview) {
 	productReview.deleteByUser(auth);
 
-	productReviewsRepository.deleteById(productReviewId);
+	productReviewsRepository.deleteById(productReview.getId());
 
 	eventBus.publishAll(productReview);
 

@@ -10,7 +10,9 @@ import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
 import com.jeferro.shared.domain.models.auth.Auth;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UpdateProductHandler extends Handler<UpdateProductParams, Product> {
 
     private final ProductsRepository productsRepository;
@@ -32,10 +34,19 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, UpdateProductParams params) {
-        var productId = params.getProductId();
-        var name = params.getName();
+        var product = ensureProductExists(params);
 
-        var product = productsRepository.findByIdOrError(productId);
+        return updateProduct(auth, params, product);
+    }
+
+    private Product ensureProductExists(UpdateProductParams params) {
+        var productCode = params.getProductCode();
+
+	  return productsRepository.findByIdOrError(productCode);
+    }
+
+    private Product updateProduct(Auth auth, UpdateProductParams params, Product product) {
+        var name = params.getName();
 
         product.update(name, auth);
 

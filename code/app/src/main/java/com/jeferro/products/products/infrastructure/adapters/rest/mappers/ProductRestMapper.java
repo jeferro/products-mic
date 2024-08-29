@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Mapper(uses = {
-	ProductIdRestMapper.class
+	ProductCodeRestMapper.class
 })
 public abstract class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
 

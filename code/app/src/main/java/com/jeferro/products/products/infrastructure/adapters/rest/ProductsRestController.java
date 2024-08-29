@@ -4,8 +4,8 @@ import com.jeferro.products.components.rest.generated.apis.ProductsApi;
 import com.jeferro.products.components.rest.generated.dtos.ProductInputRestDTO;
 import com.jeferro.products.components.rest.generated.dtos.ProductRestDTO;
 import com.jeferro.products.products.application.params.*;
+import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductCodeRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
-import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductIdRestMapper;
 import com.jeferro.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
 import com.jeferro.shared.application.HandlerBus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class ProductsRestController implements ProductsApi {
 
 	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
-	private final ProductIdRestMapper productIdRestMapper = ProductIdRestMapper.INSTANCE;
+	private final ProductCodeRestMapper productCodeRestMapper = ProductCodeRestMapper.INSTANCE;
 
 	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
 
@@ -42,6 +42,7 @@ public class ProductsRestController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
 		var params = new CreateProductParams(
+			productCodeRestMapper.toDomain(productInputRestDTO.getCode()),
 			productInputRestDTO.getName()
 		);
 
@@ -51,9 +52,9 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> getProduct(String productId) {
+	public ResponseEntity<ProductRestDTO> getProduct(String productCode) {
 		var params = new GetProductParams(
-			productIdRestMapper.toDomain(productId)
+			productCodeRestMapper.toDomain(productCode)
 		);
 
 		var product = handlerBus.execute(params);
@@ -62,9 +63,9 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> updateProduct(String productId, ProductInputRestDTO productInputRestDTO) {
+	public ResponseEntity<ProductRestDTO> updateProduct(String productCode, ProductInputRestDTO productInputRestDTO) {
 		var params = new UpdateProductParams(
-				productIdRestMapper.toDomain(productId),
+				productCodeRestMapper.toDomain(productCode),
 				productInputRestDTO.getName()
 		);
 
@@ -74,9 +75,9 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> deleteProduct(String productId) {
+	public ResponseEntity<ProductRestDTO> deleteProduct(String productCode) {
 		var params = new DeleteProductParams(
-			productIdRestMapper.toDomain(productId)
+			productCodeRestMapper.toDomain(productCode)
 		);
 
 		var user = handlerBus.execute(params);
