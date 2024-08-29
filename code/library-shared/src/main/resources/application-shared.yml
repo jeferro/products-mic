@@ -37,5 +37,6 @@ spring:
       properties:
         specific.avro.reader: true
     properties:
+      max.block.ms: 700
       value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
       schema.registry.url: ${components.kafka.schema-registry-url}

@@ -44,7 +44,7 @@ tasks.withType<JavaCompile> {
 
 // Rest
 apiFirstGenerator {
-    basePackage = "com.jeferro.products.components.rest.generated"
+    basePackage = "com.jeferro.products.generated.rest.v1"
     specFile = file("${projectDir}/../../apis/rest/openapi.yml")
     targetDir = file("${projectDir}/build/generated-resources/openapi")
 }

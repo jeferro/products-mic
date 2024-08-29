@@ -1,5 +1,5 @@
 {
-  "namespace": "com.jeferro.products.components.kafka.products.dtos.v1",
+  "namespace": "com.jeferro.products.generated.kafka.v1.dtos",
   "type": "record",
   "name": "ProductUpdatedAvroDTO",
   "fields": [
