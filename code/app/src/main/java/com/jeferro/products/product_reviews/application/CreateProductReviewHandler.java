@@ -9,15 +9,11 @@ import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlrea
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
 import org.springframework.stereotype.Component;
 
 @Component

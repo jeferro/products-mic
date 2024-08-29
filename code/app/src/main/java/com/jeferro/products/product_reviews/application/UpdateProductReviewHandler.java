@@ -33,7 +33,6 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
 
   @Override
   protected ProductReview handle(Auth auth, UpdateProductReviewParams params) {
-
 	var productReview = ensureProductReviewExists(params);
 
 	return updateProductReview(auth, params, productReview);
