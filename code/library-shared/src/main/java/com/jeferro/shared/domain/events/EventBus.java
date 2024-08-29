@@ -10,12 +10,8 @@ import java.util.Map;
 import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.domain.models.aggregates.EntityCollection;
 import com.jeferro.shared.domain.models.aggregates.Identifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class EventBus {
-
-  private static final Logger logger = LoggerFactory.getLogger(EventBus.class);
 
   private final Map<Class<Event>, List<EventBusPublisher<?>>> publishers = new HashMap<>();
 
@@ -71,10 +67,6 @@ public abstract class EventBus {
 	try {
 	  ((EventBusPublisher<E>) publisher).publish(event);
 	} catch (Exception cause) {
-	  logger.error("Error publishing event {} by publisher {}", event,
-		  publisher.getClass().getSimpleName(),
-		  cause);
-
 	  throw new RuntimeException(cause);
 	}
   }

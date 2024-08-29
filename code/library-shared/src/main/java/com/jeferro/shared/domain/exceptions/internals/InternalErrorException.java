@@ -11,6 +11,10 @@ public class InternalErrorException extends ApplicationException {
     }
 
     public static InternalErrorException createOfHandlerNotFound() {
-        return new InternalErrorException("");
+        return new InternalErrorException("Handler not found");
+    }
+
+    public static InternalErrorException createOf(Exception cause) {
+        return new InternalErrorException(cause.getMessage());
     }
 }

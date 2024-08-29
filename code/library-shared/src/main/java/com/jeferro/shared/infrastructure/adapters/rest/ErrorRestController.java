@@ -1,5 +1,6 @@
 package com.jeferro.shared.infrastructure.adapters.rest;
 
+import com.jeferro.shared.domain.exceptions.ApplicationException;
 import com.jeferro.shared.domain.exceptions.ConstraintException;
 import com.jeferro.shared.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.domain.exceptions.NotFoundException;
@@ -80,7 +81,9 @@ public class ErrorRestController {
             Exception.class
     })
     public ResponseEntity<ProblemDetail> handleException(Exception cause) {
-        logger.error("Catch an unknown exception", cause);
+        if(! (cause instanceof ApplicationException)) {
+        	logger.error("Catch an unknown exception", cause);
+        }
 
         return problemDetailRestMapper.toDTO(HttpStatus.INTERNAL_SERVER_ERROR, cause);
     }

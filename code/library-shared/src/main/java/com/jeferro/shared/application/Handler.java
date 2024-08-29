@@ -1,6 +1,8 @@
 package com.jeferro.shared.application;
 
+import com.jeferro.shared.domain.exceptions.ApplicationException;
 import com.jeferro.shared.domain.exceptions.ForbiddenException;
+import com.jeferro.shared.domain.exceptions.internals.InternalErrorException;
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.SystemAuth;
 import com.jeferro.shared.domain.models.auth.UserAuth;
@@ -41,7 +43,11 @@ public abstract class Handler<P extends Params<R>, R> {
         } catch (Exception cause) {
             logErrorExecution(startAt, auth, params, cause);
 
-            throw cause;
+            if(cause instanceof ApplicationException) {
+                throw cause;
+            }
+
+            throw InternalErrorException.createOf(cause);
         }
     }
 
