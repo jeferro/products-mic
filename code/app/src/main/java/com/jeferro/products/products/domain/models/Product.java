@@ -4,23 +4,23 @@ import com.jeferro.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.domain.events.ProductUpdated;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.domain.models.auth.Auth;
 import org.apache.commons.lang3.StringUtils;
 
-public class Product extends AggregateRoot<ProductId> {
+public class Product extends AggregateRoot<ProductCode> {
 
     private String name;
 
-    public Product(ProductId id, String name) {
+    public Product(ProductCode id, String name) {
         super(id);
 
         setName(name);
     }
 
     public static Product create(String name, Auth auth) {
-        var productId = ProductId.create();
-        var product = new Product(productId, name);
+        var productCode = ProductCode.create();
+        var product = new Product(productCode, name);
 
         var event = ProductCreated.create(product, auth);
         product.record(event);
@@ -42,6 +42,10 @@ public class Product extends AggregateRoot<ProductId> {
 
     public String getName() {
         return name;
+    }
+
+    public ProductCode getCode() {
+        return id;
     }
 
     private void setName(String name) {

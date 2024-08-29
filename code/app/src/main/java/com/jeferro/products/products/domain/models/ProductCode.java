@@ -4,15 +4,15 @@ import java.util.UUID;
 
 import com.jeferro.shared.domain.models.aggregates.Identifier;
 
-public class ProductId extends Identifier<String> {
+public class ProductCode extends Identifier<String> {
 
-    public ProductId(String value) {
+    public ProductCode(String value) {
         super(value);
     }
 
-    public static ProductId create() {
+    public static ProductCode create() {
         var value = UUID.randomUUID().toString();
 
-        return new ProductId(value);
+        return new ProductCode(value);
     }
 }

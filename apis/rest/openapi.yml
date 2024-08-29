@@ -107,7 +107,7 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
-  /v1/products/{productId}:
+  /v1/products/{productCode}:
     get:
       operationId: get-product
       summary: Get product
@@ -115,7 +115,7 @@ paths:
       tags:
         - Products
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
       responses:
         '200':
           description: Ok
@@ -133,7 +133,7 @@ paths:
       tags:
         - Products
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
       requestBody:
         required: true
         content:
@@ -157,7 +157,7 @@ paths:
       tags:
         - Products
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
       responses:
         '200':
           description: Ok
@@ -169,7 +169,7 @@ paths:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
 
-  /v1/products/{productId}/reviews:
+  /v1/products/{productCode}/reviews:
     post:
       operationId: create-product-review
       summary: Create product review
@@ -177,7 +177,7 @@ paths:
       tags:
         - Product reviews
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
       requestBody:
         required: true
         content:
@@ -201,7 +201,7 @@ paths:
       tags:
         - Product reviews
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
       responses:
         '200':
           description: Ok
@@ -214,7 +214,7 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
-  /v1/products/{productId}/reviews/{username}:
+  /v1/products/{productCode}/reviews/{username}:
     get:
       operationId: get-product-review
       summary: Get product review
@@ -222,7 +222,7 @@ paths:
       tags:
         - Product reviews
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
         - $ref: './users.yml#/components/parameters/usernamePath'
       responses:
         '200':
@@ -241,7 +241,7 @@ paths:
       tags:
         - Product reviews
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
         - $ref: './users.yml#/components/parameters/usernamePath'
       requestBody:
         required: true
@@ -266,7 +266,7 @@ paths:
       tags:
         - Product reviews
       parameters:
-        - $ref: './products.yml#/components/parameters/productIdPath'
+        - $ref: './products.yml#/components/parameters/productCodePath'
         - $ref: './users.yml#/components/parameters/usernamePath'
       responses:
         '200':

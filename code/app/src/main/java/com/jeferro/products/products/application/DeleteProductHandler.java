@@ -34,13 +34,13 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, DeleteProductParams params) {
-        var productId = params.getProductId();
+        var productCode = params.getProductCode();
 
-        var product = productsRepository.findByIdOrError(productId);
+        var product = productsRepository.findByIdOrError(productCode);
 
         product.delete(auth);
 
-        productsRepository.deleteById(productId);
+        productsRepository.deleteById(productCode);
 
         eventBus.publishAll(product);
 

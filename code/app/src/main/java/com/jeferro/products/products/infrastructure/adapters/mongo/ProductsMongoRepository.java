@@ -1,14 +1,14 @@
 package com.jeferro.products.products.infrastructure.adapters.mongo;
 
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.infrastructure.adapters.mongo.daos.ProductsMongoDao;
 import com.jeferro.products.products.infrastructure.adapters.mongo.dtos.ProductMongoDTO;
+import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductCodeMongoMapper;
 import com.jeferro.shared.infrastructure.adapters.mongo.services.auditor.CustomMongoTemplate;
 import com.jeferro.products.products.domain.models.Product;
 import com.jeferro.products.products.domain.models.ProductCriteria;
-import com.jeferro.products.products.domain.models.ProductId;
 import com.jeferro.products.products.domain.models.Products;
 import com.jeferro.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
 import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductMongoMapper;
 import com.jeferro.products.products.infrastructure.adapters.mongo.services.ProductCriteriaMongoCreator;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
 
-    private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
+    private final ProductCodeMongoMapper productCodeMongoMapper = ProductCodeMongoMapper.INSTANCE;
 
     private final ProductsMongoDao productsMongoDao;
 
@@ -47,18 +47,18 @@ public class ProductsMongoRepository implements ProductsRepository {
     }
 
     @Override
-    public Optional<Product> findById(ProductId productId) {
-        var productIdDto = productIdMongoMapper.toDTO(productId);
+    public Optional<Product> findById(ProductCode productCode) {
+        var productCodeDto = productCodeMongoMapper.toDTO(productCode);
 
-        return productsMongoDao.findById(productIdDto)
+        return productsMongoDao.findById(productCodeDto)
                 .map(productMongoMapper::toDomain);
     }
 
     @Override
-    public void deleteById(ProductId productId) {
-        var productIdDto = productIdMongoMapper.toDTO(productId);
+    public void deleteById(ProductCode productCode) {
+        var productCodeDto = productCodeMongoMapper.toDTO(productCode);
 
-        productsMongoDao.deleteById(productIdDto);
+        productsMongoDao.deleteById(productCodeDto);
     }
 
     @Override

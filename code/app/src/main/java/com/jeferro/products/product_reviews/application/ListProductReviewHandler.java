@@ -29,8 +29,8 @@ public class ListProductReviewHandler extends SilentHandler<ListProductReviewPar
 
   @Override
   protected ProductReviews handle(Auth auth, ListProductReviewParams params) {
-	var productId = params.getProductId();
+	var productCode = params.getProductCode();
 
-	return productReviewsRepository.findAllByProductId(productId);
+	return productReviewsRepository.findAllByProductCode(productCode);
   }
 }

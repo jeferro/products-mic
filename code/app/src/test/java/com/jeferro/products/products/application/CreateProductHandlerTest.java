@@ -59,7 +59,7 @@ class CreateProductHandlerTest {
 
 	var event = (ProductCreated) eventInMemoryBus.getFirstOrError();
 
-	assertEquals(result.getId(), event.getProductId());
+	assertEquals(result.getId(), event.getProductCode());
 	assertEquals(now, event.getOccurredOn());
 	assertEquals(auth.who(), event.getOccurredBy());
   }

@@ -29,8 +29,8 @@ public class GetProductHandler extends SilentHandler<GetProductParams, Product> 
 
     @Override
     public Product handle(Auth auth, GetProductParams params) {
-        var productId = params.getProductId();
+        var productCode = params.getProductCode();
 
-        return productsRepository.findByIdOrError(productId);
+        return productsRepository.findByIdOrError(productCode);
     }
 }

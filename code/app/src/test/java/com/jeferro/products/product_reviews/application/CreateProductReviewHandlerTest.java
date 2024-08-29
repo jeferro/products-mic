@@ -12,8 +12,8 @@ import com.jeferro.products.product_reviews.domain.exceptions.ProductReviewAlrea
 import com.jeferro.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.products.domain.models.ProductIdMother;
+import com.jeferro.products.products.domain.models.ProductCode;
+import com.jeferro.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
@@ -50,16 +50,16 @@ class CreateProductReviewHandlerTest {
 	givenAnAppleInDatabase();
 
 	var userAuth = AuthMother.user();
-	var productId = ProductIdMother.appleId();
+	var productCode = ProductCodeMother.appleId();
 	var comment = "New comment about product";
 	var params = new CreateProductReviewParams(
-		productId,
+		productCode,
 		comment
 	);
 
 	var result = createProductReviewHandler.handle(userAuth, params);
 
-	assertResult(userAuth, result, productId, comment);
+	assertResult(userAuth, result, productCode, comment);
 
 	assertProductReviewInDatabase(result);
 
@@ -72,7 +72,7 @@ class CreateProductReviewHandlerTest {
 
 	var userAuth = AuthMother.user();
 	var params = new CreateProductReviewParams(
-		userReviewOfApple.getProductId(),
+		userReviewOfApple.getProductCode(),
 		"other comment"
 	);
 
@@ -80,9 +80,9 @@ class CreateProductReviewHandlerTest {
 		() -> createProductReviewHandler.handle(userAuth, params));
   }
 
-  private static void assertResult(UserAuth userAuth, ProductReview result, ProductId productId, String comment) {
+  private static void assertResult(UserAuth userAuth, ProductReview result, ProductCode productCode, String comment) {
 	assertEquals(userAuth.getUsername(), result.getUsername());
-	assertEquals(productId, result.getProductId());
+	assertEquals(productCode, result.getProductCode());
 	assertEquals(comment, result.getComment());
   }
 

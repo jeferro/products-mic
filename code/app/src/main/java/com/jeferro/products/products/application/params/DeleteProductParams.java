@@ -1,29 +1,29 @@
 package com.jeferro.products.products.application.params;
 
 import com.jeferro.products.products.domain.models.Product;
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.application.Params;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 
 public class DeleteProductParams extends Params<Product> {
 
-  private ProductId productId;
+  private ProductCode productCode;
 
-  public DeleteProductParams(ProductId productId) {
+  public DeleteProductParams(ProductCode productCode) {
 	super();
 
-	setValidateProductId(productId);
+	setValidateProductCode(productCode);
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 
-  private void setValidateProductId(ProductId productId) {
-	if (productId == null) {
-	  throw ValueValidationException.createOfMessage("Product identifier is null");
+  private void setValidateProductCode(ProductCode productCode) {
+	if (productCode == null) {
+	  throw ValueValidationException.createOfMessage("Product code is null");
 	}
 
-	this.productId = productId;
+	this.productCode = productCode;
   }
 }

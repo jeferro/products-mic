@@ -4,7 +4,7 @@ import com.jeferro.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.domain.models.auth.Auth;
@@ -21,8 +21,8 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	setComment(comment);
   }
 
-  public static ProductReview createOf(Username username, ProductId productId, String comment, Auth auth) {
-	var productReviewId = ProductReviewId.createOf(username, productId);
+  public static ProductReview createOf(Username username, ProductCode productCode, String comment, Auth auth) {
+	var productReviewId = ProductReviewId.createOf(username, productCode);
 
 	var productReview = new ProductReview(productReviewId, comment);
 
@@ -59,8 +59,8 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	return id.getUsername();
   }
 
-  public ProductId getProductId() {
-	return id.getProductId();
+  public ProductCode getProductCode() {
+	return id.getProductCode();
   }
 
   public String getComment() {

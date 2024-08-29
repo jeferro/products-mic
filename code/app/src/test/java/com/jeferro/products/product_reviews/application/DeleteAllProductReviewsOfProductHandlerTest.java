@@ -13,7 +13,7 @@ import com.jeferro.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.products.domain.models.ProductIdMother;
+import com.jeferro.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.shared.domain.models.auth.UserAuth;
@@ -45,7 +45,7 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 	givenSeveralAppleReviewsInDatabase();
 
 	var adminAuth = AuthMother.admin();
-	var appleId = ProductIdMother.appleId();
+	var appleId = ProductCodeMother.appleId();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
 		appleId
@@ -61,7 +61,7 @@ class DeleteAllProductReviewsOfProductHandlerTest {
   @Test
   void givenProductDoNotHaveReviews_whenDeleteItsReviews_thenDoNothing() {
 	var adminAuth = AuthMother.admin();
-	var appleId = ProductIdMother.appleId();
+	var appleId = ProductCodeMother.appleId();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
 		appleId

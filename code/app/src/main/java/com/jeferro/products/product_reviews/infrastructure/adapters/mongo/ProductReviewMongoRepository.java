@@ -7,8 +7,8 @@ import com.jeferro.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.product_reviews.infrastructure.adapters.mongo.mappers.ProductReviewIdMongoMapper;
 import com.jeferro.products.product_reviews.infrastructure.adapters.mongo.mappers.ProductReviewMongoMapper;
-import com.jeferro.products.products.domain.models.ProductId;
-import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductIdMongoMapper;
+import com.jeferro.products.products.domain.models.ProductCode;
+import com.jeferro.products.products.infrastructure.adapters.mongo.mappers.ProductCodeMongoMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
 
     private final ProductReviewMongoMapper productReviewMongoMapper = ProductReviewMongoMapper.INSTANCE;
 
-    private final ProductIdMongoMapper productIdMongoMapper = ProductIdMongoMapper.INSTANCE;
+    private final ProductCodeMongoMapper productCodeMongoMapper = ProductCodeMongoMapper.INSTANCE;
 
     private final ProductReviewMongoDao productReviewMongoDao;
 
@@ -37,10 +37,10 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
     }
 
     @Override
-    public ProductReviews findAllByProductId(ProductId productId) {
-        var productIdDto = productIdMongoMapper.toDTO(productId);
+    public ProductReviews findAllByProductCode(ProductCode productCode) {
+        var productCodeDto = productCodeMongoMapper.toDTO(productCode);
 
-        var products = productReviewMongoDao.findAllByProductId(productIdDto).stream()
+        var products = productReviewMongoDao.findAllByProductId(productCodeDto).stream()
                 .map(productReviewMongoMapper::toDomain)
                 .toList();
 

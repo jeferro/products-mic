@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public record ProductReviewMongoDTO(
 	String id,
 	String username,
-	String productId,
+	String productCode,
 	String comment
 ) {
 

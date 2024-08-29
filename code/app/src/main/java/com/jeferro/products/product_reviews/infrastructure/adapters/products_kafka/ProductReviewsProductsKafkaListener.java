@@ -1,11 +1,11 @@
 package com.jeferro.products.product_reviews.infrastructure.adapters.products_kafka;
 
 import com.jeferro.products.components.kafka.products.dtos.v1.ProductDeletedAvroDTO;
-import com.jeferro.products.components.kafka.products.dtos.v1.ProductUpdatedAvroDTO;
 import com.jeferro.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
-import com.jeferro.products.products.application.params.GetProductParams;
-import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductIdKafkaMapper;
+import com.jeferro.products.products.infrastructure.adapters.kafka.mappers.ProductCodeKafkaMapper;
 import com.jeferro.shared.application.HandlerBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,9 @@ import org.springframework.stereotype.Component;
 )
 public class ProductReviewsProductsKafkaListener {
 
-  private final ProductIdKafkaMapper productIdKafkaMapper = ProductIdKafkaMapper.INSTANCE;
+  private static final Logger logger = LoggerFactory.getLogger(ProductReviewsProductsKafkaListener.class);
+
+  private final ProductCodeKafkaMapper productCodeKafkaMapper = ProductCodeKafkaMapper.INSTANCE;
 
   private final HandlerBus handlerBus;
 
@@ -28,7 +30,7 @@ public class ProductReviewsProductsKafkaListener {
   @KafkaHandler
   protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
 	var params = new DeleteAllProductReviewsOfProductParams(
-		productIdKafkaMapper.toDomain(productDeletedAvroDTO.getProductId().toString())
+		productCodeKafkaMapper.toDomain(productDeletedAvroDTO.getProductCode())
 	);
 
 	handlerBus.execute(params);
@@ -36,6 +38,6 @@ public class ProductReviewsProductsKafkaListener {
 
   @KafkaHandler(isDefault = true)
   protected void consume(Object eventAvroDTO) {
-	// Do nothing
+	logger.debug("Ignoring event " + eventAvroDTO);
   }
 }

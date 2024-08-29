@@ -32,9 +32,9 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 
   @Override
   protected Void handle(Auth auth, DeleteAllProductReviewsOfProductParams params) {
-	var productId = params.getProductId();
+	var productCode = params.getProductCode();
 
-	var productReviews = productReviewsRepository.findAllByProductId(productId);
+	var productReviews = productReviewsRepository.findAllByProductCode(productCode);
 
 	if (productReviews.isEmpty()) {
 	  return null;

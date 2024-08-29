@@ -3,15 +3,15 @@ package com.jeferro.products.products.domain.models;
 public class ProductMother {
 
   public static Product apple() {
-	var productId = ProductIdMother.appleId();
+	var productCode = ProductCodeMother.appleId();
 
-	return new Product(productId, "Apple");
+	return new Product(productCode, "Apple");
   }
 
   public static Product pear() {
-	var productId = ProductIdMother.pearId();
+	var productCode = ProductCodeMother.pearId();
 
-	return new Product(productId, "Pear");
+	return new Product(productCode, "Pear");
   }
 
 }

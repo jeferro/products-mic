@@ -1,6 +1,6 @@
 package com.jeferro.products.product_reviews.domain.models;
 
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.aggregates.Identifier;
 import com.jeferro.shared.domain.models.auth.Username;
@@ -9,7 +9,7 @@ public class ProductReviewId extends Identifier<String> {
 
   private Username username;
 
-  private ProductId productId;
+  private ProductCode productCode;
 
   public ProductReviewId(String value) {
 	super(value);
@@ -21,26 +21,26 @@ public class ProductReviewId extends Identifier<String> {
 	}
 
 	this.username = new Username(slices[0]);
-	this.productId = new ProductId(slices[1]);
+	this.productCode = new ProductCode(slices[1]);
   }
 
-  private ProductReviewId(Username username, ProductId productId) {
-	super(username + SEPARATOR + productId);
+  private ProductReviewId(Username username, ProductCode productCode) {
+	super(username + SEPARATOR + productCode);
 
 	setUsername(username);
-	setProductId(productId);
+	setProductCode(productCode);
   }
 
-  public static ProductReviewId createOf(Username username, ProductId productId) {
-	return new ProductReviewId(username, productId);
+  public static ProductReviewId createOf(Username username, ProductCode productCode) {
+	return new ProductReviewId(username, productCode);
   }
 
   public Username getUsername() {
 	return username;
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 
   private void setUsername(Username username) {
@@ -51,11 +51,11 @@ public class ProductReviewId extends Identifier<String> {
 	this.username = username;
   }
 
-  private void setProductId(ProductId productId) {
-	if (productId == null) {
-	  throw ValueValidationException.createOfMessage("Product identifier is null");
+  private void setProductCode(ProductCode productCode) {
+	if (productCode == null) {
+	  throw ValueValidationException.createOfMessage("Product code is null");
 	}
 
-	this.productId = productId;
+	this.productCode = productCode;
   }
 }

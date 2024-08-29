@@ -1,18 +1,18 @@
 package com.jeferro.products.product_reviews.application.params;
 
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.application.Params;
 
 public class DeleteAllProductReviewsOfProductParams extends Params<Void> {
 
-  private final ProductId productId;
+  private final ProductCode productCode;
 
-  public DeleteAllProductReviewsOfProductParams(ProductId productId) {
+  public DeleteAllProductReviewsOfProductParams(ProductCode productCode) {
 	super();
-	this.productId = productId;
+	this.productCode = productCode;
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 }

@@ -2,30 +2,30 @@ package com.jeferro.products.products.domain.events;
 
 import java.time.Instant;
 
-import com.jeferro.products.products.domain.models.ProductId;
+import com.jeferro.products.products.domain.models.ProductCode;
 import com.jeferro.shared.domain.events.Event;
 import com.jeferro.shared.domain.events.EventId;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 
 public abstract class ProductEvent extends Event {
 
-  private ProductId productId;
+  private ProductCode productCode;
 
-  protected ProductEvent(EventId id, ProductId productId, String occurredBy, Instant occurredOn) {
+  protected ProductEvent(EventId id, ProductCode productCode, String occurredBy, Instant occurredOn) {
 	super(id, occurredBy, occurredOn);
 
-	setProductId(productId);
+	setProductCode(productCode);
   }
 
-  public ProductId getProductId() {
-	return productId;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 
-  private void setProductId(ProductId productId) {
-	if (productId == null) {
-	  throw ValueValidationException.createOfMessage("Product identifier is null");
+  private void setProductCode(ProductCode productCode) {
+	if (productCode == null) {
+	  throw ValueValidationException.createOfMessage("Product code is null");
 	}
 
-	this.productId = productId;
+	this.productCode = productCode;
   }
 }

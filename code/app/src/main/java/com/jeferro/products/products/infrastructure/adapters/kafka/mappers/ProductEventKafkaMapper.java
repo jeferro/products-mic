@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {
 	EventIdKafkaMapper.class,
-	ProductIdKafkaMapper.class
+	ProductCodeKafkaMapper.class
 })
 public abstract class ProductEventKafkaMapper {
 

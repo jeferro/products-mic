@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {
-	ProductIdMongoMapper.class
+	ProductCodeMongoMapper.class
 })
 public abstract class ProductMongoMapper extends BidirectionalMapper<Product, ProductMongoDTO> {
 
