@@ -10,6 +10,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 public class KafkaProducerInterceptor implements ProducerInterceptor<String, String> {
 
   public static final String CONFIG_SECURITY_MANAGER = "security-manager";
+
   public static final String HEADER_AUX = "app-auth";
 
   private SecurityManager securityManager;
@@ -30,7 +31,7 @@ public class KafkaProducerInterceptor implements ProducerInterceptor<String, Str
 
   @Override
   public void onAcknowledgement(RecordMetadata recordMetadata, Exception e) {
-
+	// Do nothing
   }
 
   @Override
