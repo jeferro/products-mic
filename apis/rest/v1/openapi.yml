@@ -168,6 +168,30 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
+  /v1/products/{productCode}/status:
+    put:
+      operationId: update-product-status
+      summary: Update product status
+      description: Update product status
+      tags:
+        - Products
+      parameters:
+        - $ref: './products.yml#/components/parameters/productCodePath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './products.yml#/components/schemas/UpdateProductStatusInput'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: './products.yml#/components/schemas/Product'
+        default:
+          $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
   /v1/products/{productCode}/reviews:
     post:

@@ -10,6 +10,35 @@ components:
       example: '123456789'
 
   schemas:
+    ProductStatus:
+      type: string
+      description: status of the product
+      enum:
+        - 'PUBLISHED'
+        - 'UNPUBLISHED'
+      x-enum-varnames:
+        - PUBLISHED
+        - UNPUBLISHED
+
+    Product:
+      type: object
+      description: Product information
+      required:
+        - code
+        - status
+        - name
+      properties:
+        code:
+          type: string
+          description: Identifier of product
+          example: '123456789'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+        name:
+          type: string
+          description: Name of the product
+          example: 'apple'
+
     ProductInput:
       type: object
       description: Upsert product input
@@ -26,18 +55,11 @@ components:
           description: Name of the product
           example: 'apple'
 
-    Product:
+    UpdateProductStatusInput:
       type: object
-      description: Product information
+      description: Update product status input
       required:
-        - code
-        - name
+        - value
       properties:
-        code:
-          type: string
-          description: Identifier of product
-          example: '123456789'
-        name:
-          type: string
-          description: Name of the product
-          example: 'apple'
+        value:
+          $ref: '#/components/schemas/ProductStatus'

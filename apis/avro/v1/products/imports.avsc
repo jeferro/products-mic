@@ -1,0 +1,13 @@
+[
+    {
+      "namespace": "com.jeferro.products.generated.kafka.v1.dtos",
+      "name": "ProductStatusAvroDTO",
+      "type": "enum",
+      "default": "UNKNOWN",
+      "symbols" : [
+        "UNKNOWN",
+        "PUBLISHED",
+        "UNPUBLISHED"
+      ]
+    }
+]

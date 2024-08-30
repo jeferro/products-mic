@@ -77,7 +77,7 @@ class DeleteProductHandlerTest {
 
 	var event = (ProductDeleted) eventInMemoryBus.getFirstOrError();
 
-	assertEquals(product.getId(), event.getProductCode());
+	assertEquals(product.getId(), event.getCode());
 	assertEquals(now, event.getOccurredOn());
 	assertEquals(auth.who(), event.getOccurredBy());
   }

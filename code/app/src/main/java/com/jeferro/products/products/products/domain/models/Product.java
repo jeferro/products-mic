@@ -1,5 +1,7 @@
 package com.jeferro.products.products.products.domain.models;
 
+import static com.jeferro.products.products.products.domain.models.ProductStatus.UNPUBLISHED;
+
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
@@ -12,14 +14,17 @@ public class Product extends AggregateRoot<ProductCode> {
 
     private String name;
 
-    public Product(ProductCode id, String name) {
+    private ProductStatus status;
+
+    public Product(ProductCode id, String name, ProductStatus status) {
         super(id);
 
         setName(name);
+        setStatus(status);
     }
 
     public static Product create(ProductCode productCode, String name, Auth auth) {
-        var product = new Product(productCode, name);
+        var product = new Product(productCode, name, UNPUBLISHED);
 
         var event = ProductCreated.create(product, auth);
         product.record(event);
@@ -34,17 +39,28 @@ public class Product extends AggregateRoot<ProductCode> {
         record(event);
     }
 
+    public void updateStatus(ProductStatus status, Auth auth) {
+        if(this.status == status) {
+            return;
+        }
+
+        setStatus(status);
+
+        var event = ProductUpdated.create(this, auth);
+        record(event);
+    }
+
     public void delete(Auth auth) {
         var event = ProductDeleted.create(this, auth);
         record(event);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public ProductCode getCode() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     private void setName(String name) {
@@ -53,5 +69,17 @@ public class Product extends AggregateRoot<ProductCode> {
         }
 
         this.name = name;
+    }
+
+    public ProductStatus getStatus() {
+        return status;
+    }
+
+    private void setStatus(ProductStatus status) {
+        if (status == null) {
+            throw ValueValidationException.createOfMessage("Status is null");
+        }
+
+        this.status = status;
     }
 }

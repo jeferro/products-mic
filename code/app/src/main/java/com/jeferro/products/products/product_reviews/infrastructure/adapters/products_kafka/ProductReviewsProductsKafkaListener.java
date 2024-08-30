@@ -30,7 +30,7 @@ public class ProductReviewsProductsKafkaListener {
   @KafkaHandler
   protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
 	var params = new DeleteAllProductReviewsOfProductParams(
-		productCodeKafkaMapper.toDomain(productDeletedAvroDTO.getProductCode())
+		productCodeKafkaMapper.toDomain(productDeletedAvroDTO.getCode())
 	);
 
 	handlerBus.execute(params);

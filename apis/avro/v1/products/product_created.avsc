@@ -9,9 +9,14 @@
       "doc": "Identifier of the event"
     },
     {
-      "name": "productCode",
+      "name": "code",
       "type": "string",
       "doc": "Identifier of the product created"
+    },
+    {
+      "name": "status",
+      "type": "ProductStatusAvroDTO",
+      "doc": "Status of the product created"
     },
     {
       "name": "occurredOn",

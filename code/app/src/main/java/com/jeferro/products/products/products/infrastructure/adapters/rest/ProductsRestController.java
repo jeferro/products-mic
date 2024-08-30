@@ -5,14 +5,17 @@ import java.util.List;
 import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
 import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.products.application.params.ListProductsParams;
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
+import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCodeRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
+import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductStatusRestMapper;
 import com.jeferro.shared.application.HandlerBus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +28,8 @@ public class ProductsRestController implements ProductsApi {
 	private final ProductCodeRestMapper productCodeRestMapper = ProductCodeRestMapper.INSTANCE;
 
 	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
+
+	private final ProductStatusRestMapper productStatusRestMapper = ProductStatusRestMapper.INSTANCE;
 
 	private final HandlerBus handlerBus;
 
@@ -78,7 +83,20 @@ public class ProductsRestController implements ProductsApi {
 		return productRestMapper.toOkResponseDTO(user);
 	}
 
-	@Override
+  @Override
+  public ResponseEntity<ProductRestDTO> updateProductStatus(String productCode,
+	  UpdateProductStatusInputRestDTO updateProductStatusInputRestDTO) {
+	var params = new UpdateProductStatusParams(
+		productCodeRestMapper.toDomain(productCode),
+		productStatusRestMapper.toDomain(updateProductStatusInputRestDTO.getValue())
+	);
+
+	var user = handlerBus.execute(params);
+
+	return productRestMapper.toOkResponseDTO(user);
+  }
+
+  @Override
 	public ResponseEntity<ProductRestDTO> deleteProduct(String productCode) {
 		var params = new DeleteProductParams(
 			productCodeRestMapper.toDomain(productCode)
