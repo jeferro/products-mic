@@ -1,7 +1,5 @@
-# Products Microservice
+# Products
 
-Aplicación para la gestión de productos y sus valoraciones. 
+Microservice for the management of products and their ratings.
 
-Existen 2 perfiles en el usuario, administradores y usuarios. Los administradores son responsable de la gestión de los productos. Los usuarios pueden consultar la información de un prooducto y valorarlos.
-
-For more information [here](./docs/Home.md)
+For more information [here](./docs/home)

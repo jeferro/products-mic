@@ -82,7 +82,7 @@ class UpdateProductHandlerTest {
 
         var event = (ProductUpdated) eventInMemoryBus.getFirstOrError();
 
-        assertEquals(product.getId(), event.getProductCode());
+        assertEquals(product.getId(), event.getCode());
 		assertEquals(auth.who(), event.getOccurredBy());
 		assertEquals(now, event.getOccurredOn());
     }

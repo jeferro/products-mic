@@ -52,8 +52,20 @@ The project consists of the following folders:
 
 The design and architecture patterns applied in the project are as follows:
 
-* Domain Drive Design
+* Domain Drive Design:
+  * Value Object
+  * Entity
+  * Aggregate
+  * Factory
+  * Repository
+  * Modules
+  * Anti corruption Layer
+  * Standard Types
 
-* Hexagonal Architecture
+* Hexagonal Architecture:
+  * Port Adapters
 
-* Handler Bus
+* Others
+  * Handler Bus
+  * First Class Collections
+  * Entity Collections

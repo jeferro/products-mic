@@ -24,7 +24,7 @@ public class ProductEventKafkaPublisher implements EventBusPublisher<ProductEven
 
   @Override
   public void publish(ProductEvent event) {
-	String key = event.getProductCode().toString();
+	String key = event.getCode().toString();
 	var data = productEventKafkaMapper.toDTO(event);
 
 	kafkaTemplate.send(productsProperties.topic(), key, data);
