@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
@@ -15,8 +13,6 @@ import com.jeferro.products.products.product_reviews.domain.models.ProductReview
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,8 +35,6 @@ class DeleteProductReviewHandlerTest {
 
   @Test
   void givenUserCommentsOnProduct_whenDeleteProductReview_thenReturnsDeletedProductReview() {
-	var now = FakeTimeService.fakesNow();
-
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var userAuth = AuthMother.user();
@@ -54,7 +48,7 @@ class DeleteProductReviewHandlerTest {
 
 	assertTrue(productReviewsInMemoryRepository.isEmpty());
 
-	assertProductReviewDeletedWasPublished(result, userAuth, now);
+	assertProductReviewDeletedWasPublished(result);
   }
 
   @Test
@@ -82,14 +76,12 @@ class DeleteProductReviewHandlerTest {
 		() -> deleteProductReviewHandler.handle(adminAuth, params));
   }
 
-  private void assertProductReviewDeletedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
+  private void assertProductReviewDeletedWasPublished(ProductReview result) {
 	assertEquals(1, eventInMemoryBus.size());
 
 	var event = (ProductReviewDeleted) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(result.getId(), event.getProductReviewId());
-	assertEquals(now, event.getOccurredOn());
-	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

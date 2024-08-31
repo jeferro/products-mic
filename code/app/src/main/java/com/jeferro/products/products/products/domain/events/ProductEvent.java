@@ -1,7 +1,5 @@
 package com.jeferro.products.products.products.domain.events;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.shared.domain.events.Event;
@@ -16,10 +14,8 @@ public abstract class ProductEvent extends Event {
 
   protected ProductEvent(EventId id,
 	  ProductCode code,
-	  ProductStatus status,
-	  String occurredBy,
-	  Instant occurredOn) {
-	super(id, occurredBy, occurredOn);
+	  ProductStatus status) {
+	super(id);
 
 	setCode(code);
 	setStatus(status);

@@ -67,9 +67,10 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
   }
 
   private ProductReview createProductReview(Auth auth, CreateProductReviewParams params, ProductCode productCode) {
+	var username = auth.getUsernameOrError();
 	var comment = params.getComment();
 
-	var productReview = ProductReview.createOf(productCode, comment, auth);
+	var productReview = ProductReview.createOf(productCode, comment, username);
 
 	productReviewsRepository.save(productReview);
 

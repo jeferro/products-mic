@@ -5,6 +5,7 @@ import static com.jeferro.shared.application.Roles.ADMIN;
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
+import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
@@ -40,7 +41,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 	  return null;
 	}
 
-	productReviews.forEach(productReview -> productReview.deleteBySystem(auth));
+	productReviews.forEach(ProductReview::deleteBySystem);
 
 	var productReviewIds = productReviews.getIds();
 

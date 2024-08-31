@@ -36,7 +36,7 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
     public Product handle(Auth auth, DeleteProductParams params) {
         var product = ensureProductExists(params);
 
-        deleteProduct(auth, product);
+        deleteProduct(product);
 
         return product;
     }
@@ -47,8 +47,8 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 	  return productsRepository.findByIdOrError(productCode);
     }
 
-    private void deleteProduct(Auth auth, Product product) {
-        product.delete(auth);
+    private void deleteProduct(Product product) {
+        product.delete();
 
         productsRepository.deleteById(product.getCode());
 

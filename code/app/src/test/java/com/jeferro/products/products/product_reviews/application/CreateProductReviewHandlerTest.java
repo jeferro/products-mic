@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.product_reviews.application.params.CreateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewAlreadyExistsException;
@@ -19,7 +17,6 @@ import com.jeferro.products.products.products.domain.repositories.ProductsInMemo
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,8 +42,6 @@ class CreateProductReviewHandlerTest {
 
   @Test
   void givenUserDidNotCommentOnProduct_whenCreateProductReview_thenReturnsNewProductReview() {
-	var now = FakeTimeService.fakesNow();
-
 	givenAnAppleInDatabase();
 
 	var userAuth = AuthMother.user();
@@ -63,7 +58,7 @@ class CreateProductReviewHandlerTest {
 
 	assertProductReviewInDatabase(result);
 
-	assertProductReviewCreatedWasPublished(result, userAuth, now);
+	assertProductReviewCreatedWasPublished(result);
   }
 
   @Test
@@ -91,14 +86,12 @@ class CreateProductReviewHandlerTest {
 	assertTrue(productReviewsInMemoryRepository.contains(result));
   }
 
-  private void assertProductReviewCreatedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
+  private void assertProductReviewCreatedWasPublished(ProductReview result) {
 	assertEquals(1, eventInMemoryBus.size());
 
 	var event = (ProductReviewCreated) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(result.getId(), event.getProductReviewId());
-	assertEquals(now, event.getOccurredOn());
-	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
   private void givenAnAppleInDatabase() {

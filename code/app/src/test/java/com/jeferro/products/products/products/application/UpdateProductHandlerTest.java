@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
@@ -13,9 +11,7 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +33,6 @@ class UpdateProductHandlerTest {
 
     @Test
     void givenOneProduct_whenUpdateProduct_thenUpdatesProduct() {
-        var now = FakeTimeService.fakesNow();
-
         var apple = givenAnAppleInDatabase();
 
         var userAuth = AuthMother.user();
@@ -54,7 +48,7 @@ class UpdateProductHandlerTest {
 
         assertProductDataInDatabase(result);
 
-        assertProductUpdatedWasPublished(result, userAuth, now);
+        assertProductUpdatedWasPublished(result);
     }
 
     @Test
@@ -77,14 +71,12 @@ class UpdateProductHandlerTest {
         assertTrue(productsInMemoryRepository.contains(product));
     }
 
-    private void assertProductUpdatedWasPublished(Product product, Auth auth, Instant now) {
+    private void assertProductUpdatedWasPublished(Product product) {
         assertEquals(1, eventInMemoryBus.size());
 
         var event = (ProductUpdated) eventInMemoryBus.getFirstOrError();
 
         assertEquals(product.getId(), event.getCode());
-		assertEquals(auth.who(), event.getOccurredBy());
-		assertEquals(now, event.getOccurredOn());
     }
 
     private Product givenAnAppleInDatabase() {

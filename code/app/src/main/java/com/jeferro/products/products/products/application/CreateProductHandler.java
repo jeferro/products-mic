@@ -36,7 +36,7 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     public Product handle(Auth auth, CreateProductParams params) {
         ensureProductDoesNotExist(params);
 
-        return createProduct(auth, params);
+        return createProduct(params);
     }
 
     private void ensureProductDoesNotExist(CreateProductParams params) {
@@ -46,11 +46,11 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
             .ifPresent(product -> { throw ProductAlreadyExistsException.createOf(productCode); });
     }
 
-    private Product createProduct(Auth auth, CreateProductParams params) {
+    private Product createProduct(CreateProductParams params) {
         var productCode = params.getProductCode();
         var name = params.getName();
 
-        var product = Product.create(productCode, name, auth);
+        var product = Product.create(productCode, name);
 
         productsRepository.save(product);
 

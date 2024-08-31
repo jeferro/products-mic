@@ -7,8 +7,6 @@ import com.jeferro.products.products.product_reviews.domain.exceptions.Forbidden
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
 import com.jeferro.shared.domain.models.auth.Username;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
@@ -21,39 +19,37 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	setComment(comment);
   }
 
-  public static ProductReview createOf(ProductCode productCode, String comment, Auth auth) {
-	var username = auth.getUsernameOrError();
-
+  public static ProductReview createOf(ProductCode productCode, String comment, Username username) {
 	var productReviewId = ProductReviewId.createOf(username, productCode);
 
 	var productReview = new ProductReview(productReviewId, comment);
 
-	var event = ProductReviewCreated.create(productReview, auth);
+	var event = ProductReviewCreated.create(productReview);
 	productReview.record(event);
 
 	return productReview;
   }
 
-  public void update(String comment, Auth auth) {
-	ensureProductReviewBelongsToUserAuth(auth);
+  public void update(String comment, Username username) {
+	ensureProductReviewBelongsToUser(username);
 
 	setComment(comment);
 
 	this.comment = comment;
 
-	var event = ProductReviewUpdated.create(this, auth);
+	var event = ProductReviewUpdated.create(this);
 	record(event);
   }
 
-  public void deleteByUser(Auth auth) {
-	ensureProductReviewBelongsToUserAuth(auth);
+  public void deleteByUser(Username username) {
+	ensureProductReviewBelongsToUser(username);
 
-	var event = ProductReviewDeleted.create(this, auth);
+	var event = ProductReviewDeleted.create(this);
 	record(event);
   }
 
-  public void deleteBySystem(Auth auth) {
-	var event = ProductReviewDeleted.create(this, auth);
+  public void deleteBySystem() {
+	var event = ProductReviewDeleted.create(this);
 	record(event);
   }
 
@@ -77,12 +73,11 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	this.comment = comment;
   }
 
-  private void ensureProductReviewBelongsToUserAuth(Auth auth) {
-	if (auth instanceof UserAuth userAuth
-		&& userAuth.belongsToUser(id.getUsername())) {
+  private void ensureProductReviewBelongsToUser(Username username) {
+	if (username.equals(id.getUsername())) {
 	  return;
 	}
 
-	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
+	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, username);
   }
 }

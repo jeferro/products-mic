@@ -45,7 +45,9 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParam
   }
 
   private ProductReview deleteProductReview(Auth auth, ProductReview productReview) {
-	productReview.deleteByUser(auth);
+	var username = auth.getUsernameOrError();
+
+	productReview.deleteByUser(username);
 
 	productReviewsRepository.deleteById(productReview.getId());
 

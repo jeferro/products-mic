@@ -36,7 +36,7 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     public Product handle(Auth auth, UpdateProductParams params) {
         var product = ensureProductExists(params);
 
-        return updateProduct(auth, params, product);
+        return updateProduct(params, product);
     }
 
     private Product ensureProductExists(UpdateProductParams params) {
@@ -45,10 +45,10 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
 	  return productsRepository.findByIdOrError(productCode);
     }
 
-    private Product updateProduct(Auth auth, UpdateProductParams params, Product product) {
+    private Product updateProduct(UpdateProductParams params, Product product) {
         var name = params.getName();
 
-        product.update(name, auth);
+        product.update(name);
 
         productsRepository.save(product);
 

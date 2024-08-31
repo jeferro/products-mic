@@ -1,7 +1,5 @@
 package com.jeferro.products.products.product_reviews.domain.events;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.shared.domain.events.Event;
 import com.jeferro.shared.domain.events.EventId;
@@ -11,8 +9,9 @@ public abstract class ProductReviewEvent extends Event {
 
     private ProductReviewId productReviewId;
 
-    protected ProductReviewEvent(EventId id, ProductReviewId productReviewId, String occurredBy, Instant occurredOn) {
-        super(id, occurredBy, occurredOn);
+    protected ProductReviewEvent(EventId id,
+		ProductReviewId productReviewId) {
+        super(id);
 
 		setProductReviewId(productReviewId);
     }
