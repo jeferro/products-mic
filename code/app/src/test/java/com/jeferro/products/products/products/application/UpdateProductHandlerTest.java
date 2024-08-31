@@ -12,6 +12,7 @@ import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.shared.domain.models.locale.LocalizedData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ class UpdateProductHandlerTest {
         var apple = givenAnAppleInDatabase();
 
         var userAuth = AuthMother.user();
-        var newProductName = "new product name";
+        var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
                 newProductName
@@ -56,9 +57,10 @@ class UpdateProductHandlerTest {
         var apple = ProductMother.apple();
 
         var userAuth = AuthMother.user();
+        var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
-                "new product name"
+                newProductName
         );
 
         assertThrows(ProductNotFoundException.class,

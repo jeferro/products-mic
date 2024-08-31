@@ -35,9 +35,13 @@ components:
         status:
           $ref: '#/components/schemas/ProductStatus'
         name:
-          type: string
+          type: object
+          additionalProperties:
+            type: string
           description: Name of the product
-          example: 'apple'
+          example:
+            es: 'Manzana'
+            en: 'Apple'
 
     ProductInput:
       type: object
@@ -51,9 +55,13 @@ components:
           description: Identifier of product
           example: '123456789'
         name:
-          type: string
+          type: object
+          additionalProperties:
+            type: string
           description: Name of the product
-          example: 'apple'
+          example:
+            es: 'Manzana'
+            en: 'Apple'
 
     UpdateProductStatusInput:
       type: object

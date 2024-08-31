@@ -14,6 +14,14 @@
       "doc": "Identifier of the product deleted"
     },
     {
+      "name": "name",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "doc": "Name od the product"
+    },
+    {
       "name": "status",
       "type": "ProductStatusAvroDTO",
       "doc": "Status of the product created"

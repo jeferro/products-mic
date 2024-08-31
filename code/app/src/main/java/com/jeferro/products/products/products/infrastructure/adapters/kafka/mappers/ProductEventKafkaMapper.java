@@ -8,12 +8,14 @@ import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.events.ProductEvent;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.shared.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
+import com.jeferro.shared.infrastructure.adapters.kafka.mappers.LocalizedDataKafkaMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {
 	EventIdKafkaMapper.class,
-	ProductCodeKafkaMapper.class
+	ProductCodeKafkaMapper.class,
+	LocalizedDataKafkaMapper.class
 })
 public abstract class ProductEventKafkaMapper {
 

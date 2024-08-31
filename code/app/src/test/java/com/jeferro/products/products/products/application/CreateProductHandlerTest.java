@@ -10,6 +10,7 @@ import com.jeferro.products.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.shared.domain.models.locale.LocalizedData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ class CreateProductHandlerTest {
   void givenNoProduct_whenCreateProduct_thenCreatesProduct() {
 	var userAuth = AuthMother.user();
 	var productCode = ProductCodeMother.appleCode();
-	var productName = "Apple";
+	var productName = LocalizedData.createOf("en-US", "Apple");
 	var params = new CreateProductParams(productCode, productName);
 
 	var result = createProductHandler.execute(userAuth, params);
