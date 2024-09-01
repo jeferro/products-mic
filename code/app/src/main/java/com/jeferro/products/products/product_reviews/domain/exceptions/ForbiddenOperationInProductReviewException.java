@@ -3,8 +3,8 @@ package com.jeferro.products.products.product_reviews.domain.exceptions;
 import static com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.FORBIDDEN_REVIEW_OPERATION;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.domain.exceptions.NotFoundException;
-import com.jeferro.shared.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
+import com.jeferro.shared.auth.domain.models.Username;
 
 public class ForbiddenOperationInProductReviewException extends NotFoundException {
 

@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.infrastructure.adapters.kafka;
 import com.jeferro.products.products.products.domain.events.ProductEvent;
 import com.jeferro.products.products.products.infrastructure.ProductsProperties;
 import com.jeferro.products.products.products.infrastructure.adapters.kafka.mappers.ProductEventKafkaMapper;
-import com.jeferro.shared.domain.events.EventBusPublisher;
+import com.jeferro.shared.ddd.domain.events.EventBusPublisher;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 

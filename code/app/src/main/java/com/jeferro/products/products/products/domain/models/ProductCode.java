@@ -1,8 +1,6 @@
 package com.jeferro.products.products.products.domain.models;
 
-import java.util.UUID;
-
-import com.jeferro.shared.domain.models.aggregates.Identifier;
+import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 
 public class ProductCode extends Identifier<String> {
 

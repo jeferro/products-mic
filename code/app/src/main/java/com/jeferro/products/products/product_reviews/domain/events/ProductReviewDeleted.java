@@ -2,7 +2,7 @@ package com.jeferro.products.products.product_reviews.domain.events;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.events.EventId;
 
 public class ProductReviewDeleted extends ProductReviewEvent {
 

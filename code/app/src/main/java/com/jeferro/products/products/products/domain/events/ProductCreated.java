@@ -3,9 +3,9 @@ package com.jeferro.products.products.products.domain.events;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.shared.domain.events.EventId;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.locale.LocalizedData;
+import com.jeferro.shared.ddd.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 
 public class ProductCreated extends ProductEvent {
 

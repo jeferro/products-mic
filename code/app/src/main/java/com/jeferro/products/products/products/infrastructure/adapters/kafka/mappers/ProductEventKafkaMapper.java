@@ -11,8 +11,8 @@ import com.jeferro.products.products.products.domain.events.ProductEvent;
 import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
-import com.jeferro.shared.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
-import com.jeferro.shared.infrastructure.adapters.kafka.mappers.LocalizedDataKafkaMapper;
+import com.jeferro.shared.ddd.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
+import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocalizedDataKafkaMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

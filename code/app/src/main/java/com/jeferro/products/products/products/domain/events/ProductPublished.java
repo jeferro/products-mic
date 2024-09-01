@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.domain.events;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.events.EventId;
 
 public class ProductPublished extends ProductEvent {
 

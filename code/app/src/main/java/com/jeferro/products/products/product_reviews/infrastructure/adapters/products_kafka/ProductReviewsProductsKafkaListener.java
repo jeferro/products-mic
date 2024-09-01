@@ -3,7 +3,7 @@ package com.jeferro.products.products.product_reviews.infrastructure.adapters.pr
 import com.jeferro.products.generated.kafka.v1.dtos.ProductDeletedAvroDTO;
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.products.infrastructure.adapters.kafka.mappers.ProductCodeKafkaMapper;
-import com.jeferro.shared.application.HandlerBus;
+import com.jeferro.shared.ddd.application.HandlerBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaHandler;

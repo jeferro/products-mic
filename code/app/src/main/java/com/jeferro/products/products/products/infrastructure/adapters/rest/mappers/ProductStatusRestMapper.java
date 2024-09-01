@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.infrastructure.adapters.rest.mapp
 
 import com.jeferro.products.generated.rest.v1.dtos.ProductStatusRestDTO;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.shared.infrastructure.mappers.BidirectionalMapper;
+import com.jeferro.shared.mappers.BidirectionalMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

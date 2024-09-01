@@ -1,8 +1,8 @@
 package com.jeferro.products.shared.domain.repositories;
 
-import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.domain.models.aggregates.Identifier;
-import com.jeferro.shared.domain.models.criteria.Criteria;
+import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
+import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
 
 import java.util.*;
 

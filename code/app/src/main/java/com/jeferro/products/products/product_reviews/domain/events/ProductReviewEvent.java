@@ -1,9 +1,9 @@
 package com.jeferro.products.products.product_reviews.domain.events;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.domain.events.Event;
-import com.jeferro.shared.domain.events.EventId;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.events.Event;
+import com.jeferro.shared.ddd.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 
 public abstract class ProductReviewEvent extends Event {
 

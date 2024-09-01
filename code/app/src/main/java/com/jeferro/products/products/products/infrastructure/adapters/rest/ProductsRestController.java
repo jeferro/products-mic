@@ -16,8 +16,8 @@ import com.jeferro.products.products.products.infrastructure.adapters.rest.mappe
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductStatusRestMapper;
-import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.infrastructure.adapters.rest.mappers.LocalizedDataRestMapper;
+import com.jeferro.shared.ddd.application.HandlerBus;
+import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedDataRestMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

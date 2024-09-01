@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.domain.models;
 
-import com.jeferro.shared.domain.models.criteria.Criteria;
+import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
 import org.apache.commons.lang3.StringUtils;
 
 public class ProductCriteria extends Criteria {

@@ -9,7 +9,7 @@ import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.models.UserMother;
 import com.jeferro.products.users.users.domain.repositories.UsersInMemoryRepository;
 import com.jeferro.products.users.users.domain.services.FakePasswordEncoder;
-import com.jeferro.shared.domain.exceptions.UnauthorizedException;
+import com.jeferro.shared.ddd.domain.exceptions.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

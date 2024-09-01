@@ -7,9 +7,9 @@ import com.jeferro.products.generated.rest.v1.dtos.AuthRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.SignInInputRestDTO;
 import com.jeferro.products.users.users.application.params.SignInParams;
 import com.jeferro.products.users.users.infrastructure.adapters.rest.mappers.AuthRestMapper;
-import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
-import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
+import com.jeferro.shared.ddd.application.HandlerBus;
+import com.jeferro.shared.auth.infrastructure.adapters.rest.mappers.UsernameRestMapper;
+import com.jeferro.shared.auth.infrastructure.adapters.rest.jwt.JwtDecoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -2,9 +2,9 @@ package com.jeferro.products.products.products.application.params;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.locale.LocalizedData;
+import com.jeferro.shared.ddd.application.Params;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 
 public class UpdateProductParams extends Params<Product> {
 

@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.domain.models.auth;
 
-import com.jeferro.shared.domain.models.auth.Username;
+import com.jeferro.shared.auth.domain.models.Username;
 
 public abstract class UsernameMother {
 
