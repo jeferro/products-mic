@@ -78,12 +78,12 @@ public abstract class HandlerBus {
 		var duration = calculateDuration(startAt);
 
         logger.info("""
-			\n\t Handler: {}\s
-			\t auth: {}\s
-			\t params: {}\s
-			\t duration: {}
-			\t result: {}\s
-			""", handlerName, auth, params, duration, result);
+			\n\t Duration: {}\s
+			\t Auth: {}\s
+			\t Handler: {}\s
+			\t Params: {}\s
+			\t Result: {}\s
+			""", duration, auth, handlerName, params, result);
     }
 
     private void logErrorExecution(
@@ -104,11 +104,11 @@ public abstract class HandlerBus {
 	  	var duration = calculateDuration(startAt);
 
         logger.error("""
-			\n\t Handler: {}\s
-			\t auth: {}\s
-			\t params: {}
-			\t duration: {}\s
-			""", handlerName, auth, params, duration, cause);
+			\n\t Duration: {}\s
+			\t Auth: {}\s
+			\t Handler: {}\s
+			\t Params: {}
+			""", duration, auth, handlerName, params, cause);
     }
 
     private Duration calculateDuration(Instant startAt) {
