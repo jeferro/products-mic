@@ -2,9 +2,17 @@ package com.jeferro.shared.ddd.application;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import com.jeferro.shared.auth.domain.models.Auth;
+import com.jeferro.shared.auth.domain.models.SystemAuth;
+import com.jeferro.shared.auth.domain.models.UserAuth;
+import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
+import com.jeferro.shared.ddd.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.ddd.domain.exceptions.internals.InternalErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +24,38 @@ public abstract class HandlerBus {
     private final Map<Class<Params<?>>, Handler<?, ?>> handlers = new HashMap<>();
 
     public <R> R execute(Params<R> params) {
+        Instant startAt = Instant.now();
+
         var context = getContext();
-        var handler = getHandler(params);
+        var auth = context.getAuth();
 
-        if (handler == null) {
-            logger.error("Handler not found by params {}", params.getClass().getSimpleName());
+        try {
+            var handler = getHandler(params);
 
-            throw InternalErrorException.createOfHandlerNotFound();
+            var mandatoryUserRoles = handler.getMandatoryUserRoles();
+
+            if(! canAuthExecuteHandler(auth, mandatoryUserRoles)) {
+                throw ForbiddenException.createOf(auth, mandatoryUserRoles);
+            }
+
+            R result = handler.handle(context, params);
+
+            if (!(handler instanceof SilentHandler<Params<R>,R>)) {
+                logSuccessExecution(startAt, auth, params, result);
+            }
+
+            return result;
+        } catch (Exception cause) {
+            logErrorExecution(startAt, auth, params, cause);
+
+            if(cause instanceof ApplicationException) {
+                throw cause;
+            }
+
+            throw InternalErrorException.createOf(cause);
         }
-
-        return handler.execute(context, params);
     }
-
+    
     protected abstract Context getContext();
 
     protected void registryHandler(Handler<?, ?> handler) {
@@ -46,9 +74,57 @@ public abstract class HandlerBus {
         Class<?> paramsClass = params.getClass();
 
         if (!handlers.containsKey(paramsClass)) {
-            return null;
+            throw InternalErrorException.createOfHandlerNotFound(paramsClass.getSimpleName());
         }
 
         return (Handler<Params<R>, R>) handlers.get(paramsClass);
+    }
+
+
+    private boolean canAuthExecuteHandler(Auth auth, Set<String> mandatoryUserRoles) {
+        if(auth instanceof SystemAuth){
+            return true;
+        }
+
+        if (auth instanceof UserAuth userAuth) {
+            return userAuth.hasAllPermissions(mandatoryUserRoles);
+        }
+
+        return mandatoryUserRoles.isEmpty();
+    }
+
+    private void logSuccessExecution(
+        Instant startAt,
+        Auth auth,
+        Params<?> params,
+        Object result
+    ) {
+        Duration duration = calculateDuration(startAt);
+
+        logger.info("\n\t Handler: {} "
+            + "\n\t auth: {} "
+            + "\n\t params: {} "
+            + "\n\t result: {}"
+            + "\n\t duration: {} \n", getClass().getSimpleName(), auth, params, result, duration);
+    }
+
+    private void logErrorExecution(
+        Instant startAt,
+        Auth auth,
+        Params<?> params,
+        Exception cause
+    ) {
+        Duration duration = calculateDuration(startAt);
+
+        logger.error("\n\t Handler: {} "
+            + "\n\t auth: {} "
+            + "\n\t params: {}"
+            + "\n\t duration: {} \n", getClass().getSimpleName(), auth, params, duration, cause);
+    }
+
+    private Duration calculateDuration(Instant startAt) {
+        Instant endAt = Instant.now();
+
+        return Duration.between(startAt, endAt);
     }
 }

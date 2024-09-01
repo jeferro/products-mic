@@ -2,6 +2,7 @@ package com.jeferro.shared.auth.infrastructure;
 
 import java.util.Locale;
 
+import com.jeferro.shared.auth.domain.models.AnonymousAuth;
 import com.jeferro.shared.auth.domain.models.Auth;
 import com.jeferro.shared.auth.domain.models.SystemAuth;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public abstract class ContextManager {
 
 	return authentication != null
 		? (Auth) authentication.getPrincipal()
-		: null;
+		: AnonymousAuth.create();
   }
 
   public static Locale getLocale() {

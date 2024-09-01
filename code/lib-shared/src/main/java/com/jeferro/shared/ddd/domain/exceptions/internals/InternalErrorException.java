@@ -9,8 +9,8 @@ public class InternalErrorException extends ApplicationException {
         super(SharedExceptionCodes.INTERNAL_ERROR.value, "Internal error", message);
     }
 
-    public static InternalErrorException createOfHandlerNotFound() {
-        return new InternalErrorException("Handler not found");
+    public static InternalErrorException createOfHandlerNotFound(String paramsClassname) {
+        return new InternalErrorException("Handler not found for params: " + paramsClassname);
     }
 
     public static InternalErrorException createOf(Exception cause) {
