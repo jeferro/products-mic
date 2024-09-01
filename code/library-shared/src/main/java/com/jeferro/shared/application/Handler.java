@@ -23,8 +23,9 @@ public abstract class Handler<P extends Params<R>, R> {
 
     protected abstract Set<String> getMandatoryUserRoles();
 
-    public R execute(Auth auth, P params) {
+    public R execute(Context context, P params) {
         Instant startAt = Instant.now();
+        var auth = context.getAuth();
 
         var mandatoryUserRoles = getMandatoryUserRoles();
 
@@ -33,7 +34,7 @@ public abstract class Handler<P extends Params<R>, R> {
                 throw ForbiddenException.createOf(auth, mandatoryUserRoles);
             }
 
-            R result = handle(auth, params);
+            R result = handle(context, params);
 
             if (shouldLogExecution()) {
                 logSuccessExecution(startAt, auth, params, result);
@@ -55,7 +56,7 @@ public abstract class Handler<P extends Params<R>, R> {
         return !(this instanceof SilentHandler<P, R>);
     }
 
-    protected abstract R handle(Auth auth, P params);
+    protected abstract R handle(Context context, P params);
 
     private boolean canAuthExecuteHandler(Auth auth, Set<String> mandatoryUserRoles) {
         if(auth instanceof SystemAuth){

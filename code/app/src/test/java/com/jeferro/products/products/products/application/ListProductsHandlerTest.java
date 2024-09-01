@@ -1,15 +1,17 @@
 package com.jeferro.products.products.products.application;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.jeferro.products.products.products.application.params.ListProductsParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ListProductsHandlerTest {
 
@@ -28,12 +30,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsAllProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var params = new ListProductsParams(
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(userAuth, params);
+        var result = listProductsHandler.execute(userContext, params);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(databaseData.apple()));
@@ -44,12 +46,12 @@ class ListProductsHandlerTest {
     void givenTwoProducts_whenListProducts_thenReturnsFilteredProducts() {
         var databaseData = givenSeveralProductsInDatabase();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var params = new ListProductsParams(
                 ProductCriteria.createOfName("pe")
         );
 
-        var result = listProductsHandler.execute(userAuth, params);
+        var result = listProductsHandler.execute(userContext, params);
 
         assertEquals(1, result.size());
         assertFalse(result.contains(databaseData.apple()));
@@ -58,12 +60,12 @@ class ListProductsHandlerTest {
 
     @Test
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var params = new ListProductsParams(
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(userAuth, params);
+        var result = listProductsHandler.execute(userContext, params);
 
         assertTrue(result.isEmpty());
     }

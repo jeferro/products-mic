@@ -7,7 +7,7 @@ import com.jeferro.products.products.product_reviews.application.params.ListProd
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,14 +26,14 @@ class ListProductReviewHandlerTest {
 
   @Test
   void givenProductReviews_whenListProductReviews_thenReturnsProductReviews() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new ListProductReviewParams(
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.handle(userAuth, params);
+	var result = listProductReviewHandler.handle(userContext, params);
 
 	assertEquals(1, result.size());
 	assertTrue(result.contains(userReviewOfApple));
@@ -41,14 +41,14 @@ class ListProductReviewHandlerTest {
 
   @Test
   void givenNoProductReviews_whenListProductReviews_thenReturnsEmptyList() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 
 	var params = new ListProductReviewParams(
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.handle(userAuth, params);
+	var result = listProductReviewHandler.handle(userContext, params);
 
 	assertTrue(result.isEmpty());
   }

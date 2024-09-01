@@ -10,6 +10,7 @@ import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundE
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import com.jeferro.shared.domain.models.locale.LocalizedData;
@@ -36,14 +37,14 @@ class UpdateProductHandlerTest {
     void givenOneProduct_whenUpdateProduct_thenUpdatesProduct() {
         var apple = givenAnAppleInDatabase();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
                 newProductName
         );
 
-        var result = updateProductHandler.execute(userAuth, params);
+        var result = updateProductHandler.execute(userContext, params);
 
         assertEquals(newProductName, result.getName());
 
@@ -56,7 +57,7 @@ class UpdateProductHandlerTest {
     void givenNoProducts_whenUpdateProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
@@ -64,7 +65,7 @@ class UpdateProductHandlerTest {
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> updateProductHandler.execute(userAuth, params));
+                () -> updateProductHandler.execute(userContext, params));
     }
 
     private void assertProductDataInDatabase(Product product) {

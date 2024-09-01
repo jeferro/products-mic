@@ -7,9 +7,9 @@ import java.util.Set;
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +33,7 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     }
 
     @Override
-    public Product handle(Auth auth, UpdateProductParams params) {
+    public Product handle(Context context, UpdateProductParams params) {
         var product = ensureProductExists(params);
 
         return updateProduct(params, product);

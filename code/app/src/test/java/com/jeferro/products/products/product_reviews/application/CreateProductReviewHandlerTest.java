@@ -14,9 +14,9 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.shared.domain.models.auth.UserAuth;
+import com.jeferro.shared.application.Context;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +44,7 @@ class CreateProductReviewHandlerTest {
   void givenUserDidNotCommentOnProduct_whenCreateProductReview_thenReturnsNewProductReview() {
 	givenAnAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var productCode = ProductCodeMother.appleCode();
 	var comment = "New comment about product";
 	var params = new CreateProductReviewParams(
@@ -52,9 +52,9 @@ class CreateProductReviewHandlerTest {
 		comment
 	);
 
-	var result = createProductReviewHandler.handle(userAuth, params);
+	var result = createProductReviewHandler.handle(userContext, params);
 
-	assertResult(userAuth, result, productCode, comment);
+	assertResult(userContext, result, productCode, comment);
 
 	assertProductReviewInDatabase(result);
 
@@ -65,18 +65,18 @@ class CreateProductReviewHandlerTest {
   void givenUserCommentsOnProduct_whenCreateProductReview_throwsException() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new CreateProductReviewParams(
 		userReviewOfApple.getProductCode(),
 		"other comment"
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
-		() -> createProductReviewHandler.handle(userAuth, params));
+		() -> createProductReviewHandler.handle(userContext, params));
   }
 
-  private static void assertResult(UserAuth userAuth, ProductReview result, ProductCode productCode, String comment) {
-	assertEquals(userAuth.getUsername(), result.getUsername());
+  private static void assertResult(Context context, ProductReview result, ProductCode productCode, String comment) {
+	assertEquals(context.getUsernameOrError(), result.getUsername());
 	assertEquals(productCode, result.getProductCode());
 	assertEquals(comment, result.getComment());
   }

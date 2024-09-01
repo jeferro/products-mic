@@ -13,8 +13,8 @@ import com.jeferro.products.products.product_reviews.domain.models.ProductReview
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
 import com.jeferro.products.products.products.domain.models.ProductCodeMother;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,14 +39,14 @@ class DeleteAllProductReviewsOfProductHandlerTest {
   void givenSeveralReviewsOfSameProduct_whenDeleteItsReviews_thenPublishEvents() {
 	givenSeveralAppleReviewsInDatabase();
 
-	var adminAuth = AuthMother.admin();
+	var adminContext = ContextMother.admin();
 	var appleCode = ProductCodeMother.appleCode();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
 		appleCode
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);
+	deleteAllProductReviewsOfProductHandler.handle(adminContext, params);
 
 	assertThereAreNotReviewsOfApple();
 
@@ -55,14 +55,14 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 
   @Test
   void givenProductDoNotHaveReviews_whenDeleteItsReviews_thenDoNothing() {
-	var adminAuth = AuthMother.admin();
+	var adminContext = ContextMother.admin();
 	var appleCode = ProductCodeMother.appleCode();
 
 	var params = new DeleteAllProductReviewsOfProductParams(
 		appleCode
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(adminAuth, params);
+	deleteAllProductReviewsOfProductHandler.handle(adminContext, params);
 
 	assertNoEventsWerePublished();
   }

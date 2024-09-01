@@ -3,13 +3,13 @@ package com.jeferro.products.users.users.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.jeferro.shared.domain.exceptions.UnauthorizedException;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.users.users.application.params.SignInParams;
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.models.UserMother;
 import com.jeferro.products.users.users.domain.repositories.UsersInMemoryRepository;
 import com.jeferro.products.users.users.domain.services.FakePasswordEncoder;
+import com.jeferro.shared.domain.exceptions.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +31,13 @@ class SignInHandlerTest {
   void givenOneUSer_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
 
-	var anonymousAuth = AuthMother.anonymous();
+	var anonymousContext = ContextMother.anonymous();
 	var params = new SignInParams(
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(anonymousAuth, params);
+	var result = signInHandler.execute(anonymousContext, params);
 
 	assertEquals(user, result);
   }
@@ -45,14 +45,14 @@ class SignInHandlerTest {
   @Test
   void givenAnAuthenticatedUser_whenSignIn_thenReturnsUser() {
 	var user = givenAnUserInDatabase();
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 
 	var params = new SignInParams(
 		user.getUsername(),
 		user.getEncodedPassword()
 	);
 
-	var result = signInHandler.execute(userAuth, params);
+	var result = signInHandler.execute(userContext, params);
 
 	assertEquals(user, result);
   }
@@ -60,7 +60,7 @@ class SignInHandlerTest {
   @Test
   void givenNoUsers_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = UserMother.user();
-	var anonymousAuth = AuthMother.anonymous();
+	var anonymousContext = ContextMother.anonymous();
 
 	var params = new SignInParams(
 		user.getUsername(),
@@ -68,13 +68,13 @@ class SignInHandlerTest {
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(anonymousAuth, params));
+		() -> signInHandler.execute(anonymousContext, params));
   }
 
   @Test
   void givenWrongCredentials_whenSignIn_thenThrowsUnauthorizedException() {
 	var user = givenAnUserInDatabase();
-	var anonymousAuth = AuthMother.anonymous();
+	var anonymousContext = ContextMother.anonymous();
 
 	var params = new SignInParams(
 		user.getUsername(),
@@ -82,7 +82,7 @@ class SignInHandlerTest {
 	);
 
 	assertThrows(UnauthorizedException.class,
-		() -> signInHandler.execute(anonymousAuth, params));
+		() -> signInHandler.execute(anonymousContext, params));
   }
 
   private User givenAnUserInDatabase() {

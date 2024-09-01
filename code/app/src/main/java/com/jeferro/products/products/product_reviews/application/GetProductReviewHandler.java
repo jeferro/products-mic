@@ -7,8 +7,8 @@ import java.util.Set;
 import com.jeferro.products.products.product_reviews.application.params.GetProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.SilentHandler;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,7 +28,7 @@ public class GetProductReviewHandler extends SilentHandler<GetProductReviewParam
   }
 
   @Override
-  protected ProductReview handle(Auth auth, GetProductReviewParams params) {
+  protected ProductReview handle(Context context, GetProductReviewParams params) {
 	var productReviewId = params.getProductReviewId();
 
 	return productReviewsRepository.findByIdOrError(productReviewId);

@@ -21,7 +21,7 @@ public class SpringHandlerBus extends HandlerBus {
   }
 
   @Override
-  protected Auth getAuth() {
+  protected Auth getContext() {
 	return securityManager.getAuth();
   }
 }

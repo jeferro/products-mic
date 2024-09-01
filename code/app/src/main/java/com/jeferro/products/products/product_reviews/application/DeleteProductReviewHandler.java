@@ -7,9 +7,9 @@ import java.util.Set;
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,10 +32,10 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParam
   }
 
   @Override
-  protected ProductReview handle(Auth auth, DeleteProductReviewParams params) {
+  protected ProductReview handle(Context context, DeleteProductReviewParams params) {
 	var productReview = ensureProductReviewExists(params);
 
-	return deleteProductReview(auth, productReview);
+	return deleteProductReview(context, productReview);
   }
 
   private ProductReview ensureProductReviewExists(DeleteProductReviewParams params) {
@@ -44,8 +44,8 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParam
 	return productReviewsRepository.findByIdOrError(productReviewId);
   }
 
-  private ProductReview deleteProductReview(Auth auth, ProductReview productReview) {
-	var username = auth.getUsernameOrError();
+  private ProductReview deleteProductReview(Context context, ProductReview productReview) {
+	var username = context.getUsernameOrError();
 
 	productReview.deleteByUser(username);
 

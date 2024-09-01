@@ -7,9 +7,9 @@ import java.util.Set;
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +33,7 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
     }
 
     @Override
-    public Product handle(Auth auth, DeleteProductParams params) {
+    public Product handle(Context context, DeleteProductParams params) {
         var product = ensureProductExists(params);
 
         deleteProduct(product);

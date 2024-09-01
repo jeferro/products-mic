@@ -11,8 +11,8 @@ import com.jeferro.products.products.product_reviews.domain.exceptions.ProductRe
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,12 +37,12 @@ class DeleteProductReviewHandlerTest {
   void givenUserCommentsOnProduct_whenDeleteProductReview_thenReturnsDeletedProductReview() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new DeleteProductReviewParams(
 		userReviewOfApple.getId()
 	);
 
-	var result = deleteProductReviewHandler.handle(userAuth, params);
+	var result = deleteProductReviewHandler.handle(userContext, params);
 
 	assertEquals(userReviewOfApple, result);
 
@@ -53,19 +53,19 @@ class DeleteProductReviewHandlerTest {
 
   @Test
   void givenUserDoesNotCommentOnProduct_whenDeleteProductReview_throwsException() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var params = new DeleteProductReviewParams(
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> deleteProductReviewHandler.handle(userAuth, params));
+		() -> deleteProductReviewHandler.handle(userContext, params));
   }
 
   @Test
   void givenOtherUserCommentsOnProduct_whenDeleteProductReviewOfOtherUser_throwsException() {
-	var adminAuth = AuthMother.admin();
+	var adminContext = ContextMother.admin();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new DeleteProductReviewParams(
@@ -73,7 +73,7 @@ class DeleteProductReviewHandlerTest {
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> deleteProductReviewHandler.handle(adminAuth, params));
+		() -> deleteProductReviewHandler.handle(adminContext, params));
   }
 
   private void assertProductReviewDeletedWasPublished(ProductReview result) {

@@ -1,7 +1,5 @@
 package com.jeferro.products.products.product_reviews.domain.models;
 
-import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
-import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.products.domain.models.ProductCodeMother;
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
 

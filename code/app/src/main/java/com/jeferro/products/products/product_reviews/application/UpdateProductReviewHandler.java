@@ -7,9 +7,9 @@ import java.util.Set;
 import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,10 +32,10 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
   }
 
   @Override
-  protected ProductReview handle(Auth auth, UpdateProductReviewParams params) {
+  protected ProductReview handle(Context context, UpdateProductReviewParams params) {
 	var productReview = ensureProductReviewExists(params);
 
-	return updateProductReview(auth, params, productReview);
+	return updateProductReview(context, params, productReview);
   }
 
   private ProductReview ensureProductReviewExists(UpdateProductReviewParams params) {
@@ -44,8 +44,8 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
 	return productReviewsRepository.findByIdOrError(productReviewId);
   }
 
-  private ProductReview updateProductReview(Auth auth, UpdateProductReviewParams params, ProductReview productReview) {
-	var username = auth.getUsernameOrError();
+  private ProductReview updateProductReview(Context context, UpdateProductReviewParams params, ProductReview productReview) {
+	var username = context.getUsernameOrError();
 	var comment = params.getComment();
 
 	productReview.update(comment, username);

@@ -10,8 +10,8 @@ import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundE
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,12 +35,12 @@ class DeleteProductHandlerTest {
   void givenOneProduct_whenDeleteProduct_thenDeletesProduct() {
 	var apple = givenAnAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new DeleteProductParams(
 		apple.getId()
 	);
 
-	var result = deleteProductHandler.execute(userAuth, params);
+	var result = deleteProductHandler.execute(userContext, params);
 
 	assertEquals(apple, result);
 
@@ -53,13 +53,13 @@ class DeleteProductHandlerTest {
   void givenNoProducts_whenDeleteProduct_thenThrowsException() {
 	var apple = ProductMother.apple();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new DeleteProductParams(
 		apple.getId()
 	);
 
 	assertThrows(ProductNotFoundException.class,
-		() -> deleteProductHandler.execute(userAuth, params));
+		() -> deleteProductHandler.execute(userContext, params));
   }
 
   private void assertProductDoesNotExistInDatabase() {

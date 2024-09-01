@@ -1,14 +1,13 @@
 package com.jeferro.shared.application;
 
-import com.jeferro.shared.domain.exceptions.internals.InternalErrorException;
-import com.jeferro.shared.domain.models.auth.Auth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.jeferro.shared.domain.exceptions.internals.InternalErrorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class HandlerBus {
 
@@ -17,7 +16,7 @@ public abstract class HandlerBus {
     private final Map<Class<Params<?>>, Handler<?, ?>> handlers = new HashMap<>();
 
     public <R> R execute(Params<R> params) {
-        var auth = getAuth();
+        var context = getContext();
         var handler = getHandler(params);
 
         if (handler == null) {
@@ -26,10 +25,10 @@ public abstract class HandlerBus {
             throw InternalErrorException.createOfHandlerNotFound();
         }
 
-        return handler.execute(auth, params);
+        return handler.execute(context, params);
     }
 
-    protected abstract Auth getAuth();
+    protected abstract Context getContext();
 
     protected void registryHandler(Handler<?, ?> handler) {
         Type type = handler.getClass().getGenericSuperclass();

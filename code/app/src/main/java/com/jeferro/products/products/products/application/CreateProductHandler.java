@@ -8,9 +8,9 @@ import com.jeferro.products.products.products.application.params.CreateProductPa
 import com.jeferro.products.products.products.domain.exceptions.ProductAlreadyExistsException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +33,7 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     }
 
     @Override
-    public Product handle(Auth auth, CreateProductParams params) {
+    public Product handle(Context context, CreateProductParams params) {
         ensureProductDoesNotExist(params);
 
         return createProduct(params);
