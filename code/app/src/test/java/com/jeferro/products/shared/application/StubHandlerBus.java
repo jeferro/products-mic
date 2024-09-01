@@ -27,7 +27,7 @@ public class StubHandlerBus extends HandlerBus {
     }
 
     @Override
-    protected Context getContext() {
+    protected Context createContext() {
         throw new MethodNotFoundException();
     }
 

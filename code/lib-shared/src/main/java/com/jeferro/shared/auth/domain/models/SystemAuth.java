@@ -1,5 +1,7 @@
 package com.jeferro.shared.auth.domain.models;
 
+import java.util.Set;
+
 public class SystemAuth extends Auth {
 
     public SystemAuth() {
@@ -13,5 +15,10 @@ public class SystemAuth extends Auth {
     @Override
     public String who() {
         return "system";
+    }
+
+    @Override
+    public boolean hasRoles(Set<String> mandatoryRoles) {
+        return true;
     }
 }

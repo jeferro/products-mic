@@ -14,11 +14,11 @@ public class SpringHandlerBus extends HandlerBus {
 
 	applicationContext.getBeansOfType(Handler.class)
 		.values()
-		.forEach(this::registryHandler);
+		.forEach(handlers::registryHandler);
   }
 
   @Override
-  protected Context getContext() {
+  protected Context createContext() {
 	var auth = ContextManager.getAuth();
 	var locale = ContextManager.getLocale();
 

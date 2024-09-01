@@ -1,5 +1,7 @@
 package com.jeferro.shared.auth.domain.models;
 
+import java.util.Set;
+
 public class AnonymousAuth extends Auth {
 
     public AnonymousAuth() {
@@ -13,5 +15,10 @@ public class AnonymousAuth extends Auth {
     @Override
     public String who() {
         return "anonymous";
+    }
+
+    @Override
+    public boolean hasRoles(Set<String> mandatoryRoles) {
+        return false;
     }
 }
