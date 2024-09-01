@@ -37,7 +37,7 @@ tasks.withType<Test> {
 // Mapstruct
 tasks.withType<JavaCompile> {
     options.compilerArgs = listOf(
-        "-Amapstruct.unmappedTargetPolicy=ERROR"
+        "-Amapstruct.unmappedTargetPolicy=ERROR",
     )
 }
 

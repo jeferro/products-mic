@@ -4,13 +4,11 @@ import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.shared.infrastructure.adapters.rest.ErrorRestController;
 import com.jeferro.shared.infrastructure.adapters.rest.configurations.RestSecurityProperties;
 import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
-import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
 @Import({
 	JwtDecoder.class,
-	SecurityManager.class,
 	ErrorRestController.class,
 	StubHandlerBus.class
 })

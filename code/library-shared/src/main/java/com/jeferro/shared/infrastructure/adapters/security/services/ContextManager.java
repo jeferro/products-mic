@@ -1,17 +1,18 @@
 package com.jeferro.shared.infrastructure.adapters.security.services;
 
+import java.util.Locale;
+
 import com.jeferro.shared.domain.models.auth.Auth;
 import com.jeferro.shared.domain.models.auth.SystemAuth;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 
-@Component
-public class SecurityManager {
+public abstract class ContextManager {
 
-  public void signInFromWeb(Auth auth, HttpServletRequest request) {
+  public static void signInFromWeb(Auth auth, HttpServletRequest request) {
 	UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken.authenticated(
 		auth,
 		null,
@@ -25,7 +26,7 @@ public class SecurityManager {
 	SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 
-  public void signInSystem() {
+  public static void signInSystem() {
 	var auth = SystemAuth.create();
 
 	UsernamePasswordAuthenticationToken authentication = UsernamePasswordAuthenticationToken.authenticated(
@@ -36,15 +37,19 @@ public class SecurityManager {
 	SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 
-  public void signOut() {
+  public static void signOut() {
 	SecurityContextHolder.clearContext();
   }
 
-  public Auth getAuth() {
+  public static Auth getAuth() {
 	var authentication = SecurityContextHolder.getContext().getAuthentication();
 
 	return authentication != null
 		? (Auth) authentication.getPrincipal()
 		: null;
+  }
+
+  public static Locale getLocale() {
+	return LocaleContextHolder.getLocale();
   }
 }

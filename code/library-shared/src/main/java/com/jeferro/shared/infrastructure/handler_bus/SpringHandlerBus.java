@@ -1,19 +1,19 @@
 package com.jeferro.shared.infrastructure.handler_bus;
 
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.Handler;
 import com.jeferro.shared.application.HandlerBus;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
+import com.jeferro.shared.infrastructure.adapters.security.services.ContextManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SpringHandlerBus extends HandlerBus {
 
-  private final SecurityManager securityManager;
+  private final ContextManager contextManager;
 
-  public SpringHandlerBus(ApplicationContext applicationContext, SecurityManager securityManager) {
-	this.securityManager = securityManager;
+  public SpringHandlerBus(ApplicationContext applicationContext, ContextManager contextManager) {
+	this.contextManager = contextManager;
 
 	applicationContext.getBeansOfType(Handler.class)
 		.values()
@@ -21,7 +21,10 @@ public class SpringHandlerBus extends HandlerBus {
   }
 
   @Override
-  protected Auth getContext() {
-	return securityManager.getAuth();
+  protected Context getContext() {
+	var auth = contextManager.getAuth();
+	var locale = contextManager.getLocale();
+
+	return new Context(auth, locale);
   }
 }

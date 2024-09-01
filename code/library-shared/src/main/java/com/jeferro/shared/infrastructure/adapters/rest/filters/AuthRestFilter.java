@@ -5,7 +5,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import java.io.IOException;
 
 import com.jeferro.shared.infrastructure.adapters.rest.services.jwt.JwtDecoder;
-import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
+import com.jeferro.shared.infrastructure.adapters.security.services.ContextManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,13 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class AuthRestFilter extends OncePerRequestFilter {
 
-  private final SecurityManager securityManager;
-
   private final JwtDecoder jwtDecoder;
 
-  public AuthRestFilter(SecurityManager securityManager,
-	  JwtDecoder jwtDecoder) {
-	this.securityManager = securityManager;
+  public AuthRestFilter(JwtDecoder jwtDecoder) {
 	this.jwtDecoder = jwtDecoder;
   }
 
@@ -40,11 +36,11 @@ public class AuthRestFilter extends OncePerRequestFilter {
 	var auth = jwtDecoder.decode(header);
 
 	if (auth == null) {
-	  securityManager.signOut();
+	  ContextManager.signOut();
 	  return;
 	}
 
-	securityManager.signInFromWeb(auth, request);
+	ContextManager.signInFromWeb(auth, request);
   }
 
 }

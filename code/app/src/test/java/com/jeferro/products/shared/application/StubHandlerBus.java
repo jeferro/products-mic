@@ -3,9 +3,9 @@ package com.jeferro.products.shared.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jeferro.shared.application.Context;
 import com.jeferro.shared.application.HandlerBus;
 import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.models.auth.Auth;
 import jakarta.el.MethodNotFoundException;
 
 public class StubHandlerBus extends HandlerBus {
@@ -27,7 +27,7 @@ public class StubHandlerBus extends HandlerBus {
     }
 
     @Override
-    protected Auth getContext() {
+    protected Context getContext() {
         throw new MethodNotFoundException();
     }
 

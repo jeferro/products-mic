@@ -1,13 +1,11 @@
 package com.jeferro.shared.infrastructure.adapters.kafka.configurations;
 
-import static com.jeferro.shared.infrastructure.adapters.kafka.interceptors.KafkaConsumerInterceptor.CONFIG_SECURITY_MANAGER;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG;
 
 import java.util.Map;
 
 import com.jeferro.shared.infrastructure.adapters.kafka.interceptors.KafkaConsumerInterceptor;
 import com.jeferro.shared.infrastructure.adapters.kafka.interceptors.KafkaProducerInterceptor;
-import com.jeferro.shared.infrastructure.adapters.security.services.SecurityManager;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.ssl.SslBundles;
@@ -23,24 +21,20 @@ public class KafkaConfiguration {
 
   @Bean
   public ConsumerFactory<?, ?> kafkaConsumerFactory(KafkaProperties properties,
-	  ObjectProvider<SslBundles> sslBundles,
-	  SecurityManager securityManager) {
+	  ObjectProvider<SslBundles> sslBundles) {
 	Map<String, Object> consumerProperties = properties.buildConsumerProperties(sslBundles.getIfAvailable());
 
 	consumerProperties.put(INTERCEPTOR_CLASSES_CONFIG, KafkaConsumerInterceptor.class.getName());
-	consumerProperties.put(CONFIG_SECURITY_MANAGER, securityManager);
 
 	return new DefaultKafkaConsumerFactory<>(consumerProperties);
   }
 
   @Bean
   public ProducerFactory<?, ?> kafkaProducerFactory(KafkaProperties properties,
-	  ObjectProvider<SslBundles> sslBundles,
-	  SecurityManager securityManager) {
+	  ObjectProvider<SslBundles> sslBundles) {
 	Map<String, Object> producerProperties = properties.buildProducerProperties(sslBundles.getIfAvailable());
 
 	producerProperties.put(INTERCEPTOR_CLASSES_CONFIG, KafkaProducerInterceptor.class.getName());
-	producerProperties.put(CONFIG_SECURITY_MANAGER, securityManager);
 
 	return new DefaultKafkaProducerFactory<>(producerProperties);
   }
