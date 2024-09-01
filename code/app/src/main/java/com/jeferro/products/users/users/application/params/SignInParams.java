@@ -1,7 +1,7 @@
 package com.jeferro.products.users.users.application.params;
 
 import com.jeferro.products.users.users.domain.models.User;
-import com.jeferro.shared.ddd.application.Params;
+import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.auth.domain.models.Username;
 import org.apache.commons.lang3.StringUtils;

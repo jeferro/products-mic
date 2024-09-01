@@ -1,4 +1,4 @@
-package com.jeferro.shared.ddd.application;
+package com.jeferro.shared.ddd.application.params;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 

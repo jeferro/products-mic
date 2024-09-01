@@ -12,7 +12,7 @@ import com.jeferro.products.products.product_reviews.domain.repositories.Product
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
@@ -36,12 +36,12 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 
   @Override
-  protected ProductReview handle(Context context, CreateProductReviewParams params) {
+  public ProductReview execute(Context context, CreateProductReviewParams params) {
 	var productCode = ensureProductExists(params);
 
 	ensureProductReviewDoesNotExists(context, productCode);

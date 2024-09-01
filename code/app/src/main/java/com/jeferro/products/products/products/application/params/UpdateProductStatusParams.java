@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.application.params;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.shared.ddd.application.Params;
+import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 
 public class UpdateProductStatusParams extends Params<Product> {

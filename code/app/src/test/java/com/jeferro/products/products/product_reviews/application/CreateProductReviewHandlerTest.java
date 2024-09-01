@@ -52,7 +52,7 @@ class CreateProductReviewHandlerTest {
 		comment
 	);
 
-	var result = createProductReviewHandler.handle(userContext, params);
+	var result = createProductReviewHandler.execute(userContext, params);
 
 	assertResult(userContext, result, productCode, comment);
 
@@ -72,7 +72,7 @@ class CreateProductReviewHandlerTest {
 	);
 
 	assertThrows(ProductReviewAlreadyExistsException.class,
-		() -> createProductReviewHandler.handle(userContext, params));
+		() -> createProductReviewHandler.execute(userContext, params));
   }
 
   private static void assertResult(Context context, ProductReview result, ProductCode productCode, String comment) {

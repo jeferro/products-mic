@@ -8,7 +8,7 @@ import com.jeferro.products.products.products.application.params.ListProductsPar
 import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.SilentHandler;
+import com.jeferro.shared.ddd.application.handlers.SilentHandler;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,12 +23,12 @@ public class ListProductsHandler extends SilentHandler<ListProductsParams, Produ
     }
 
     @Override
-    protected Set<String> getMandatoryUserRoles() {
+    public Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 
     @Override
-    public Products handle(Context context, ListProductsParams params) {
+    public Products execute(Context context, ListProductsParams params) {
         var criteria = params.getProductCriteria();
 
         return productsRepository.findAll(criteria);

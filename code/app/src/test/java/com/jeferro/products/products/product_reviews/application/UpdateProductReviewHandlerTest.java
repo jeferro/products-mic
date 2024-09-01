@@ -42,7 +42,7 @@ class UpdateProductReviewHandlerTest {
 		userReviewOfApple.getId(),
 		newComment
 	);
-	var result = updateProductReviewHandler.handle(userContext, params);
+	var result = updateProductReviewHandler.execute(userContext, params);
 
 	assertResult(userReviewOfApple, result, newComment);
 
@@ -62,7 +62,7 @@ class UpdateProductReviewHandlerTest {
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> updateProductReviewHandler.handle(userContext, params));
+		() -> updateProductReviewHandler.execute(userContext, params));
   }
 
   @Test
@@ -77,7 +77,7 @@ class UpdateProductReviewHandlerTest {
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> updateProductReviewHandler.handle(adminContext, params));
+		() -> updateProductReviewHandler.execute(adminContext, params));
   }
 
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jeferro.shared.ddd.application.Context;
 import com.jeferro.shared.ddd.application.HandlerBus;
-import com.jeferro.shared.ddd.application.Params;
+import com.jeferro.shared.ddd.application.params.Params;
 import jakarta.el.MethodNotFoundException;
 
 public class StubHandlerBus extends HandlerBus {

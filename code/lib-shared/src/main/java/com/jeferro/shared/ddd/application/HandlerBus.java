@@ -11,6 +11,9 @@ import java.util.Set;
 import com.jeferro.shared.auth.domain.models.Auth;
 import com.jeferro.shared.auth.domain.models.SystemAuth;
 import com.jeferro.shared.auth.domain.models.UserAuth;
+import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.application.handlers.SilentHandler;
+import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
 import com.jeferro.shared.ddd.domain.exceptions.ForbiddenException;
 import com.jeferro.shared.ddd.domain.exceptions.internals.InternalErrorException;
@@ -38,7 +41,7 @@ public abstract class HandlerBus {
                 throw ForbiddenException.createOf(auth, mandatoryUserRoles);
             }
 
-            R result = handler.handle(context, params);
+            R result = handler.execute(context, params);
 
             if (!(handler instanceof SilentHandler<Params<R>,R>)) {
                 logSuccessExecution(startAt, auth, params, result);
@@ -55,7 +58,7 @@ public abstract class HandlerBus {
             throw InternalErrorException.createOf(cause);
         }
     }
-    
+
     protected abstract Context getContext();
 
     protected void registryHandler(Handler<?, ?> handler) {

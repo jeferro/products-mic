@@ -8,7 +8,7 @@ import com.jeferro.products.products.product_reviews.application.params.DeleteAl
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +27,12 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(ADMIN);
   }
 
   @Override
-  protected Void handle(Context context, DeleteAllProductReviewsOfProductParams params) {
+  public Void execute(Context context, DeleteAllProductReviewsOfProductParams params) {
 	var productCode = params.getProductCode();
 
 	var productReviews = productReviewsRepository.findAllByProductCode(productCode);

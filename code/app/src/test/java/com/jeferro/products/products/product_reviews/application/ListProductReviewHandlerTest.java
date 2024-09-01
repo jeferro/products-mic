@@ -33,7 +33,7 @@ class ListProductReviewHandlerTest {
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.handle(userContext, params);
+	var result = listProductReviewHandler.execute(userContext, params);
 
 	assertEquals(1, result.size());
 	assertTrue(result.contains(userReviewOfApple));
@@ -48,7 +48,7 @@ class ListProductReviewHandlerTest {
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.handle(userContext, params);
+	var result = listProductReviewHandler.execute(userContext, params);
 
 	assertTrue(result.isEmpty());
   }

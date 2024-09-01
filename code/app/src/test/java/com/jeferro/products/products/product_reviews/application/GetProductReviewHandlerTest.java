@@ -34,7 +34,7 @@ class GetProductReviewHandlerTest {
 		userReviewOfApple.getId()
 	);
 
-	var result = getProductReviewHandler.handle(userContext, params);
+	var result = getProductReviewHandler.execute(userContext, params);
 
 	assertEquals(userReviewOfApple, result);
   }
@@ -48,7 +48,7 @@ class GetProductReviewHandlerTest {
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> getProductReviewHandler.handle(userContext, params));
+		() -> getProductReviewHandler.execute(userContext, params));
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

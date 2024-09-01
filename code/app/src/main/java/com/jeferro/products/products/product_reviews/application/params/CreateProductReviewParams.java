@@ -2,7 +2,7 @@ package com.jeferro.products.products.product_reviews.application.params;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.ddd.application.Params;
+import com.jeferro.shared.ddd.application.params.Params;
 
 public class CreateProductReviewParams extends Params<ProductReview> {
 

@@ -8,7 +8,7 @@ import com.jeferro.products.products.product_reviews.application.params.GetProdu
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.SilentHandler;
+import com.jeferro.shared.ddd.application.handlers.SilentHandler;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,12 +23,12 @@ public class GetProductReviewHandler extends SilentHandler<GetProductReviewParam
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 
   @Override
-  protected ProductReview handle(Context context, GetProductReviewParams params) {
+  public ProductReview execute(Context context, GetProductReviewParams params) {
 	var productReviewId = params.getProductReviewId();
 
 	return productReviewsRepository.findByIdOrError(productReviewId);

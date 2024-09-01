@@ -9,7 +9,7 @@ import com.jeferro.products.products.products.domain.exceptions.ProductAlreadyEx
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +28,12 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     }
 
     @Override
-    protected Set<String> getMandatoryUserRoles() {
+    public Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 
     @Override
-    public Product handle(Context context, CreateProductParams params) {
+    public Product execute(Context context, CreateProductParams params) {
         ensureProductDoesNotExist(params);
 
         return createProduct(params);

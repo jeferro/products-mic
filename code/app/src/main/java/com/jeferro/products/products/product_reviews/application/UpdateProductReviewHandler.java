@@ -8,7 +8,7 @@ import com.jeferro.products.products.product_reviews.application.params.UpdatePr
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +27,12 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 
   @Override
-  protected ProductReview handle(Context context, UpdateProductReviewParams params) {
+  public ProductReview execute(Context context, UpdateProductReviewParams params) {
 	var productReview = ensureProductReviewExists(params);
 
 	return updateProductReview(context, params, productReview);

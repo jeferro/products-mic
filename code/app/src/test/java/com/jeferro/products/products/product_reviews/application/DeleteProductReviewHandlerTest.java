@@ -42,7 +42,7 @@ class DeleteProductReviewHandlerTest {
 		userReviewOfApple.getId()
 	);
 
-	var result = deleteProductReviewHandler.handle(userContext, params);
+	var result = deleteProductReviewHandler.execute(userContext, params);
 
 	assertEquals(userReviewOfApple, result);
 
@@ -60,7 +60,7 @@ class DeleteProductReviewHandlerTest {
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> deleteProductReviewHandler.handle(userContext, params));
+		() -> deleteProductReviewHandler.execute(userContext, params));
   }
 
   @Test
@@ -73,7 +73,7 @@ class DeleteProductReviewHandlerTest {
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> deleteProductReviewHandler.handle(adminContext, params));
+		() -> deleteProductReviewHandler.execute(adminContext, params));
   }
 
   private void assertProductReviewDeletedWasPublished(ProductReview result) {

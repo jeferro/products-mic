@@ -46,7 +46,7 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 		appleCode
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(adminContext, params);
+	deleteAllProductReviewsOfProductHandler.execute(adminContext, params);
 
 	assertThereAreNotReviewsOfApple();
 
@@ -62,7 +62,7 @@ class DeleteAllProductReviewsOfProductHandlerTest {
 		appleCode
 	);
 
-	deleteAllProductReviewsOfProductHandler.handle(adminContext, params);
+	deleteAllProductReviewsOfProductHandler.execute(adminContext, params);
 
 	assertNoEventsWerePublished();
   }
