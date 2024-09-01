@@ -1,9 +1,12 @@
 package com.jeferro.products.products.products.domain.models;
 
+import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
 import static com.jeferro.products.products.products.domain.models.ProductStatus.UNPUBLISHED;
 
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
+import com.jeferro.products.products.products.domain.events.ProductPublished;
+import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
@@ -45,8 +48,14 @@ public class Product extends AggregateRoot<ProductCode> {
 
         setStatus(status);
 
-        var event = ProductUpdated.create(this);
-        record(event);
+        if (PUBLISHED.equals(status)) {
+            var event = ProductPublished.create(this);
+            record(event);
+        }
+        else {
+			var event = ProductUnpublished.create(this);
+			record(event);
+        }
     }
 
     public void delete() {

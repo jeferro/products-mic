@@ -11,19 +11,11 @@ public abstract class ProductEvent extends Event {
 
   private ProductCode code;
 
-  private LocalizedData name;
-
-  private ProductStatus status;
-
   protected ProductEvent(EventId id,
-	  ProductCode code,
-	  LocalizedData name,
-	  ProductStatus status) {
+	  ProductCode code) {
 	super(id);
 
 	setCode(code);
-	setName(name);
-	setStatus(status);
   }
 
   public ProductCode getCode() {
@@ -36,29 +28,5 @@ public abstract class ProductEvent extends Event {
 	}
 
 	this.code = code;
-  }
-
-  public ProductStatus getStatus() {
-	return status;
-  }
-
-  public void setStatus(ProductStatus status) {
-	if (status == null) {
-	  throw ValueValidationException.createOfMessage("Status is null");
-	}
-
-	this.status = status;
-  }
-
-  public LocalizedData getName() {
-	return name;
-  }
-
-  public void setName(LocalizedData name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
-	this.name = name;
   }
 }
