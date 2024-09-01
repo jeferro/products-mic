@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringHandlerBus extends HandlerBus {
 
-  private final ContextManager contextManager;
-
-  public SpringHandlerBus(ApplicationContext applicationContext, ContextManager contextManager) {
-	this.contextManager = contextManager;
+  public SpringHandlerBus(ApplicationContext applicationContext) {
 
 	applicationContext.getBeansOfType(Handler.class)
 		.values()
@@ -22,8 +19,8 @@ public class SpringHandlerBus extends HandlerBus {
 
   @Override
   protected Context getContext() {
-	var auth = contextManager.getAuth();
-	var locale = contextManager.getLocale();
+	var auth = ContextManager.getAuth();
+	var locale = ContextManager.getLocale();
 
 	return new Context(auth, locale);
   }
