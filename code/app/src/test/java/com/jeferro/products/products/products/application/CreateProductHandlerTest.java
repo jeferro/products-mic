@@ -7,7 +7,9 @@ import com.jeferro.products.products.products.application.params.CreateProductPa
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCodeMother;
+import com.jeferro.products.products.products.domain.models.ProductTypeIdMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.products.products.domain.services.ProductTypeInMemoryChecker;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.shared.locale.domain.models.LocalizedData;
@@ -18,6 +20,8 @@ class CreateProductHandlerTest {
 
   private ProductsInMemoryRepository productsInMemoryRepository;
 
+  private ProductTypeInMemoryChecker productTypeInMemoryChecker;
+
   private EventInMemoryBus eventInMemoryBus;
 
   private CreateProductHandler createProductHandler;
@@ -27,19 +31,26 @@ class CreateProductHandlerTest {
 	eventInMemoryBus = new EventInMemoryBus();
 	productsInMemoryRepository = new ProductsInMemoryRepository();
 
-	createProductHandler = new CreateProductHandler(productsInMemoryRepository, eventInMemoryBus);
+	productTypeInMemoryChecker = new ProductTypeInMemoryChecker();
+
+	createProductHandler = new CreateProductHandler(productsInMemoryRepository,
+		productTypeInMemoryChecker,
+		eventInMemoryBus);
   }
 
   @Test
   void givenNoProduct_whenCreateProduct_thenCreatesProduct() {
+	var fruitId = ProductTypeIdMother.fruitId();
+	productTypeInMemoryChecker.reset(fruitId);
+
 	var userContext = ContextMother.user();
-	var productCode = ProductCodeMother.appleCode();
-	var productName = LocalizedData.createOf("en-US", "Apple");
-	var params = new CreateProductParams(productCode, productName);
+	var code = ProductCodeMother.appleCode();
+	var name = LocalizedData.createOf("en-US", "Apple");
+	var params = new CreateProductParams(code, fruitId, name);
 
 	var result = createProductHandler.execute(userContext, params);
 
-	assertEquals(productName, result.getName());
+	assertEquals(name, result.getName());
 
 	assertProductDataInDatabase(result);
 

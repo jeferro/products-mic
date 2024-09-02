@@ -16,6 +16,7 @@ import com.jeferro.products.products.products.infrastructure.adapters.rest.mappe
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductStatusRestMapper;
+import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductTypeIdRestMapper;
 import com.jeferro.shared.ddd.application.HandlerBus;
 import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedDataRestMapper;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class ProductsRestController implements ProductsApi {
 	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
 	private final ProductCodeRestMapper productCodeRestMapper = ProductCodeRestMapper.INSTANCE;
+
+	private final ProductTypeIdRestMapper productTypeIdRestMapper = ProductTypeIdRestMapper.INSTANCE;
 
 	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
 
@@ -55,6 +58,7 @@ public class ProductsRestController implements ProductsApi {
 	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
 		var params = new CreateProductParams(
 			productCodeRestMapper.toDomain(productInputRestDTO.getCode()),
+			productTypeIdRestMapper.toDomain(productInputRestDTO.getTypeId()),
 			localizedDataRestMapper.toDomain(productInputRestDTO.getName())
 		);
 
