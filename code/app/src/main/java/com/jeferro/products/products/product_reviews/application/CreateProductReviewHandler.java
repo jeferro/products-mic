@@ -68,9 +68,11 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
 
   private ProductReview createProductReview(Context context, CreateProductReviewParams params, ProductCode productCode) {
 	var username = context.getUsernameOrError();
+	var locale = context.getLocale();
+
 	var comment = params.getComment();
 
-	var productReview = ProductReview.createOf(productCode, comment, username);
+	var productReview = ProductReview.createOf(productCode, username, locale, comment);
 
 	productReviewsRepository.save(productReview);
 

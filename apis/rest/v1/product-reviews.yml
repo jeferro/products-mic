@@ -28,11 +28,16 @@ components:
       description: Product review
       required:
         - id
+        - locale
         - comment
       properties:
         id:
           type: string
           example: '123456789:johndoe'
+        locale:
+          type: string
+          description: Localization of the review
+          example: 'en-US'
         comment:
           type: string
           description: Comment of the review

@@ -46,9 +46,11 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
 
   private ProductReview updateProductReview(Context context, UpdateProductReviewParams params, ProductReview productReview) {
 	var username = context.getUsernameOrError();
+	var locale = context.getLocale();
+
 	var comment = params.getComment();
 
-	productReview.update(comment, username);
+	productReview.update(comment, locale, username);
 
 	productReviewsRepository.save(productReview);
 
