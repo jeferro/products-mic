@@ -3,14 +3,14 @@ package com.jeferro.products.products.products.domain.models;
 import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
 
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeIdMother;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductMother {
 
   public static Product apple() {
 	var productCode = ProductCodeMother.appleCode();
 	var fruitId = ProductTypeIdMother.fruitId();
-	var name = LocalizedData.createOf(
+	var name = LocalizedField.createOf(
 		"en-US", "Apple",
 		"es-ES", "Manzana");
 
@@ -20,7 +20,7 @@ public class ProductMother {
   public static Product pear() {
 	var productCode = ProductCodeMother.pearCode();
 	var fruitId = ProductTypeIdMother.fruitId();
-	var name = LocalizedData.createOf(
+	var name = LocalizedField.createOf(
 		"en-US", "Pear",
 		"es-ES", "Pera");
 

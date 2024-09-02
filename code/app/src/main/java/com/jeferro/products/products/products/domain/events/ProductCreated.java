@@ -6,20 +6,20 @@ import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductCreated extends ProductEvent {
 
   private ProductTypeId typeId;
 
-  private LocalizedData name;
+  private LocalizedField name;
 
   private ProductStatus status;
 
   private ProductCreated(EventId id,
 	  ProductCode code,
 	  ProductTypeId typeId,
-	  LocalizedData name,
+	  LocalizedField name,
 	  ProductStatus status) {
 	super(id, code);
 
@@ -51,11 +51,11 @@ public class ProductCreated extends ProductEvent {
 	this.typeId = typeId;
   }
 
-  public LocalizedData getName() {
+  public LocalizedField getName() {
 	return name;
   }
 
-  public void setName(LocalizedData name) {
+  public void setName(LocalizedField name) {
 	if (name == null) {
 	  throw ValueValidationException.createOfMessage("Name is null");
 	}

@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 import com.jeferro.shared.mappers.BidirectionalMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public class LocalizedDataKafkaMapper extends BidirectionalMapper<LocalizedData, Map<CharSequence, CharSequence>> {
+public class LocalizedFieldKafkaMapper extends BidirectionalMapper<LocalizedField, Map<CharSequence, CharSequence>> {
 
-  public static final LocalizedDataKafkaMapper INSTANCE = Mappers.getMapper(LocalizedDataKafkaMapper.class);
+  public static final LocalizedFieldKafkaMapper INSTANCE = Mappers.getMapper(LocalizedFieldKafkaMapper.class);
 
   @Override
-  public LocalizedData toDomain(Map<CharSequence, CharSequence> dto) {
+  public LocalizedField toDomain(Map<CharSequence, CharSequence> dto) {
 	var values = dto.entrySet().stream()
 		.map(entry -> {
 		  var key = entry.getKey().toString();
@@ -25,12 +25,12 @@ public class LocalizedDataKafkaMapper extends BidirectionalMapper<LocalizedData,
 		})
 		.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
-	return new LocalizedData(values);
+	return new LocalizedField(values);
   }
 
   @Override
-  public Map<CharSequence, CharSequence> toDTO(LocalizedData localizedData) {
-	return localizedData.entrySetStream()
+  public Map<CharSequence, CharSequence> toDTO(LocalizedField localizedField) {
+	return localizedField.entrySetStream()
 		.map(entry -> {
 		  CharSequence key = entry.getKey();
 		  CharSequence value = entry.getKey();

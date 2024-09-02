@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 import com.jeferro.shared.mappers.BidirectionalMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public class LocalizedDataMongoMapper extends BidirectionalMapper<LocalizedData, Map<String, String>> {
+public class LocalizedFieldMongoMapper extends BidirectionalMapper<LocalizedField, Map<String, String>> {
 
-  public static final LocalizedDataMongoMapper INSTANCE = Mappers.getMapper(LocalizedDataMongoMapper.class);
+  public static final LocalizedFieldMongoMapper INSTANCE = Mappers.getMapper(LocalizedFieldMongoMapper.class);
 
   @Override
-  public LocalizedData toDomain(Map<String, String> dto) {
+  public LocalizedField toDomain(Map<String, String> dto) {
 	var values = dto.entrySet().stream()
 		.map(entry -> {
 		  var key = entry.getKey().replace("_", "-");
@@ -25,12 +25,12 @@ public class LocalizedDataMongoMapper extends BidirectionalMapper<LocalizedData,
 		})
 		.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
-	return new LocalizedData(values);
+	return new LocalizedField(values);
   }
 
   @Override
-  public Map<String, String> toDTO(LocalizedData localizedData) {
-	return localizedData.entrySetStream()
+  public Map<String, String> toDTO(LocalizedField localizedField) {
+	return localizedField.entrySetStream()
 		.map(entry -> {
 		  var key = entry.getKey().replace("-", "_");
 		  var value = entry.getValue();

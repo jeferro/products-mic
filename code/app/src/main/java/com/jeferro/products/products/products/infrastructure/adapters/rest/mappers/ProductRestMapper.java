@@ -5,7 +5,7 @@ import java.util.List;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.Products;
-import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedDataRestMapper;
+import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedFieldRestMapper;
 import com.jeferro.shared.mappers.ToDTOMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 @Mapper(uses = {
 	ProductCodeRestMapper.class,
     ProductTypeIdRestMapper.class,
-    LocalizedDataRestMapper.class
+    LocalizedFieldRestMapper.class
 })
 public abstract class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
 

@@ -5,17 +5,17 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductDeleted extends ProductEvent {
 
-    private LocalizedData name;
+    private LocalizedField name;
 
     private ProductStatus status;
 
     private ProductDeleted(EventId id,
         ProductCode code,
-        LocalizedData name,
+        LocalizedField name,
         ProductStatus status) {
         super(id, code);
 
@@ -45,11 +45,11 @@ public class ProductDeleted extends ProductEvent {
         this.status = status;
     }
 
-    public LocalizedData getName() {
+    public LocalizedField getName() {
         return name;
     }
 
-    public void setName(LocalizedData name) {
+    public void setName(LocalizedField name) {
         if (name == null) {
             throw ValueValidationException.createOfMessage("Name is null");
         }

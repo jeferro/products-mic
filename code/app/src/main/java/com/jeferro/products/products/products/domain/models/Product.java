@@ -11,11 +11,11 @@ import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class Product extends AggregateRoot<ProductCode> {
 
-    private LocalizedData name;
+    private LocalizedField name;
 
     private ProductStatus status;
 
@@ -23,7 +23,7 @@ public class Product extends AggregateRoot<ProductCode> {
 
     public Product(ProductCode id,
         ProductTypeId typeId,
-        LocalizedData name,
+        LocalizedField name,
         ProductStatus status) {
         super(id);
 
@@ -34,7 +34,7 @@ public class Product extends AggregateRoot<ProductCode> {
 
     public static Product create(ProductCode productCode,
         ProductTypeId typeId,
-        LocalizedData name) {
+        LocalizedField name) {
         var product = new Product(productCode, typeId, name, UNPUBLISHED);
 
         var event = ProductCreated.create(product);
@@ -43,7 +43,7 @@ public class Product extends AggregateRoot<ProductCode> {
         return product;
     }
 
-    public void update(LocalizedData name) {
+    public void update(LocalizedField name) {
         setName(name);
 
         var event = ProductUpdated.create(this);
@@ -76,11 +76,11 @@ public class Product extends AggregateRoot<ProductCode> {
         return id;
     }
 
-    public LocalizedData getName() {
+    public LocalizedField getName() {
         return name;
     }
 
-    private void setName(LocalizedData name) {
+    private void setName(LocalizedField name) {
         if (name == null) {
             throw ValueValidationException.createOfMessage("Name is null");
         }

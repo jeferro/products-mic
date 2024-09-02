@@ -9,34 +9,34 @@ import java.util.stream.Stream;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 
-public class LocalizedData extends ValueObject {
+public class LocalizedField extends ValueObject {
 
   private Map<String, String> values;
 
-  public LocalizedData(Map<String, String> values) {
+  public LocalizedField(Map<String, String> values) {
 	setValues(values);
   }
 
-  public static LocalizedData createOf() {
+  public static LocalizedField createOf() {
 	var values = new HashMap<String, String>();
 
-	return new LocalizedData(values);
+	return new LocalizedField(values);
   }
 
-  public static LocalizedData createOf(String k1, String v1) {
+  public static LocalizedField createOf(String k1, String v1) {
 	var values = new HashMap<String, String>();
 	values.put(k1, v1);
 
-	return new LocalizedData(values);
+	return new LocalizedField(values);
   }
 
-  public static LocalizedData createOf(String k1, String v1,
+  public static LocalizedField createOf(String k1, String v1,
 	  String k2, String v2) {
 	var values = new HashMap<String, String>();
 	values.put(k1, v1);
 	values.put(k2, v2);
 
-	return new LocalizedData(values);
+	return new LocalizedField(values);
   }
 
   private void setValues(Map<String, String> values) {

@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.infrastructure.adapters.mongo.map
 
 import com.jeferro.products.products.products.infrastructure.adapters.mongo.dtos.ProductMongoDTO;
 import com.jeferro.products.products.products.domain.models.Product;
-import com.jeferro.shared.locale.infrastructure.adapters.mongo.mappers.LocalizedDataMongoMapper;
+import com.jeferro.shared.locale.infrastructure.adapters.mongo.mappers.LocalizedFieldMongoMapper;
 import com.jeferro.shared.mappers.BidirectionalMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(uses = {
 	ProductCodeMongoMapper.class,
 	ProductTypeIdMongoMapper.class,
-	LocalizedDataMongoMapper.class
+	LocalizedFieldMongoMapper.class
 })
 public abstract class ProductMongoMapper extends BidirectionalMapper<Product, ProductMongoDTO> {
 

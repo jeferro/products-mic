@@ -9,7 +9,6 @@ import com.jeferro.products.products.product_reviews.domain.events.ProductReview
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.shared.ddd.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
 import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocaleKafkaMapper;
-import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocalizedDataKafkaMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

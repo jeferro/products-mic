@@ -5,7 +5,7 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class CreateProductParams extends Params<Product> {
 
@@ -13,11 +13,11 @@ public class CreateProductParams extends Params<Product> {
 
   private ProductTypeId typeId;
 
-  private LocalizedData name;
+  private LocalizedField name;
 
   public CreateProductParams(ProductCode code,
 	  ProductTypeId typeId,
-	  LocalizedData name) {
+	  LocalizedField name) {
 	super();
 
 	setCode(code);
@@ -49,11 +49,11 @@ public class CreateProductParams extends Params<Product> {
 	this.typeId = typeId;
   }
 
-  public LocalizedData getName() {
+  public LocalizedField getName() {
 	return name;
   }
 
-  private void setName(LocalizedData name) {
+  private void setName(LocalizedField name) {
 	if (name == null) {
 	  throw ValueValidationException.createOfMessage("Name is null");
 	}

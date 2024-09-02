@@ -18,7 +18,7 @@ import com.jeferro.products.products.products.infrastructure.adapters.rest.mappe
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductStatusRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductTypeIdRestMapper;
 import com.jeferro.shared.ddd.application.HandlerBus;
-import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedDataRestMapper;
+import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedFieldRestMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +35,7 @@ public class ProductsRestController implements ProductsApi {
 
 	private final ProductStatusRestMapper productStatusRestMapper = ProductStatusRestMapper.INSTANCE;
 
-	private final LocalizedDataRestMapper localizedDataRestMapper = LocalizedDataRestMapper.INSTANCE;
+	private final LocalizedFieldRestMapper localizedFieldRestMapper = LocalizedFieldRestMapper.INSTANCE;
 
 	private final HandlerBus handlerBus;
 
@@ -59,7 +59,7 @@ public class ProductsRestController implements ProductsApi {
 		var params = new CreateProductParams(
 			productCodeRestMapper.toDomain(productInputRestDTO.getCode()),
 			productTypeIdRestMapper.toDomain(productInputRestDTO.getTypeId()),
-			localizedDataRestMapper.toDomain(productInputRestDTO.getName())
+			localizedFieldRestMapper.toDomain(productInputRestDTO.getName())
 		);
 
 		var product = handlerBus.execute(params);
@@ -82,7 +82,7 @@ public class ProductsRestController implements ProductsApi {
 	public ResponseEntity<ProductRestDTO> updateProduct(String productCode, ProductInputRestDTO productInputRestDTO) {
 		var params = new UpdateProductParams(
 				productCodeRestMapper.toDomain(productCode),
-			localizedDataRestMapper.toDomain(productInputRestDTO.getName())
+			localizedFieldRestMapper.toDomain(productInputRestDTO.getName())
 		);
 
 		var user = handlerBus.execute(params);

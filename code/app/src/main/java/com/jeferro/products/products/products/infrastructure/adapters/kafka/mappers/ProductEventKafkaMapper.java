@@ -12,7 +12,7 @@ import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.shared.ddd.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
-import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocalizedDataKafkaMapper;
+import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocalizedFieldKafkaMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,7 +20,7 @@ import org.mapstruct.factory.Mappers;
 	EventIdKafkaMapper.class,
 	ProductCodeKafkaMapper.class,
 	ProductTypeIdKafkaMapper.class,
-	LocalizedDataKafkaMapper.class
+	LocalizedFieldKafkaMapper.class
 })
 public abstract class ProductEventKafkaMapper {
 

@@ -12,7 +12,7 @@ import com.jeferro.products.products.products.domain.repositories.ProductsInMemo
 import com.jeferro.products.products.products.domain.services.ProductTypeInMemoryFinder;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class CreateProductHandlerTest {
 
 	var userContext = ContextMother.user();
 	var code = ProductCodeMother.appleCode();
-	var name = LocalizedData.createOf("en-US", "Apple");
+	var name = LocalizedField.createOf("en-US", "Apple");
 	var params = new CreateProductParams(code, fruit.getId(), name);
 
 	var result = createProductHandler.execute(userContext, params);
