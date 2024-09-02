@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
@@ -13,10 +11,8 @@ import com.jeferro.products.products.product_reviews.domain.exceptions.ProductRe
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,28 +34,26 @@ class UpdateProductReviewHandlerTest {
 
   @Test
   void givenAProductReview_whenUpdateProductReview_thenReturnsUpdatedProductReview() {
-	var now = FakeTimeService.fakesNow();
-
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var newComment = "New comment about apple";
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new UpdateProductReviewParams(
 		userReviewOfApple.getId(),
 		newComment
 	);
-	var result = updateProductReviewHandler.handle(userAuth, params);
+	var result = updateProductReviewHandler.execute(userContext, params);
 
 	assertResult(userReviewOfApple, result, newComment);
 
 	assertProductReviewInDatabase(result);
 
-	assertProductReviewUpdatedWasPublished(result, userAuth, now);
+	assertProductReviewUpdatedWasPublished(result);
   }
 
   @Test
   void givenNoProductReview_whenUpdateProductReview_thenThrowsException() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var newComment = "New comment about apple";
 	var params = new UpdateProductReviewParams(
@@ -68,14 +62,14 @@ class UpdateProductReviewHandlerTest {
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> updateProductReviewHandler.handle(userAuth, params));
+		() -> updateProductReviewHandler.execute(userContext, params));
   }
 
   @Test
   void givenOtherUserCommentsOnProduct_whenUpdateProductReviewOfOtherUser_throwsException() {
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var adminAuth = AuthMother.admin();
+	var adminContext = ContextMother.admin();
 	var newComment = "New comment about apple";
 	var params = new UpdateProductReviewParams(
 		userReviewOfApple.getId(),
@@ -83,7 +77,7 @@ class UpdateProductReviewHandlerTest {
 	);
 
 	assertThrows(ForbiddenOperationInProductReviewException.class,
-		() -> updateProductReviewHandler.handle(adminAuth, params));
+		() -> updateProductReviewHandler.execute(adminContext, params));
   }
 
   private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {
@@ -96,14 +90,12 @@ class UpdateProductReviewHandlerTest {
 	assertTrue(productReviewsInMemoryRepository.contains(result));
   }
 
-  private void assertProductReviewUpdatedWasPublished(ProductReview result, UserAuth userAuth, Instant now) {
+  private void assertProductReviewUpdatedWasPublished(ProductReview result) {
 	assertEquals(1, eventInMemoryBus.size());
 
 	var event = (ProductReviewUpdated) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(result.getId(), event.getProductReviewId());
-	assertEquals(now, event.getOccurredOn());
-	assertEquals(userAuth.who(), event.getOccurredBy());
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

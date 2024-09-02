@@ -32,7 +32,8 @@ class ProductsRestControllerTest extends RestControllerTest {
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/products?pageNumber=0&pageSize=10&name=apple")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
+                .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
 
         var response = mockMvc.perform(requestBuilder)
                 .andReturn()
@@ -51,13 +52,16 @@ class ProductsRestControllerTest extends RestControllerTest {
         var requestContent = """
                 {
                   "code": "%s",
-                  "name": "%s"
+                  "name": {
+                    "en-US": "Apple"
+                  }
                 }"""
-                .formatted(apple.getCode(), apple.getName());
+                .formatted(apple.getCode());
 
         var requestBuilder = MockMvcRequestBuilders.post("/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT)
+            .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)
                 .content(requestContent);
 
         var response = mockMvc.perform(requestBuilder)
@@ -76,7 +80,8 @@ class ProductsRestControllerTest extends RestControllerTest {
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
+            .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
 
         var response = mockMvc.perform(requestBuilder)
                 .andReturn()
@@ -94,13 +99,16 @@ class ProductsRestControllerTest extends RestControllerTest {
 
         var requestContent = """
                 {
-                  "name": "%s"
+                  "name": {
+                    "en-US": "%s"
+                  }
                 }"""
                 .formatted(apple.getName());
 
         var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT)
+            .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)
                 .content(requestContent);
 
         var response = mockMvc.perform(requestBuilder)
@@ -119,7 +127,8 @@ class ProductsRestControllerTest extends RestControllerTest {
 
         var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_CONTENT);
+            .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
+                .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
 
         var response = mockMvc.perform(requestBuilder)
                 .andReturn()

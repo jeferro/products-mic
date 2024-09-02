@@ -1,14 +1,14 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.application.Roles.USER;
+import static com.jeferro.shared.ddd.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.ListProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.application.SilentHandler;
-import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.application.handlers.SilentHandler;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,12 +23,12 @@ public class ListProductReviewHandler extends SilentHandler<ListProductReviewPar
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(USER);
   }
 
   @Override
-  protected ProductReviews handle(Auth auth, ListProductReviewParams params) {
+  public ProductReviews execute(Context context, ListProductReviewParams params) {
 	var productCode = params.getProductCode();
 
 	return productReviewsRepository.findAllByProductCode(productCode);

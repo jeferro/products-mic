@@ -1,15 +1,15 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.shared.application.Roles.USER;
+import static com.jeferro.shared.ddd.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.application.Handler;
-import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,15 +28,15 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
     }
 
     @Override
-    protected Set<String> getMandatoryUserRoles() {
+    public Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 
     @Override
-    public Product handle(Auth auth, DeleteProductParams params) {
+    public Product execute(Context context, DeleteProductParams params) {
         var product = ensureProductExists(params);
 
-        deleteProduct(auth, product);
+        deleteProduct(product);
 
         return product;
     }
@@ -47,8 +47,8 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 	  return productsRepository.findByIdOrError(productCode);
     }
 
-    private void deleteProduct(Auth auth, Product product) {
-        product.delete(auth);
+    private void deleteProduct(Product product) {
+        product.delete();
 
         productsRepository.deleteById(product.getCode());
 

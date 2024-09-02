@@ -3,30 +3,57 @@ package com.jeferro.products.products.products.domain.events;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.shared.domain.events.EventId;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.services.time.TimeService;
-
-import java.time.Instant;
+import com.jeferro.shared.ddd.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 
 public class ProductCreated extends ProductEvent {
 
-    private ProductCreated(EventId id,
-		ProductCode code,
-		ProductStatus status,
-		String occurredBy,
-		Instant occurredOn) {
-        super(id, code, status, occurredBy, occurredOn);
-    }
+  private LocalizedData name;
 
-    public static ProductCreated create(Product product, Auth auth) {
-        var code = product.getCode();
-		var status = product.getStatus();
+  private ProductStatus status;
 
-		var id = EventId.create();
-		var occurredBy = auth.who();
-		var occurredOn = TimeService.now();
+  private ProductCreated(EventId id,
+	  ProductCode code,
+	  LocalizedData name,
+	  ProductStatus status) {
+	super(id, code);
 
-        return new ProductCreated(id, code, status, occurredBy, occurredOn);
-    }
+	setName(name);
+	setStatus(status);
+  }
+
+  public static ProductCreated create(Product product) {
+	var id = EventId.create();
+
+	var code = product.getCode();
+	var name = product.getName();
+	var status = product.getStatus();
+
+	return new ProductCreated(id, code, name, status);
+  }
+
+  public ProductStatus getStatus() {
+	return status;
+  }
+
+  public void setStatus(ProductStatus status) {
+	if (status == null) {
+	  throw ValueValidationException.createOfMessage("Status is null");
+	}
+
+	this.status = status;
+  }
+
+  public LocalizedData getName() {
+	return name;
+  }
+
+  public void setName(LocalizedData name) {
+	if (name == null) {
+	  throw ValueValidationException.createOfMessage("Name is null");
+	}
+
+	this.name = name;
+  }
 }

@@ -2,4 +2,4 @@ rootProject.name = "products"
 
 include(":app")
 
-include(":library-shared")
+include(":lib-shared")

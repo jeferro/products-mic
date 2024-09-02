@@ -1,14 +1,15 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.application.Roles.ADMIN;
+import static com.jeferro.shared.ddd.application.Roles.ADMIN;
 
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
+import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.application.Handler;
-import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,12 +27,12 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
   }
 
   @Override
-  protected Set<String> getMandatoryUserRoles() {
+  public Set<String> getMandatoryUserRoles() {
 	return Set.of(ADMIN);
   }
 
   @Override
-  protected Void handle(Auth auth, DeleteAllProductReviewsOfProductParams params) {
+  public Void execute(Context context, DeleteAllProductReviewsOfProductParams params) {
 	var productCode = params.getProductCode();
 
 	var productReviews = productReviewsRepository.findAllByProductCode(productCode);
@@ -40,7 +41,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 	  return null;
 	}
 
-	productReviews.forEach(productReview -> productReview.deleteBySystem(auth));
+	productReviews.forEach(ProductReview::deleteBySystem);
 
 	var productReviewIds = productReviews.getIds();
 

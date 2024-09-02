@@ -2,14 +2,13 @@ package com.jeferro.products.products.products.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,12 +29,12 @@ class GetProductHandlerTest {
     void givenOneProduct_whenGetProduct_thenReturnsProduct() {
         var apple = givenAnAppleInDatabase();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var params = new GetProductParams(
                 apple.getId()
         );
 
-        var result = getProductHandler.execute(userAuth, params);
+        var result = getProductHandler.execute(userContext, params);
 
         assertEquals(apple, result);
     }
@@ -44,13 +43,13 @@ class GetProductHandlerTest {
     void givenNoProducts_whenGetProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
         var params = new GetProductParams(
                 apple.getId()
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> getProductHandler.execute(userAuth, params));
+                () -> getProductHandler.execute(userContext, params));
     }
 
     private Product givenAnAppleInDatabase() {

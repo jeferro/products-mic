@@ -3,9 +3,10 @@ let now = new Date()
 db['product_reviews'].insertMany([
     {
         _id: "user::apple",
-        comment: "Apple is so good",
         username: "user",
         productCode: "apple",
+        locale: "en-US",
+        comment: "Apple is so good",
         metadata: {
             createdBy: 'user',
             createdAt: now,
@@ -15,9 +16,10 @@ db['product_reviews'].insertMany([
     },
     {
         _id: "admin::apple",
-        comment: "I prefer bananas",
         username: "admin",
         productCode: "apple",
+        locale: "en-US",
+        comment: "I prefer bananas",
         metadata: {
             createdBy: 'user',
             createdAt: now,
@@ -27,9 +29,10 @@ db['product_reviews'].insertMany([
     },
     {
         _id: "user::kiwi",
-        comment: "Good kiwis",
         username: "user",
-        productCode: "bd0d848e-d8a4-4c80-bd4f-d064be1d7ce0",
+        productCode: "kiwi",
+        locale: "en-US",
+        comment: "Good kiwis",
         metadata: {
             createdBy: 'user',
             createdAt: now,

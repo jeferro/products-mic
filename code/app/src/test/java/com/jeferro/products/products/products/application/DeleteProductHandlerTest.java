@@ -4,18 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
-import com.jeferro.shared.domain.models.auth.Auth;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,49 +33,45 @@ class DeleteProductHandlerTest {
 
   @Test
   void givenOneProduct_whenDeleteProduct_thenDeletesProduct() {
-	var now = FakeTimeService.fakesNow();
-
 	var apple = givenAnAppleInDatabase();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new DeleteProductParams(
 		apple.getId()
 	);
 
-	var result = deleteProductHandler.execute(userAuth, params);
+	var result = deleteProductHandler.execute(userContext, params);
 
 	assertEquals(apple, result);
 
 	assertProductDoesNotExistInDatabase();
 
-	assertProductDeletedWasPublished(apple, userAuth, now);
+	assertProductDeletedWasPublished(apple);
   }
 
   @Test
   void givenNoProducts_whenDeleteProduct_thenThrowsException() {
 	var apple = ProductMother.apple();
 
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var params = new DeleteProductParams(
 		apple.getId()
 	);
 
 	assertThrows(ProductNotFoundException.class,
-		() -> deleteProductHandler.execute(userAuth, params));
+		() -> deleteProductHandler.execute(userContext, params));
   }
 
   private void assertProductDoesNotExistInDatabase() {
 	assertTrue(productsInMemoryRepository.isEmpty());
   }
 
-  private void assertProductDeletedWasPublished(Product product, Auth auth, Instant now) {
+  private void assertProductDeletedWasPublished(Product product) {
 	assertEquals(1, eventInMemoryBus.size());
 
 	var event = (ProductDeleted) eventInMemoryBus.getFirstOrError();
 
 	assertEquals(product.getId(), event.getCode());
-	assertEquals(now, event.getOccurredOn());
-	assertEquals(auth.who(), event.getOccurredBy());
   }
 
   private Product givenAnAppleInDatabase() {

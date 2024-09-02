@@ -2,8 +2,8 @@ package com.jeferro.products.products.product_reviews.infrastructure.adapters.re
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCodeRestMapper;
-import com.jeferro.shared.infrastructure.adapters.rest.mappers.UsernameRestMapper;
-import com.jeferro.shared.infrastructure.mappers.IdentifierMapper;
+import com.jeferro.shared.auth.infrastructure.adapters.rest.mappers.UsernameRestMapper;
+import com.jeferro.shared.mappers.IdentifierMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

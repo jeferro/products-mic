@@ -3,8 +3,8 @@ package com.jeferro.products.shared.domain.services.time;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import com.jeferro.shared.domain.services.time.TimeGenerator;
-import com.jeferro.shared.domain.services.time.TimeService;
+import com.jeferro.shared.time.domain.services.TimeGenerator;
+import com.jeferro.shared.time.domain.services.TimeService;
 
 public class FakeTimeService implements TimeGenerator {
 

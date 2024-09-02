@@ -2,14 +2,13 @@ package com.jeferro.products.products.product_reviews.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.product_reviews.application.params.GetProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
+import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,28 +27,28 @@ class GetProductReviewHandlerTest {
 
   @Test
   void givenAProductReview_whenGetProductReview_thenReturnsProductReview() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
 	var params = new GetProductReviewParams(
 		userReviewOfApple.getId()
 	);
 
-	var result = getProductReviewHandler.handle(userAuth, params);
+	var result = getProductReviewHandler.execute(userContext, params);
 
 	assertEquals(userReviewOfApple, result);
   }
 
   @Test
   void givenNoProductReview_whenGetProductReview_thenThrowsException() {
-	var userAuth = AuthMother.user();
+	var userContext = ContextMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 	var params = new GetProductReviewParams(
 		userReviewOfApple.getId()
 	);
 
 	assertThrows(ProductReviewNotFoundException.class,
-		() -> getProductReviewHandler.handle(userAuth, params));
+		() -> getProductReviewHandler.execute(userContext, params));
   }
 
   private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

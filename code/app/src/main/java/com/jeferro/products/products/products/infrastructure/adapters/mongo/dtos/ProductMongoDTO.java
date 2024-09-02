@@ -1,10 +1,12 @@
 package com.jeferro.products.products.products.infrastructure.adapters.mongo.dtos;
 
+import java.util.Map;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "v1/products")
+@Document(collection = "products")
 public record ProductMongoDTO(
         String id,
 		ProductStatusMongoDTO status,
-        String name
+        Map<String, String> name
 ) { }

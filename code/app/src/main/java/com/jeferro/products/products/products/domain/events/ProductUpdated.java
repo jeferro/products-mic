@@ -1,32 +1,59 @@
 package com.jeferro.products.products.products.domain.events;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.shared.domain.events.EventId;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.services.time.TimeService;
+import com.jeferro.shared.ddd.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 
 public class ProductUpdated extends ProductEvent {
 
-	private ProductUpdated(EventId id,
-		ProductCode code,
-		ProductStatus status,
-		String occurredBy,
-		Instant occurredOn) {
-		super(id, code, status, occurredBy, occurredOn);
+  private LocalizedData name;
+
+  private ProductStatus status;
+
+  private ProductUpdated(EventId id,
+	  ProductCode code,
+	  LocalizedData name,
+	  ProductStatus status) {
+	super(id, code);
+
+	setName(name);
+	setStatus(status);
+  }
+
+  public static ProductUpdated create(Product product) {
+	var id = EventId.create();
+
+	var code = product.getCode();
+	var name = product.getName();
+	var status = product.getStatus();
+
+	return new ProductUpdated(id, code, name, status);
+  }
+
+  public ProductStatus getStatus() {
+	return status;
+  }
+
+  public void setStatus(ProductStatus status) {
+	if (status == null) {
+	  throw ValueValidationException.createOfMessage("Status is null");
 	}
 
-	public static ProductUpdated create(Product product, Auth auth) {
-		var code = product.getCode();
-		var status = product.getStatus();
+	this.status = status;
+  }
 
-		var id = EventId.create();
-		var occurredBy = auth.who();
-		var occurredOn = TimeService.now();
+  public LocalizedData getName() {
+	return name;
+  }
 
-		return new ProductUpdated(id, code, status, occurredBy, occurredOn);
+  public void setName(LocalizedData name) {
+	if (name == null) {
+	  throw ValueValidationException.createOfMessage("Name is null");
 	}
+
+	this.name = name;
+  }
 }

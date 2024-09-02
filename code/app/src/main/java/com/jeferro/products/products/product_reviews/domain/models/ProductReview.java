@@ -1,59 +1,64 @@
 package com.jeferro.products.products.product_reviews.domain.models;
 
+import java.util.Locale;
+
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.shared.domain.models.auth.UserAuth;
-import com.jeferro.shared.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.auth.domain.models.Username;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
+  private Locale locale;
+
   private String comment;
 
-  public ProductReview(ProductReviewId id, String comment) {
+  public ProductReview(ProductReviewId id,
+	  Locale locale,
+	  String comment) {
 	super(id);
 
+	setLocale(locale);
 	setComment(comment);
   }
 
-  public static ProductReview createOf(ProductCode productCode, String comment, Auth auth) {
-	var username = auth.getUsernameOrError();
-
+  public static ProductReview createOf(ProductCode productCode,
+	  Username username,
+	  Locale locale,
+	  String comment) {
 	var productReviewId = ProductReviewId.createOf(username, productCode);
 
-	var productReview = new ProductReview(productReviewId, comment);
+	var productReview = new ProductReview(productReviewId, locale, comment);
 
-	var event = ProductReviewCreated.create(productReview, auth);
+	var event = ProductReviewCreated.create(productReview);
 	productReview.record(event);
 
 	return productReview;
   }
 
-  public void update(String comment, Auth auth) {
-	ensureProductReviewBelongsToUserAuth(auth);
+  public void update(String comment, Locale locale, Username username) {
+	ensureProductReviewBelongsToUser(username);
 
+	setLocale(locale);
 	setComment(comment);
 
-	this.comment = comment;
-
-	var event = ProductReviewUpdated.create(this, auth);
+	var event = ProductReviewUpdated.create(this);
 	record(event);
   }
 
-  public void deleteByUser(Auth auth) {
-	ensureProductReviewBelongsToUserAuth(auth);
+  public void deleteByUser(Username username) {
+	ensureProductReviewBelongsToUser(username);
 
-	var event = ProductReviewDeleted.create(this, auth);
+	var event = ProductReviewDeleted.create(this);
 	record(event);
   }
 
-  public void deleteBySystem(Auth auth) {
-	var event = ProductReviewDeleted.create(this, auth);
+  public void deleteBySystem() {
+	var event = ProductReviewDeleted.create(this);
 	record(event);
   }
 
@@ -63,6 +68,18 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 
   public ProductCode getProductCode() {
 	return id.getProductCode();
+  }
+
+  public Locale getLocale() {
+	return locale;
+  }
+
+  private void setLocale(Locale locale) {
+	if (locale == null) {
+	  throw ValueValidationException.createOfMessage("Locale is null");
+	}
+
+	this.locale = locale;
   }
 
   public String getComment() {
@@ -77,12 +94,11 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	this.comment = comment;
   }
 
-  private void ensureProductReviewBelongsToUserAuth(Auth auth) {
-	if (auth instanceof UserAuth userAuth
-		&& userAuth.belongsToUser(id.getUsername())) {
+  private void ensureProductReviewBelongsToUser(Username username) {
+	if (username.equals(id.getUsername())) {
 	  return;
 	}
 
-	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, auth);
+	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, username);
   }
 }

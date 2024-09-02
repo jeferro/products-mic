@@ -1,15 +1,15 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.shared.application.Roles.USER;
+import static com.jeferro.shared.ddd.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.application.Handler;
-import com.jeferro.shared.domain.events.EventBus;
-import com.jeferro.shared.domain.models.auth.Auth;
+import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,15 +28,15 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     }
 
     @Override
-    protected Set<String> getMandatoryUserRoles() {
+    public Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 
     @Override
-    public Product handle(Auth auth, UpdateProductParams params) {
+    public Product execute(Context context, UpdateProductParams params) {
         var product = ensureProductExists(params);
 
-        return updateProduct(auth, params, product);
+        return updateProduct(params, product);
     }
 
     private Product ensureProductExists(UpdateProductParams params) {
@@ -45,10 +45,10 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
 	  return productsRepository.findByIdOrError(productCode);
     }
 
-    private Product updateProduct(Auth auth, UpdateProductParams params, Product product) {
+    private Product updateProduct(UpdateProductParams params, Product product) {
         var name = params.getName();
 
-        product.update(name, auth);
+        product.update(name);
 
         productsRepository.save(product);
 

@@ -1,7 +1,7 @@
 package com.jeferro.products.products.products.domain.exceptions;
 
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.domain.exceptions.NotFoundException;
+import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
 
 public class ProductAlreadyExistsException extends NotFoundException {
 

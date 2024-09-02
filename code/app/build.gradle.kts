@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     // General
-    implementation(project(":library-shared"))
+    implementation(project(":lib-shared"))
 
     annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
 
@@ -37,7 +37,7 @@ tasks.withType<Test> {
 // Mapstruct
 tasks.withType<JavaCompile> {
     options.compilerArgs = listOf(
-        "-Amapstruct.unmappedTargetPolicy=ERROR"
+        "-Amapstruct.unmappedTargetPolicy=ERROR",
     )
 }
 

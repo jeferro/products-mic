@@ -14,22 +14,17 @@
       "doc": "Identifier of the product updated"
     },
     {
+      "name": "name",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "doc": "Name od the product"
+    },
+    {
       "name": "status",
       "type": "ProductStatusAvroDTO",
       "doc": "Status of the product created"
-    },
-    {
-      "name": "occurredOn",
-      "type": {
-        "type": "long",
-        "logicalType": "timestamp-millis"
-      },
-      "doc": "Date where the event occurred"
-    },
-    {
-      "name": "occurredBy",
-      "type": "string",
-      "doc": "Who triggered the event"
     }
   ]
 }

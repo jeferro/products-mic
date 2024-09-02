@@ -2,8 +2,8 @@ package com.jeferro.products.products.products.application.params;
 
 import com.jeferro.products.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.products.domain.models.Products;
-import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.application.params.Params;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 
 public class ListProductsParams extends Params<Products> {
 

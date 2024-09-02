@@ -1,15 +1,15 @@
 package com.jeferro.products.products.products.application;
 
-import com.jeferro.products.products.products.application.params.ListProductsParams;
-import com.jeferro.products.products.products.domain.models.Products;
-import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.application.SilentHandler;
-import com.jeferro.shared.domain.models.auth.Auth;
-import org.springframework.stereotype.Component;
+import static com.jeferro.shared.ddd.application.Roles.USER;
 
 import java.util.Set;
 
-import static com.jeferro.shared.application.Roles.USER;
+import com.jeferro.products.products.products.application.params.ListProductsParams;
+import com.jeferro.products.products.products.domain.models.Products;
+import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.application.handlers.SilentHandler;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ListProductsHandler extends SilentHandler<ListProductsParams, Products> {
@@ -23,12 +23,12 @@ public class ListProductsHandler extends SilentHandler<ListProductsParams, Produ
     }
 
     @Override
-    protected Set<String> getMandatoryUserRoles() {
+    public Set<String> getMandatoryUserRoles() {
         return Set.of(USER);
     }
 
     @Override
-    public Products handle(Auth auth, ListProductsParams params) {
+    public Products execute(Context context, ListProductsParams params) {
         var criteria = params.getProductCriteria();
 
         return productsRepository.findAll(criteria);

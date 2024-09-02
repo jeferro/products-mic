@@ -4,18 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
+import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.shared.domain.models.auth.Auth;
-import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.products.shared.domain.services.time.FakeTimeService;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,38 +34,37 @@ class UpdateProductHandlerTest {
 
     @Test
     void givenOneProduct_whenUpdateProduct_thenUpdatesProduct() {
-        var now = FakeTimeService.fakesNow();
-
         var apple = givenAnAppleInDatabase();
 
-        var userAuth = AuthMother.user();
-        var newProductName = "new product name";
+        var userContext = ContextMother.user();
+        var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
                 newProductName
         );
 
-        var result = updateProductHandler.execute(userAuth, params);
+        var result = updateProductHandler.execute(userContext, params);
 
         assertEquals(newProductName, result.getName());
 
         assertProductDataInDatabase(result);
 
-        assertProductUpdatedWasPublished(result, userAuth, now);
+        assertProductUpdatedWasPublished(result);
     }
 
     @Test
     void givenNoProducts_whenUpdateProduct_thenThrowsException() {
         var apple = ProductMother.apple();
 
-        var userAuth = AuthMother.user();
+        var userContext = ContextMother.user();
+        var newProductName = LocalizedData.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
-                "new product name"
+                newProductName
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> updateProductHandler.execute(userAuth, params));
+                () -> updateProductHandler.execute(userContext, params));
     }
 
     private void assertProductDataInDatabase(Product product) {
@@ -77,14 +73,12 @@ class UpdateProductHandlerTest {
         assertTrue(productsInMemoryRepository.contains(product));
     }
 
-    private void assertProductUpdatedWasPublished(Product product, Auth auth, Instant now) {
+    private void assertProductUpdatedWasPublished(Product product) {
         assertEquals(1, eventInMemoryBus.size());
 
         var event = (ProductUpdated) eventInMemoryBus.getFirstOrError();
 
         assertEquals(product.getId(), event.getCode());
-		assertEquals(auth.who(), event.getOccurredBy());
-		assertEquals(now, event.getOccurredOn());
     }
 
     private Product givenAnAppleInDatabase() {

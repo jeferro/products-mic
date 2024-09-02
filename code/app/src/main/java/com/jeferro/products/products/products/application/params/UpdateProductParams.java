@@ -2,17 +2,17 @@ package com.jeferro.products.products.products.application.params;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.application.Params;
-import com.jeferro.shared.domain.exceptions.internals.ValueValidationException;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.application.params.Params;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.locale.domain.models.LocalizedData;
 
 public class UpdateProductParams extends Params<Product> {
 
   private ProductCode productCode;
 
-  private String name;
+  private LocalizedData name;
 
-  public UpdateProductParams(ProductCode productCode, String name) {
+  public UpdateProductParams(ProductCode productCode, LocalizedData name) {
 	super();
 
 	setProductCode(productCode);
@@ -23,7 +23,7 @@ public class UpdateProductParams extends Params<Product> {
 	return productCode;
   }
 
-  public String getName() {
+  public LocalizedData getName() {
 	return name;
   }
 
@@ -35,9 +35,9 @@ public class UpdateProductParams extends Params<Product> {
 	this.productCode = productCode;
   }
 
-  private void setName(String name) {
-	if (StringUtils.isBlank(name)) {
-	  throw ValueValidationException.createOfMessage("Name is blank");
+  private void setName(LocalizedData name) {
+	if (name == null) {
+	  throw ValueValidationException.createOfMessage("Name is null");
 	}
 
 	this.name = name;

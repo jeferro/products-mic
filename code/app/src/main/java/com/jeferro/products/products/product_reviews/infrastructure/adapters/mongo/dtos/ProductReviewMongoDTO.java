@@ -7,6 +7,7 @@ public record ProductReviewMongoDTO(
 	String id,
 	String username,
 	String productCode,
+	String locale,
 	String comment
 ) {
 

@@ -14,7 +14,7 @@ import com.jeferro.products.products.product_reviews.application.params.UpdatePr
 import com.jeferro.products.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewCodeRestMapper;
 import com.jeferro.products.products.product_reviews.infrastructure.adapters.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.products.products.products.infrastructure.adapters.rest.mappers.ProductCodeRestMapper;
-import com.jeferro.shared.application.HandlerBus;
+import com.jeferro.shared.ddd.application.HandlerBus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
