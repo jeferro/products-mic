@@ -9,4 +9,5 @@ There are 2 user profiles:
 The project documentation is divided into several sections:
 
 * [Development](./development.md)
+* [Shared library](./shared-library.md)
 * [Design](./design.md)
