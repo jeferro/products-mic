@@ -1,4 +1,4 @@
-package com.jeferro.products.products.products.domain.models;
+package com.jeferro.products.products.products.domain.models.product_types;
 
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 

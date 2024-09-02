@@ -1,18 +1,20 @@
 package com.jeferro.shared.auth.infrastructure.adapters.kafka.interceptors;
 
+import static com.jeferro.shared.auth.infrastructure.adapters.kafka.KafkaHeaders.HEADER_OCCURRED_BY;
+import static com.jeferro.shared.auth.infrastructure.adapters.kafka.KafkaHeaders.HEADER_OCCURRED_ON;
+
 import java.time.Instant;
 import java.util.Map;
 
 import com.jeferro.shared.auth.infrastructure.ContextManager;
+import com.jeferro.shared.auth.infrastructure.adapters.kafka.KafkaHeaders;
 import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
 public class KafkaProducerInterceptor implements ProducerInterceptor<String, String> {
 
-  public static final String HEADER_OCCURRED_BY = "app-occurred-by";
 
-  public static final String HEADER_OCCURRED_ON = "app-occurred-on";
 
 
   @Override

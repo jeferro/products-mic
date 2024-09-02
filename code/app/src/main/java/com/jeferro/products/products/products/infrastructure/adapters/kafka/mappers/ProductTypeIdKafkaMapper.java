@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.infrastructure.adapters.kafka.mappers;
 
-import com.jeferro.products.products.products.domain.models.ProductTypeId;
+import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.mappers.IdentifierMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

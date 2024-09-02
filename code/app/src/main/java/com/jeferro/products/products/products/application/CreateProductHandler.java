@@ -8,7 +8,7 @@ import com.jeferro.products.products.products.application.params.CreateProductPa
 import com.jeferro.products.products.products.domain.exceptions.ProductAlreadyExistsException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.products.products.products.domain.services.ProductTypeChecker;
+import com.jeferro.products.products.products.domain.services.ProductTypeFinder;
 import com.jeferro.shared.ddd.application.Context;
 import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
@@ -19,17 +19,17 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
 
     private final ProductsRepository productsRepository;
 
-    private final ProductTypeChecker productTypeChecker;
+    private final ProductTypeFinder productTypeFinder;
 
     private final EventBus eventBus;
 
     public CreateProductHandler(ProductsRepository productsRepository,
-        ProductTypeChecker productTypeChecker,
+        ProductTypeFinder productTypeFinder,
         EventBus eventBus) {
         super();
 
         this.productsRepository = productsRepository;
-	    this.productTypeChecker = productTypeChecker;
+	    this.productTypeFinder = productTypeFinder;
 	    this.eventBus = eventBus;
     }
 
@@ -57,7 +57,7 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
         var typeId = params.getTypeId();
         var name = params.getName();
 
-        productTypeChecker.check(typeId);
+        productTypeFinder.findOrError(typeId);
 
         var product = Product.create(code, typeId, name);
 

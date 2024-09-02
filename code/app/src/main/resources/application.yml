@@ -27,6 +27,3 @@ application:
     topic: com.jeferro.${metadata.application-id}.product-reviews.${metadata.environment}.v1
 
     consumer-group-id: ${metadata.application-id}.product-reviews.${metadata.environment}
-
-  product-details:
-    consumer-group-id: ${metadata.application-id}.product-details.${metadata.environment}

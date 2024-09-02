@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.application.params;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductTypeId;
+import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.locale.domain.models.LocalizedData;
@@ -11,9 +11,9 @@ public class CreateProductParams extends Params<Product> {
 
   private ProductCode code;
 
-  private LocalizedData name;
-
   private ProductTypeId typeId;
+
+  private LocalizedData name;
 
   public CreateProductParams(ProductCode code,
 	  ProductTypeId typeId,
@@ -37,18 +37,6 @@ public class CreateProductParams extends Params<Product> {
 	this.code = code;
   }
 
-  public LocalizedData getName() {
-	return name;
-  }
-
-  private void setName(LocalizedData name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
-	this.name = name;
-  }
-
   public ProductTypeId getTypeId() {
 	return typeId;
   }
@@ -59,5 +47,17 @@ public class CreateProductParams extends Params<Product> {
 	}
 
 	this.typeId = typeId;
+  }
+
+  public LocalizedData getName() {
+	return name;
+  }
+
+  private void setName(LocalizedData name) {
+	if (name == null) {
+	  throw ValueValidationException.createOfMessage("Name is null");
+	}
+
+	this.name = name;
   }
 }
