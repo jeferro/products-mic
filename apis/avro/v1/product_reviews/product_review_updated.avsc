@@ -1,0 +1,27 @@
+{
+  "namespace": "com.jeferro.products.generated.kafka.v1.dtos",
+  "type": "record",
+  "name": "ProductReviewUpdatedAvroDTO",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Identifier of the event"
+    },
+    {
+      "name": "productReviewId",
+      "type": "string",
+      "doc": "Identifier of the product review"
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "doc": "Localization of the review"
+    },
+    {
+      "name": "comment",
+      "type": "string",
+      "doc": "Comment of the review"
+    }
+  ]
+}

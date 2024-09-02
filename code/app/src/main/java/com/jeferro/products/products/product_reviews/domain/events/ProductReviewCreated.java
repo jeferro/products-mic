@@ -1,21 +1,60 @@
 package com.jeferro.products.products.product_reviews.domain.events;
 
+import java.util.Locale;
+
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.shared.ddd.domain.events.EventId;
+import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import org.apache.commons.lang3.StringUtils;
 
 public class ProductReviewCreated extends ProductReviewEvent {
 
-    private ProductReviewCreated(EventId id,
-		ProductReviewId productReviewId) {
-        super(id, productReviewId);
+  private Locale locale;
+
+  private String comment;
+
+  private ProductReviewCreated(EventId id,
+	  ProductReviewId productReviewId,
+      Locale locale,
+      String comment) {
+	super(id, productReviewId);
+
+    setLocale(locale);
+    setComment(comment);
+  }
+
+  public static ProductReviewCreated create(ProductReview productReview) {
+    var id = EventId.create();
+
+    var productReviewId = productReview.getId();
+    var locale = productReview.getLocale();
+    var comment = productReview.getComment();
+
+	return new ProductReviewCreated(id, productReviewId, locale, comment);
+  }
+
+  public Locale getLocale() {
+    return locale;
+  }
+
+  private void setLocale(Locale locale){
+    if(locale == null){
+      throw ValueValidationException.createOfMessage("Locale is null");
     }
 
-    public static ProductReviewCreated create(ProductReview productReview) {
-        var productReviewId = productReview.getId();
+    this.locale = locale;
+  }
 
-		var id = EventId.create();
+  public String getComment() {
+    return comment;
+  }
 
-        return new ProductReviewCreated(id, productReviewId);
+  private void setComment(String comment){
+    if(StringUtils.isBlank(comment)){
+      throw ValueValidationException.createOfMessage("Comment is blank");
     }
+
+    this.comment = comment;
+  }
 }

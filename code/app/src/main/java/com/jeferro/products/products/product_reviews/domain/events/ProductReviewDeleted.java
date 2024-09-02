@@ -12,9 +12,9 @@ public class ProductReviewDeleted extends ProductReviewEvent {
     }
 
     public static ProductReviewDeleted create(ProductReview productReview) {
-        var productReviewId = productReview.getId();
+	  var id = EventId.create();
 
-		var id = EventId.create();
+	  var productReviewId = productReview.getId();
 
         return new ProductReviewDeleted(id, productReviewId);
     }

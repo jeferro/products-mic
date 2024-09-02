@@ -1,0 +1,17 @@
+{
+  "namespace": "com.jeferro.products.generated.kafka.v1.dtos",
+  "type": "record",
+  "name": "ProductReviewDeletedAvroDTO",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Identifier of the event"
+    },
+    {
+      "name": "productReviewId",
+      "type": "string",
+      "doc": "Identifier of the product review"
+    }
+  ]
+}
