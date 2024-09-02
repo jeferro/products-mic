@@ -25,15 +25,18 @@ components:
       description: Product information
       required:
         - code
-        - status
+        - typeId
         - name
+        - status
       properties:
         code:
           type: string
           description: Identifier of product
           example: '123456789'
-        status:
-          $ref: '#/components/schemas/ProductStatus'
+        typeId:
+          type: string
+          description: Identifier of the product type
+          example: 'fruit'
         name:
           type: object
           additionalProperties:
@@ -42,18 +45,25 @@ components:
           example:
             es: 'Manzana'
             en: 'Apple'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
 
     ProductInput:
       type: object
       description: Upsert product input
       required:
         - code
+        - typeId
         - name
       properties:
         code:
           type: string
           description: Identifier of product
           example: '123456789'
+        typeId:
+          type: string
+          description: Identifier of the product type
+          example: 'fruit'
         name:
           type: object
           additionalProperties:

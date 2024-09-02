@@ -14,6 +14,11 @@
       "doc": "Identifier of the product created"
     },
     {
+      "name": "typeId",
+      "type": "string",
+      "doc": "Identifier of the product type"
+    },
+    {
       "name": "name",
       "type": {
         "type": "map",

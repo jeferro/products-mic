@@ -1,15 +1,13 @@
 package com.jeferro.products.products.product_reviews.domain.exceptions;
 
-import static com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.FORBIDDEN_REVIEW_OPERATION;
-
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
 import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.exceptions.ForbiddenException;
 
-public class ForbiddenOperationInProductReviewException extends NotFoundException {
+public class ForbiddenOperationInProductReviewException extends ForbiddenException {
 
   protected ForbiddenOperationInProductReviewException(String message) {
-	super(FORBIDDEN_REVIEW_OPERATION.value, "Forbidden Operation", message);
+	super(message);
   }
 
   public static ForbiddenOperationInProductReviewException belongsToOtherUser(ProductReviewId productReviewId, Username username) {

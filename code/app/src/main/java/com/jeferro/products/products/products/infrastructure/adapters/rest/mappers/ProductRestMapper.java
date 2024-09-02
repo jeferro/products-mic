@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 @Mapper(uses = {
 	ProductCodeRestMapper.class,
+    ProductTypeIdRestMapper.class,
     LocalizedDataRestMapper.class
 })
 public abstract class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {

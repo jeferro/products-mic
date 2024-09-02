@@ -18,15 +18,23 @@ public class Product extends AggregateRoot<ProductCode> {
 
     private ProductStatus status;
 
-    public Product(ProductCode id, LocalizedData name, ProductStatus status) {
+    private ProductTypeId typeId;
+
+    public Product(ProductCode id,
+        ProductTypeId typeId,
+        LocalizedData name,
+        ProductStatus status) {
         super(id);
 
         setName(name);
+        setTypeId(typeId);
         setStatus(status);
     }
 
-    public static Product create(ProductCode productCode, LocalizedData name) {
-        var product = new Product(productCode, name, UNPUBLISHED);
+    public static Product create(ProductCode productCode,
+        ProductTypeId typeId,
+        LocalizedData name) {
+        var product = new Product(productCode, typeId, name, UNPUBLISHED);
 
         var event = ProductCreated.create(product);
         product.record(event);
@@ -89,5 +97,17 @@ public class Product extends AggregateRoot<ProductCode> {
         }
 
         this.status = status;
+    }
+
+    public ProductTypeId getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(ProductTypeId typeId) {
+        if (typeId == null) {
+            throw ValueValidationException.createOfMessage("Type id is null");
+        }
+
+        this.typeId = typeId;
     }
 }

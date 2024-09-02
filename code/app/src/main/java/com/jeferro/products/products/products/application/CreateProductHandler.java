@@ -8,6 +8,7 @@ import com.jeferro.products.products.products.application.params.CreateProductPa
 import com.jeferro.products.products.products.domain.exceptions.ProductAlreadyExistsException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
+import com.jeferro.products.products.products.domain.services.ProductTypeChecker;
 import com.jeferro.shared.ddd.application.Context;
 import com.jeferro.shared.ddd.application.handlers.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
@@ -18,13 +19,18 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
 
     private final ProductsRepository productsRepository;
 
+    private final ProductTypeChecker productTypeChecker;
+
     private final EventBus eventBus;
 
-    public CreateProductHandler(ProductsRepository productsRepository, EventBus eventBus) {
+    public CreateProductHandler(ProductsRepository productsRepository,
+        ProductTypeChecker productTypeChecker,
+        EventBus eventBus) {
         super();
 
         this.productsRepository = productsRepository;
-        this.eventBus = eventBus;
+	    this.productTypeChecker = productTypeChecker;
+	    this.eventBus = eventBus;
     }
 
     @Override
@@ -40,17 +46,20 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     }
 
     private void ensureProductDoesNotExist(CreateProductParams params) {
-        var productCode = params.getProductCode();
+        var productCode = params.getCode();
 
         productsRepository.findById(productCode)
             .ifPresent(product -> { throw ProductAlreadyExistsException.createOf(productCode); });
     }
 
     private Product createProduct(CreateProductParams params) {
-        var productCode = params.getProductCode();
+        var code = params.getCode();
+        var typeId = params.getTypeId();
         var name = params.getName();
 
-        var product = Product.create(productCode, name);
+        productTypeChecker.check(typeId);
+
+        var product = Product.create(code, typeId, name);
 
         productsRepository.save(product);
 
