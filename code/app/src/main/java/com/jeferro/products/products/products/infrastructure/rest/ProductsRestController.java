@@ -6,36 +6,14 @@ import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
 import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
-import com.jeferro.products.products.products.application.params.CreateProductParams;
-import com.jeferro.products.products.products.application.params.DeleteProductParams;
-import com.jeferro.products.products.products.application.params.GetProductParams;
-import com.jeferro.products.products.products.application.params.ListProductsParams;
-import com.jeferro.products.products.products.application.params.UpdateProductParams;
-import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
-import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductCodeRestMapper;
-import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductCriteriaRestMapper;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
-import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductStatusRestMapper;
-import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductTypeIdRestMapper;
 import com.jeferro.shared.ddd.application.HandlerBus;
-import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedFieldRestMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductsRestController implements ProductsApi {
 
 	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
-
-	private final ProductCodeRestMapper productCodeRestMapper = ProductCodeRestMapper.INSTANCE;
-
-	private final ProductTypeIdRestMapper productTypeIdRestMapper = ProductTypeIdRestMapper.INSTANCE;
-
-	private final ProductCriteriaRestMapper productCriteriaRestMapper = ProductCriteriaRestMapper.INSTANCE;
-
-	private final ProductStatusRestMapper productStatusRestMapper = ProductStatusRestMapper.INSTANCE;
-
-	private final LocalizedFieldRestMapper localizedFieldRestMapper = LocalizedFieldRestMapper.INSTANCE;
 
 	private final HandlerBus handlerBus;
 
@@ -44,73 +22,57 @@ public class ProductsRestController implements ProductsApi {
 	}
 
 	@Override
-	public ResponseEntity<List<ProductRestDTO>> listProducts(Integer pageNumber, Integer pageSize, String name) {
-		var params = new ListProductsParams(
-			productCriteriaRestMapper.toDomain(pageNumber, pageSize, name)
-		);
+	public List<ProductRestDTO> listProducts(Integer pageNumber, Integer pageSize, String name) {
+		var params = productRestMapper.toListProductsParams(pageNumber, pageSize, name);
 
 		var products = handlerBus.execute(params);
 
-		return productRestMapper.toOkResponseDTO(products);
+		return productRestMapper.toDTO(products);
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> createProduct(ProductInputRestDTO productInputRestDTO) {
-		var params = new CreateProductParams(
-			productCodeRestMapper.toDomain(productInputRestDTO.getCode()),
-			productTypeIdRestMapper.toDomain(productInputRestDTO.getTypeId()),
-			localizedFieldRestMapper.toDomain(productInputRestDTO.getName())
-		);
+	public ProductRestDTO createProduct(ProductInputRestDTO productInputRestDTO) {
+		var params = productRestMapper.toCreateProductParams(productInputRestDTO);
 
 		var product = handlerBus.execute(params);
 
-		return productRestMapper.toCreatedResponseDTO(product);
+		return productRestMapper.toDTO(product);
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> getProduct(String productCode) {
-		var params = new GetProductParams(
-			productCodeRestMapper.toDomain(productCode)
-		);
+	public ProductRestDTO getProduct(String productCode) {
+		var params = productRestMapper.toGetProductParams(productCode);
 
 		var product = handlerBus.execute(params);
 
-		return productRestMapper.toOkResponseDTO(product);
+		return productRestMapper.toDTO(product);
 	}
 
 	@Override
-	public ResponseEntity<ProductRestDTO> updateProduct(String productCode, ProductInputRestDTO productInputRestDTO) {
-		var params = new UpdateProductParams(
-				productCodeRestMapper.toDomain(productCode),
-			localizedFieldRestMapper.toDomain(productInputRestDTO.getName())
-		);
+	public ProductRestDTO updateProduct(String productCode, ProductInputRestDTO productInputRestDTO) {
+		var params = productRestMapper.toUpdateProductParams(productCode, productInputRestDTO);
 
 		var user = handlerBus.execute(params);
 
-		return productRestMapper.toOkResponseDTO(user);
+		return productRestMapper.toDTO(user);
 	}
 
   @Override
-  public ResponseEntity<ProductRestDTO> updateProductStatus(String productCode,
+  public ProductRestDTO updateProductStatus(String productCode,
 	  UpdateProductStatusInputRestDTO updateProductStatusInputRestDTO) {
-	var params = new UpdateProductStatusParams(
-		productCodeRestMapper.toDomain(productCode),
-		productStatusRestMapper.toDomain(updateProductStatusInputRestDTO.getValue())
-	);
+	var params = productRestMapper.toUpdateProductStatusParams(productCode, updateProductStatusInputRestDTO);
 
 	var user = handlerBus.execute(params);
 
-	return productRestMapper.toOkResponseDTO(user);
+	return productRestMapper.toDTO(user);
   }
 
   @Override
-	public ResponseEntity<ProductRestDTO> deleteProduct(String productCode) {
-		var params = new DeleteProductParams(
-			productCodeRestMapper.toDomain(productCode)
-		);
+	public ProductRestDTO deleteProduct(String productCode) {
+		var params = productRestMapper.toDeleteProductParams(productCode);
 
 		var user = handlerBus.execute(params);
 
-		return productRestMapper.toOkResponseDTO(user);
+		return productRestMapper.toDTO(user);
 	}
 }

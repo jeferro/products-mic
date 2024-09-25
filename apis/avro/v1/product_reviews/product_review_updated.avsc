@@ -9,9 +9,14 @@
       "doc": "Identifier of the event"
     },
     {
-      "name": "productReviewId",
+      "name": "productCode",
       "type": "string",
-      "doc": "Identifier of the product review"
+      "doc": "Code of the product"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "doc": "Identifier of the username"
     },
     {
       "name": "locale",

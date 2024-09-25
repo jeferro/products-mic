@@ -6,7 +6,7 @@ import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
 
 import java.util.*;
 
-public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id extends Identifier<?>> {
+public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id extends Identifier> {
 
     protected final Map<Id, Aggregate> data = new HashMap<>();
 

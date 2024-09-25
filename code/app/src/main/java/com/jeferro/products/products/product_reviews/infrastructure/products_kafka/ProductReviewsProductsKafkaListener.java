@@ -2,7 +2,7 @@ package com.jeferro.products.products.product_reviews.infrastructure.products_ka
 
 import com.jeferro.products.generated.kafka.v1.dtos.ProductDeletedAvroDTO;
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
-import com.jeferro.products.products.products.infrastructure.kafka.mappers.ProductCodeKafkaMapper;
+import com.jeferro.products.products.products.infrastructure.kafka.mappers.ProductKafkaMapper;
 import com.jeferro.shared.ddd.application.HandlerBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class ProductReviewsProductsKafkaListener {
 
   private static final Logger logger = LoggerFactory.getLogger(ProductReviewsProductsKafkaListener.class);
 
-  private final ProductCodeKafkaMapper productCodeKafkaMapper = ProductCodeKafkaMapper.INSTANCE;
+  private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
 
   private final HandlerBus handlerBus;
 
@@ -30,7 +30,7 @@ public class ProductReviewsProductsKafkaListener {
   @KafkaHandler
   protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
 	var params = new DeleteAllProductReviewsOfProductParams(
-		productCodeKafkaMapper.toDomain(productDeletedAvroDTO.getCode())
+		productKafkaMapper.toDomain(productDeletedAvroDTO.getCode())
 	);
 
 	handlerBus.execute(params);

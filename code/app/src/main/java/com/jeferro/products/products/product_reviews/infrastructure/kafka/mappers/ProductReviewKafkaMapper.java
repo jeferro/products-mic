@@ -7,19 +7,14 @@ import com.jeferro.products.products.product_reviews.domain.events.ProductReview
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewEvent;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.shared.ddd.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
-import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocaleKafkaMapper;
+import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {
-	EventIdKafkaMapper.class,
-	LocaleKafkaMapper.class,
-	ProductReviewIdKafkaMapper.class
-})
-public abstract class ProductReviewEventKafkaMapper {
+@Mapper(config = MapstructConfig.class)
+public abstract class ProductReviewKafkaMapper {
 
-  public static final ProductReviewEventKafkaMapper INSTANCE = Mappers.getMapper(ProductReviewEventKafkaMapper.class);
+  public static final ProductReviewKafkaMapper INSTANCE = Mappers.getMapper(ProductReviewKafkaMapper.class);
 
   public Object toDTO(ProductReviewEvent event) {
 	return switch (event) {

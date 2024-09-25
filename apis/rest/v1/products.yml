@@ -77,7 +77,7 @@ components:
       type: object
       description: Update product status input
       required:
-        - value
+        - status
       properties:
-        value:
+        status:
           $ref: '#/components/schemas/ProductStatus'

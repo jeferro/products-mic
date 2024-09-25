@@ -73,8 +73,6 @@ public class JwtDecoder {
 	  jwtBuilder.withExpiresAt(expiresAt);
 	}
 
-	var token = jwtBuilder.sign(hmac512);
-
-	return BEARER_PREFIX + token;
+	return jwtBuilder.sign(hmac512);
   }
 }

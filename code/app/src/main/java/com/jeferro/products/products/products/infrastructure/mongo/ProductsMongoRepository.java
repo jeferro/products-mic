@@ -3,7 +3,6 @@ package com.jeferro.products.products.products.infrastructure.mongo;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.infrastructure.mongo.daos.ProductsMongoDao;
 import com.jeferro.products.products.products.infrastructure.mongo.dtos.ProductMongoDTO;
-import com.jeferro.products.products.products.infrastructure.mongo.mappers.ProductCodeMongoMapper;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.products.domain.models.Products;
@@ -22,8 +21,6 @@ import java.util.Optional;
 public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
-
-    private final ProductCodeMongoMapper productCodeMongoMapper = ProductCodeMongoMapper.INSTANCE;
 
     private final ProductsMongoDao productsMongoDao;
 
@@ -48,7 +45,7 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     @Override
     public Optional<Product> findById(ProductCode productCode) {
-        var productCodeDto = productCodeMongoMapper.toDTO(productCode);
+        var productCodeDto = productMongoMapper.toDTO(productCode);
 
         return productsMongoDao.findById(productCodeDto)
                 .map(productMongoMapper::toDomain);
@@ -56,7 +53,7 @@ public class ProductsMongoRepository implements ProductsRepository {
 
     @Override
     public void deleteById(ProductCode productCode) {
-        var productCodeDto = productCodeMongoMapper.toDTO(productCode);
+        var productCodeDto = productMongoMapper.toDTO(productCode);
 
         productsMongoDao.deleteById(productCodeDto);
     }

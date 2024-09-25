@@ -7,23 +7,23 @@ import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationExcepti
 
 public class ListProductsParams extends Params<Products> {
 
-    private ProductCriteria productCriteria;
+    private ProductCriteria criteria;
 
-    public ListProductsParams(ProductCriteria productCriteria) {
+    public ListProductsParams(ProductCriteria criteria) {
         super();
 
-        setProductCriteria(productCriteria);
+        setCriteria(criteria);
     }
 
-    public ProductCriteria getProductCriteria() {
-        return productCriteria;
+    public ProductCriteria getCriteria() {
+        return criteria;
     }
 
-    private void setProductCriteria(ProductCriteria productCriteria) {
-        if (productCriteria == null) {
+    private void setCriteria(ProductCriteria criteria) {
+        if (criteria == null) {
             throw ValueValidationException.createOfMessage("Criteria is null");
         }
 
-        this.productCriteria = productCriteria;
+        this.criteria = criteria;
     }
 }

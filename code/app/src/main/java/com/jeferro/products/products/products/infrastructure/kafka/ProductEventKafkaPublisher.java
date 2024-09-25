@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.infrastructure.kafka;
 
 import com.jeferro.products.products.products.domain.events.ProductEvent;
 import com.jeferro.products.products.products.infrastructure.ProductsProperties;
-import com.jeferro.products.products.products.infrastructure.kafka.mappers.ProductEventKafkaMapper;
+import com.jeferro.products.products.products.infrastructure.kafka.mappers.ProductKafkaMapper;
 import com.jeferro.shared.ddd.domain.events.EventBusPublisher;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductEventKafkaPublisher implements EventBusPublisher<ProductEvent> {
 
-  private final ProductEventKafkaMapper productEventKafkaMapper = ProductEventKafkaMapper.INSTANCE;
+  private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
 
   private final ProductsProperties productsProperties;
 
@@ -25,7 +25,7 @@ public class ProductEventKafkaPublisher implements EventBusPublisher<ProductEven
   @Override
   public void publish(ProductEvent event) {
 	String key = event.getCode().toString();
-	var data = productEventKafkaMapper.toDTO(event);
+	var data = productKafkaMapper.toDTO(event);
 
 	kafkaTemplate.send(productsProperties.topic(), key, data);
   }

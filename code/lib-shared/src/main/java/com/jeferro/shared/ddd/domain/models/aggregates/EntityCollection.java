@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-public abstract class EntityCollection<I extends Identifier<?>, E extends Entity<I>> extends ValueObject {
+public abstract class EntityCollection<I extends Identifier, E extends Entity<I>> extends ValueObject {
 
     private Integer pageSize;
 

@@ -35,7 +35,7 @@ public class SignInHandler extends Handler<SignInParams, User> {
   @Override
   public User execute(Context context, SignInParams params) {
 	var username = params.getUsername();
-	var plainPassword = params.getPlainPassword();
+	var plainPassword = params.getPassword();
 
 	var user = ensureUserExists(username);
 

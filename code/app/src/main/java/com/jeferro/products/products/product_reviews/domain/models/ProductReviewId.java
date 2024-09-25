@@ -5,28 +5,13 @@ import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationExcepti
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 import com.jeferro.shared.auth.domain.models.Username;
 
-public class ProductReviewId extends Identifier<String> {
+public class ProductReviewId extends Identifier {
 
   private Username username;
 
   private ProductCode productCode;
 
-  public ProductReviewId(String value) {
-	super(value);
-
-	String[] slices = value.split(SEPARATOR);
-
-	if (slices.length != 2) {
-	  throw ValueValidationException.createOfMessage("Wrong format of identifier: " + value);
-	}
-
-	this.username = new Username(slices[0]);
-	this.productCode = new ProductCode(slices[1]);
-  }
-
-  private ProductReviewId(Username username, ProductCode productCode) {
-	super(username + SEPARATOR + productCode);
-
+  public ProductReviewId(Username username, ProductCode productCode) {
 	setUsername(username);
 	setProductCode(productCode);
   }

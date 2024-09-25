@@ -6,26 +6,14 @@ import com.jeferro.products.generated.rest.v1.apis.ProductReviewsApi;
 import com.jeferro.products.generated.rest.v1.dtos.CreateProductReviewInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestDTO;
-import com.jeferro.products.products.product_reviews.application.params.CreateProductReviewParams;
-import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
-import com.jeferro.products.products.product_reviews.application.params.GetProductReviewParams;
-import com.jeferro.products.products.product_reviews.application.params.ListProductReviewParams;
-import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
-import com.jeferro.products.products.product_reviews.infrastructure.rest.mappers.ProductReviewCodeRestMapper;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.mappers.ProductReviewRestMapper;
-import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductCodeRestMapper;
 import com.jeferro.shared.ddd.application.HandlerBus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductReviewRestController implements ProductReviewsApi {
 
-  private final ProductCodeRestMapper productCodeRestMapper = ProductCodeRestMapper.INSTANCE;
-
   private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
-
-  private final ProductReviewCodeRestMapper productReviewCodeRestMapper = ProductReviewCodeRestMapper.INSTANCE;
 
   private final HandlerBus handlerBus;
 
@@ -34,61 +22,49 @@ public class ProductReviewRestController implements ProductReviewsApi {
   }
 
   @Override
-  public ResponseEntity<List<ProductReviewRestDTO>> listProductReviews(String productCode) {
-	var params = new ListProductReviewParams(
-		productCodeRestMapper.toDomain(productCode)
-	);
+  public List<ProductReviewRestDTO> listProductReviews(String productCode) {
+	var params = productReviewRestMapper.toListProductsParams(productCode);
 
 	var productReviews = handlerBus.execute(params);
 
-	return productReviewRestMapper.toOkResponseDTO(productReviews);
+	return productReviewRestMapper.toDTO(productReviews);
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> createProductReview(String productCode,
-	  CreateProductReviewInputRestDTO createProductReviewInputRestDTO) {
-	var params = new CreateProductReviewParams(
-		productCodeRestMapper.toDomain(productCode),
-		createProductReviewInputRestDTO.getComment()
-	);
+  public ProductReviewRestDTO createProductReview(String productCode,
+	  CreateProductReviewInputRestDTO inputRestDTO) {
+	var params = productReviewRestMapper.toCreateProductReviewParams(productCode, inputRestDTO);
 
 	var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toOkResponseDTO(productReview);
+	return productReviewRestMapper.toDTO(productReview);
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> getProductReview(String productCode, String username) {
-	var params = new GetProductReviewParams(
-		productReviewCodeRestMapper.toDomain(productCode, username)
-	);
+  public ProductReviewRestDTO getProductReview(String productCode, String username) {
+	var params = productReviewRestMapper.toGetProductReviewParams(productCode, username);
 
 	var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toOkResponseDTO(productReview);
+	return productReviewRestMapper.toDTO(productReview);
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> updateProductReview(String productCode, String username,
-	  UpdateProductReviewInputRestDTO updateProductReviewInputRestDTO) {
-	var params = new UpdateProductReviewParams(
-		productReviewCodeRestMapper.toDomain(productCode, username),
-		updateProductReviewInputRestDTO.getComment()
-	);
+  public ProductReviewRestDTO updateProductReview(String productCode, String username,
+	  UpdateProductReviewInputRestDTO inputRestDTO) {
+	var params = productReviewRestMapper.toUpdateProductReviewParams(productCode, username, inputRestDTO);
 
 	var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toOkResponseDTO(productReview);
+	return productReviewRestMapper.toDTO(productReview);
   }
 
   @Override
-  public ResponseEntity<ProductReviewRestDTO> deleteProductReview(String productCode, String username) {
-	var params = new DeleteProductReviewParams(
-		productReviewCodeRestMapper.toDomain(productCode, username)
-	);
+  public ProductReviewRestDTO deleteProductReview(String productCode, String username) {
+	var params = productReviewRestMapper.toDeleteProductReviewParams(productCode, username);
 
 	var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toOkResponseDTO(productReview);
+	return productReviewRestMapper.toDTO(productReview);
   }
 }

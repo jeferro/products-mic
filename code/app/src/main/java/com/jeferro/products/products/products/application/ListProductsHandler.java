@@ -29,7 +29,7 @@ public class ListProductsHandler extends SilentHandler<ListProductsParams, Produ
 
     @Override
     public Products execute(Context context, ListProductsParams params) {
-        var criteria = params.getProductCriteria();
+        var criteria = params.getCriteria();
 
         return productsRepository.findAll(criteria);
     }

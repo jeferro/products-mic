@@ -20,7 +20,7 @@ public abstract class EventBus {
 		.forEach(this::publish);
   }
 
-  public <I extends Identifier<?>, E extends AggregateRoot<I>> void publishAll(EntityCollection<I, E> collection) {
+  public <I extends Identifier, E extends AggregateRoot<I>> void publishAll(EntityCollection<I, E> collection) {
 	collection.forEach(this::publishAll);
   }
 

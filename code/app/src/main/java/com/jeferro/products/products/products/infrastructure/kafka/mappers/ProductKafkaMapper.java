@@ -11,20 +11,16 @@ import com.jeferro.products.products.products.domain.events.ProductEvent;
 import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
-import com.jeferro.shared.ddd.infrastructure.adapters.kafka.mappers.EventIdKafkaMapper;
-import com.jeferro.shared.locale.infrastructure.adapters.kafka.mappers.LocalizedFieldKafkaMapper;
+import com.jeferro.products.products.products.domain.models.ProductCode;
+import com.jeferro.shared.mappers.EventMapper;
+import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {
-	EventIdKafkaMapper.class,
-	ProductCodeKafkaMapper.class,
-	ProductTypeIdKafkaMapper.class,
-	LocalizedFieldKafkaMapper.class
-})
-public abstract class ProductEventKafkaMapper {
+@Mapper(config = MapstructConfig.class)
+public abstract class ProductKafkaMapper extends EventMapper<ProductEvent> {
 
-  public static final ProductEventKafkaMapper INSTANCE = Mappers.getMapper(ProductEventKafkaMapper.class);
+  public static final ProductKafkaMapper INSTANCE = Mappers.getMapper(ProductKafkaMapper.class);
 
   public Object toDTO(ProductEvent event) {
 	return switch (event) {
@@ -47,4 +43,6 @@ public abstract class ProductEventKafkaMapper {
   protected abstract ProductUnpublishedAvroDTO toDTO(ProductUnpublished entity);
 
   protected abstract ProductDeletedAvroDTO toDTO(ProductDeleted entity);
+
+  public abstract ProductCode toDomain(String value);
 }

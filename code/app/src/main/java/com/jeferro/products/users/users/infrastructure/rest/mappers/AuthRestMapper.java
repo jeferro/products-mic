@@ -1,17 +1,19 @@
 package com.jeferro.products.users.users.infrastructure.rest.mappers;
 
-import com.jeferro.products.generated.rest.v1.dtos.AuthRestDTO;
+import com.jeferro.products.users.users.application.params.SignInParams;
 import com.jeferro.products.users.users.domain.models.User;
-import com.jeferro.shared.auth.infrastructure.adapters.rest.mappers.UsernameRestMapper;
-import com.jeferro.shared.mappers.ToDTOMapper;
+import com.jeferro.products.users.users.infrastructure.rest.dtos.AuthRestDTO;
+import com.jeferro.products.users.users.infrastructure.rest.dtos.SignInInputRestDTO;
+import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {
-	UsernameRestMapper.class
-})
-public abstract class AuthRestMapper extends ToDTOMapper<User, AuthRestDTO> {
+@Mapper(config = MapstructConfig.class)
+public abstract class AuthRestMapper {
 
-	public static final AuthRestMapper INSTANCE = Mappers.getMapper(AuthRestMapper.class);
+  public static final AuthRestMapper INSTANCE = Mappers.getMapper(AuthRestMapper.class);
 
+  public abstract SignInParams toSignInParams(SignInInputRestDTO inputRestDTO);
+
+  public abstract AuthRestDTO toDTO(User user);
 }

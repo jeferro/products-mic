@@ -10,21 +10,21 @@ public class SignInParams extends Params<User> {
 
     private Username username;
 
-    private String plainPassword;
+    private String password;
 
-    public SignInParams(Username username, String plainPassword) {
+    public SignInParams(Username username, String password) {
         super();
 
 		setUsername(username);
-		setPlainPassword(plainPassword);
+		setPassword(password);
     }
 
 	public Username getUsername() {
         return username;
     }
 
-    public String getPlainPassword() {
-        return plainPassword;
+    public String getPassword() {
+        return password;
     }
 
 	private void setUsername(Username username) {
@@ -35,11 +35,11 @@ public class SignInParams extends Params<User> {
 	  this.username = username;
 	}
 
-	private void setPlainPassword(String plainPassword) {
-		if (StringUtils.isBlank(plainPassword)) {
+	private void setPassword(String password) {
+		if (StringUtils.isBlank(password)) {
 			throw ValueValidationException.createOfMessage("Plain password is blank");
 		}
 
-	  this.plainPassword = plainPassword;
+	  this.password = password;
 	}
 }

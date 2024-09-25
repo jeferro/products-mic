@@ -1,42 +1,48 @@
 package com.jeferro.products.products.products.infrastructure.rest.mappers;
 
-import java.util.List;
-
+import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
+import com.jeferro.products.products.products.application.params.CreateProductParams;
+import com.jeferro.products.products.products.application.params.DeleteProductParams;
+import com.jeferro.products.products.products.application.params.GetProductParams;
+import com.jeferro.products.products.products.application.params.ListProductsParams;
+import com.jeferro.products.products.products.application.params.UpdateProductParams;
+import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
 import com.jeferro.products.products.products.domain.models.Product;
-import com.jeferro.products.products.products.domain.models.Products;
-import com.jeferro.shared.locale.infrastructure.adapters.rest.mappers.LocalizedFieldRestMapper;
-import com.jeferro.shared.mappers.ToDTOMapper;
+import com.jeferro.products.products.products.domain.models.ProductCode;
+import com.jeferro.products.products.products.domain.models.ProductCriteria;
+import com.jeferro.shared.mappers.MapstructConfig;
+import com.jeferro.shared.mappers.PrimaryAggregateMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-@Mapper(uses = {
-	ProductCodeRestMapper.class,
-    ProductTypeIdRestMapper.class,
-    LocalizedFieldRestMapper.class
-})
-public abstract class ProductRestMapper extends ToDTOMapper<Product, ProductRestDTO> {
+@Mapper(config = MapstructConfig.class)
+public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, ProductCode, ProductRestDTO> {
 
-    public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
+  public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 
-    public ResponseEntity<ProductRestDTO> toOkResponseDTO(Product product) {
-        var dto = toDTO(product);
+  public abstract ProductCriteria toDomain(Integer pageNumber, Integer pageSize, String name);
 
-        return ResponseEntity.ok(dto);
-    }
+  public ListProductsParams toListProductsParams(Integer pageNumber, Integer pageSize, String name) {
+	var productCriteria = toDomain(pageNumber, pageSize, name);
 
-    public ResponseEntity<List<ProductRestDTO>> toOkResponseDTO(Products products) {
-        var dtos = products.map(this::toDTO).toList();
+	return new ListProductsParams(productCriteria);
+  }
 
-        return ResponseEntity.ok(dtos);
-    }
+  @Mapping(target = "productCode.value", source = "code")
+  public abstract CreateProductParams toCreateProductParams(ProductInputRestDTO productInputRestDTO);
 
-    public ResponseEntity<ProductRestDTO> toCreatedResponseDTO(Product product) {
-        var dto = toDTO(product);
+  public abstract GetProductParams toGetProductParams(String productCode);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(dto);
-    }
+  @Mapping(target = "name", source = "inputRestDTO.name")
+  public abstract UpdateProductParams toUpdateProductParams(String productCode, ProductInputRestDTO inputRestDTO);
+
+  @Mapping(target = "status", source = "inputRestDTO.status")
+  public abstract UpdateProductStatusParams toUpdateProductStatusParams(
+      String productCode,
+	  UpdateProductStatusInputRestDTO inputRestDTO);
+
+  public abstract DeleteProductParams toDeleteProductParams(String productCode);
 }

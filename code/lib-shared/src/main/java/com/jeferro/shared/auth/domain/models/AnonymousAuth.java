@@ -19,6 +19,6 @@ public class AnonymousAuth extends Auth {
 
     @Override
     public boolean hasRoles(Set<String> mandatoryRoles) {
-        return false;
+        return mandatoryRoles.isEmpty();
     }
 }

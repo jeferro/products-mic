@@ -1,8 +1,8 @@
 package com.jeferro.products.products.products.domain.models.product_types;
 
-import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
+import com.jeferro.shared.ddd.domain.models.aggregates.StringIdentifier;
 
-public class ProductTypeId extends Identifier<String> {
+public class ProductTypeId extends StringIdentifier {
 
     public ProductTypeId(String value) {
         super(value);

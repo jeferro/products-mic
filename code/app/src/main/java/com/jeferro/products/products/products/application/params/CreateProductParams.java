@@ -9,32 +9,32 @@ import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class CreateProductParams extends Params<Product> {
 
-  private ProductCode code;
+  private ProductCode productCode;
 
   private ProductTypeId typeId;
 
   private LocalizedField name;
 
-  public CreateProductParams(ProductCode code,
+  public CreateProductParams(ProductCode productCode,
 	  ProductTypeId typeId,
 	  LocalizedField name) {
 	super();
 
-	setCode(code);
+	setProductCode(productCode);
 	setTypeId(typeId);
 	setName(name);
   }
 
-  public ProductCode getCode() {
-	return code;
+  public ProductCode getProductCode() {
+	return productCode;
   }
 
-  private void setCode(ProductCode code) {
-	if (code == null) {
+  private void setProductCode(ProductCode productCode) {
+	if (productCode == null) {
 	  throw ValueValidationException.createOfMessage("Product code is null");
 	}
 
-	this.code = code;
+	this.productCode = productCode;
   }
 
   public ProductTypeId getTypeId() {

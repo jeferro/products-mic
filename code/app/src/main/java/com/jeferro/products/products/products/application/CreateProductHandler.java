@@ -46,14 +46,14 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     }
 
     private void ensureProductDoesNotExist(CreateProductParams params) {
-        var productCode = params.getCode();
+        var productCode = params.getProductCode();
 
         productsRepository.findById(productCode)
             .ifPresent(product -> { throw ProductAlreadyExistsException.createOf(productCode); });
     }
 
     private Product createProduct(CreateProductParams params) {
-        var code = params.getCode();
+        var code = params.getProductCode();
         var typeId = params.getTypeId();
         var name = params.getName();
 

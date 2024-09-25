@@ -23,6 +23,20 @@ components:
           description: Comment of the review
           example: 'One comment of the product'
 
+    ProductReviewId:
+      type: object
+      description: Product review
+      required:
+        - productCode
+        - username
+      properties:
+        productCode:
+          type: string
+          example: '123456789'
+        username:
+          type: string
+          example: 'johndoe'
+
     ProductReview:
       type: object
       description: Product review
@@ -32,8 +46,7 @@ components:
         - comment
       properties:
         id:
-          type: string
-          example: '123456789:johndoe'
+          $ref: '#/components/schemas/ProductReviewId'
         locale:
           type: string
           description: Localization of the review
