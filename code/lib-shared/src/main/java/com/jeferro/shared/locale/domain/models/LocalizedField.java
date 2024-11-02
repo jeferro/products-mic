@@ -8,7 +8,9 @@ import java.util.stream.Stream;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class LocalizedField extends ValueObject {
 
   private Map<String, String> values;
@@ -42,10 +44,6 @@ public class LocalizedField extends ValueObject {
   private void setValues(Map<String, String> values) {
 	ValueValidationUtils.isNotNull(values, "Values");
 	this.values = values;
-  }
-
-  public Map<String, String> getValues() {
-	return values;
   }
 
   public String getValue(Locale locale) {

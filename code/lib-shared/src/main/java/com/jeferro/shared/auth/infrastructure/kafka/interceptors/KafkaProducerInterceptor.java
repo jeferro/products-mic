@@ -11,9 +11,6 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 
 public class KafkaProducerInterceptor implements ProducerInterceptor<String, String> {
 
-
-
-
   @Override
   public void configure(Map<String, ?> configs) {
 	// Do nothing

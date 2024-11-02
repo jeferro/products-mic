@@ -2,7 +2,9 @@ package com.jeferro.shared.ddd.domain.models.criteria;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class Criteria extends ValueObject {
 
   private Integer pageNumber;
@@ -12,14 +14,6 @@ public abstract class Criteria extends ValueObject {
   public Criteria(Integer pageNumber, Integer pageSize) {
 	setPageNumber(pageNumber);
 	setPageSize(pageSize);
-  }
-
-  public Integer getPageNumber() {
-	return pageNumber;
-  }
-
-  public Integer getPageSize() {
-	return pageSize;
   }
 
   public boolean isNotPageable() {

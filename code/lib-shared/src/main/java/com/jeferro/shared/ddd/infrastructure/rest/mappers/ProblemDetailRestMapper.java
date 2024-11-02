@@ -1,4 +1,4 @@
-package com.jeferro.shared.ddd.infrastructure.adapters.rest.mappers;
+package com.jeferro.shared.ddd.infrastructure.rest.mappers;
 
 import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
 import org.mapstruct.Mapper;

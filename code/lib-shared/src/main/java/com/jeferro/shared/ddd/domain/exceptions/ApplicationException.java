@@ -1,7 +1,9 @@
 package com.jeferro.shared.ddd.domain.exceptions;
 
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ApplicationException extends RuntimeException {
 
     private String code;
@@ -13,14 +15,6 @@ public abstract class ApplicationException extends RuntimeException {
 
         setCode(code);
         setTitle(title);
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     private void setCode(String code) {

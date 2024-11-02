@@ -2,6 +2,9 @@ package com.jeferro.shared.ddd.domain.models.auth;
 
 import java.util.Set;
 
+import lombok.Getter;
+
+@Getter
 public class UserAuth extends Auth {
 
     private final Username username;
@@ -17,14 +20,6 @@ public class UserAuth extends Auth {
 
     public static UserAuth create(Username username, Set<String> roles) {
         return new UserAuth(username, roles);
-    }
-
-    public Username getUsername() {
-        return username;
-    }
-
-    public Set<String> getRoles() {
-        return roles;
     }
 
     @Override

@@ -1,21 +1,19 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
+import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+@Getter
 public class Entity<ID extends Identifier> {
 
     protected final ID id;
 
     public Entity(ID id) {
         this.id = id;
-    }
-
-    public ID getId() {
-        return id;
     }
 
     public boolean hasSameId(ID otherId) {
