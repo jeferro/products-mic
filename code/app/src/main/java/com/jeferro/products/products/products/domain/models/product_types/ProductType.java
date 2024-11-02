@@ -1,8 +1,7 @@
 package com.jeferro.products.products.products.domain.models.product_types;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class ProductType extends ValueObject {
 
@@ -30,10 +29,7 @@ public class ProductType extends ValueObject {
   }
 
   public void setId(ProductTypeId id) {
-	if (id == null) {
-	  throw ValueValidationException.createOfMessage("Id is null");
-	}
-
+	ValueValidationUtils.isNotNull(id, "Id");
 	this.id = id;
   }
 
@@ -42,10 +38,7 @@ public class ProductType extends ValueObject {
   }
 
   public void setName(String name) {
-	if (StringUtils.isBlank(name)) {
-	  throw ValueValidationException.createOfMessage("Name is blank");
-	}
-
+	ValueValidationUtils.isNotBlank(name, "Name");
 	this.name = name;
   }
 }

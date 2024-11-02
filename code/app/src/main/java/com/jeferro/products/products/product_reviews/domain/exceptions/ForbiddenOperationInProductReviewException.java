@@ -1,8 +1,8 @@
 package com.jeferro.products.products.product_reviews.domain.exceptions;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.auth.domain.models.Username;
-import com.jeferro.shared.ddd.domain.exceptions.ForbiddenException;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.exceptions.auth.ForbiddenException;
 
 public class ForbiddenOperationInProductReviewException extends ForbiddenException {
 

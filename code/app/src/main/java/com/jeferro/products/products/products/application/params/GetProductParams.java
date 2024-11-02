@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.application.params;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class GetProductParams extends Params<Product> {
 
@@ -20,10 +20,7 @@ public class GetProductParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	if (productCode == null) {
-	  throw ValueValidationException.createOfMessage("Product code is null");
-	}
-
+	ValueValidationUtils.isNotNull(productCode, "Product code");
 	this.productCode = productCode;
   }
 }

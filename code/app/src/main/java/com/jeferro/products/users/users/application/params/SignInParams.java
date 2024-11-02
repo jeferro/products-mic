@@ -2,9 +2,8 @@ package com.jeferro.products.users.users.application.params;
 
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.auth.domain.models.Username;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class SignInParams extends Params<User> {
 
@@ -28,18 +27,12 @@ public class SignInParams extends Params<User> {
     }
 
 	private void setUsername(Username username) {
-		if (username == null) {
-			throw ValueValidationException.createOfMessage("Username is null");
-		}
-
+	  ValueValidationUtils.isNotNull(username, "Username");
 	  this.username = username;
 	}
 
 	private void setPassword(String password) {
-		if (StringUtils.isBlank(password)) {
-			throw ValueValidationException.createOfMessage("Plain password is blank");
-		}
-
+	  ValueValidationUtils.isNotBlank(password, "Plain password");
 	  this.password = password;
 	}
 }

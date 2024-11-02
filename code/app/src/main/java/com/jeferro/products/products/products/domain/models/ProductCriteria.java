@@ -1,7 +1,6 @@
 package com.jeferro.products.products.products.domain.models;
 
 import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
-import org.apache.commons.lang3.StringUtils;
 
 public class ProductCriteria extends Criteria {
 
@@ -30,7 +29,7 @@ public class ProductCriteria extends Criteria {
     }
 
     public boolean hasNotName() {
-        return StringUtils.isEmpty(name);
+        return name == null || name.isBlank();
     }
 
     private void setName(String name) {

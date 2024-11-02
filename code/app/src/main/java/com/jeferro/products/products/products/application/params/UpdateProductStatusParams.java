@@ -4,7 +4,7 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class UpdateProductStatusParams extends Params<Product> {
 
@@ -28,18 +28,12 @@ public class UpdateProductStatusParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	if (productCode == null) {
-	  throw ValueValidationException.createOfMessage("Product code is null");
-	}
-
+	ValueValidationUtils.isNotNull(productCode, "Product code");
 	this.productCode = productCode;
   }
 
   private void setStatus(ProductStatus status) {
-	if (status == null) {
-	  throw ValueValidationException.createOfMessage("Status is null");
-	}
-
+	ValueValidationUtils.isNotNull(status, "Status");
 	this.status = status;
   }
 }

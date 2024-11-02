@@ -1,9 +1,9 @@
 package com.jeferro.products.products.product_reviews.domain.models;
 
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class ProductReviewId extends Identifier {
 
@@ -29,18 +29,12 @@ public class ProductReviewId extends Identifier {
   }
 
   private void setUsername(Username username) {
-	if (username == null) {
-	  throw ValueValidationException.createOfMessage("Username is null");
-	}
-
+	ValueValidationUtils.isNotNull(username, "Username");
 	this.username = username;
   }
 
   private void setProductCode(ProductCode productCode) {
-	if (productCode == null) {
-	  throw ValueValidationException.createOfMessage("Product code is null");
-	}
-
+	ValueValidationUtils.isNotNull(productCode, "Product code");
 	this.productCode = productCode;
   }
 }

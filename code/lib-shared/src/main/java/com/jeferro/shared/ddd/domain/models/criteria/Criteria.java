@@ -1,53 +1,47 @@
 package com.jeferro.shared.ddd.domain.models.criteria;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public abstract class Criteria extends ValueObject {
 
-    private Integer pageNumber;
+  private Integer pageNumber;
 
-    private Integer pageSize;
+  private Integer pageSize;
 
-    public Criteria(Integer pageNumber, Integer pageSize) {
-        setPageNumber(pageNumber);
-        setPageSize(pageSize);
-    }
+  public Criteria(Integer pageNumber, Integer pageSize) {
+	setPageNumber(pageNumber);
+	setPageSize(pageSize);
+  }
 
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
+  public Integer getPageNumber() {
+	return pageNumber;
+  }
 
-    public Integer getPageSize() {
-        return pageSize;
-    }
+  public Integer getPageSize() {
+	return pageSize;
+  }
 
-    public boolean isNotPageable() {
-        return pageNumber == null
-                || pageSize == null;
-    }
+  public boolean isNotPageable() {
+	return pageNumber == null
+		|| pageSize == null;
+  }
 
-    private void setPageNumber(Integer pageNumber) {
-        if (pageNumber == null) {
-            return;
-        }
+  private void setPageNumber(Integer pageNumber) {
+	if (pageNumber == null) {
+	  return;
+	}
 
-        if (pageNumber < 0) {
-            throw ValueValidationException.createOfMessage("Page number is negative");
-        }
+	ValueValidationUtils.isZeroOrPositive(pageNumber, "Page number");
+	this.pageNumber = pageNumber;
+  }
 
-        this.pageNumber = pageNumber;
-    }
+  private void setPageSize(Integer pageSize) {
+	if (pageSize == null) {
+	  return;
+	}
 
-    private void setPageSize(Integer pageSize) {
-        if (pageSize == null) {
-            return;
-        }
-
-        if (pageSize < 0) {
-            throw ValueValidationException.createOfMessage("Page size is negative");
-        }
-
-        this.pageSize = pageSize;
-    }
+	ValueValidationUtils.isZeroOrPositive(pageSize, "Page size");
+	this.pageSize = pageSize;
+  }
 }

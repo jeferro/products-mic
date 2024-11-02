@@ -1,6 +1,6 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public abstract class StringIdentifier extends Identifier {
 
@@ -20,10 +20,7 @@ public abstract class StringIdentifier extends Identifier {
   }
 
   private void setValue(String value) {
-	if (value.isBlank()) {
-	  throw ValueValidationException.createOfMessage("Value is blank");
-	}
-
+	ValueValidationUtils.isNotBlank(value, "Value");
 	this.value = value;
   }
 }

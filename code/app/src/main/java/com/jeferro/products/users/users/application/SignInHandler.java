@@ -6,10 +6,10 @@ import com.jeferro.products.users.users.application.params.SignInParams;
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.users.domain.services.PasswordEncoder;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
-import com.jeferro.shared.ddd.domain.exceptions.UnauthorizedException;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.domain.exceptions.auth.UnauthorizedException;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -9,7 +9,7 @@ import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.products.products.infrastructure.mongo.mappers.ProductMongoMapper;
 import com.jeferro.products.products.products.infrastructure.mongo.services.ProductCriteriaMongoCreator;
-import com.jeferro.shared.auth.infrastructure.adapters.mongo.services.CustomMongoTemplate;
+import com.jeferro.shared.auth.infrastructure.mongo.services.CustomMongoTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;

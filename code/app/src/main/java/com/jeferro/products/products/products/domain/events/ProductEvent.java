@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.domain.events;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public abstract class ProductEvent extends Event {
 
@@ -21,10 +21,7 @@ public abstract class ProductEvent extends Event {
   }
 
   private void setCode(ProductCode code) {
-	if (code == null) {
-	  throw ValueValidationException.createOfMessage("Code is null");
-	}
-
+	ValueValidationUtils.isNotNull(code, "Code");
 	this.code = code;
   }
 }

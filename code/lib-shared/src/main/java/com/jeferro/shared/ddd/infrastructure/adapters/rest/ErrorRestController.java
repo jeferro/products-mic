@@ -2,10 +2,10 @@ package com.jeferro.shared.ddd.infrastructure.adapters.rest;
 
 import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
 import com.jeferro.shared.ddd.domain.exceptions.ConstraintException;
-import com.jeferro.shared.ddd.domain.exceptions.ForbiddenException;
+import com.jeferro.shared.ddd.domain.exceptions.auth.ForbiddenException;
 import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
-import com.jeferro.shared.ddd.domain.exceptions.UnauthorizedException;
-import com.jeferro.shared.ddd.domain.exceptions.internals.InternalErrorException;
+import com.jeferro.shared.ddd.domain.exceptions.auth.UnauthorizedException;
+import com.jeferro.shared.ddd.domain.exceptions.InternalErrorException;
 import com.jeferro.shared.ddd.infrastructure.adapters.rest.mappers.ProblemDetailRestMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

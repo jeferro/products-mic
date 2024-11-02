@@ -2,10 +2,10 @@ package com.jeferro.products.products.product_reviews.domain.events;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.auth.domain.models.Username;
 import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public abstract class ProductReviewEvent extends Event {
 
@@ -31,10 +31,7 @@ public abstract class ProductReviewEvent extends Event {
   }
 
   private void setProductReviewId(ProductReviewId productReviewId) {
-	if (productReviewId == null) {
-	  throw ValueValidationException.createOfMessage("Product review identifier is null");
-	}
-
+	ValueValidationUtils.isNotNull(productReviewId, "Product review");
 	this.productReviewId = productReviewId;
   }
 }

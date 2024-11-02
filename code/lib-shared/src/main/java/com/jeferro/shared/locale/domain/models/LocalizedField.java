@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class LocalizedField extends ValueObject {
 
@@ -40,10 +40,7 @@ public class LocalizedField extends ValueObject {
   }
 
   private void setValues(Map<String, String> values) {
-	if (values == null) {
-	  throw ValueValidationException.createOfMessage("Values is null");
-	}
-
+	ValueValidationUtils.isNotNull(values, "Values");
 	this.values = values;
   }
 

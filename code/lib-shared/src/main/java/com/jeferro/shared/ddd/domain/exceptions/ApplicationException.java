@@ -1,7 +1,6 @@
 package com.jeferro.shared.ddd.domain.exceptions;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public abstract class ApplicationException extends RuntimeException {
 
@@ -25,18 +24,12 @@ public abstract class ApplicationException extends RuntimeException {
     }
 
     private void setCode(String code) {
-        if(StringUtils.isEmpty(code)){
-            throw ValueValidationException.createOfMessage("Code is null or empty");
-        }
-
+        ValueValidationUtils.isNotBlank(code, "Code");
         this.code = code;
     }
 
     private void setTitle(String title) {
-        if(StringUtils.isEmpty(title)){
-            throw ValueValidationException.createOfMessage("Title is null or empty");
-        }
-
+        ValueValidationUtils.isNotBlank(title, "Title");
         this.title = title;
     }
 }

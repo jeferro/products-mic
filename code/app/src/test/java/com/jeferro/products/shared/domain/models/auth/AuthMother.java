@@ -2,13 +2,13 @@ package com.jeferro.products.shared.domain.models.auth;
 
 import java.util.Set;
 
-import static com.jeferro.shared.ddd.application.Roles.ADMIN;
-import static com.jeferro.shared.ddd.application.Roles.USER;
+import static com.jeferro.shared.auth.application.Roles.ADMIN;
+import static com.jeferro.shared.auth.application.Roles.USER;
 
-import com.jeferro.shared.auth.domain.models.AnonymousAuth;
-import com.jeferro.shared.auth.domain.models.SystemAuth;
-import com.jeferro.shared.auth.domain.models.UserAuth;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.auth.AnonymousAuth;
+import com.jeferro.shared.ddd.domain.models.auth.SystemAuth;
+import com.jeferro.shared.ddd.domain.models.auth.UserAuth;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
 
 public class AuthMother {
 

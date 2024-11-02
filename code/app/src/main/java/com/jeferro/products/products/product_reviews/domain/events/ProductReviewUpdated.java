@@ -5,8 +5,7 @@ import java.util.Locale;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class ProductReviewUpdated extends ProductReviewEvent {
 
@@ -39,10 +38,7 @@ public class ProductReviewUpdated extends ProductReviewEvent {
   }
 
   private void setLocale(Locale locale){
-	if(locale == null){
-	  throw ValueValidationException.createOfMessage("Locale is null");
-	}
-
+	ValueValidationUtils.isNotNull(locale, "Locale");
 	this.locale = locale;
   }
 
@@ -51,10 +47,7 @@ public class ProductReviewUpdated extends ProductReviewEvent {
   }
 
   private void setComment(String comment){
-	if(StringUtils.isBlank(comment)){
-	  throw ValueValidationException.createOfMessage("Comment is blank");
-	}
-
+	ValueValidationUtils.isNotNull(comment, "Comment");
 	this.comment = comment;
   }
 }

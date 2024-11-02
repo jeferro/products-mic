@@ -7,9 +7,9 @@ import com.jeferro.products.products.product_reviews.domain.events.ProductReview
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
@@ -75,10 +75,7 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   }
 
   private void setLocale(Locale locale) {
-	if (locale == null) {
-	  throw ValueValidationException.createOfMessage("Locale is null");
-	}
-
+	ValueValidationUtils.isNotNull(locale, "Locale");
 	this.locale = locale;
   }
 
@@ -87,10 +84,7 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
   }
 
   private void setComment(String comment) {
-	if (comment == null) {
-	  throw ValueValidationException.createOfMessage("Comment is null");
-	}
-
+	ValueValidationUtils.isNotNull(comment, "Comment");
 	this.comment = comment;
   }
 

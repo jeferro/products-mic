@@ -2,9 +2,9 @@ package com.jeferro.shared.auth.infrastructure;
 
 import java.util.Locale;
 
-import com.jeferro.shared.auth.domain.models.AnonymousAuth;
-import com.jeferro.shared.auth.domain.models.Auth;
-import com.jeferro.shared.auth.domain.models.SystemAuth;
+import com.jeferro.shared.ddd.domain.models.auth.AnonymousAuth;
+import com.jeferro.shared.ddd.domain.models.auth.Auth;
+import com.jeferro.shared.ddd.domain.models.auth.SystemAuth;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

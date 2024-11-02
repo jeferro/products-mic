@@ -2,11 +2,9 @@ package com.jeferro.products.users.users.domain.models;
 
 import java.util.Set;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.auth.domain.models.Username;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 
 public class User extends AggregateRoot<Username> {
 
@@ -34,18 +32,12 @@ public class User extends AggregateRoot<Username> {
   }
 
   private void setEncodedPassword(String encodedPassword) {
-	if (StringUtils.isBlank(encodedPassword)) {
-	  throw ValueValidationException.createOfMessage("Encoded password is blank");
-	}
-
+	ValueValidationUtils.isNotBlank(encodedPassword, "Encoded password");
 	this.encodedPassword = encodedPassword;
   }
 
   private void setRoles(Set<String> roles) {
-	if (CollectionUtils.isEmpty(roles)) {
-	  throw ValueValidationException.createOfMessage("Roles is empty");
-	}
-
+	ValueValidationUtils.isNotEmpty(roles, "Roles");
 	this.roles = roles;
   }
 }

@@ -4,7 +4,7 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class CreateProductParams extends Params<Product> {
@@ -30,10 +30,7 @@ public class CreateProductParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	if (productCode == null) {
-	  throw ValueValidationException.createOfMessage("Product code is null");
-	}
-
+	ValueValidationUtils.isNotNull(productCode, "Product code");
 	this.productCode = productCode;
   }
 
@@ -42,10 +39,7 @@ public class CreateProductParams extends Params<Product> {
   }
 
   public void setTypeId(ProductTypeId typeId) {
-	if (typeId == null) {
-	  throw ValueValidationException.createOfMessage("Type id is null");
-	}
-
+	ValueValidationUtils.isNotNull(typeId, "Type id");
 	this.typeId = typeId;
   }
 
@@ -54,10 +48,7 @@ public class CreateProductParams extends Params<Product> {
   }
 
   private void setName(LocalizedField name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
+	ValueValidationUtils.isNotNull(name, "Name");
 	this.name = name;
   }
 }

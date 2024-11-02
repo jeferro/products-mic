@@ -1,14 +1,14 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.ddd.application.Roles.USER;
+import static com.jeferro.shared.auth.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import org.springframework.stereotype.Component;
 

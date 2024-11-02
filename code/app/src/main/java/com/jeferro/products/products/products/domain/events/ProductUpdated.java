@@ -4,7 +4,7 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductUpdated extends ProductEvent {
@@ -38,10 +38,7 @@ public class ProductUpdated extends ProductEvent {
   }
 
   public void setStatus(ProductStatus status) {
-	if (status == null) {
-	  throw ValueValidationException.createOfMessage("Status is null");
-	}
-
+	ValueValidationUtils.isNotNull(status, "Status");
 	this.status = status;
   }
 
@@ -50,10 +47,7 @@ public class ProductUpdated extends ProductEvent {
   }
 
   public void setName(LocalizedField name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
+	ValueValidationUtils.isNotNull(name, "Name");
 	this.name = name;
   }
 }

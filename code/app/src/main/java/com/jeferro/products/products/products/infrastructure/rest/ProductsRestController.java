@@ -7,7 +7,7 @@ import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
-import com.jeferro.shared.ddd.application.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.HandlerBus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

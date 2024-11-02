@@ -3,7 +3,7 @@ package com.jeferro.products.shared.application;
 import java.util.Locale;
 
 import com.jeferro.products.shared.domain.models.auth.AuthMother;
-import com.jeferro.shared.ddd.application.Context;
+import com.jeferro.shared.ddd.domain.models.context.Context;
 
 public class ContextMother {
 

@@ -9,8 +9,8 @@ import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class Product extends AggregateRoot<ProductCode> {
@@ -81,10 +81,7 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     private void setName(LocalizedField name) {
-        if (name == null) {
-            throw ValueValidationException.createOfMessage("Name is null");
-        }
-
+        ValueValidationUtils.isNotNull(name, "Name");
         this.name = name;
     }
 
@@ -93,10 +90,7 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     private void setStatus(ProductStatus status) {
-        if (status == null) {
-            throw ValueValidationException.createOfMessage("Status is null");
-        }
-
+        ValueValidationUtils.isNotNull(status, "Status");
         this.status = status;
     }
 
@@ -105,10 +99,7 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     public void setTypeId(ProductTypeId typeId) {
-        if (typeId == null) {
-            throw ValueValidationException.createOfMessage("Type id is null");
-        }
-
+        ValueValidationUtils.isNotNull(typeId, "Type id");
         this.typeId = typeId;
     }
 }

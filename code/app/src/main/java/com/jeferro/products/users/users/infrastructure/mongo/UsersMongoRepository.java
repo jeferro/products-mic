@@ -6,7 +6,7 @@ import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.users.infrastructure.mongo.daos.UsersMongoDao;
 import com.jeferro.products.users.users.infrastructure.mongo.mappers.UsersMongoMapper;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
 import org.springframework.stereotype.Component;
 
 @Component
