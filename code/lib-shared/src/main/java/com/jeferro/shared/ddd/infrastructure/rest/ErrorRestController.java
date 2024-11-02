@@ -29,9 +29,9 @@ public class ErrorRestController {
 
   @ResponseBody
   @ExceptionHandler(value = {
+	  ValueValidationException.class,
 	  ServerWebInputException.class,
-	  MissingServletRequestParameterException.class,
-	  ValueValidationException.class
+	  MissingServletRequestParameterException.class
   })
   public ResponseEntity<ProblemDetail> handleBadRequest(Exception cause) {
 	return problemDetailRestMapper.toDTO(HttpStatus.BAD_REQUEST, cause);
