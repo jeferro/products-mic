@@ -7,7 +7,9 @@ import com.jeferro.products.products.products.domain.models.product_types.Produc
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class ProductCreated extends ProductEvent {
 
   private ProductTypeId typeId;
@@ -39,26 +41,14 @@ public class ProductCreated extends ProductEvent {
 	return new ProductCreated(id, code, typeId, name, status);
   }
 
-  public ProductTypeId getTypeId() {
-	return typeId;
-  }
-
   public void setTypeId(ProductTypeId typeId) {
 	ValueValidationUtils.isNotNull(typeId, "Type id");
 	this.typeId = typeId;
   }
 
-  public LocalizedField getName() {
-	return name;
-  }
-
   public void setName(LocalizedField name) {
 	ValueValidationUtils.isNotNull(name, "Name");
 	this.name = name;
-  }
-
-  public ProductStatus getStatus() {
-	return status;
   }
 
   public void setStatus(ProductStatus status) {

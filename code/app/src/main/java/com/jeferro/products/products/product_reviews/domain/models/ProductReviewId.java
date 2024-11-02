@@ -4,7 +4,9 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class ProductReviewId extends Identifier {
 
   private Username username;
@@ -18,14 +20,6 @@ public class ProductReviewId extends Identifier {
 
   public static ProductReviewId createOf(Username username, ProductCode productCode) {
 	return new ProductReviewId(username, productCode);
-  }
-
-  public Username getUsername() {
-	return username;
-  }
-
-  public ProductCode getProductCode() {
-	return productCode;
   }
 
   private void setUsername(Username username) {

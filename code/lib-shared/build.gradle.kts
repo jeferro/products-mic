@@ -4,6 +4,7 @@ plugins {
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
+    id("io.freefair.lombok") version "8.10.2"
 }
 
 dependencies {

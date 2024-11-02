@@ -2,7 +2,9 @@ package com.jeferro.products.products.products.domain.models.product_types;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class ProductType extends ValueObject {
 
   private ProductTypeId id;
@@ -20,10 +22,6 @@ public class ProductType extends ValueObject {
 	return new ProductType(id, name);
   }
 
-  public ProductTypeId getId() {
-	return id;
-  }
-
   public boolean hasId(ProductTypeId id) {
 	return this.id.equals(id);
   }
@@ -31,10 +29,6 @@ public class ProductType extends ValueObject {
   public void setId(ProductTypeId id) {
 	ValueValidationUtils.isNotNull(id, "Id");
 	this.id = id;
-  }
-
-  public String getName() {
-	return name;
   }
 
   public void setName(String name) {

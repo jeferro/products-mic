@@ -10,9 +10,11 @@ import com.jeferro.products.products.product_reviews.domain.repositories.Product
 import com.jeferro.products.products.product_reviews.infrastructure.mongo.daos.ProductReviewMongoDao;
 import com.jeferro.products.products.product_reviews.infrastructure.mongo.mappers.ProductReviewMongoMapper;
 import com.jeferro.products.products.products.domain.models.ProductCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProductReviewMongoRepository implements ProductReviewsRepository {
 
     private final ProductReviewMongoMapper productReviewMongoMapper = ProductReviewMongoMapper.INSTANCE;
@@ -24,10 +26,6 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
         var productReviewDto = productReviewMongoMapper.toDTO(productReview);
 
         productReviewMongoDao.save(productReviewDto);
-    }
-
-    public ProductReviewMongoRepository(ProductReviewMongoDao productReviewMongoDao) {
-        this.productReviewMongoDao = productReviewMongoDao;
     }
 
     @Override

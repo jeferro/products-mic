@@ -8,18 +8,16 @@ import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
 import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class ProductsRestController implements ProductsApi {
 
 	private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
 	private final HandlerBus handlerBus;
-
-	public ProductsRestController(HandlerBus handlerBus) {
-		this.handlerBus = handlerBus;
-	}
 
 	@Override
 	public List<ProductRestDTO> listProducts(Integer pageNumber, Integer pageSize, String name) {

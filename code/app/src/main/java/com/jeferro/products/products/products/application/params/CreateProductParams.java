@@ -6,7 +6,9 @@ import com.jeferro.products.products.products.domain.models.product_types.Produc
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class CreateProductParams extends Params<Product> {
 
   private ProductCode productCode;
@@ -25,26 +27,14 @@ public class CreateProductParams extends Params<Product> {
 	setName(name);
   }
 
-  public ProductCode getProductCode() {
-	return productCode;
-  }
-
   private void setProductCode(ProductCode productCode) {
 	ValueValidationUtils.isNotNull(productCode, "Product code");
 	this.productCode = productCode;
   }
 
-  public ProductTypeId getTypeId() {
-	return typeId;
-  }
-
   public void setTypeId(ProductTypeId typeId) {
 	ValueValidationUtils.isNotNull(typeId, "Type id");
 	this.typeId = typeId;
-  }
-
-  public LocalizedField getName() {
-	return name;
   }
 
   private void setName(LocalizedField name) {

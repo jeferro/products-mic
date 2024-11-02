@@ -8,18 +8,16 @@ import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestDTO;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class ProductReviewRestController implements ProductReviewsApi {
 
   private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
 
   private final HandlerBus handlerBus;
-
-  public ProductReviewRestController(HandlerBus handlerBus) {
-	this.handlerBus = handlerBus;
-  }
 
   @Override
   public List<ProductReviewRestDTO> listProductReviews(String productCode) {

@@ -10,6 +10,7 @@ import com.jeferro.products.products.products.domain.repositories.ProductsReposi
 import com.jeferro.products.products.products.infrastructure.mongo.mappers.ProductMongoMapper;
 import com.jeferro.products.products.products.infrastructure.mongo.services.ProductCriteriaMongoCreator;
 import com.jeferro.shared.auth.infrastructure.mongo.services.CustomMongoTemplate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class ProductsMongoRepository implements ProductsRepository {
 
     private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
@@ -27,14 +29,6 @@ public class ProductsMongoRepository implements ProductsRepository {
     private final ProductCriteriaMongoCreator productCriteriaMongoCreator;
 
     private final CustomMongoTemplate customMongoTemplate;
-
-    public ProductsMongoRepository(ProductsMongoDao productsMongoDao,
-                                   ProductCriteriaMongoCreator productCriteriaMongoCreator,
-                                   CustomMongoTemplate customMongoTemplate) {
-        this.productsMongoDao = productsMongoDao;
-        this.productCriteriaMongoCreator = productCriteriaMongoCreator;
-        this.customMongoTemplate = customMongoTemplate;
-    }
 
     @Override
     public void save(Product product) {

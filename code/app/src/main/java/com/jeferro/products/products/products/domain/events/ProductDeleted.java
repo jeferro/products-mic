@@ -6,7 +6,9 @@ import com.jeferro.products.products.products.domain.models.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class ProductDeleted extends ProductEvent {
 
     private LocalizedField name;
@@ -33,17 +35,9 @@ public class ProductDeleted extends ProductEvent {
         return new ProductDeleted(id, code, name, status);
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
-
     public void setStatus(ProductStatus status) {
         ValueValidationUtils.isNotNull(status, "Status");
         this.status = status;
-    }
-
-    public LocalizedField getName() {
-        return name;
     }
 
     public void setName(LocalizedField name) {

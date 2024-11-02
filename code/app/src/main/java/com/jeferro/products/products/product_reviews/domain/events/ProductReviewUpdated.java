@@ -6,7 +6,9 @@ import com.jeferro.products.products.product_reviews.domain.models.ProductReview
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class ProductReviewUpdated extends ProductReviewEvent {
 
   private Locale locale;
@@ -33,17 +35,9 @@ public class ProductReviewUpdated extends ProductReviewEvent {
         return new ProductReviewUpdated(id, productReviewId, locale, comment);
     }
 
-  public Locale getLocale() {
-	return locale;
-  }
-
   private void setLocale(Locale locale){
 	ValueValidationUtils.isNotNull(locale, "Locale");
 	this.locale = locale;
-  }
-
-  public String getComment() {
-	return comment;
   }
 
   private void setComment(String comment){

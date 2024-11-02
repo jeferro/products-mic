@@ -12,7 +12,9 @@ import com.jeferro.products.products.products.domain.models.product_types.Produc
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class Product extends AggregateRoot<ProductCode> {
 
     private LocalizedField name;
@@ -76,26 +78,14 @@ public class Product extends AggregateRoot<ProductCode> {
         return id;
     }
 
-    public LocalizedField getName() {
-        return name;
-    }
-
     private void setName(LocalizedField name) {
         ValueValidationUtils.isNotNull(name, "Name");
         this.name = name;
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
-
     private void setStatus(ProductStatus status) {
         ValueValidationUtils.isNotNull(status, "Status");
         this.status = status;
-    }
-
-    public ProductTypeId getTypeId() {
-        return typeId;
     }
 
     public void setTypeId(ProductTypeId typeId) {

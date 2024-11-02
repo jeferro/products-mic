@@ -5,7 +5,9 @@ import java.util.Set;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class User extends AggregateRoot<Username> {
 
   private String encodedPassword;
@@ -21,14 +23,6 @@ public class User extends AggregateRoot<Username> {
 
   public Username getUsername() {
 	return id;
-  }
-
-  public String getEncodedPassword() {
-	return encodedPassword;
-  }
-
-  public Set<String> getRoles() {
-	return roles;
   }
 
   private void setEncodedPassword(String encodedPassword) {

@@ -6,7 +6,9 @@ import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ProductReviewEvent extends Event {
 
   private ProductReviewId productReviewId;
@@ -16,10 +18,6 @@ public abstract class ProductReviewEvent extends Event {
 	super(id);
 
 	setProductReviewId(productReviewId);
-  }
-
-  public ProductReviewId getProductReviewId() {
-	return productReviewId;
   }
 
   public ProductCode getProductCode() {

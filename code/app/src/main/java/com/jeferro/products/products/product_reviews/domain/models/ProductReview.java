@@ -10,7 +10,9 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
   private Locale locale;
@@ -70,17 +72,9 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	return id.getProductCode();
   }
 
-  public Locale getLocale() {
-	return locale;
-  }
-
   private void setLocale(Locale locale) {
 	ValueValidationUtils.isNotNull(locale, "Locale");
 	this.locale = locale;
-  }
-
-  public String getComment() {
-	return comment;
   }
 
   private void setComment(String comment) {

@@ -1,7 +1,9 @@
 package com.jeferro.products.products.products.domain.models;
 
 import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
+import lombok.Getter;
 
+@Getter
 public class ProductCriteria extends Criteria {
 
     private String name;
@@ -18,10 +20,6 @@ public class ProductCriteria extends Criteria {
 
     public static ProductCriteria createOfName(String name) {
         return new ProductCriteria(null, null, name);
-    }
-
-    public String getName() {
-        return name;
     }
 
     public boolean hasName() {

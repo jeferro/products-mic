@@ -4,7 +4,9 @@ import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ProductEvent extends Event {
 
   private ProductCode code;
@@ -14,10 +16,6 @@ public abstract class ProductEvent extends Event {
 	super(id);
 
 	setCode(code);
-  }
-
-  public ProductCode getCode() {
-	return code;
   }
 
   private void setCode(ProductCode code) {
