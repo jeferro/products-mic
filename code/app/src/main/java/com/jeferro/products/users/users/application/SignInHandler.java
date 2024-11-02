@@ -10,22 +10,16 @@ import com.jeferro.shared.ddd.domain.models.context.Context;
 import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.exceptions.auth.UnauthorizedException;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SignInHandler extends Handler<SignInParams, User> {
 
   private final UsersRepository usersRepository;
 
   private final PasswordEncoder passwordEncoder;
-
-  public SignInHandler(UsersRepository usersRepository,
-	  PasswordEncoder passwordEncoder) {
-	super();
-
-	this.usersRepository = usersRepository;
-	this.passwordEncoder = passwordEncoder;
-  }
 
   @Override
   public Set<String> getMandatoryUserRoles() {

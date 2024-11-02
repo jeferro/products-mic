@@ -20,8 +20,8 @@ public class ProductsRestController implements ProductsApi {
 	private final HandlerBus handlerBus;
 
 	@Override
-	public List<ProductRestDTO> listProducts(Integer pageNumber, Integer pageSize, String name) {
-		var params = productRestMapper.toListProductsParams(pageNumber, pageSize, name);
+	public List<ProductRestDTO> searchProducts(Integer pageNumber, Integer pageSize, String name) {
+		var params = productRestMapper.toSearcProductsParams(pageNumber, pageSize, name);
 
 		var products = handlerBus.execute(params);
 

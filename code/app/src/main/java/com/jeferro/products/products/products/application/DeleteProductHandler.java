@@ -10,22 +10,16 @@ import com.jeferro.products.products.products.domain.repositories.ProductsReposi
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DeleteProductHandler extends Handler<DeleteProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
     private final EventBus eventBus;
-
-    public DeleteProductHandler(ProductsRepository productsRepository,
-                                EventBus eventBus) {
-        super();
-
-        this.productsRepository = productsRepository;
-        this.eventBus = eventBus;
-    }
 
     @Override
     public Set<String> getMandatoryUserRoles() {

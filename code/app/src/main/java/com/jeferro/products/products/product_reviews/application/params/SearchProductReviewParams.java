@@ -6,11 +6,11 @@ import com.jeferro.shared.ddd.application.params.Params;
 import lombok.Getter;
 
 @Getter
-public class ListProductReviewParams extends Params<ProductReviews> {
+public class SearchProductReviewParams extends Params<ProductReviews> {
 
   private final ProductCode productCode;
 
-  public ListProductReviewParams(ProductCode productCode) {
+  public SearchProductReviewParams(ProductCode productCode) {
 	super();
 	this.productCode = productCode;
   }

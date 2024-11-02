@@ -12,9 +12,11 @@ import com.jeferro.products.products.products.domain.services.ProductTypeFinder;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CreateProductHandler extends Handler<CreateProductParams, Product> {
 
     private final ProductsRepository productsRepository;
@@ -22,16 +24,6 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
     private final ProductTypeFinder productTypeFinder;
 
     private final EventBus eventBus;
-
-    public CreateProductHandler(ProductsRepository productsRepository,
-        ProductTypeFinder productTypeFinder,
-        EventBus eventBus) {
-        super();
-
-        this.productsRepository = productsRepository;
-	    this.productTypeFinder = productTypeFinder;
-	    this.eventBus = eventBus;
-    }
 
     @Override
     public Set<String> getMandatoryUserRoles() {

@@ -8,7 +8,7 @@ import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestD
 import com.jeferro.products.products.product_reviews.application.params.CreateProductReviewParams;
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.application.params.GetProductReviewParams;
-import com.jeferro.products.products.product_reviews.application.params.ListProductReviewParams;
+import com.jeferro.products.products.product_reviews.application.params.SearchProductReviewParams;
 import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
@@ -34,7 +34,7 @@ public abstract class ProductReviewRestMapper {
 
   public abstract ProductCriteria toDomain(Integer pageNumber, Integer pageSize, String name);
 
-  public abstract ListProductReviewParams toListProductsParams(String productCode);
+  public abstract SearchProductReviewParams toSearchProductsParams(String productCode);
 
   public abstract CreateProductReviewParams toCreateProductReviewParams(String productCode,
 	  CreateProductReviewInputRestDTO inputRestDTO);

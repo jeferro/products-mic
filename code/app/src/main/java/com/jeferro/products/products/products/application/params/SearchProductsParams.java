@@ -7,11 +7,11 @@ import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
 
 @Getter
-public class ListProductsParams extends Params<Products> {
+public class SearchProductsParams extends Params<Products> {
 
     private ProductCriteria criteria;
 
-    public ListProductsParams(ProductCriteria criteria) {
+    public SearchProductsParams(ProductCriteria criteria) {
         super();
 
         setCriteria(criteria);

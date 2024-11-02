@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jeferro.products.products.products.application.params.ListProductsParams;
+import com.jeferro.products.products.products.application.params.SearchProductsParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCriteria;
 import com.jeferro.products.products.products.domain.models.ProductMother;
@@ -13,17 +13,17 @@ import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ListProductsHandlerTest {
+class SearchProductsHandlerTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
-    private ListProductsHandler listProductsHandler;
+    private SearchProductsHandler searchProductsHandler;
 
     @BeforeEach
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        listProductsHandler = new ListProductsHandler(productsInMemoryRepository);
+        searchProductsHandler = new SearchProductsHandler(productsInMemoryRepository);
     }
 
     @Test
@@ -31,11 +31,11 @@ class ListProductsHandlerTest {
         var databaseData = givenSeveralProductsInDatabase();
 
         var userContext = ContextMother.user();
-        var params = new ListProductsParams(
+        var params = new SearchProductsParams(
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(userContext, params);
+        var result = searchProductsHandler.execute(userContext, params);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(databaseData.apple()));
@@ -47,11 +47,11 @@ class ListProductsHandlerTest {
         var databaseData = givenSeveralProductsInDatabase();
 
         var userContext = ContextMother.user();
-        var params = new ListProductsParams(
+        var params = new SearchProductsParams(
                 ProductCriteria.createOfName("pe")
         );
 
-        var result = listProductsHandler.execute(userContext, params);
+        var result = searchProductsHandler.execute(userContext, params);
 
         assertEquals(1, result.size());
         assertFalse(result.contains(databaseData.apple()));
@@ -61,11 +61,11 @@ class ListProductsHandlerTest {
     @Test
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
         var userContext = ContextMother.user();
-        var params = new ListProductsParams(
+        var params = new SearchProductsParams(
                 ProductCriteria.createEmpty()
         );
 
-        var result = listProductsHandler.execute(userContext, params);
+        var result = searchProductsHandler.execute(userContext, params);
 
         assertTrue(result.isEmpty());
     }

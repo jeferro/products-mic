@@ -6,7 +6,7 @@ import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestD
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.application.params.GetProductParams;
-import com.jeferro.products.products.products.application.params.ListProductsParams;
+import com.jeferro.products.products.products.application.params.SearchProductsParams;
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
 import com.jeferro.products.products.products.domain.models.Product;
@@ -25,10 +25,10 @@ public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, 
 
   public abstract ProductCriteria toDomain(Integer pageNumber, Integer pageSize, String name);
 
-  public ListProductsParams toListProductsParams(Integer pageNumber, Integer pageSize, String name) {
+  public SearchProductsParams toSearcProductsParams(Integer pageNumber, Integer pageSize, String name) {
 	var productCriteria = toDomain(pageNumber, pageSize, name);
 
-	return new ListProductsParams(productCriteria);
+	return new SearchProductsParams(productCriteria);
   }
 
   @Mapping(target = "productCode.value", source = "code")

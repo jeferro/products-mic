@@ -7,25 +7,19 @@ import java.util.Set;
 import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.ddd.domain.models.context.Context;
 import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateProductStatusHandler extends Handler<UpdateProductStatusParams, Product> {
 
     private final ProductsRepository productsRepository;
 
     private final EventBus eventBus;
-
-    public UpdateProductStatusHandler(ProductsRepository productsRepository,
-                                EventBus eventBus) {
-        super();
-
-        this.productsRepository = productsRepository;
-        this.eventBus = eventBus;
-    }
 
     @Override
     public Set<String> getMandatoryUserRoles() {

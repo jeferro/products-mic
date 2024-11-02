@@ -3,7 +3,7 @@ package com.jeferro.products.products.product_reviews.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.jeferro.products.products.product_reviews.application.params.ListProductReviewParams;
+import com.jeferro.products.products.product_reviews.application.params.SearchProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsInMemoryRepository;
@@ -11,17 +11,17 @@ import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ListProductReviewHandlerTest {
+class SearchProductReviewHandlerTest {
 
   private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
-  private ListProductReviewHandler listProductReviewHandler;
+  private SearchProductReviewHandler searchProductReviewHandler;
 
   @BeforeEach
   public void beforeEach() {
 	productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
 
-	listProductReviewHandler = new ListProductReviewHandler(productReviewsInMemoryRepository);
+	searchProductReviewHandler = new SearchProductReviewHandler(productReviewsInMemoryRepository);
   }
 
   @Test
@@ -29,11 +29,11 @@ class ListProductReviewHandlerTest {
 	var userContext = ContextMother.user();
 	var userReviewOfApple = givenAnUserProductReviewOfAppleInDatabase();
 
-	var params = new ListProductReviewParams(
+	var params = new SearchProductReviewParams(
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.execute(userContext, params);
+	var result = searchProductReviewHandler.execute(userContext, params);
 
 	assertEquals(1, result.size());
 	assertTrue(result.contains(userReviewOfApple));
@@ -44,11 +44,11 @@ class ListProductReviewHandlerTest {
 	var userContext = ContextMother.user();
 	var userReviewOfApple = ProductReviewMother.userReviewOfApple();
 
-	var params = new ListProductReviewParams(
+	var params = new SearchProductReviewParams(
 		userReviewOfApple.getProductCode()
 	);
 
-	var result = listProductReviewHandler.execute(userContext, params);
+	var result = searchProductReviewHandler.execute(userContext, params);
 
 	assertTrue(result.isEmpty());
   }

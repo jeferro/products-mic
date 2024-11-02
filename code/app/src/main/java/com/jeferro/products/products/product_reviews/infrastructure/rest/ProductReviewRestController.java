@@ -20,8 +20,8 @@ public class ProductReviewRestController implements ProductReviewsApi {
   private final HandlerBus handlerBus;
 
   @Override
-  public List<ProductReviewRestDTO> listProductReviews(String productCode) {
-	var params = productReviewRestMapper.toListProductsParams(productCode);
+  public List<ProductReviewRestDTO> searchProductReviews(String productCode) {
+	var params = productReviewRestMapper.toSearchProductsParams(productCode);
 
 	var productReviews = handlerBus.execute(params);
 

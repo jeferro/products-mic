@@ -22,9 +22,9 @@ tags:
 paths:
   /v1/products:
     get:
-      operationId: list-products
-      summary: List products
-      description: List products
+      operationId: search-products
+      summary: Search products
+      description: Search products
       tags:
         - Products
       parameters:
@@ -191,9 +191,9 @@ paths:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
     get:
-      operationId: list-product-reviews
-      summary: List product reviews
-      description: List product reviews
+      operationId: search-product-reviews
+      summary: Search product reviews
+      description: Search product reviews
       tags:
         - Product reviews
       parameters:
