@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.application.params;
 
-import com.jeferro.products.products.products.domain.models.ProductCriteria;
+import com.jeferro.products.products.products.domain.models.ProductFilter;
 import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
@@ -9,16 +9,16 @@ import lombok.Getter;
 @Getter
 public class SearchProductsParams extends Params<Products> {
 
-    private ProductCriteria criteria;
+    private ProductFilter filter;
 
-    public SearchProductsParams(ProductCriteria criteria) {
+    public SearchProductsParams(ProductFilter filter) {
         super();
 
-        setCriteria(criteria);
+        setFilter(filter);
     }
 
-    private void setCriteria(ProductCriteria criteria) {
-        ValueValidationUtils.isNotNull(criteria, "Criteria");
-        this.criteria = criteria;
+    private void setFilter(ProductFilter filter) {
+        ValueValidationUtils.isNotNull(filter, "Filter");
+        this.filter = filter;
     }
 }

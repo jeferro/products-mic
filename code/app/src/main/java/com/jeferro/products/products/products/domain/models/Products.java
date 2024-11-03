@@ -20,7 +20,10 @@ public class Products extends EntityCollection<ProductCode, Product> {
         return new Products(entities);
     }
 
-    public static Products createOfCriteria(List<Product> entities, ProductCriteria criteria, Long totalEntities) {
-        return new Products(entities, criteria.getPageSize(), criteria.getPageNumber(), totalEntities);
+    public static Products createOfFilter(List<Product> entities, ProductFilter filter, Long totalEntities) {
+        return new Products(entities,
+            filter.getPageSize(),
+            filter.getPageNumber(),
+            totalEntities);
     }
 }

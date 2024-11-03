@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.products.application.params.SearchProductsParams;
 import com.jeferro.products.products.products.domain.models.Product;
-import com.jeferro.products.products.products.domain.models.ProductCriteria;
+import com.jeferro.products.products.products.domain.models.ProductFilter;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.application.ContextMother;
@@ -32,7 +32,7 @@ class SearchProductsHandlerTest {
 
         var userContext = ContextMother.user();
         var params = new SearchProductsParams(
-                ProductCriteria.createEmpty()
+                ProductFilter.createEmpty()
         );
 
         var result = searchProductsHandler.execute(userContext, params);
@@ -48,7 +48,7 @@ class SearchProductsHandlerTest {
 
         var userContext = ContextMother.user();
         var params = new SearchProductsParams(
-                ProductCriteria.createOfName("pe")
+                ProductFilter.createOfName("pe")
         );
 
         var result = searchProductsHandler.execute(userContext, params);
@@ -62,7 +62,7 @@ class SearchProductsHandlerTest {
     void givenNoProducts_whenListProduct_thenReturnsEmpty() {
         var userContext = ContextMother.user();
         var params = new SearchProductsParams(
-                ProductCriteria.createEmpty()
+                ProductFilter.createEmpty()
         );
 
         var result = searchProductsHandler.execute(userContext, params);

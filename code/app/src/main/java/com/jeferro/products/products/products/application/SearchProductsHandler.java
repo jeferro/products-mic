@@ -25,8 +25,8 @@ public class SearchProductsHandler extends SilentHandler<SearchProductsParams, P
 
     @Override
     public Products execute(Context context, SearchProductsParams params) {
-        var criteria = params.getCriteria();
+        var filter = params.getFilter();
 
-        return productsRepository.findAll(criteria);
+        return productsRepository.findAll(filter);
     }
 }

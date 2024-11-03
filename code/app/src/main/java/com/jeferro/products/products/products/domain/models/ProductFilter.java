@@ -1,25 +1,25 @@
 package com.jeferro.products.products.products.domain.models;
 
-import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
+import com.jeferro.shared.ddd.domain.models.filter.Filter;
 import lombok.Getter;
 
 @Getter
-public class ProductCriteria extends Criteria {
+public class ProductFilter extends Filter {
 
     private String name;
 
-    public ProductCriteria(Integer pageNumber, Integer pageSize, String name) {
+    public ProductFilter(Integer pageNumber, Integer pageSize, String name) {
         super(pageNumber, pageSize);
 
         setName(name);
     }
 
-    public static ProductCriteria createEmpty() {
-        return new ProductCriteria(null, null, null);
+    public static ProductFilter createEmpty() {
+        return new ProductFilter(null, null, null);
     }
 
-    public static ProductCriteria createOfName(String name) {
-        return new ProductCriteria(null, null, name);
+    public static ProductFilter createOfName(String name) {
+        return new ProductFilter(null, null, name);
     }
 
     public boolean hasName() {

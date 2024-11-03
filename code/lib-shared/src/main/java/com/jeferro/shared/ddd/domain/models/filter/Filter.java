@@ -1,17 +1,17 @@
-package com.jeferro.shared.ddd.domain.models.criteria;
+package com.jeferro.shared.ddd.domain.models.filter;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
 
 @Getter
-public abstract class Criteria extends ValueObject {
+public abstract class Filter extends ValueObject {
 
   private Integer pageNumber;
 
   private Integer pageSize;
 
-  public Criteria(Integer pageNumber, Integer pageSize) {
+  public Filter(Integer pageNumber, Integer pageSize) {
 	setPageNumber(pageNumber);
 	setPageSize(pageSize);
   }
