@@ -1,12 +1,13 @@
-package com.jeferro.products.products.products.domain.services;
+package com.jeferro.products.products.parametrics.infrastructure.in_memory;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.jeferro.products.products.products.domain.models.product_types.ProductType;
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
+import com.jeferro.products.parametrics.domain.models.ProductType;
+import com.jeferro.products.parametrics.domain.models.ProductTypeId;
+import com.jeferro.products.parametrics.domain.services.ProductTypeFinder;
 
 public class ProductTypeInMemoryFinder extends ProductTypeFinder {
 

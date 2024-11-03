@@ -7,9 +7,9 @@ import com.jeferro.products.products.products.application.params.CreateProductPa
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCodeMother;
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeMother;
+import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
-import com.jeferro.products.products.products.domain.services.ProductTypeInMemoryFinder;
+import com.jeferro.products.products.parametrics.infrastructure.in_memory.ProductTypeInMemoryFinder;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.shared.locale.domain.models.LocalizedField;

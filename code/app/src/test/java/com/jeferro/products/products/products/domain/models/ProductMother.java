@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.domain.models;
 
 import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
 
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeIdMother;
+import com.jeferro.products.products.parametrics.domain.models.ProductTypeIdMother;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductMother {

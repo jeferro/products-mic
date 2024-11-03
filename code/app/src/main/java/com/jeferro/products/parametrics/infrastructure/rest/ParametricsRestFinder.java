@@ -1,11 +1,11 @@
-package com.jeferro.products.products.products.infrastructure.parametrics_rest;
+package com.jeferro.products.parametrics.infrastructure.rest;
 
 import java.util.Optional;
 import java.util.Set;
 
-import com.jeferro.products.products.products.domain.models.product_types.ProductType;
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
-import com.jeferro.products.products.products.domain.services.ProductTypeFinder;
+import com.jeferro.products.parametrics.domain.models.ProductType;
+import com.jeferro.products.parametrics.domain.models.ProductTypeId;
+import com.jeferro.products.parametrics.domain.services.ProductTypeFinder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * This class mock integration with other system. This is a anti-corruption layer.
  */
 @Component
-public class ProductTypeParametricsRestFinder extends ProductTypeFinder {
+public class ParametricsRestFinder extends ProductTypeFinder {
 
   private final Set<ProductType> allowedTypeIds = Set.of(
 	  ProductType.createOf(

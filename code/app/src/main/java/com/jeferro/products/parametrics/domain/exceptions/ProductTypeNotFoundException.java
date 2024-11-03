@@ -1,6 +1,7 @@
-package com.jeferro.products.products.products.domain.exceptions;
+package com.jeferro.products.parametrics.domain.exceptions;
 
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
+import com.jeferro.products.parametrics.domain.models.ProductTypeId;
+import com.jeferro.products.products.products.domain.exceptions.ProductExceptionCodes;
 import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
 
 public class ProductTypeNotFoundException extends NotFoundException {

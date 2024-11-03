@@ -8,7 +8,7 @@ import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
-import com.jeferro.products.products.products.domain.models.product_types.ProductTypeId;
+import com.jeferro.products.parametrics.domain.models.ProductTypeId;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
