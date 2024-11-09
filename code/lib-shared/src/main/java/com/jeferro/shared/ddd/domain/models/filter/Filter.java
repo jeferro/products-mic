@@ -17,10 +17,13 @@ public abstract class Filter<Order> extends ValueObject {
 
   private Order order;
 
-  public Filter(Integer pageNumber, Integer pageSize, Order order) {
+  private boolean ascending;
+
+  public Filter(Integer pageNumber, Integer pageSize, Order order, Boolean ascending) {
 	setPageNumber(pageNumber);
 	setPageSize(pageSize);
 	setOrder(order);
+	setAscending(ascending);
   }
 
   private void setPageNumber(Integer pageNumber) {
@@ -44,7 +47,14 @@ public abstract class Filter<Order> extends ValueObject {
   }
 
   private void setOrder(Order order) {
-	ValueValidationUtils.isNotNull(order, "order", this);
 	this.order = order;
+  }
+
+  private boolean hasOrder() {
+	return order != null;
+  }
+
+  private void setAscending(Boolean ascending) {
+	this.ascending = ascending != null ? ascending : true;
   }
 }

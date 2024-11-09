@@ -28,28 +28,36 @@ paths:
       tags:
         - Products
       parameters:
-        - in: query
-          name: pageNumber
+        - name: pageNumber
+          in: query
+          required: false
           schema:
             type: integer
           description: Number of the page
-          required: true
-        - in: query
-          name: pageSize
+        - name: pageSize
+          in: query
+          required: false
           schema:
             type: integer
           description: Size of the page
-          required: true
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Name of the product
-        - in: query
-          name: order
+        - name: order
+          in: query
           schema:
             $ref: './products.yml#/components/schemas/ProductFilterOrder'
           description: Order of the result
+          required: false
+        - name: ascending
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Return data using ascending order
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Name of the product
       responses:
         '200':
           description: Ok
@@ -58,7 +66,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './products.yml#/components/schemas/Product'
+                  $ref: './products.yml#/components/schemas/ProductSummary'
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 

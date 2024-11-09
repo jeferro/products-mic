@@ -49,7 +49,7 @@ public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id
     }
 
     protected List<Aggregate> paginateEntities(List<Aggregate> entities, Filter<?> filter) {
-        int initialIndex = filter.getPageNumber() * filter.getPageSize();
+        int initialIndex = (filter.getPageNumber() - 1) * filter.getPageSize();
         int maxIndex = entities.size() - 1;
 
         if (initialIndex > maxIndex) {

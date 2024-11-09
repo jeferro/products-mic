@@ -20,12 +20,12 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
         return new Products(paginatedEntities);
     }
 
-    private boolean matchProduct(ProductFilter criteria, Product product) {
-        return matchProductName(criteria, product);
+    private boolean matchProduct(ProductFilter filter, Product product) {
+        return matchProductName(filter, product);
     }
 
-    private boolean matchProductName(ProductFilter criteria, Product product) {
-        return !criteria.hasName()
-                || product.getName().containsValue(criteria.getName());
+    private boolean matchProductName(ProductFilter filter, Product product) {
+        return !filter.hasName()
+                || product.getName().containsValue(filter.getName());
     }
 }
