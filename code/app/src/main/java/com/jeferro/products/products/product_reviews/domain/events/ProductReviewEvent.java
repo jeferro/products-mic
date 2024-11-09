@@ -29,7 +29,7 @@ public abstract class ProductReviewEvent extends Event {
   }
 
   private void setProductReviewId(ProductReviewId productReviewId) {
-	ValueValidationUtils.isNotNull(productReviewId, "Product review");
+	ValueValidationUtils.isNotNull(productReviewId, "productReview", this);
 	this.productReviewId = productReviewId;
   }
 }

@@ -18,7 +18,7 @@ public abstract class StringIdentifier extends Identifier {
   }
 
   private void setValue(String value) {
-	ValueValidationUtils.isNotBlank(value, "Value");
+	ValueValidationUtils.isNotBlank(value, "value", this);
 	this.value = value;
   }
 }

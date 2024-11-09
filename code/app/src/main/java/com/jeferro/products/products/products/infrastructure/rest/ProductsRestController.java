@@ -3,7 +3,9 @@ package com.jeferro.products.products.products.infrastructure.rest;
 import java.util.List;
 
 import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
+import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductOrderRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
@@ -20,8 +22,8 @@ public class ProductsRestController implements ProductsApi {
 	private final HandlerBus handlerBus;
 
 	@Override
-	public List<ProductRestDTO> searchProducts(Integer pageNumber, Integer pageSize, String name) {
-		var params = productRestMapper.toSearcProductsParams(pageNumber, pageSize, name);
+	public List<ProductRestDTO> searchProducts(Integer pageNumber, Integer pageSize, String name, ProductFilterOrderRestDTO order) {
+		var params = productRestMapper.toSearchProductsParams(pageNumber, pageSize, name, order);
 
 		var products = handlerBus.execute(params);
 

@@ -79,17 +79,17 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     private void setName(LocalizedField name) {
-        ValueValidationUtils.isNotNull(name, "Name");
+        ValueValidationUtils.isNotNull(name, "name", this);
         this.name = name;
     }
 
     private void setStatus(ProductStatus status) {
-        ValueValidationUtils.isNotNull(status, "Status");
+        ValueValidationUtils.isNotNull(status, "status", this);
         this.status = status;
     }
 
     public void setTypeId(ProductTypeId typeId) {
-        ValueValidationUtils.isNotNull(typeId, "Type id");
+        ValueValidationUtils.isNotNull(typeId, "typeId", this);
         this.typeId = typeId;
     }
 }

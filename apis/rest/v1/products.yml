@@ -10,6 +10,16 @@ components:
       example: '123456789'
 
   schemas:
+    ProductFilterOrder:
+      type: string
+      description: order of the product listing
+      enum:
+        - 'NAME'
+        - 'TYPE_ID'
+      x-enum-varnames:
+        - NAME
+        - TYPE_ID
+
     ProductStatus:
       type: string
       description: status of the product

@@ -42,17 +42,17 @@ public class ProductCreated extends ProductEvent {
   }
 
   public void setTypeId(ProductTypeId typeId) {
-	ValueValidationUtils.isNotNull(typeId, "Type id");
+	ValueValidationUtils.isNotNull(typeId, "typeId", this);
 	this.typeId = typeId;
   }
 
   public void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "Name");
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 
   public void setStatus(ProductStatus status) {
-	ValueValidationUtils.isNotNull(status, "Status");
+	ValueValidationUtils.isNotNull(status, "status", this);
 	this.status = status;
   }
 }

@@ -27,12 +27,12 @@ public class ProductType extends ValueObject {
   }
 
   public void setId(ProductTypeId id) {
-	ValueValidationUtils.isNotNull(id, "Id");
+	ValueValidationUtils.isNotNull(id, "id", this);
 	this.id = id;
   }
 
   public void setName(String name) {
-	ValueValidationUtils.isNotBlank(name, "Name");
+	ValueValidationUtils.isNotBlank(name, "name", this);
 	this.name = name;
   }
 }

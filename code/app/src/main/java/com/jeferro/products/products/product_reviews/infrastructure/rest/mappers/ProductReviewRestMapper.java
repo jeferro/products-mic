@@ -13,7 +13,7 @@ import com.jeferro.products.products.product_reviews.application.params.UpdatePr
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
-import com.jeferro.products.products.products.domain.models.ProductFilter;
+import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,9 +32,10 @@ public abstract class ProductReviewRestMapper {
 
   public abstract ProductReviewId toDomain(String productCode, String username);
 
-  public abstract ProductFilter toDomain(Integer pageNumber, Integer pageSize, String name);
-
-  public abstract SearchProductReviewParams toSearchProductsParams(String productCode);
+  public SearchProductReviewParams toSearchProductsParams(String productCodeRestDTO) {
+	var productCode = new ProductCode(productCodeRestDTO);
+	return new SearchProductReviewParams(productCode);
+  }
 
   public abstract CreateProductReviewParams toCreateProductReviewParams(String productCode,
 	  CreateProductReviewInputRestDTO inputRestDTO);

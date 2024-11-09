@@ -1,5 +1,6 @@
 package com.jeferro.products.products.products.infrastructure.rest.mappers;
 
+import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
@@ -11,7 +12,8 @@ import com.jeferro.products.products.products.application.params.UpdateProductPa
 import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
 import com.jeferro.shared.mappers.MapstructConfig;
 import com.jeferro.shared.mappers.PrimaryAggregateMapper;
 import org.mapstruct.Mapper;
@@ -23,13 +25,15 @@ public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, 
 
   public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 
-  public abstract ProductFilter toDomain(Integer pageNumber, Integer pageSize, String name);
-
-  public SearchProductsParams toSearcProductsParams(Integer pageNumber, Integer pageSize, String name) {
-	var productFilter = toDomain(pageNumber, pageSize, name);
+  public SearchProductsParams toSearchProductsParams(Integer pageNumber, Integer pageSize, String name,
+	  ProductFilterOrderRestDTO orderRestDTO) {
+	var order = toDomain(orderRestDTO);
+	var productFilter = new ProductFilter(pageNumber, pageSize, order, name);
 
 	return new SearchProductsParams(productFilter);
   }
+
+  public abstract ProductFilterOrder toDomain(ProductFilterOrderRestDTO orderRestDTO);
 
   @Mapping(target = "productCode.value", source = "code")
   public abstract CreateProductParams toCreateProductParams(ProductInputRestDTO productInputRestDTO);

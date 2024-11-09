@@ -22,12 +22,12 @@ public class UpdateProductParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product Code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 
   private void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "Name");
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 }

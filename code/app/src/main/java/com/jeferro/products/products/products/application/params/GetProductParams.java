@@ -18,7 +18,7 @@ public class GetProductParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 }

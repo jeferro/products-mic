@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.models.Products;
 
 public interface ProductsRepository {

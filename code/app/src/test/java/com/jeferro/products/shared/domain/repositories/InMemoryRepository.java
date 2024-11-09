@@ -48,11 +48,7 @@ public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id
         return aggregate.equals(saved);
     }
 
-    protected List<Aggregate> paginateEntities(List<Aggregate> entities, Filter filter) {
-        if (filter.isNotPageable()) {
-            return entities;
-        }
-
+    protected List<Aggregate> paginateEntities(List<Aggregate> entities, Filter<?> filter) {
         int initialIndex = filter.getPageNumber() * filter.getPageSize();
         int maxIndex = entities.size() - 1;
 

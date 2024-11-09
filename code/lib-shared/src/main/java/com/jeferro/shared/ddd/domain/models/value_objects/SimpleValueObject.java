@@ -20,7 +20,7 @@ public class SimpleValueObject<T extends Serializable> extends ValueObject {
   }
 
   private void setValue(T value) {
-	ValueValidationUtils.isNotNull(value, "Value");
+	ValueValidationUtils.isNotNull(value, "value", this);
 	this.value = value;
   }
 }

@@ -26,12 +26,12 @@ public class User extends AggregateRoot<Username> {
   }
 
   private void setEncodedPassword(String encodedPassword) {
-	ValueValidationUtils.isNotBlank(encodedPassword, "Encoded password");
+	ValueValidationUtils.isNotBlank(encodedPassword, "encodedPassword", this);
 	this.encodedPassword = encodedPassword;
   }
 
   private void setRoles(Set<String> roles) {
-	ValueValidationUtils.isNotEmpty(roles, "Roles");
+	ValueValidationUtils.isNotEmpty(roles, "roles", this);
 	this.roles = roles;
   }
 }

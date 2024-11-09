@@ -31,12 +31,12 @@ public class Context {
   }
 
   private void setAuth(Auth auth) {
-	ValueValidationUtils.isNotNull(auth, "Auth");
+	ValueValidationUtils.isNotNull(auth, "auth", this);
 	this.auth = auth;
   }
 
   private void setLocale(Locale locale) {
-	ValueValidationUtils.isNotNull(locale, "Locale");
+	ValueValidationUtils.isNotNull(locale, "locale", this);
 	this.locale = locale;
   }
 }

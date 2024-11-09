@@ -1,7 +1,7 @@
 package com.jeferro.products.products.products.infrastructure.mongo;
 
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.infrastructure.mongo.daos.ProductsMongoDao;
 import com.jeferro.products.products.products.infrastructure.mongo.dtos.ProductMongoDTO;
 import com.jeferro.products.products.products.domain.models.Product;

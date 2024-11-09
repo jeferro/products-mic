@@ -19,7 +19,7 @@ public abstract class ProductEvent extends Event {
   }
 
   private void setCode(ProductCode code) {
-	ValueValidationUtils.isNotNull(code, "Code");
+	ValueValidationUtils.isNotNull(code, "code", this);
 	this.code = code;
   }
 }

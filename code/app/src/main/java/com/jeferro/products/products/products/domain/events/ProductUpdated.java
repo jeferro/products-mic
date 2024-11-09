@@ -36,12 +36,12 @@ public class ProductUpdated extends ProductEvent {
   }
 
   public void setStatus(ProductStatus status) {
-	ValueValidationUtils.isNotNull(status, "Status");
+	ValueValidationUtils.isNotNull(status, "status", this);
 	this.status = status;
   }
 
   public void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "Name");
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 }

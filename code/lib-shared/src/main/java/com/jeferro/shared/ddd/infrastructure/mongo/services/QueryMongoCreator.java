@@ -4,14 +4,10 @@ import com.jeferro.shared.ddd.domain.models.filter.Filter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Query;
 
-public abstract class QueryMongoCreator<F extends Filter> {
+public abstract class QueryMongoCreator<F extends Filter<?>> {
 
   public Query create(F filter) {
-	Query query = createWithoutPagination(filter);
-
-	if (filter.isNotPageable()) {
-	  return query;
-	}
+	Query query = createQuery(filter);
 
 	int pageNumber = filter.getPageNumber();
 	int pageSize = filter.getPageSize();
@@ -23,5 +19,5 @@ public abstract class QueryMongoCreator<F extends Filter> {
 	return query;
   }
 
-  protected abstract Query createWithoutPagination(F filter);
+  protected abstract Query createQuery(F filter);
 }

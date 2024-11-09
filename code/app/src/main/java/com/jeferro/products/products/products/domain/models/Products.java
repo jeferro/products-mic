@@ -1,5 +1,6 @@
 package com.jeferro.products.products.products.domain.models;
 
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.shared.ddd.domain.models.aggregates.EntityCollection;
 
 import java.util.Arrays;

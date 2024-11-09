@@ -36,12 +36,12 @@ public class ProductReviewUpdated extends ProductReviewEvent {
     }
 
   private void setLocale(Locale locale){
-	ValueValidationUtils.isNotNull(locale, "Locale");
+	ValueValidationUtils.isNotNull(locale, "locale", this);
 	this.locale = locale;
   }
 
   private void setComment(String comment){
-	ValueValidationUtils.isNotNull(comment, "Comment");
+	ValueValidationUtils.isNotNull(comment, "comment", this);
 	this.comment = comment;
   }
 }

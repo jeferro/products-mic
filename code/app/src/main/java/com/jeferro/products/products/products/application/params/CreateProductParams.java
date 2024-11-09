@@ -28,17 +28,17 @@ public class CreateProductParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 
   public void setTypeId(ProductTypeId typeId) {
-	ValueValidationUtils.isNotNull(typeId, "Type id");
+	ValueValidationUtils.isNotNull(typeId, "typeId", this);
 	this.typeId = typeId;
   }
 
   private void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "Name");
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 }

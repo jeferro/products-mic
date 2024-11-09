@@ -18,7 +18,7 @@ public class DeleteProductParams extends Params<Product> {
   }
 
   private void setValidateProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 }

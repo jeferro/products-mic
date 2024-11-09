@@ -21,12 +21,12 @@ public class SignInParams extends Params<User> {
     }
 
   private void setUsername(Username username) {
-	  ValueValidationUtils.isNotNull(username, "Username");
+	  ValueValidationUtils.isNotNull(username, "username", this);
 	  this.username = username;
 	}
 
 	private void setPassword(String password) {
-	  ValueValidationUtils.isNotBlank(password, "Plain password");
+	  ValueValidationUtils.isNotBlank(password, "plainPassword", this);
 	  this.password = password;
 	}
 }

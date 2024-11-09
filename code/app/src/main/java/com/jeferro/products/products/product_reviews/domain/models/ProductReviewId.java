@@ -23,12 +23,12 @@ public class ProductReviewId extends Identifier {
   }
 
   private void setUsername(Username username) {
-	ValueValidationUtils.isNotNull(username, "Username");
+	ValueValidationUtils.isNotNull(username, "username", this);
 	this.username = username;
   }
 
   private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 }

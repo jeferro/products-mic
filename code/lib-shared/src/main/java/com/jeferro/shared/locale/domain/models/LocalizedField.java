@@ -3,8 +3,6 @@ package com.jeferro.shared.locale.domain.models;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
@@ -42,7 +40,7 @@ public class LocalizedField extends ValueObject {
   }
 
   private void setValues(Map<String, String> values) {
-	ValueValidationUtils.isNotNull(values, "Values");
+	ValueValidationUtils.isNotNull(values, "values", this);
 	this.values = values;
   }
 
@@ -70,9 +68,5 @@ public class LocalizedField extends ValueObject {
 	return values.values().stream()
 		.map(String::toLowerCase)
 		.anyMatch(translation -> translation.contains(target));
-  }
-
-  public Stream<Entry<String, String>> entrySetStream() {
-	return values.entrySet().stream();
   }
 }

@@ -22,12 +22,12 @@ public class UpdateProductStatusParams extends Params<Product> {
   }
 
   private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "Product code");
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 
   private void setStatus(ProductStatus status) {
-	ValueValidationUtils.isNotNull(status, "Status");
+	ValueValidationUtils.isNotNull(status, "status", this);
 	this.status = status;
   }
 }

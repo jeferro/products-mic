@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.domain.repositories;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.shared.domain.repositories.InMemoryRepository;
 
@@ -25,7 +25,7 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
     }
 
     private boolean matchProductName(ProductFilter criteria, Product product) {
-        return criteria.hasNotName()
+        return !criteria.hasName()
                 || product.getName().containsValue(criteria.getName());
     }
 }

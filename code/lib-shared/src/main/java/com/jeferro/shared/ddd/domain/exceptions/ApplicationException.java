@@ -18,12 +18,12 @@ public abstract class ApplicationException extends RuntimeException {
     }
 
     private void setCode(String code) {
-        ValueValidationUtils.isNotBlank(code, "Code");
+        ValueValidationUtils.isNotBlank(code, "code", this);
         this.code = code;
     }
 
     private void setTitle(String title) {
-        ValueValidationUtils.isNotBlank(title, "Title");
+        ValueValidationUtils.isNotBlank(title, "title", this);
         this.title = title;
     }
 }

@@ -45,6 +45,11 @@ paths:
           schema:
             type: string
           description: Name of the product
+        - in: query
+          name: order
+          schema:
+            $ref: './products.yml#/components/schemas/ProductFilterOrder'
+          description: Order of the result
       responses:
         '200':
           description: Ok
