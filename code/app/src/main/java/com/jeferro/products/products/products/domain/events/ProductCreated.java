@@ -1,9 +1,10 @@
 package com.jeferro.products.products.products.domain.events;
 
+import com.jeferro.products.parametrics.domain.models.ParametricValueId;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.products.parametrics.domain.models.ProductTypeId;
+import com.jeferro.products.parametrics.domain.models.ParametricId;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
@@ -12,16 +13,16 @@ import lombok.Getter;
 @Getter
 public class ProductCreated extends ProductEvent {
 
-  private ProductTypeId typeId;
-
   private LocalizedField name;
+
+  private ParametricValueId typeId;
 
   private ProductStatus status;
 
   private ProductCreated(EventId id,
 	  ProductCode code,
-	  ProductTypeId typeId,
 	  LocalizedField name,
+	  ParametricValueId typeId,
 	  ProductStatus status) {
 	super(id, code);
 
@@ -38,10 +39,10 @@ public class ProductCreated extends ProductEvent {
 	var name = product.getName();
 	var status = product.getStatus();
 
-	return new ProductCreated(id, code, typeId, name, status);
+	return new ProductCreated(id, code, name, typeId, status);
   }
 
-  public void setTypeId(ProductTypeId typeId) {
+  public void setTypeId(ParametricValueId typeId) {
 	ValueValidationUtils.isNotNull(typeId, "typeId", this);
 	this.typeId = typeId;
   }

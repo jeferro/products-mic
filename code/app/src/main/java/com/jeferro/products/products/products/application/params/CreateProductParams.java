@@ -1,8 +1,8 @@
 package com.jeferro.products.products.products.application.params;
 
+import com.jeferro.products.parametrics.domain.models.ParametricValueId;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.parametrics.domain.models.ProductTypeId;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
@@ -13,12 +13,12 @@ public class CreateProductParams extends Params<Product> {
 
   private ProductCode productCode;
 
-  private ProductTypeId typeId;
+  private ParametricValueId typeId;
 
   private LocalizedField name;
 
   public CreateProductParams(ProductCode productCode,
-	  ProductTypeId typeId,
+	  ParametricValueId typeId,
 	  LocalizedField name) {
 	super();
 
@@ -32,7 +32,7 @@ public class CreateProductParams extends Params<Product> {
 	this.productCode = productCode;
   }
 
-  public void setTypeId(ProductTypeId typeId) {
+  public void setTypeId(ParametricValueId typeId) {
 	ValueValidationUtils.isNotNull(typeId, "typeId", this);
 	this.typeId = typeId;
   }

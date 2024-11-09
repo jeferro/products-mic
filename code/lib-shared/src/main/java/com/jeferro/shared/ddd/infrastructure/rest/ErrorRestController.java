@@ -1,7 +1,7 @@
 package com.jeferro.shared.ddd.infrastructure.rest;
 
 import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
-import com.jeferro.shared.ddd.domain.exceptions.ConstraintException;
+import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
 import com.jeferro.shared.ddd.domain.exceptions.InternalErrorException;
 import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
 import com.jeferro.shared.ddd.domain.exceptions.ValueValidationException;
@@ -64,7 +64,7 @@ public class ErrorRestController {
 
   @ResponseBody
   @ExceptionHandler(value = {
-	  ConstraintException.class
+	  ConflictException.class
   })
   public ResponseEntity<ProblemDetail> handleConstraint(Exception cause) {
 	return problemDetailRestMapper.toDTO(HttpStatus.CONFLICT, cause);

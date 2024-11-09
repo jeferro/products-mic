@@ -39,6 +39,13 @@ public class LocalizedField extends ValueObject {
 	return new LocalizedField(values);
   }
 
+  public static LocalizedField createOfUS(String value) {
+	var values = new HashMap<String, String>();
+	values.put("en-US", value);
+
+	return new LocalizedField(values);
+  }
+
   private void setValues(Map<String, String> values) {
 	ValueValidationUtils.isNotNull(values, "values", this);
 	this.values = values;

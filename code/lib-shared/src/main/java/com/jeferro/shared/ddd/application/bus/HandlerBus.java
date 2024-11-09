@@ -7,7 +7,7 @@ import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.application.Handlers;
 import com.jeferro.shared.ddd.application.SilentHandler;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.ConstraintException;
+import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
 import com.jeferro.shared.ddd.domain.exceptions.InternalErrorException;
 import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
 import com.jeferro.shared.ddd.domain.exceptions.auth.ForbiddenException;
@@ -46,7 +46,7 @@ public abstract class HandlerBus {
 	  logErrorExecution(startAt, context, handler, params, cause);
 
 	  if (cause instanceof NotFoundException
-		  || cause instanceof ConstraintException) {
+		  || cause instanceof ConflictException) {
 		throw cause;
 	  }
 

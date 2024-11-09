@@ -1,20 +1,19 @@
-package com.jeferro.shared.ddd.domain.models.aggregates;
+package com.jeferro.shared.ddd.domain.models.projection;
 
-import com.jeferro.shared.ddd.domain.models.projection.Projection;
-import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
+import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-
 @Getter
-public class Entity<ID extends Identifier> {
+public class Projection<ID extends Identifier> {
 
     protected final ID id;
 
-    public Entity(ID id) {
+    public Projection(ID id) {
         this.id = id;
     }
 
@@ -37,14 +36,15 @@ public class Entity<ID extends Identifier> {
             return true;
         }
 
-        if (getClass() != other.getClass()) {
-            return false;
-        }
+		if (getClass() != other.getClass()) {
+			return false;
+		}
 
-        var otherProjection = (Entity<ID>) other;
+	  var otherProjection = (Projection<ID>) other;
 
-        return hasSameId(otherProjection.id);
-    }
+	  return hasSameId(otherProjection.id);
+
+	}
 
     @Override
     public String toString() {
