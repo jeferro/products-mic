@@ -17,6 +17,8 @@ public class AvroGeneratorTask implements Action<Task> {
 
   private static final String TASK_ID = "avroGeneratorTask";
 
+  public static final String IMPORTS_FILENAME = "imports.avsc";
+
   private final File schemaDir;
 
   private final File targetDir;
@@ -70,7 +72,7 @@ public class AvroGeneratorTask implements Action<Task> {
 	for (File file : directory.listFiles()) {
 	  if (file.isDirectory()) {
 		schemaFiles.addAll(getAvroFilesRecursively(file));
-	  } else if (file.getName().matches("imports.avsc")) {
+	  } else if (file.getName().matches(IMPORTS_FILENAME)) {
 		schemaFiles.addFirst(file);
 	  } else {
 		schemaFiles.add(file);
