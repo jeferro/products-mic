@@ -3,10 +3,11 @@ package com.jeferro.products.products.products.infrastructure.rest;
 import java.util.List;
 
 import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
+import com.jeferro.products.generated.rest.v1.dtos.CreateProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductSummaryRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.UpdateProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
 import com.jeferro.shared.ddd.application.bus.HandlerBus;
@@ -34,8 +35,8 @@ public class ProductsRestController implements ProductsApi {
   }
 
   @Override
-  public ProductRestDTO createProduct(ProductInputRestDTO productInputRestDTO) {
-	var params = productRestMapper.toCreateProductParams(productInputRestDTO);
+  public ProductRestDTO createProduct(CreateProductInputRestDTO createProductInputRestDTO) {
+	var params = productRestMapper.toCreateProductParams(createProductInputRestDTO);
 
 	var product = handlerBus.execute(params);
 
@@ -52,8 +53,8 @@ public class ProductsRestController implements ProductsApi {
   }
 
   @Override
-  public ProductRestDTO updateProduct(String productCode, ProductInputRestDTO productInputRestDTO) {
-	var params = productRestMapper.toUpdateProductParams(productCode, productInputRestDTO);
+  public ProductRestDTO updateProduct(String productCode, UpdateProductInputRestDTO updateProductInputRestDTO) {
+	var params = productRestMapper.toUpdateProductParams(productCode, updateProductInputRestDTO);
 
 	var user = handlerBus.execute(params);
 

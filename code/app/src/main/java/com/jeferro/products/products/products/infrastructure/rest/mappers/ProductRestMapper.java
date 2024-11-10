@@ -2,10 +2,11 @@ package com.jeferro.products.products.products.infrastructure.rest.mappers;
 
 import java.util.List;
 
+import com.jeferro.products.generated.rest.v1.dtos.CreateProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.ProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductSummaryRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.UpdateProductInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
@@ -42,13 +43,12 @@ public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, 
 
   public abstract ProductFilterOrder toDomain(ProductFilterOrderRestDTO orderRestDTO);
 
-  @Mapping(target = "productCode.value", source = "code")
-  public abstract CreateProductParams toCreateProductParams(ProductInputRestDTO productInputRestDTO);
+  public abstract CreateProductParams toCreateProductParams(CreateProductInputRestDTO productInputRestDTO);
 
   public abstract GetProductParams toGetProductParams(String productCode);
 
   @Mapping(target = "name", source = "inputRestDTO.name")
-  public abstract UpdateProductParams toUpdateProductParams(String productCode, ProductInputRestDTO inputRestDTO);
+  public abstract UpdateProductParams toUpdateProductParams(String productCode, UpdateProductInputRestDTO inputRestDTO);
 
   @Mapping(target = "status", source = "inputRestDTO.status")
   public abstract UpdateProductStatusParams toUpdateProductStatusParams(

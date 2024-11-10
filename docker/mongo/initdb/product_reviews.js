@@ -2,7 +2,7 @@ let now = new Date()
 
 db['product_reviews'].insertMany([
     {
-        _id: "user::apple",
+        _id: "user::1",
         username: "user",
         productCode: "apple",
         locale: "en-US",
@@ -15,7 +15,7 @@ db['product_reviews'].insertMany([
         }
     },
     {
-        _id: "admin::apple",
+        _id: "admin::0000001",
         username: "admin",
         productCode: "apple",
         locale: "en-US",
@@ -28,7 +28,7 @@ db['product_reviews'].insertMany([
         }
     },
     {
-        _id: "user::kiwi",
+        _id: "user::0000002",
         username: "user",
         productCode: "kiwi",
         locale: "en-US",

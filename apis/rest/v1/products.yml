@@ -85,22 +85,32 @@ components:
         status:
           $ref: '#/components/schemas/ProductStatus'
 
-    ProductInput:
+    CreateProductInput:
       type: object
-      description: Upsert product input
+      description: Create product input
       required:
-        - code
         - typeId
         - name
       properties:
-        code:
-          type: string
-          description: Identifier of product
-          example: '123456789'
         typeId:
           type: string
           description: Identifier of the product type
           example: 'fruit'
+        name:
+          type: object
+          additionalProperties:
+            type: string
+          description: Name of the product
+          example:
+            es: 'Manzana'
+            en: 'Apple'
+
+    UpdateProductInput:
+      type: object
+      description: Create product input
+      required:
+        - name
+      properties:
         name:
           type: object
           additionalProperties:

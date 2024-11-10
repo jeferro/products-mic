@@ -6,11 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.jeferro.products.parametrics.domain.services.ParametricValidator;
 import com.jeferro.products.parametrics.infrastructure.parametrics_rest.ParametricRestFinder;
 import com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient.ParametricMockRestClient;
+import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.models.Product;
-import com.jeferro.products.products.products.domain.models.ProductCodeMother;
-import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
@@ -45,9 +44,8 @@ class CreateProductHandlerTest {
 	var fruit = ProductTypeMother.fruit();
 
 	var userContext = ContextMother.user();
-	var code = ProductCodeMother.appleCode();
 	var name = LocalizedField.createOf("en-US", "Apple");
-	var params = new CreateProductParams(code, fruit.getId(), name);
+	var params = new CreateProductParams(fruit.getId(), name);
 
 	var result = createProductHandler.execute(userContext, params);
 

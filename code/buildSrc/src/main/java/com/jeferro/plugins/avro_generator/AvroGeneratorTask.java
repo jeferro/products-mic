@@ -42,8 +42,8 @@ public class AvroGeneratorTask implements Action<Task> {
 	private void doLast(Task task) {
 		try {
 			var avroFiles = getAvroFiles(schemaDir);
-
-		  Schema.Parser parser = new Schema.Parser();
+		  SpecificCompiler.compileSchema(avroFiles, targetDir);
+		  /*Schema.Parser parser = new Schema.Parser();
 
 		  for(var avroFile : avroFiles){
 			Schema schema = parser.parse(avroFile);
@@ -51,7 +51,7 @@ public class AvroGeneratorTask implements Action<Task> {
 			SpecificCompiler compiler = new SpecificCompiler(schema);
 			compiler.setStringType(StringType.String);
 			compiler.compileToDestination(avroFile, targetDir);
-		  }
+		  }*/
 		} catch (IOException cause) {
 			throw new RuntimeException(cause);
 		}

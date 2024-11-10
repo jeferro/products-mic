@@ -10,6 +10,11 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
         implements ProductsRepository {
 
     @Override
+    public ProductCode nextId() {
+        return new ProductCode("1");
+    }
+
+    @Override
     public Products findAll(ProductFilter filter) {
         var entities = data.values().stream()
                 .filter(product -> matchProduct(filter, product))

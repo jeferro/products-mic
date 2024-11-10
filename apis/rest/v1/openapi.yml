@@ -81,7 +81,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './products.yml#/components/schemas/ProductInput'
+              $ref: './products.yml#/components/schemas/CreateProductInput'
       responses:
         '200':
           description: Ok
@@ -124,7 +124,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './products.yml#/components/schemas/ProductInput'
+              $ref: './products.yml#/components/schemas/UpdateProductInput'
       responses:
         '200':
           description: Ok

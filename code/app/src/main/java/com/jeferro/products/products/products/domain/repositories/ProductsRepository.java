@@ -10,6 +10,8 @@ import com.jeferro.products.products.products.domain.models.Products;
 
 public interface ProductsRepository {
 
+    ProductCode nextId();
+
     void save(Product product);
 
     Optional<Product> findById(ProductCode productCode);

@@ -11,25 +11,16 @@ import lombok.Getter;
 @Getter
 public class CreateProductParams extends Params<Product> {
 
-  private ProductCode productCode;
-
   private ParametricValueId typeId;
 
   private LocalizedField name;
 
-  public CreateProductParams(ProductCode productCode,
-	  ParametricValueId typeId,
+  public CreateProductParams(ParametricValueId typeId,
 	  LocalizedField name) {
 	super();
 
-	setProductCode(productCode);
 	setTypeId(typeId);
 	setName(name);
-  }
-
-  private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "productCode", this);
-	this.productCode = productCode;
   }
 
   public void setTypeId(ParametricValueId typeId) {
