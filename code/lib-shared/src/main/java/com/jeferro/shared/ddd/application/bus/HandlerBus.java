@@ -46,7 +46,8 @@ public abstract class HandlerBus {
 	  logErrorExecution(startAt, context, handler, params, cause);
 
 	  if (cause instanceof NotFoundException
-		  || cause instanceof ConflictException) {
+		  || cause instanceof ConflictException
+		  || cause instanceof ForbiddenException) {
 		throw cause;
 	  }
 

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
 import com.jeferro.shared.ddd.infrastructure.mongo.services.QueryMongoCreator;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilter> {
+public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilterOrder, ProductFilter> {
 
     @Override
     protected List<Criteria> mapFilter(ProductFilter filter) {
@@ -27,10 +27,14 @@ public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilter> {
     }
 
     @Override
-    protected String mapOrder(ProductFilter filter) {
-        return switch (filter.getOrder()) {
+    protected String mapOrder(ProductFilterOrder order) {
+        if(order == null) {
+            return "name";
+        }
+
+        return switch (order) {
             case TYPE_ID -> "typeId";
-            default -> "name";
+            case NAME -> "name";
         };
     }
 }

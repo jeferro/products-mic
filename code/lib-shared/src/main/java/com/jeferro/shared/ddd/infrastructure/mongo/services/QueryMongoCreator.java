@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-public abstract class QueryMongoCreator<F extends Filter<?>> {
+public abstract class QueryMongoCreator<Order, F extends Filter<Order>> {
 
   public Query create(F filter) {
 	var query = createQuery(filter);
@@ -24,7 +24,7 @@ public abstract class QueryMongoCreator<F extends Filter<?>> {
   }
 
   private Sort createSort(F filter) {
-	String sortBy = mapOrder(filter);
+	String sortBy = mapOrder(filter.getOrder());
 	Sort.Direction sortDirection = filter.isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC;
 	return Sort.by(sortDirection, sortBy);
   }
@@ -47,5 +47,5 @@ public abstract class QueryMongoCreator<F extends Filter<?>> {
 
   protected abstract List<Criteria> mapFilter(F filter);
 
-  protected abstract String mapOrder(F filter);
+  protected abstract String mapOrder(Order order);
 }
