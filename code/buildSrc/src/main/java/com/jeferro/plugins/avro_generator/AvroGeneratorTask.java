@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.avro.Schema;
 import org.apache.avro.compiler.specific.SpecificCompiler;
+import org.apache.avro.generic.GenericData.StringType;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -40,16 +42,16 @@ public class AvroGeneratorTask implements Action<Task> {
   private void doLast(Task task) {
 	try {
 	  var avroFiles = getAvroFiles(schemaDir);
-	  SpecificCompiler.compileSchema(avroFiles, targetDir);
-		  /*Schema.Parser parser = new Schema.Parser();
+	  //SpecificCompiler.compileSchema(avroFiles, targetDir);
+	  Schema.Parser parser = new Schema.Parser();
 
-		  for(var avroFile : avroFiles){
-			Schema schema = parser.parse(avroFile);
+	  for (var avroFile : avroFiles) {
+		Schema schema = parser.parse(avroFile);
 
-			SpecificCompiler compiler = new SpecificCompiler(schema);
-			compiler.setStringType(StringType.String);
-			compiler.compileToDestination(avroFile, targetDir);
-		  }*/
+		SpecificCompiler compiler = new SpecificCompiler(schema);
+		compiler.setStringType(StringType.String);
+		compiler.compileToDestination(avroFile, targetDir);
+	  }
 	} catch (IOException cause) {
 	  throw new RuntimeException(cause);
 	}
