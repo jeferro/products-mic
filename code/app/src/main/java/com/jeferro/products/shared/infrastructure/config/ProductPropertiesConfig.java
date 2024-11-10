@@ -1,4 +1,4 @@
-package com.jeferro.products.shared.infrastructure.properties;
+package com.jeferro.products.shared.infrastructure.config;
 
 import com.jeferro.products.shared.domain.config.ProductConfig;
 import lombok.Getter;
