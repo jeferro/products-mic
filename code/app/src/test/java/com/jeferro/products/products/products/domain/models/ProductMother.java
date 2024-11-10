@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.domain.models;
 
-import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.PUBLISHED;
 
 import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.shared.locale.domain.models.LocalizedField;

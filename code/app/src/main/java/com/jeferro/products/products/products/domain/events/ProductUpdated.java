@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.domain.events;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductStatus;
+import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;

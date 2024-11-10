@@ -12,7 +12,7 @@ public class EventInMemoryBus extends EventBus {
   private final List<Event> events = new ArrayList<>();
 
   @Override
-  protected void publish(Event event) {
+  protected void send(Event event) {
 	events.add(event);
   }
 

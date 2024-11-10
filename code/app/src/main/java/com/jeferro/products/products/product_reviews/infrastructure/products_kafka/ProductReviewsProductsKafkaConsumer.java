@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 	topics = "${application.products.topic}",
 	groupId = "${application.product-reviews.consumer-group-id}"
 )
-public class ProductReviewsProductsKafkaListener {
+public class ProductReviewsProductsKafkaConsumer {
 
-  private static final Logger logger = LoggerFactory.getLogger(ProductReviewsProductsKafkaListener.class);
+  private static final Logger logger = LoggerFactory.getLogger(ProductReviewsProductsKafkaConsumer.class);
 
   private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
 

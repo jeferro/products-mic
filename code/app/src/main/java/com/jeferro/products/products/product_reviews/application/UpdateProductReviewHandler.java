@@ -49,7 +49,7 @@ public class UpdateProductReviewHandler extends Handler<UpdateProductReviewParam
 
 	productReviewsRepository.save(productReview);
 
-	eventBus.publishAll(productReview);
+	eventBus.sendAll(productReview);
 
 	return productReview;
   }

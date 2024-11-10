@@ -1,4 +1,4 @@
-package com.jeferro.shared.ddd.domain.models.aggregates;
+package com.jeferro.shared.ddd.domain.models.projection;
 
 import static java.util.stream.Collectors.toList;
 
@@ -11,11 +11,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
 import lombok.Getter;
 
 @Getter
-public abstract class EntityCollection<I extends Identifier, E extends Entity<I>>
+public abstract class ProjectionCollection<I extends Identifier, E extends Projection<I>>
 	extends ValueObject
 	implements Collection<E> {
 
@@ -27,15 +28,15 @@ public abstract class EntityCollection<I extends Identifier, E extends Entity<I>
 
   protected List<E> items;
 
-  public EntityCollection() {
-	this(null, null, null, 0L);
+  public ProjectionCollection() {
+	this(null);
   }
 
-  public EntityCollection(List<E> items) {
+  public ProjectionCollection(List<E> items) {
 	this(items, null, null, 0L);
   }
 
-  public EntityCollection(List<E> items, Integer pageSize, Integer pageNumber, long totalPages) {
+  public ProjectionCollection(List<E> items, Integer pageSize, Integer pageNumber, long totalPages) {
 	setItems(items);
 	setPageSize(pageSize);
 	setPageNumber(pageNumber);
@@ -132,13 +133,13 @@ public abstract class EntityCollection<I extends Identifier, E extends Entity<I>
 
   public List<I> getIds() {
 	return items.stream()
-		.map(Entity::getId)
+		.map(Projection::getId)
 		.collect(toList());
   }
 
   public Stream<I> streamIds() {
 	return items.stream()
-		.map(Entity::getId);
+		.map(Projection::getId);
   }
 
   public boolean containsId(I id) {

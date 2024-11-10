@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Products extends EntityCollection<ProductCode, Product> {
 
+    public Products() {
+        super();
+    }
+
     public Products(List<Product> entities) {
         super(entities);
     }
@@ -21,8 +25,8 @@ public class Products extends EntityCollection<ProductCode, Product> {
         return new Products(entities);
     }
 
-    public static Products createOfFilter(List<Product> entities, ProductFilter filter, Long totalEntities) {
-        return new Products(entities,
+    public static Products createOfFilter(List<Product> products, ProductFilter filter, Long totalEntities) {
+        return new Products(products,
             filter.getPageSize(),
             filter.getPageNumber(),
             totalEntities);

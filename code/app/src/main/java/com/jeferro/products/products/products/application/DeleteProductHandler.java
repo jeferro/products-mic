@@ -46,6 +46,6 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 
         productsRepository.deleteById(product.getCode());
 
-        eventBus.publishAll(product);
+        eventBus.sendAll(product);
     }
 }

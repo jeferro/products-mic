@@ -46,7 +46,7 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
 
         productsRepository.save(product);
 
-        eventBus.publishAll(product);
+        eventBus.sendAll(product);
 
         return product;
     }

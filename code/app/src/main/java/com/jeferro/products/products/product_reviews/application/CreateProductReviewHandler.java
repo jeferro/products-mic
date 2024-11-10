@@ -68,7 +68,7 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
 
 	productReviewsRepository.save(productReview);
 
-	eventBus.publishAll(productReview);
+	eventBus.sendAll(productReview);
 	return productReview;
   }
 }

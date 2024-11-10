@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.application.params;
 
-import com.jeferro.products.parametrics.domain.models.ParametricValueId;
+import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.application.params.Params;

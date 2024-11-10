@@ -1,4 +1,4 @@
-package com.jeferro.products.parametrics.domain.models;
+package com.jeferro.products.parametrics.domain.models.values;
 
 import com.jeferro.shared.ddd.domain.models.aggregates.StringIdentifier;
 

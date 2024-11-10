@@ -1,6 +1,3 @@
-version: '3.9'
-
-
 volumes:
   mongodb-data:
 
@@ -14,7 +11,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: test
+      MONGO_INITDB_DATABASE: products
     ports:
       - "27017:27017"
     volumes:

@@ -42,7 +42,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 
 	productReviewsRepository.deleteAllById(productReviewIds);
 
-	eventBus.publishAll(productReviews);
+	eventBus.sendAll(productReviews);
 
 	return null;
   }

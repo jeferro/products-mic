@@ -1,6 +1,4 @@
-package com.jeferro.products.parametrics.domain.models;
-
-import java.util.List;
+package com.jeferro.products.parametrics.domain.models.values;
 
 import com.jeferro.shared.ddd.domain.models.projection.Projection;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
@@ -14,13 +12,13 @@ public class ParametricValue extends Projection<ParametricValueId> {
 
   private String value;
 
-  private List<ParametricValue> values;
+  private ParametricValues values;
 
   public ParametricValue(
 	  ParametricValueId id,
 	  LocalizedField name,
 	  String value,
-	  List<ParametricValue> values) {
+	  ParametricValues values) {
 	super(id);
 
 	setName(name);
@@ -41,7 +39,7 @@ public class ParametricValue extends Projection<ParametricValueId> {
 	this.value = value;
   }
 
-  private void setValues(List<ParametricValue> values) {
+  private void setValues(ParametricValues values) {
 	this.values = values;
   }
 }

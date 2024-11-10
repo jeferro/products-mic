@@ -1,14 +1,15 @@
 package com.jeferro.products.products.products.domain.models;
 
-import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
-import static com.jeferro.products.products.products.domain.models.ProductStatus.UNPUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.PUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.UNPUBLISHED;
 
-import com.jeferro.products.parametrics.domain.models.ParametricValueId;
+import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
+import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;

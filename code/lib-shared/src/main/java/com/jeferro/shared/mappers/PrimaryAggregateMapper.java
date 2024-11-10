@@ -9,11 +9,11 @@ import com.jeferro.shared.ddd.domain.models.aggregates.EntityCollection;
 import com.jeferro.shared.ddd.domain.models.aggregates.StringIdentifier;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 
-public abstract class PrimaryAggregateMapper<T extends AggregateRoot<ID>,
-	ID extends StringIdentifier,
+public abstract class PrimaryAggregateMapper<Aggregate extends AggregateRoot<Identifier>,
+	Identifier extends StringIdentifier,
 	DTO> {
 
-  public abstract DTO toDTO(T entity);
+  public abstract DTO toDTO(Aggregate entity);
 
   protected LocalizedField toDomain(Map<String, String> values) {
 	return new LocalizedField(values);
@@ -25,7 +25,7 @@ public abstract class PrimaryAggregateMapper<T extends AggregateRoot<ID>,
 	return entity.getValues(locale);
   }
 
-  public List<DTO> toDTO(EntityCollection<ID, T> entities) {
+  public List<DTO> toDTO(EntityCollection<Identifier, Aggregate> entities) {
 	return entities.map(this::toDTO).toList();
   }
 }

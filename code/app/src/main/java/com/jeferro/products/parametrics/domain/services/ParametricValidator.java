@@ -1,7 +1,7 @@
 package com.jeferro.products.parametrics.domain.services;
 
 import com.jeferro.products.parametrics.domain.models.ParametricId;
-import com.jeferro.products.parametrics.domain.models.ParametricValueId;
+import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

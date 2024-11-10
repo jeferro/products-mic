@@ -5,7 +5,7 @@ components:
     schema-registry-url: http://localhost:8081
 
   mongodb:
-    uri: mongodb://root:root@127.0.0.1:27017/test?authSource=admin
+    uri: mongodb://root:root@127.0.0.1:27017/products?authSource=admin
 
   rest:
     security:

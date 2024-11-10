@@ -46,7 +46,7 @@ public class DeleteProductReviewHandler extends Handler<DeleteProductReviewParam
 
 	productReviewsRepository.deleteById(productReview.getId());
 
-	eventBus.publishAll(productReview);
+	eventBus.sendAll(productReview);
 
 	return productReview;
   }

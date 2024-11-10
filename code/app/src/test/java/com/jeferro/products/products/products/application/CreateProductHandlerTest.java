@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.parametrics.domain.services.ParametricValidator;
-import com.jeferro.products.parametrics.infrastructure.rest.ParametricsInMemoryFinder;
+import com.jeferro.products.parametrics.infrastructure.parametrics_rest.ParametricRestFinder;
+import com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient.ParametricMockRestClient;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.models.Product;
@@ -30,7 +31,8 @@ class CreateProductHandlerTest {
 	eventInMemoryBus = new EventInMemoryBus();
 	productsInMemoryRepository = new ProductsInMemoryRepository();
 
-	var parametricFinder = new ParametricsInMemoryFinder();
+	var parametricMockRestClient = new ParametricMockRestClient();
+	var parametricFinder = new ParametricRestFinder(parametricMockRestClient);
 	var parametricValidator = new ParametricValidator(parametricFinder);
 
 	createProductHandler = new CreateProductHandler(productsInMemoryRepository,

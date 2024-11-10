@@ -55,7 +55,7 @@ public class CreateProductHandler extends Handler<CreateProductParams, Product> 
 
         productsRepository.save(product);
 
-        eventBus.publishAll(product);
+        eventBus.sendAll(product);
 
         return product;
     }
