@@ -18,8 +18,6 @@ logging:
     root: WARN
     com.jeferro: INFO
 
-topics:
-
 application:
   products:
     topic: com.jeferro.${metadata.application-id}.products.${metadata.environment}.v1
@@ -27,3 +25,4 @@ application:
   product-reviews:
     topic: com.jeferro.${metadata.application-id}.product-reviews.${metadata.environment}.v1
     consumer-group-id: ${metadata.application-id}.product-reviews.${metadata.environment}
+    products-topic: ${application.products.topic}

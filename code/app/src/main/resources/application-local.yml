@@ -1,12 +1,14 @@
 
-components:
+spring:
   kafka:
     bootstrap-servers: localhost:9092
-    schema-registry-url: http://localhost:8081
+    schema.registry.url: http://localhost:8081
 
-  mongodb:
-    uri: mongodb://root:root@127.0.0.1:27017/products?authSource=admin
+  data:
+    mongodb:
+      uri: mongodb://root:root@127.0.0.1:27017/products?authSource=admin
 
+components:
   rest:
     security:
       issuer: "products"
