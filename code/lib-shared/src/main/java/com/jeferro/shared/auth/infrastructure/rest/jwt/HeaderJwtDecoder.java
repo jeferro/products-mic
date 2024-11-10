@@ -15,7 +15,7 @@ import com.jeferro.shared.auth.infrastructure.rest.configurations.RestSecurityPr
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtDecoder {
+public class HeaderJwtDecoder {
 
   private static final String BEARER_PREFIX = "Bearer ";
 
@@ -27,7 +27,7 @@ public class JwtDecoder {
 
   private final JWTVerifier jwtVerifier;
 
-  public JwtDecoder(RestSecurityProperties restSecurityProperties) {
+  public HeaderJwtDecoder(RestSecurityProperties restSecurityProperties) {
 	hmac512 = Algorithm.HMAC512(restSecurityProperties.issuer());
 	jwtVerifier = JWT.require(hmac512).build();
 
@@ -73,6 +73,6 @@ public class JwtDecoder {
 	  jwtBuilder.withExpiresAt(expiresAt);
 	}
 
-	return jwtBuilder.sign(hmac512);
+	return BEARER_PREFIX + jwtBuilder.sign(hmac512);
   }
 }
