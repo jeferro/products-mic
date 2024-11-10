@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.shared.auth.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 

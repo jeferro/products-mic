@@ -2,8 +2,8 @@ package com.jeferro.products.shared.domain.models.auth;
 
 import java.util.Set;
 
-import static com.jeferro.shared.auth.application.Roles.ADMIN;
-import static com.jeferro.shared.auth.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.ADMIN;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import com.jeferro.shared.ddd.domain.models.auth.AnonymousAuth;
 import com.jeferro.shared.ddd.domain.models.auth.SystemAuth;

@@ -1,6 +1,6 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.auth.application.Roles.ADMIN;
+import static com.jeferro.products.shared.application.Roles.ADMIN;
 
 import java.util.Set;
 
