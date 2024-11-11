@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
@@ -72,7 +72,7 @@ class DeleteProductReviewHandlerTest {
 		userReviewOfApple.getId()
 	);
 
-	assertThrows(ForbiddenOperationInProductReviewException.class,
+	assertThrows(ProductReviewDoesNotBelongUser.class,
 		() -> deleteProductReviewHandler.execute(adminContext, params));
   }
 

@@ -1,4 +1,4 @@
-package com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient;
+package com.jeferro.products.shared.infrastructure.config.parametrics;
 
 import java.util.ArrayList;
 import java.util.List;

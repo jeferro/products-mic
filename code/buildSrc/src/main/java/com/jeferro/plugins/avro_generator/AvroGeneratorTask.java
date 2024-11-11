@@ -69,7 +69,13 @@ public class AvroGeneratorTask implements Action<Task> {
   private List<File> getAvroFilesRecursively(File directory) {
 	List<File> schemaFiles = new ArrayList<>();
 
-	for (File file : directory.listFiles()) {
+	File[] files = directory.listFiles();
+
+	if(files == null){
+	  return List.of();
+	}
+
+	for (File file : files) {
 	  if (file.isDirectory()) {
 		schemaFiles.addAll(getAvroFilesRecursively(file));
 	  } else if (file.getName().matches(IMPORTS_FILENAME)) {

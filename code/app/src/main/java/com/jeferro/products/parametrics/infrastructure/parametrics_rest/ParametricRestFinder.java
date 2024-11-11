@@ -6,7 +6,7 @@ import com.jeferro.products.parametrics.domain.models.Parametric;
 import com.jeferro.products.parametrics.domain.models.ParametricId;
 import com.jeferro.products.parametrics.domain.services.ParametricFinder;
 import com.jeferro.products.parametrics.infrastructure.parametrics_rest.mappers.ParametricRestMapper;
-import com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient.ParametricMockRestClient;
+import com.jeferro.products.shared.infrastructure.config.parametrics.ParametricMockRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

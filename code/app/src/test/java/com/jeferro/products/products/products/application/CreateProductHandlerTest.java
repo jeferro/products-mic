@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.parametrics.domain.services.ParametricValidator;
 import com.jeferro.products.parametrics.infrastructure.parametrics_rest.ParametricRestFinder;
-import com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient.ParametricMockRestClient;
+import com.jeferro.products.shared.infrastructure.config.parametrics.ParametricMockRestClient;
 import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductCreated;

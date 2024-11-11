@@ -5,7 +5,7 @@ import java.util.Locale;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.models.auth.Username;
@@ -87,6 +87,6 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	  return;
 	}
 
-	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, username);
+	throw ProductReviewDoesNotBelongUser.belongsToOtherUser(id, username);
   }
 }

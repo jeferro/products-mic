@@ -3,7 +3,7 @@ package com.jeferro.products.bff.parametrics;
 import java.util.List;
 
 import com.jeferro.products.parametrics.infrastructure.parametrics_rest.dtos.ParametricRestDTO;
-import com.jeferro.products.parametrics.infrastructure.parametrics_rest.restclient.ParametricMockRestClient;
+import com.jeferro.products.shared.infrastructure.config.parametrics.ParametricMockRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

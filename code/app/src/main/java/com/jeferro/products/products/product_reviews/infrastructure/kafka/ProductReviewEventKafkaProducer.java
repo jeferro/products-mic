@@ -2,9 +2,9 @@ package com.jeferro.products.products.product_reviews.infrastructure.kafka;
 
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewEvent;
 import com.jeferro.products.products.product_reviews.infrastructure.kafka.mappers.ProductReviewKafkaMapper;
+import com.jeferro.products.shared.infrastructure.config.products.ProductsComponentProperties;
 import com.jeferro.shared.ddd.domain.events.EventBusProducer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +14,7 @@ public class ProductReviewEventKafkaProducer implements EventBusProducer<Product
 
   private final ProductReviewKafkaMapper productReviewKafkaMapper = ProductReviewKafkaMapper.INSTANCE;
 
-  @Value("${application.product-reviews.topic}")
-  private String topic;
+  private final ProductsComponentProperties productsComponentProperties;
 
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
@@ -24,7 +23,7 @@ public class ProductReviewEventKafkaProducer implements EventBusProducer<Product
 	String key = event.getProductReviewId().toString();
 	var data = productReviewKafkaMapper.toDTO(event);
 
-	kafkaTemplate.send(topic, key, data);
+	kafkaTemplate.send(productsComponentProperties.getProductReviewsTopic(), key, data);
   }
 
 }

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
@@ -76,7 +76,7 @@ class UpdateProductReviewHandlerTest {
 		newComment
 	);
 
-	assertThrows(ForbiddenOperationInProductReviewException.class,
+	assertThrows(ProductReviewDoesNotBelongUser.class,
 		() -> updateProductReviewHandler.execute(adminContext, params));
   }
 
