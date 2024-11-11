@@ -2,11 +2,11 @@ package com.jeferro.products.shared.domain.repositories;
 
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
-import com.jeferro.shared.ddd.domain.models.criteria.Criteria;
+import com.jeferro.shared.ddd.domain.models.filter.Filter;
 
 import java.util.*;
 
-public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id extends Identifier<?>> {
+public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id extends Identifier> {
 
     protected final Map<Id, Aggregate> data = new HashMap<>();
 
@@ -48,12 +48,8 @@ public abstract class InMemoryRepository<Aggregate extends AggregateRoot<Id>, Id
         return aggregate.equals(saved);
     }
 
-    protected List<Aggregate> paginateEntities(List<Aggregate> entities, Criteria criteria) {
-        if (criteria.isNotPageable()) {
-            return entities;
-        }
-
-        int initialIndex = criteria.getPageNumber() * criteria.getPageSize();
+    protected List<Aggregate> paginateEntities(List<Aggregate> entities, Filter<?> filter) {
+        int initialIndex = (filter.getPageNumber() - 1) * filter.getPageSize();
         int maxIndex = entities.size() - 1;
 
         if (initialIndex > maxIndex) {

@@ -3,43 +3,31 @@ package com.jeferro.products.products.products.application.params;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class UpdateProductParams extends Params<Product> {
 
   private ProductCode productCode;
 
-  private LocalizedData name;
+  private LocalizedField name;
 
-  public UpdateProductParams(ProductCode productCode, LocalizedData name) {
+  public UpdateProductParams(ProductCode productCode, LocalizedField name) {
 	super();
 
 	setProductCode(productCode);
 	setName(name);
   }
 
-  public ProductCode getProductCode() {
-	return productCode;
-  }
-
-  public LocalizedData getName() {
-	return name;
-  }
-
   private void setProductCode(ProductCode productCode) {
-	if (productCode == null) {
-	  throw ValueValidationException.createOfMessage("Product code is null");
-	}
-
+	ValueValidationUtils.isNotNull(productCode, "productCode", this);
 	this.productCode = productCode;
   }
 
-  private void setName(LocalizedData name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
+  private void setName(LocalizedField name) {
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 }

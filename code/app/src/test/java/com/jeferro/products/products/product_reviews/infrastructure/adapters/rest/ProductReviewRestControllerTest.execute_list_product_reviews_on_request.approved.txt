@@ -1,3 +1,3 @@
-data[0] = ListProductReviewParams[productCode=apple]
+data[0] = SearchProductReviewParams[productCode=apple]
 data[1] = 200
-data[2] = [{"id":"user::apple","locale":"en-US","comment":"Comment about apple"},{"id":"admin::apple","locale":"en-US","comment":"I love apples"}]
+data[2] = [{"id":{"productCode":"apple","username":"user"},"locale":"en-US","comment":"Comment about apple"},{"id":{"productCode":"apple","username":"admin"},"locale":"en-US","comment":"I love apples"}]

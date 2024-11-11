@@ -1,30 +1,35 @@
 package com.jeferro.products.products.product_reviews.domain.events;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
+import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ProductReviewEvent extends Event {
 
-    private ProductReviewId productReviewId;
+  private ProductReviewId productReviewId;
 
-    protected ProductReviewEvent(EventId id,
-		ProductReviewId productReviewId) {
-        super(id);
+  protected ProductReviewEvent(EventId id,
+	  ProductReviewId productReviewId) {
+	super(id);
 
-		setProductReviewId(productReviewId);
-    }
+	setProductReviewId(productReviewId);
+  }
 
-	public ProductReviewId getProductReviewId() {
-        return productReviewId;
-    }
+  public ProductCode getProductCode() {
+	return productReviewId.getProductCode();
+  }
 
-	private void setProductReviewId(ProductReviewId productReviewId) {
-		if (productReviewId == null) {
-			throw ValueValidationException.createOfMessage("Product review identifier is null");
-		}
+  public Username getUsername() {
+	return productReviewId.getUsername();
+  }
 
-	  	this.productReviewId = productReviewId;
-	}
+  private void setProductReviewId(ProductReviewId productReviewId) {
+	ValueValidationUtils.isNotNull(productReviewId, "productReview", this);
+	this.productReviewId = productReviewId;
+  }
 }

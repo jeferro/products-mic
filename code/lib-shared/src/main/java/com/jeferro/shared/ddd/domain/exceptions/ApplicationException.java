@@ -1,8 +1,9 @@
 package com.jeferro.shared.ddd.domain.exceptions;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ApplicationException extends RuntimeException {
 
     private String code;
@@ -16,27 +17,13 @@ public abstract class ApplicationException extends RuntimeException {
         setTitle(title);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
     private void setCode(String code) {
-        if(StringUtils.isEmpty(code)){
-            throw ValueValidationException.createOfMessage("Code is null or empty");
-        }
-
+        ValueValidationUtils.isNotBlank(code, "code", this);
         this.code = code;
     }
 
     private void setTitle(String title) {
-        if(StringUtils.isEmpty(title)){
-            throw ValueValidationException.createOfMessage("Title is null or empty");
-        }
-
+        ValueValidationUtils.isNotBlank(title, "title", this);
         this.title = title;
     }
 }

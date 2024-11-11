@@ -21,12 +21,12 @@ spring:
   # MONGO
   data:
     mongodb:
-      uri: ${components.mongodb.uri}
+      uri: --
 
 
   # KAFKA
   kafka:
-    bootstrap-servers: ${components.kafka.bootstrap-servers}
+    bootstrap-servers: --
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -39,4 +39,4 @@ spring:
     properties:
       max.block.ms: 700
       value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
-      schema.registry.url: ${components.kafka.schema-registry-url}
+      schema.registry.url: --

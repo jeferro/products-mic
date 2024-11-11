@@ -1,30 +1,25 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.ddd.application.Roles.ADMIN;
+import static com.jeferro.products.shared.application.Roles.ADMIN;
 
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
 
   private final ProductReviewsRepository productReviewsRepository;
 
   private final EventBus eventBus;
-
-  public DeleteAllProductReviewsOfProductHandler(ProductReviewsRepository productReviewsRepository, EventBus eventBus) {
-	super();
-
-	this.productReviewsRepository = productReviewsRepository;
-	this.eventBus = eventBus;
-  }
 
   @Override
   public Set<String> getMandatoryUserRoles() {
@@ -47,7 +42,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 
 	productReviewsRepository.deleteAllById(productReviewIds);
 
-	eventBus.publishAll(productReviews);
+	eventBus.sendAll(productReviews);
 
 	return null;
   }

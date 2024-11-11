@@ -12,7 +12,7 @@ import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,15 +37,15 @@ class UpdateProductHandlerTest {
         var apple = givenAnAppleInDatabase();
 
         var userContext = ContextMother.user();
-        var newProductName = LocalizedData.createOf("en-US", "new product name");
+        var newName = LocalizedField.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
-                newProductName
+                newName
         );
 
         var result = updateProductHandler.execute(userContext, params);
 
-        assertEquals(newProductName, result.getName());
+        assertEquals(newName, result.getName());
 
         assertProductDataInDatabase(result);
 
@@ -57,10 +57,10 @@ class UpdateProductHandlerTest {
         var apple = ProductMother.apple();
 
         var userContext = ContextMother.user();
-        var newProductName = LocalizedData.createOf("en-US", "new product name");
+        var newName = LocalizedField.createOf("en-US", "new product name");
         var params = new UpdateProductParams(
                 apple.getId(),
-                newProductName
+                newName
         );
 
         assertThrows(ProductNotFoundException.class,

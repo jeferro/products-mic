@@ -65,6 +65,7 @@ public class ApiFirstGeneratorPlugin implements Plugin<Project> {
 				options.put("useSpringBoot3", "true");
 				options.put("documentationProvider", "none");
 				options.put("interfaceOnly", "true");
+				options.put("useResponseEntity", "false");
 				generatorExtension.getConfigOptions().set(options);
 			});
 	}

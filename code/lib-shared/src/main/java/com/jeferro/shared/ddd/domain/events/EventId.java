@@ -1,18 +1,18 @@
 package com.jeferro.shared.ddd.domain.events;
 
-import java.util.UUID;
+import com.jeferro.shared.ddd.domain.models.aggregates.UUID;
 
-import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
+public class EventId extends UUID {
 
-public class EventId extends Identifier<String> {
+  public EventId(String value) {
+	super(value);
+  }
 
-	public EventId(String value) {
-		super(value);
-	}
+  private EventId() {
+	super();
+  }
 
-	public static EventId create() {
-		var value = UUID.randomUUID().toString();
-
-		return new EventId(value);
-	}
+  public static EventId create() {
+	return new EventId();
+  }
 }

@@ -1,21 +1,21 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
+import com.jeferro.shared.ddd.domain.models.projection.Projection;
+import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+@Getter
 public class Entity<ID extends Identifier> {
 
     protected final ID id;
 
     public Entity(ID id) {
         this.id = id;
-    }
-
-    public ID getId() {
-        return id;
     }
 
     public boolean hasSameId(ID otherId) {
@@ -29,18 +29,21 @@ public class Entity<ID extends Identifier> {
 
     @Override
     public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+
         if (this == other) {
             return true;
         }
 
-		if (other == null || getClass() != other.getClass()) {
-			return false;
-		}
+        if (getClass() != other.getClass()) {
+            return false;
+        }
 
-        return EqualsBuilder.reflectionEquals(
-                this,
-                other
-        );
+        var otherProjection = (Entity<ID>) other;
+
+        return hasSameId(otherProjection.id);
     }
 
     @Override

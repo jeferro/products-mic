@@ -1,25 +1,27 @@
 package com.jeferro.products.products.products.domain.events;
 
+import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.ProductStatus;
-import com.jeferro.products.products.products.domain.models.ProductTypeId;
+import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class ProductCreated extends ProductEvent {
 
-  private ProductTypeId typeId;
+  private LocalizedField name;
 
-  private LocalizedData name;
+  private ParametricValueId typeId;
 
   private ProductStatus status;
 
   private ProductCreated(EventId id,
 	  ProductCode code,
-	  ProductTypeId typeId,
-	  LocalizedData name,
+	  LocalizedField name,
+	  ParametricValueId typeId,
 	  ProductStatus status) {
 	super(id, code);
 
@@ -36,42 +38,21 @@ public class ProductCreated extends ProductEvent {
 	var name = product.getName();
 	var status = product.getStatus();
 
-	return new ProductCreated(id, code, typeId, name, status);
+	return new ProductCreated(id, code, name, typeId, status);
   }
 
-  public ProductTypeId getTypeId() {
-	return typeId;
-  }
-
-  public void setTypeId(ProductTypeId typeId) {
-	if (typeId == null) {
-	  throw ValueValidationException.createOfMessage("Type id is null");
-	}
-
+  public void setTypeId(ParametricValueId typeId) {
+	ValueValidationUtils.isNotNull(typeId, "typeId", this);
 	this.typeId = typeId;
   }
 
-  public LocalizedData getName() {
-	return name;
-  }
-
-  public void setName(LocalizedData name) {
-	if (name == null) {
-	  throw ValueValidationException.createOfMessage("Name is null");
-	}
-
+  public void setName(LocalizedField name) {
+	ValueValidationUtils.isNotNull(name, "name", this);
 	this.name = name;
   }
 
-  public ProductStatus getStatus() {
-	return status;
-  }
-
   public void setStatus(ProductStatus status) {
-	if (status == null) {
-	  throw ValueValidationException.createOfMessage("Status is null");
-	}
-
+	ValueValidationUtils.isNotNull(status, "status", this);
 	this.status = status;
   }
 }

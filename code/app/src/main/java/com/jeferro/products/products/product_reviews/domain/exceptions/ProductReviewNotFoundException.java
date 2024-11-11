@@ -1,14 +1,14 @@
 package com.jeferro.products.products.product_reviews.domain.exceptions;
 
+import static com.jeferro.products.shared.domain.exceptions.ProductExceptionCodes.REVIEW_NOT_FOUND;
+
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.shared.ddd.domain.exceptions.NotFoundException;
-
-import static com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.REVIEW_NOT_FOUND;
 
 public class ProductReviewNotFoundException extends NotFoundException {
 
   protected ProductReviewNotFoundException(String message) {
-	super(REVIEW_NOT_FOUND.value, "Product Review not found", message);
+	super(REVIEW_NOT_FOUND, "Product Review not found", message);
   }
 
   public static ProductReviewNotFoundException createOf(ProductReviewId productReviewId) {

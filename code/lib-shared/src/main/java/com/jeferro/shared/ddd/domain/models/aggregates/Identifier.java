@@ -1,22 +1,12 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-public abstract class Identifier<T> {
-
-  protected static final String SEPARATOR = "::";
-
-  private T value;
-
-  public Identifier(T value) {
-	setValue(value);
-  }
-
-  public T getValue() {
-	return value;
-  }
+public abstract class Identifier {
 
   @Override
   public int hashCode() {
@@ -41,14 +31,6 @@ public abstract class Identifier<T> {
 
   @Override
   public String toString() {
-	return String.valueOf(value);
-  }
-
-  private void setValue(T value) {
-	if (value instanceof String && ((String) value).isBlank()) {
-	  throw ValueValidationException.createOfMessage("Value is blank");
-	}
-
-	this.value = value;
+	return ReflectionToStringBuilder.toString(this, SHORT_PREFIX_STYLE);
   }
 }

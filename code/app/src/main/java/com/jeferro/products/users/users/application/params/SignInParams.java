@@ -2,44 +2,31 @@ package com.jeferro.products.users.users.application.params;
 
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.shared.ddd.application.params.Params;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
-import com.jeferro.shared.auth.domain.models.Username;
-import org.apache.commons.lang3.StringUtils;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class SignInParams extends Params<User> {
 
     private Username username;
 
-    private String plainPassword;
+    private String password;
 
-    public SignInParams(Username username, String plainPassword) {
+    public SignInParams(Username username, String password) {
         super();
 
 		setUsername(username);
-		setPlainPassword(plainPassword);
+		setPassword(password);
     }
 
-	public Username getUsername() {
-        return username;
-    }
-
-    public String getPlainPassword() {
-        return plainPassword;
-    }
-
-	private void setUsername(Username username) {
-		if (username == null) {
-			throw ValueValidationException.createOfMessage("Username is null");
-		}
-
+  private void setUsername(Username username) {
+	  ValueValidationUtils.isNotNull(username, "username", this);
 	  this.username = username;
 	}
 
-	private void setPlainPassword(String plainPassword) {
-		if (StringUtils.isBlank(plainPassword)) {
-			throw ValueValidationException.createOfMessage("Plain password is blank");
-		}
-
-	  this.plainPassword = plainPassword;
+	private void setPassword(String password) {
+	  ValueValidationUtils.isNotBlank(password, "plainPassword", this);
+	  this.password = password;
 	}
 }

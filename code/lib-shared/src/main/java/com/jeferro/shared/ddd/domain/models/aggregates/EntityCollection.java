@@ -1,139 +1,197 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
-import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import lombok.Getter;
 
-public abstract class EntityCollection<I extends Identifier<?>, E extends Entity<I>> extends ValueObject {
+@Getter
+public abstract class EntityCollection<I extends Identifier, E extends Entity<I>>
+	extends ValueObject
+	implements Collection<E> {
 
-    private Integer pageSize;
+  private Integer pageSize;
 
-    private Integer pageNumber;
+  private Integer pageNumber;
 
-    private Long totalEntities;
+  private Long totalItems;
 
-    protected final List<E> entities;
+  protected List<E> items;
 
-    public EntityCollection(List<E> entities) {
-        this(entities, null, null, 0L);
-    }
+  public EntityCollection() {
+	this(null, null, null, 0L);
+  }
 
-    public EntityCollection(List<E> entities, Integer pageSize, Integer pageNumber, long totalPages) {
-        this.entities = entities;
-        setPageSize(pageSize);
-        setPageNumber(pageNumber);
-        setTotalEntities(totalPages);
-    }
+  public EntityCollection(List<E> items) {
+	this(items, null, null, 0L);
+  }
 
-    public boolean isEmpty() {
-        return entities.isEmpty();
-    }
+  public EntityCollection(List<E> items, Integer pageSize, Integer pageNumber, long totalPages) {
+	setItems(items);
+	setPageSize(pageSize);
+	setPageNumber(pageNumber);
+	setTotalItems(totalPages);
+  }
 
-    public boolean isNotEmpty() {
-        return !entities.isEmpty();
-    }
+  @Override
+  public boolean isEmpty() {
+	return items.isEmpty();
+  }
 
-    public int size() {
-        return entities.size();
-    }
+  public boolean isNotEmpty() {
+	return !items.isEmpty();
+  }
 
-    public E get(int index) {
-        return entities.get(index);
-    }
+  @Override
+  public int size() {
+	return items.size();
+  }
 
-    public boolean contains(E entity) {
-        return entities.contains(entity);
-    }
+  @Override
+  public boolean contains(Object o) {
+	return items.contains(o);
+  }
 
-    public Stream<E> filter(Predicate<? super E> predicate) {
-        return entities.stream()
-                .filter(predicate);
-    }
+  @Override
+  public Iterator<E> iterator() {
+	return items.iterator();
+  }
 
-    public <R> Stream<R> map(Function<E, ? extends R> mapper) {
-        return entities.stream()
-                .map(mapper);
-    }
+  @Override
+  public Object[] toArray() {
+	return items.toArray();
+  }
 
-    public void forEach(Consumer<E> action) {
-        entities.forEach(action);
-    }
+  @Override
+  public <T> T[] toArray(T[] a) {
+	return items.toArray(a);
+  }
 
-    public List<I> getIds() {
-        return entities.stream()
-                .map(Entity::getId)
-                .collect(toList());
-    }
+  @Override
+  public boolean remove(Object o) {
+	return items.remove(o);
+  }
 
-    public Stream<I> streamIds() {
-        return entities.stream()
-                .map(Entity::getId);
-    }
+  @Override
+  public boolean containsAll(Collection<?> c) {
+	return items.containsAll(c);
+  }
 
-    public boolean containsId(I id) {
-        return findById(id).isEmpty();
-    }
+  @Override
+  public boolean addAll(Collection<? extends E> c) {
+	return items.addAll(c);
+  }
 
-    public Optional<E> findById(I id) {
-        return entities.stream()
-                .filter(entity -> entity.hasSameId(id))
-                .findFirst();
-    }
+  @Override
+  public boolean removeAll(Collection<?> c) {
+	return items.removeAll(c);
+  }
 
-    public boolean isPageable() {
-        return pageNumber != null
-                && pageSize != null;
-    }
+  @Override
+  public boolean retainAll(Collection<?> c) {
+	return items.retainAll(c);
+  }
 
-    public boolean isNotPageable() {
-        return !isPageable();
-    }
+  @Override
+  public void clear() {
+	items.clear();
+  }
 
-    public Integer getPageSize() {
-        return pageSize;
-    }
+  @Override
+  public boolean add(E entity) {
+	items.add(entity);
+	return true;
+  }
 
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
+  public E get(int index) {
+	return items.get(index);
+  }
 
-    public Long getTotalEntities() {
-        return totalEntities;
-    }
+  public boolean contains(E entity) {
+	return items.contains(entity);
+  }
 
-    public Long getTotalPages() {
-        if (isNotPageable()) {
-            return 1L;
-        }
+  public Stream<E> filter(Predicate<? super E> predicate) {
+	return items.stream()
+		.filter(predicate);
+  }
 
-        if (totalEntities % pageSize == 0) {
-            return totalEntities / pageSize;
-        }
+  public <R> Stream<R> map(Function<E, ? extends R> mapper) {
+	return items.stream()
+		.map(mapper);
+  }
 
-        return totalEntities / pageSize + 1;
-    }
+  public List<I> getIds() {
+	return items.stream()
+		.map(Entity::getId)
+		.collect(toList());
+  }
 
-    private void setTotalEntities(Long totalEntities) {
-        this.totalEntities = totalEntities;
-    }
+  public Stream<I> streamIds() {
+	return items.stream()
+		.map(Entity::getId);
+  }
 
-    private void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
-    }
+  public boolean containsId(I id) {
+	return findById(id).isEmpty();
+  }
 
-    private void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
+  public Optional<E> findById(I id) {
+	return items.stream()
+		.filter(entity -> entity.hasSameId(id))
+		.findFirst();
+  }
 
-    @Override
-    public String toString() {
-        return entities.toString();
-    }
+  public boolean isPageable() {
+	return pageNumber != null
+		&& pageSize != null;
+  }
+
+  public boolean isNotPageable() {
+	return !isPageable();
+  }
+
+  public Long getTotalPages() {
+	if (isNotPageable()) {
+	  return 1L;
+	}
+
+	if (totalItems % pageSize == 0) {
+	  return totalItems / pageSize;
+	}
+
+	return totalItems / pageSize + 1;
+  }
+
+  private void setItems(List<E> items) {
+	this.items = items != null
+		? items
+		: new ArrayList<>();
+  }
+
+  private void setTotalItems(Long totalItems) {
+	this.totalItems = totalItems;
+  }
+
+  private void setPageNumber(Integer pageNumber) {
+	this.pageNumber = pageNumber;
+  }
+
+  private void setPageSize(Integer pageSize) {
+	this.pageSize = pageSize;
+  }
+
+  @Override
+  public String toString() {
+	return items.toString();
+  }
 }

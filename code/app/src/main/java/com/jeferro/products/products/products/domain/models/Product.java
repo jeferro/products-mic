@@ -1,28 +1,32 @@
 package com.jeferro.products.products.products.domain.models;
 
-import static com.jeferro.products.products.products.domain.models.ProductStatus.PUBLISHED;
-import static com.jeferro.products.products.products.domain.models.ProductStatus.UNPUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.PUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.UNPUBLISHED;
 
+import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
 import com.jeferro.products.products.products.domain.events.ProductCreated;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.events.ProductPublished;
 import com.jeferro.products.products.products.domain.events.ProductUnpublished;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.locale.domain.models.LocalizedData;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import com.jeferro.shared.locale.domain.models.LocalizedField;
+import lombok.Getter;
 
+@Getter
 public class Product extends AggregateRoot<ProductCode> {
 
-    private LocalizedData name;
+    private LocalizedField name;
+
+    private ParametricValueId typeId;
 
     private ProductStatus status;
 
-    private ProductTypeId typeId;
-
     public Product(ProductCode id,
-        ProductTypeId typeId,
-        LocalizedData name,
+        LocalizedField name,
+        ParametricValueId typeId,
         ProductStatus status) {
         super(id);
 
@@ -32,9 +36,9 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     public static Product create(ProductCode productCode,
-        ProductTypeId typeId,
-        LocalizedData name) {
-        var product = new Product(productCode, typeId, name, UNPUBLISHED);
+        ParametricValueId typeId,
+        LocalizedField name) {
+        var product = new Product(productCode, name, typeId, UNPUBLISHED);
 
         var event = ProductCreated.create(product);
         product.record(event);
@@ -42,7 +46,7 @@ public class Product extends AggregateRoot<ProductCode> {
         return product;
     }
 
-    public void update(LocalizedData name) {
+    public void update(LocalizedField name) {
         setName(name);
 
         var event = ProductUpdated.create(this);
@@ -75,39 +79,18 @@ public class Product extends AggregateRoot<ProductCode> {
         return id;
     }
 
-    public LocalizedData getName() {
-        return name;
-    }
-
-    private void setName(LocalizedData name) {
-        if (name == null) {
-            throw ValueValidationException.createOfMessage("Name is null");
-        }
-
+    private void setName(LocalizedField name) {
+        ValueValidationUtils.isNotNull(name, "name", this);
         this.name = name;
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
-
     private void setStatus(ProductStatus status) {
-        if (status == null) {
-            throw ValueValidationException.createOfMessage("Status is null");
-        }
-
+        ValueValidationUtils.isNotNull(status, "status", this);
         this.status = status;
     }
 
-    public ProductTypeId getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(ProductTypeId typeId) {
-        if (typeId == null) {
-            throw ValueValidationException.createOfMessage("Type id is null");
-        }
-
+    public void setTypeId(ParametricValueId typeId) {
+        ValueValidationUtils.isNotNull(typeId, "typeId", this);
         this.typeId = typeId;
     }
 }

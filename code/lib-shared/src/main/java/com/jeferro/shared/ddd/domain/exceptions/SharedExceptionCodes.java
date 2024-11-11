@@ -1,9 +1,10 @@
 package com.jeferro.shared.ddd.domain.exceptions;
 
 public enum SharedExceptionCodes {
-    INTERNAL_ERROR("E-00-01"),
-    FORBIDDEN("E-00-02"),
-    UNAUTHORIZED("E-00-03");
+    INTERNAL_ERROR("shared-internal-error"),
+    VALUE_VALIDATION_ERROR("shared-value-validation"),
+    FORBIDDEN("shared-forbidden"),
+    UNAUTHORIZED("shared-unauthorized");
 
     public final String value;
 

@@ -1,31 +1,25 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.shared.ddd.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DeleteProductHandler extends Handler<DeleteProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
     private final EventBus eventBus;
-
-    public DeleteProductHandler(ProductsRepository productsRepository,
-                                EventBus eventBus) {
-        super();
-
-        this.productsRepository = productsRepository;
-        this.eventBus = eventBus;
-    }
 
     @Override
     public Set<String> getMandatoryUserRoles() {
@@ -52,6 +46,6 @@ public class DeleteProductHandler extends Handler<DeleteProductParams, Product> 
 
         productsRepository.deleteById(product.getCode());
 
-        eventBus.publishAll(product);
+        eventBus.sendAll(product);
     }
 }

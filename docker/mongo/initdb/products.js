@@ -2,7 +2,7 @@ let now = new Date()
 
 db['products'].insertMany([
     {
-        _id: "apple",
+        _id: "0000001",
         typeId: "fruit",
         name: {
           en_US: "Apple",
@@ -17,7 +17,7 @@ db['products'].insertMany([
         }
     },
     {
-        _id: "kiwi",
+        _id: "0000002",
         typeId: "fruit",
         name: {
           en_US: "Kiwi",
@@ -32,7 +32,7 @@ db['products'].insertMany([
         }
     },
     {
-        _id: "banana",
+        _id: "0000003",
         typeId: "fruit",
         name: {
           en_US: "Banana",

@@ -1,26 +1,22 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.ddd.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
 import com.jeferro.products.products.product_reviews.application.params.GetProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.SilentHandler;
+import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetProductReviewHandler extends SilentHandler<GetProductReviewParams, ProductReview> {
+@RequiredArgsConstructor
+public class GetProductReviewHandler extends Handler<GetProductReviewParams, ProductReview> {
 
   private final ProductReviewsRepository productReviewsRepository;
-
-  public GetProductReviewHandler(ProductReviewsRepository productReviewsRepository) {
-	super();
-
-	this.productReviewsRepository = productReviewsRepository;
-  }
 
   @Override
   public Set<String> getMandatoryUserRoles() {

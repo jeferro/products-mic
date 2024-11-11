@@ -6,26 +6,20 @@ import com.jeferro.products.users.users.application.params.SignInParams;
 import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.users.domain.services.PasswordEncoder;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
-import com.jeferro.shared.ddd.domain.exceptions.UnauthorizedException;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.domain.exceptions.auth.UnauthorizedException;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SignInHandler extends Handler<SignInParams, User> {
 
   private final UsersRepository usersRepository;
 
   private final PasswordEncoder passwordEncoder;
-
-  public SignInHandler(UsersRepository usersRepository,
-	  PasswordEncoder passwordEncoder) {
-	super();
-
-	this.usersRepository = usersRepository;
-	this.passwordEncoder = passwordEncoder;
-  }
 
   @Override
   public Set<String> getMandatoryUserRoles() {
@@ -35,7 +29,7 @@ public class SignInHandler extends Handler<SignInParams, User> {
   @Override
   public User execute(Context context, SignInParams params) {
 	var username = params.getUsername();
-	var plainPassword = params.getPlainPassword();
+	var plainPassword = params.getPassword();
 
 	var user = ensureUserExists(username);
 

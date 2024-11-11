@@ -1,3 +1,3 @@
-data[0] = UpdateProductParams[name=LocalizedData[values={en-US=LocalizedData[values={en-US=Apple, es-ES=Manzana}]}],productCode=apple]
+data[0] = UpdateProductParams[name=LocalizedField[values={en-US=LocalizedField[values={en-US=Apple, es-ES=Manzana}]}],productCode=apple]
 data[1] = 200
 data[2] = {"code":"apple","typeId":"fruit","name":{"en-US":"Apple"},"status":"PUBLISHED"}

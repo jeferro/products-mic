@@ -7,7 +7,7 @@ import com.jeferro.shared.ddd.domain.events.Event;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
-public class AggregateRoot<ID extends Identifier<?>> extends Entity<ID> {
+public class AggregateRoot<ID extends Identifier> extends Entity<ID> {
 
     @ToStringExclude
     @EqualsExclude

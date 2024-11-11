@@ -3,8 +3,10 @@ package com.jeferro.products.products.products.domain.events;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.events.Event;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public abstract class ProductEvent extends Event {
 
   private ProductCode code;
@@ -16,15 +18,8 @@ public abstract class ProductEvent extends Event {
 	setCode(code);
   }
 
-  public ProductCode getCode() {
-	return code;
-  }
-
   private void setCode(ProductCode code) {
-	if (code == null) {
-	  throw ValueValidationException.createOfMessage("Code is null");
-	}
-
+	ValueValidationUtils.isNotNull(code, "code", this);
 	this.code = code;
   }
 }

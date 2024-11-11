@@ -2,6 +2,7 @@ package com.jeferro.products.products.product_reviews.infrastructure.adapters.re
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
+import com.jeferro.products.products.product_reviews.infrastructure.rest.ProductReviewRestController;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;

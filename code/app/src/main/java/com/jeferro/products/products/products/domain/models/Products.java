@@ -1,11 +1,16 @@
 package com.jeferro.products.products.products.domain.models;
 
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.shared.ddd.domain.models.aggregates.EntityCollection;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Products extends EntityCollection<ProductCode, Product> {
+
+    public Products() {
+        super();
+    }
 
     public Products(List<Product> entities) {
         super(entities);
@@ -20,7 +25,10 @@ public class Products extends EntityCollection<ProductCode, Product> {
         return new Products(entities);
     }
 
-    public static Products createOfCriteria(List<Product> entities, ProductCriteria criteria, Long totalEntities) {
-        return new Products(entities, criteria.getPageSize(), criteria.getPageNumber(), totalEntities);
+    public static Products createOfFilter(List<Product> products, ProductFilter filter, Long totalEntities) {
+        return new Products(products,
+            filter.getPageSize(),
+            filter.getPageNumber(),
+            totalEntities);
     }
 }

@@ -10,6 +10,16 @@ components:
       example: '123456789'
 
   schemas:
+    ProductFilterOrder:
+      type: string
+      description: order of the product listing
+      enum:
+        - 'NAME'
+        - 'TYPE_ID'
+      x-enum-varnames:
+        - NAME
+        - TYPE_ID
+
     ProductStatus:
       type: string
       description: status of the product
@@ -48,13 +58,13 @@ components:
         status:
           $ref: '#/components/schemas/ProductStatus'
 
-    ProductInput:
+    ProductSummary:
       type: object
-      description: Upsert product input
+      description: Product summary information
       required:
         - code
-        - typeId
         - name
+        - status
       properties:
         code:
           type: string
@@ -72,12 +82,49 @@ components:
           example:
             es: 'Manzana'
             en: 'Apple'
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+
+    CreateProductInput:
+      type: object
+      description: Create product input
+      required:
+        - typeId
+        - name
+      properties:
+        typeId:
+          type: string
+          description: Identifier of the product type
+          example: 'fruit'
+        name:
+          type: object
+          additionalProperties:
+            type: string
+          description: Name of the product
+          example:
+            es: 'Manzana'
+            en: 'Apple'
+
+    UpdateProductInput:
+      type: object
+      description: Create product input
+      required:
+        - name
+      properties:
+        name:
+          type: object
+          additionalProperties:
+            type: string
+          description: Name of the product
+          example:
+            es: 'Manzana'
+            en: 'Apple'
 
     UpdateProductStatusInput:
       type: object
       description: Update product status input
       required:
-        - value
+        - status
       properties:
-        value:
+        status:
           $ref: '#/components/schemas/ProductStatus'

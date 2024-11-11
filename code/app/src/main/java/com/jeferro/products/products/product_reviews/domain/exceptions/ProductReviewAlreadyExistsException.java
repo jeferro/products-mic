@@ -1,14 +1,14 @@
 package com.jeferro.products.products.product_reviews.domain.exceptions;
 
+import static com.jeferro.products.shared.domain.exceptions.ProductExceptionCodes.REVIEW_ALREADY_EXISTS;
+
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.shared.ddd.domain.exceptions.ConstraintException;
+import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
 
-import static com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewsExceptionCodes.REVIEW_ALREADY_EXISTS;
-
-public class ProductReviewAlreadyExistsException extends ConstraintException {
+public class ProductReviewAlreadyExistsException extends ConflictException {
 
   protected ProductReviewAlreadyExistsException(String message) {
-	super(REVIEW_ALREADY_EXISTS.value, "Product Review already exists", message);
+	super(REVIEW_ALREADY_EXISTS, "Product review already exists", message);
   }
 
   public static ProductReviewAlreadyExistsException createOf(ProductReviewId productReviewId) {

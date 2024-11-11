@@ -4,7 +4,7 @@ import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.users.domain.models.UserMother;
-import com.jeferro.products.users.users.infrastructure.adapters.rest.AuthenticationsRestController;
+import com.jeferro.products.users.users.infrastructure.rest.AuthenticationsRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

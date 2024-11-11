@@ -1,6 +1,6 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.shared.ddd.application.Roles.USER;
+import static com.jeferro.products.shared.application.Roles.USER;
 
 import java.util.Set;
 
@@ -11,12 +11,14 @@ import com.jeferro.products.products.product_reviews.domain.models.ProductReview
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.ddd.application.Context;
-import com.jeferro.shared.ddd.application.handlers.Handler;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.events.EventBus;
+import com.jeferro.shared.ddd.domain.models.context.Context;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CreateProductReviewHandler extends Handler<CreateProductReviewParams, ProductReview> {
 
   private final ProductsRepository productsRepository;
@@ -24,16 +26,6 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
   private final ProductReviewsRepository productReviewsRepository;
 
   private final EventBus eventBus;
-
-  public CreateProductReviewHandler(ProductsRepository productsRepository,
-	  ProductReviewsRepository productReviewsRepository,
-	  EventBus eventBus) {
-	super();
-
-	this.productsRepository = productsRepository;
-	this.productReviewsRepository = productReviewsRepository;
-	this.eventBus = eventBus;
-  }
 
   @Override
   public Set<String> getMandatoryUserRoles() {
@@ -76,7 +68,7 @@ public class CreateProductReviewHandler extends Handler<CreateProductReviewParam
 
 	productReviewsRepository.save(productReview);
 
-	eventBus.publishAll(productReview);
+	eventBus.sendAll(productReview);
 	return productReview;
   }
 }

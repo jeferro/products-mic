@@ -13,19 +13,46 @@ import com.jeferro.shared.ddd.domain.models.aggregates.EntityCollection;
 
 public abstract class EventBus {
 
-  private final Map<Class<Event>, List<EventBusPublisher<?>>> publishers = new HashMap<>();
+  private final Map<Class<Event>, List<EventBusProducer<?>>> producers = new HashMap<>();
 
-  public void publishAll(AggregateRoot<?> aggregateRoot) {
+  public <I extends Identifier, E extends AggregateRoot<I>> void sendAll(EntityCollection<I, E> collection) {
+	collection.forEach(this::sendAll);
+  }
+
+  public void sendAll(AggregateRoot<?> aggregateRoot) {
 	aggregateRoot.pullEvents()
-		.forEach(this::publish);
+		.forEach(this::send);
   }
 
-  public <I extends Identifier<?>, E extends AggregateRoot<I>> void publishAll(EntityCollection<I, E> collection) {
-	collection.forEach(this::publishAll);
+  protected void send(Event event) {
+	Class<?> eventClass = event.getClass();
+
+	sendEventByEventClass(event, eventClass);
   }
 
-  protected void registryPublisher(EventBusPublisher<?> eventBusPublisher) {
-	Type type = eventBusPublisher.getClass().getGenericInterfaces()[0];
+  private void sendEventByEventClass(Event event, Class<?> eventClass) {
+	if (producers.containsKey(eventClass)) {
+	  producers.get(eventClass)
+		  .forEach(producer -> sendEvent(producer, event));
+	}
+
+	Class<?> superEventClass = eventClass.getSuperclass();
+
+	if (!superEventClass.equals(Object.class)) {
+	  sendEventByEventClass(event, superEventClass);
+	}
+  }
+
+  private <E extends Event> void sendEvent(EventBusProducer<?> producer, E event) {
+	try {
+	  ((EventBusProducer<E>) producer).send(event);
+	} catch (Exception cause) {
+	  throw new RuntimeException(cause);
+	}
+  }
+
+  protected void registryProducer(EventBusProducer<?> eventBusProducer) {
+	Type type = eventBusProducer.getClass().getGenericInterfaces()[0];
 
 	if (!(type instanceof ParameterizedType parameterizedType)) {
 	  throw new IllegalArgumentException("Event superclass is not a parameterized type");
@@ -33,41 +60,14 @@ public abstract class EventBus {
 
 	Class<Event> eventClass = (Class<Event>) parameterizedType.getActualTypeArguments()[0];
 
-	if (publishers.containsKey(eventClass)) {
-	  publishers.get(eventClass).add(eventBusPublisher);
+	if (producers.containsKey(eventClass)) {
+	  producers.get(eventClass).add(eventBusProducer);
 	  return;
 	}
 
-	List<EventBusPublisher<?>> publishersByEventClass = new ArrayList<>();
-	publishersByEventClass.add(eventBusPublisher);
+	List<EventBusProducer<?>> producersByEventClass = new ArrayList<>();
+	producersByEventClass.add(eventBusProducer);
 
-	publishers.put(eventClass, publishersByEventClass);
-  }
-
-  protected void publish(Event event) {
-	Class<?> eventClass = event.getClass();
-
-	publishEventByEventClass(event, eventClass);
-  }
-
-  private void publishEventByEventClass(Event event, Class<?> eventClass) {
-	if (publishers.containsKey(eventClass)) {
-	  publishers.get(eventClass)
-		  .forEach(publisher -> publishEvent(publisher, event));
-	}
-
-	Class<?> superEventClass = eventClass.getSuperclass();
-
-	if (!superEventClass.equals(Object.class)) {
-	  publishEventByEventClass(event, superEventClass);
-	}
-  }
-
-  private <E extends Event> void publishEvent(EventBusPublisher<?> publisher, E event) {
-	try {
-	  ((EventBusPublisher<E>) publisher).publish(event);
-	} catch (Exception cause) {
-	  throw new RuntimeException(cause);
-	}
+	producers.put(eventClass, producersByEventClass);
   }
 }

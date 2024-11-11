@@ -5,12 +5,14 @@ import java.util.Locale;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ForbiddenOperationInProductReviewException;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.auth.domain.models.Username;
+import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
   private Locale locale;
@@ -70,27 +72,13 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	return id.getProductCode();
   }
 
-  public Locale getLocale() {
-	return locale;
-  }
-
   private void setLocale(Locale locale) {
-	if (locale == null) {
-	  throw ValueValidationException.createOfMessage("Locale is null");
-	}
-
+	ValueValidationUtils.isNotNull(locale, "locale", this);
 	this.locale = locale;
   }
 
-  public String getComment() {
-	return comment;
-  }
-
   private void setComment(String comment) {
-	if (comment == null) {
-	  throw ValueValidationException.createOfMessage("Comment is null");
-	}
-
+	ValueValidationUtils.isNotNull(comment, "comment", this);
 	this.comment = comment;
   }
 
@@ -99,6 +87,6 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
 	  return;
 	}
 
-	throw ForbiddenOperationInProductReviewException.belongsToOtherUser(id, username);
+	throw ProductReviewDoesNotBelongUser.belongsToOtherUser(id, username);
   }
 }

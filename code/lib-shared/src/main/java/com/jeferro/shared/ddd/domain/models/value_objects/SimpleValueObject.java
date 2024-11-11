@@ -2,8 +2,10 @@ package com.jeferro.shared.ddd.domain.models.value_objects;
 
 import java.io.Serializable;
 
-import com.jeferro.shared.ddd.domain.exceptions.internals.ValueValidationException;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
+import lombok.Getter;
 
+@Getter
 public class SimpleValueObject<T extends Serializable> extends ValueObject {
 
   private T value;
@@ -12,20 +14,13 @@ public class SimpleValueObject<T extends Serializable> extends ValueObject {
 	setValue(value);
   }
 
-  public T getValue() {
-	return value;
-  }
-
   @Override
   public String toString() {
 	return String.valueOf(value);
   }
 
   private void setValue(T value) {
-	if (value instanceof String && ((String) value).isBlank()) {
-	  throw ValueValidationException.createOfMessage("Value is blank");
-	}
-
+	ValueValidationUtils.isNotNull(value, "value", this);
 	this.value = value;
   }
 }
