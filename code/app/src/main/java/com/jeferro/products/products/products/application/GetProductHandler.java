@@ -7,14 +7,14 @@ import java.util.Set;
 import com.jeferro.products.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.ddd.application.SilentHandler;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class GetProductHandler extends SilentHandler<GetProductParams, Product> {
+public class GetProductHandler extends Handler<GetProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 

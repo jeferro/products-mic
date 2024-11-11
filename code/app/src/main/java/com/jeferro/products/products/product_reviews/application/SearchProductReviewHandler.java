@@ -7,14 +7,14 @@ import java.util.Set;
 import com.jeferro.products.products.product_reviews.application.params.SearchProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
+import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.domain.models.context.Context;
-import com.jeferro.shared.ddd.application.SilentHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SearchProductReviewHandler extends SilentHandler<SearchProductReviewParams, ProductReviews> {
+public class SearchProductReviewHandler extends Handler<SearchProductReviewParams, ProductReviews> {
 
   private final ProductReviewsRepository productReviewsRepository;
 

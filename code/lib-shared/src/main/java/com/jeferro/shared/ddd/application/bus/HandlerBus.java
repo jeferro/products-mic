@@ -5,7 +5,6 @@ import java.time.Instant;
 
 import com.jeferro.shared.ddd.application.Handler;
 import com.jeferro.shared.ddd.application.Handlers;
-import com.jeferro.shared.ddd.application.SilentHandler;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
 import com.jeferro.shared.ddd.domain.exceptions.InternalErrorException;
@@ -73,10 +72,6 @@ public abstract class HandlerBus {
 	  Params<?> params,
 	  Object result
   ) {
-	if (handler instanceof SilentHandler) {
-	  return;
-	}
-
 	var handlerName = handler.getClass().getSimpleName();
 	var auth = context.getAuth();
 	var duration = calculateDuration(startAt);
