@@ -1,6 +1,6 @@
 public interface Versions {
-    String spring_boot = "3.2.4";
-    String spring_dependency_management = "1.1.4";
+    String spring_boot = "3.3.5";
+    String spring_dependency_management = "1.1.6";
 
 	String avro = "1.11.3";
 	String kafka_avro_serializer = "5.3.0";
@@ -9,7 +9,6 @@ public interface Versions {
 	String jwt = "4.4.0";
 
 	String commons_lang3 = "3.14.0";
-	String test_containers = "1.19.7";
 
   	String jakarta_validation_api = "3.0.2";
   	String jackson_databind_nullable = "0.2.6";

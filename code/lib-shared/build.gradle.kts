@@ -4,12 +4,14 @@ plugins {
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id("io.freefair.lombok") version "8.10.2"
 }
 
 dependencies {
     // General
     api("org.apache.commons", "commons-lang3", Versions.commons_lang3)
+
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 
     api("org.mapstruct", "mapstruct", Versions.mapstruct)
     annotationProcessor("org.mapstruct", "mapstruct-processor", Versions.mapstruct)
@@ -31,6 +33,7 @@ dependencies {
     api("org.springframework.kafka", "spring-kafka", Versions.spring_kafka)
 
     api("org.apache.avro", "avro", Versions.avro)
+    api("org.apache.commons", "commons-compress", "1.25.0")
     implementation("io.confluent", "kafka-avro-serializer", Versions.kafka_avro_serializer)
 }
 
