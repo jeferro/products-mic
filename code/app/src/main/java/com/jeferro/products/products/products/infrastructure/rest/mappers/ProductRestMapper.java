@@ -8,7 +8,7 @@ import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
 import com.jeferro.shared.mappers.MapstructConfig;
-import com.jeferro.shared.mappers.PrimaryAggregateMapper;
+import com.jeferro.shared.mappers.AggregateRestMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(config = MapstructConfig.class)
-public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, ProductCode, ProductRestDTO> {
+public abstract class ProductRestMapper extends AggregateRestMapper<Product, ProductCode, ProductRestDTO> {
 
     public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 

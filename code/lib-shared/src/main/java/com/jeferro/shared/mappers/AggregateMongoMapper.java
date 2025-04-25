@@ -8,7 +8,7 @@ import org.mapstruct.Named;
 
 import java.util.Map;
 
-public abstract class SecondaryAggregateMapper<Aggregate extends AggregateRoot<Identifier>,
+public abstract class AggregateMongoMapper<Aggregate extends AggregateRoot<Identifier>,
         Identifier extends StringIdentifier,
         DTO> {
 

@@ -9,7 +9,7 @@ import com.jeferro.shared.locale.domain.models.LocalizedField;
 import java.util.List;
 import java.util.Map;
 
-public abstract class PrimaryAggregateMapper<Aggregate extends AggregateRoot<Identifier>,
+public abstract class AggregateRestMapper<Aggregate extends AggregateRoot<Identifier>,
         Identifier extends StringIdentifier,
         DTO> {
 
