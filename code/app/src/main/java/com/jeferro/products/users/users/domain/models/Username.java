@@ -1,4 +1,4 @@
-package com.jeferro.shared.ddd.domain.models.auth;
+package com.jeferro.products.users.users.domain.models;
 
 import com.jeferro.shared.ddd.domain.models.aggregates.StringIdentifier;
 

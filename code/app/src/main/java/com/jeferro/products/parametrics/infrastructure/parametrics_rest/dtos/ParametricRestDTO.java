@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public record ParametricRestDTO(
-	String id,
-	Map<String, String> name,
-	List<ParametricValueRestDTO> values
+        String id,
+        Map<String, String> name,
+        List<ParametricValueRestDTO> values
 ) {
 
 }

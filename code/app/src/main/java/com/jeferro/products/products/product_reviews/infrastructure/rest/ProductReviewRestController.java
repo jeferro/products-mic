@@ -1,7 +1,5 @@
 package com.jeferro.products.products.product_reviews.infrastructure.rest;
 
-import java.util.List;
-
 import com.jeferro.products.generated.rest.v1.apis.ProductReviewsApi;
 import com.jeferro.products.generated.rest.v1.dtos.CreateProductReviewInputRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
@@ -11,58 +9,60 @@ import com.jeferro.shared.ddd.application.bus.HandlerBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class ProductReviewRestController implements ProductReviewsApi {
 
-  private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
+    private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
 
-  private final HandlerBus handlerBus;
+    private final HandlerBus handlerBus;
 
-  @Override
-  public List<ProductReviewRestDTO> searchProductReviews(String productCode) {
-	var params = productReviewRestMapper.toSearchProductsParams(productCode);
+    @Override
+    public List<ProductReviewRestDTO> searchProductReviews(String productCode) {
+        var params = productReviewRestMapper.toSearchProductsParams(productCode);
 
-	var productReviews = handlerBus.execute(params);
+        var productReviews = handlerBus.execute(params);
 
-	return productReviewRestMapper.toDTO(productReviews);
-  }
+        return productReviewRestMapper.toDTO(productReviews);
+    }
 
-  @Override
-  public ProductReviewRestDTO createProductReview(String productCode,
-	  CreateProductReviewInputRestDTO inputRestDTO) {
-	var params = productReviewRestMapper.toCreateProductReviewParams(productCode, inputRestDTO);
+    @Override
+    public ProductReviewRestDTO createProductReview(String productCode,
+                                                    CreateProductReviewInputRestDTO inputRestDTO) {
+        var params = productReviewRestMapper.toCreateProductReviewParams(productCode, inputRestDTO);
 
-	var productReview = handlerBus.execute(params);
+        var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toDTO(productReview);
-  }
+        return productReviewRestMapper.toDTO(productReview);
+    }
 
-  @Override
-  public ProductReviewRestDTO getProductReview(String productCode, String username) {
-	var params = productReviewRestMapper.toGetProductReviewParams(productCode, username);
+    @Override
+    public ProductReviewRestDTO getProductReview(String productCode, String username) {
+        var params = productReviewRestMapper.toGetProductReviewParams(productCode, username);
 
-	var productReview = handlerBus.execute(params);
+        var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toDTO(productReview);
-  }
+        return productReviewRestMapper.toDTO(productReview);
+    }
 
-  @Override
-  public ProductReviewRestDTO updateProductReview(String productCode, String username,
-	  UpdateProductReviewInputRestDTO inputRestDTO) {
-	var params = productReviewRestMapper.toUpdateProductReviewParams(productCode, username, inputRestDTO);
+    @Override
+    public ProductReviewRestDTO updateProductReview(String productCode, String username,
+                                                    UpdateProductReviewInputRestDTO inputRestDTO) {
+        var params = productReviewRestMapper.toUpdateProductReviewParams(productCode, username, inputRestDTO);
 
-	var productReview = handlerBus.execute(params);
+        var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toDTO(productReview);
-  }
+        return productReviewRestMapper.toDTO(productReview);
+    }
 
-  @Override
-  public ProductReviewRestDTO deleteProductReview(String productCode, String username) {
-	var params = productReviewRestMapper.toDeleteProductReviewParams(productCode, username);
+    @Override
+    public ProductReviewRestDTO deleteProductReview(String productCode, String username) {
+        var params = productReviewRestMapper.toDeleteProductReviewParams(productCode, username);
 
-	var productReview = handlerBus.execute(params);
+        var productReview = handlerBus.execute(params);
 
-	return productReviewRestMapper.toDTO(productReview);
-  }
+        return productReviewRestMapper.toDTO(productReview);
+    }
 }

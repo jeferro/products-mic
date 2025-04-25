@@ -1,8 +1,5 @@
 package com.jeferro.products.products.products.infrastructure.mongo;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.Products;
@@ -19,59 +16,62 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class ProductsMongoRepository implements ProductsRepository {
 
-  private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
+    private final ProductMongoMapper productMongoMapper = ProductMongoMapper.INSTANCE;
 
-  private final ProductsMongoDao productsMongoDao;
+    private final ProductsMongoDao productsMongoDao;
 
-  private final ProductQueryMongoCreator productQueryMongoCreator;
+    private final ProductQueryMongoCreator productQueryMongoCreator;
 
-  private final CustomMongoTemplate customMongoTemplate;
+    private final CustomMongoTemplate customMongoTemplate;
 
-  private final SequenceGenerator sequenceGenerator;
+    private final SequenceGenerator sequenceGenerator;
 
-  @Override
-  public ProductCode nextId() {
-	var value = sequenceGenerator.generate(ProductMongoDTO.class);
+    @Override
+    public ProductCode nextId() {
+        var value = sequenceGenerator.generate(ProductMongoDTO.class);
 
-	return new ProductCode(value);
-  }
+        return new ProductCode(value);
+    }
 
-  @Override
-  public void save(Product product) {
-	var dto = productMongoMapper.toDTO(product);
+    @Override
+    public void save(Product product) {
+        var dto = productMongoMapper.toDTO(product);
 
-	productsMongoDao.save(dto);
-  }
+        productsMongoDao.save(dto);
+    }
 
-  @Override
-  public Optional<Product> findById(ProductCode productCode) {
-	var productCodeDto = productMongoMapper.toDTO(productCode);
+    @Override
+    public Optional<Product> findById(ProductCode productCode) {
+        var productCodeDto = productMongoMapper.toDTO(productCode);
 
-	return productsMongoDao.findById(productCodeDto)
-		.map(productMongoMapper::toDomain);
-  }
+        return productsMongoDao.findById(productCodeDto)
+                .map(productMongoMapper::toDomain);
+    }
 
-  @Override
-  public void deleteById(ProductCode productCode) {
-	var productCodeDto = productMongoMapper.toDTO(productCode);
+    @Override
+    public void deleteById(ProductCode productCode) {
+        var productCodeDto = productMongoMapper.toDTO(productCode);
 
-	productsMongoDao.deleteById(productCodeDto);
-  }
+        productsMongoDao.deleteById(productCodeDto);
+    }
 
-  @Override
-  public Products findAll(ProductFilter filter) {
-	Query query = productQueryMongoCreator.create(filter);
+    @Override
+    public Products findAll(ProductFilter filter) {
+        Query query = productQueryMongoCreator.create(filter);
 
-	Page<ProductMongoDTO> page = customMongoTemplate.findPage(query, ProductMongoDTO.class);
+        Page<ProductMongoDTO> page = customMongoTemplate.findPage(query, ProductMongoDTO.class);
 
-	List<Product> entities = page.getContent().stream()
-		.map(productMongoMapper::toDomain)
-		.toList();
+        List<Product> entities = page.getContent().stream()
+                .map(productMongoMapper::toDomain)
+                .toList();
 
-	return Products.createOfFilter(entities, filter, page.getTotalElements());
-  }
+        return Products.createOfFilter(entities, filter, page.getTotalElements());
+    }
 }

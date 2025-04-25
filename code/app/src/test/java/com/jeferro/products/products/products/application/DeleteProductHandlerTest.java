@@ -1,9 +1,5 @@
 package com.jeferro.products.products.products.application;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.jeferro.products.products.products.application.params.DeleteProductParams;
 import com.jeferro.products.products.products.domain.events.ProductDeleted;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
@@ -15,68 +11,70 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class DeleteProductHandlerTest {
 
-  public ProductsInMemoryRepository productsInMemoryRepository;
+    public ProductsInMemoryRepository productsInMemoryRepository;
 
-  public EventInMemoryBus eventInMemoryBus;
+    public EventInMemoryBus eventInMemoryBus;
 
-  public DeleteProductHandler deleteProductHandler;
+    public DeleteProductHandler deleteProductHandler;
 
-  @BeforeEach
-  void beforeEach() {
-	eventInMemoryBus = new EventInMemoryBus();
-	productsInMemoryRepository = new ProductsInMemoryRepository();
+    @BeforeEach
+    void beforeEach() {
+        eventInMemoryBus = new EventInMemoryBus();
+        productsInMemoryRepository = new ProductsInMemoryRepository();
 
-	deleteProductHandler = new DeleteProductHandler(productsInMemoryRepository, eventInMemoryBus);
-  }
+        deleteProductHandler = new DeleteProductHandler(productsInMemoryRepository, eventInMemoryBus);
+    }
 
-  @Test
-  void givenOneProduct_whenDeleteProduct_thenDeletesProduct() {
-	var apple = givenAnAppleInDatabase();
+    @Test
+    void givenOneProduct_whenDeleteProduct_thenDeletesProduct() {
+        var apple = givenAnAppleInDatabase();
 
-	var userContext = ContextMother.user();
-	var params = new DeleteProductParams(
-		apple.getId()
-	);
+        var userContext = ContextMother.user();
+        var params = new DeleteProductParams(
+                apple.getId()
+        );
 
-	var result = deleteProductHandler.execute(userContext, params);
+        var result = deleteProductHandler.execute(userContext, params);
 
-	assertEquals(apple, result);
+        assertEquals(apple, result);
 
-	assertProductDoesNotExistInDatabase();
+        assertProductDoesNotExistInDatabase();
 
-	assertProductDeletedWasPublished(apple);
-  }
+        assertProductDeletedWasPublished(apple);
+    }
 
-  @Test
-  void givenNoProducts_whenDeleteProduct_thenThrowsException() {
-	var apple = ProductMother.apple();
+    @Test
+    void givenNoProducts_whenDeleteProduct_thenThrowsException() {
+        var apple = ProductMother.apple();
 
-	var userContext = ContextMother.user();
-	var params = new DeleteProductParams(
-		apple.getId()
-	);
+        var userContext = ContextMother.user();
+        var params = new DeleteProductParams(
+                apple.getId()
+        );
 
-	assertThrows(ProductNotFoundException.class,
-		() -> deleteProductHandler.execute(userContext, params));
-  }
+        assertThrows(ProductNotFoundException.class,
+                () -> deleteProductHandler.execute(userContext, params));
+    }
 
-  private void assertProductDoesNotExistInDatabase() {
-	assertTrue(productsInMemoryRepository.isEmpty());
-  }
+    private void assertProductDoesNotExistInDatabase() {
+        assertTrue(productsInMemoryRepository.isEmpty());
+    }
 
-  private void assertProductDeletedWasPublished(Product product) {
-	assertEquals(1, eventInMemoryBus.size());
+    private void assertProductDeletedWasPublished(Product product) {
+        assertEquals(1, eventInMemoryBus.size());
 
-	var event = (ProductDeleted) eventInMemoryBus.getFirstOrError();
+        var event = (ProductDeleted) eventInMemoryBus.getFirstOrError();
 
-	assertEquals(product.getId(), event.getCode());
-  }
+        assertEquals(product.getId(), event.getCode());
+    }
 
-  private Product givenAnAppleInDatabase() {
-	var apple = ProductMother.apple();
-	productsInMemoryRepository.init(apple);
-	return apple;
-  }
+    private Product givenAnAppleInDatabase() {
+        var apple = ProductMother.apple();
+        productsInMemoryRepository.init(apple);
+        return apple;
+    }
 }

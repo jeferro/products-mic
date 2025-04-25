@@ -7,14 +7,14 @@ import com.jeferro.shared.ddd.domain.events.EventId;
 public class ProductReviewDeleted extends ProductReviewEvent {
 
     private ProductReviewDeleted(EventId id,
-		ProductReviewId productReviewId) {
+                                 ProductReviewId productReviewId) {
         super(id, productReviewId);
     }
 
     public static ProductReviewDeleted create(ProductReview productReview) {
-	  var id = EventId.create();
+        var id = EventId.create();
 
-	  var productReviewId = productReview.getId();
+        var productReviewId = productReview.getId();
 
         return new ProductReviewDeleted(id, productReviewId);
     }

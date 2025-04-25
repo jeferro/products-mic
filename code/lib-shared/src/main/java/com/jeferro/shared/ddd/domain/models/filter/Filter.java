@@ -1,60 +1,56 @@
 package com.jeferro.shared.ddd.domain.models.filter;
 
 import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
-import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
 
 @Getter
 public abstract class Filter<Order> extends ValueObject {
 
-  private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int DEFAULT_PAGE_NUMBER = 1;
 
-  private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 10;
+    public static final boolean DEFAULT_ASCENDING = true;
 
-  private Integer pageNumber;
+    private final Integer pageNumber;
 
-  private Integer pageSize;
+    private final Integer pageSize;
 
-  private Order order;
+    private final Order order;
 
-  private boolean ascending;
+    private final Boolean ascending;
 
-  public Filter(Integer pageNumber, Integer pageSize, Order order, Boolean ascending) {
-	setPageNumber(pageNumber);
-	setPageSize(pageSize);
-	setOrder(order);
-	setAscending(ascending);
-  }
+    public Filter(Integer pageNumber, Integer pageSize, Order order, Boolean ascending) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.order = order;
+        this.ascending = ascending;
+    }
 
-  private void setPageNumber(Integer pageNumber) {
-	if (pageNumber == null) {
-	  this.pageNumber = DEFAULT_PAGE_NUMBER;
-	  return;
-	}
+    public int getPageNumber() {
+        if (pageNumber == null) {
+            return DEFAULT_PAGE_NUMBER;
+        }
 
-	ValueValidationUtils.isZeroOrPositive(pageNumber, "pageNumber", this);
-	this.pageNumber = pageNumber;
-  }
+        return pageNumber;
+    }
 
-  private void setPageSize(Integer pageSize) {
-	if (pageSize == null) {
-	  this.pageSize = DEFAULT_PAGE_SIZE;
-	  return;
-	}
+    public int getPageSize() {
+        if (pageSize == null) {
+            return DEFAULT_PAGE_SIZE;
+        }
 
-	ValueValidationUtils.isZeroOrPositive(pageSize, "pageSize", this);
-	this.pageSize = pageSize;
-  }
+        return pageSize;
+    }
 
-  private void setOrder(Order order) {
-	this.order = order;
-  }
+    public boolean isAscending() {
+        if (ascending == null) {
+            return DEFAULT_ASCENDING;
+        }
 
-  private boolean hasOrder() {
-	return order != null;
-  }
+        return ascending;
+    }
 
-  private void setAscending(Boolean ascending) {
-	this.ascending = ascending != null ? ascending : true;
-  }
+    private boolean hasOrder() {
+        return order != null;
+    }
 }

@@ -10,7 +10,7 @@ components:
       topic: com.jeferro.products.products.test
 
   rest:
-      security:
-        issuer: "products"
-        duration: 
-        password: "test"
+    security:
+      issuer: "products"
+      duration:
+      password: "test"

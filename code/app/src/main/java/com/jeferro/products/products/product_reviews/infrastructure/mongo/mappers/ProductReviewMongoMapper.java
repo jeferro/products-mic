@@ -12,27 +12,27 @@ import org.mapstruct.factory.Mappers;
 @Mapper(config = MapstructConfig.class)
 public abstract class ProductReviewMongoMapper {
 
-  public static final ProductReviewMongoMapper INSTANCE = Mappers.getMapper(ProductReviewMongoMapper.class);
+    public static final ProductReviewMongoMapper INSTANCE = Mappers.getMapper(ProductReviewMongoMapper.class);
 
-  public String toDTO(ProductReviewId productReviewId) {
-    return productReviewId.getUsername() + "::" + productReviewId.getProductCode();
-  }
+    public String toDTO(ProductReviewId productReviewId) {
+        return productReviewId.getUsername() + "::" + productReviewId.getProductCode();
+    }
 
-  public ProductReviewId toDomain(String value) {
-    var split = value.split("::");
+    public ProductReviewId toDomain(String value) {
+        var split = value.split("::");
 
-    return toDomain(split[0], split[1]);
-  }
+        return toDomain(split[0], split[1]);
+    }
 
-  protected abstract ProductReviewId toDomain(String username, String productCode);
+    protected abstract ProductReviewId toDomain(String username, String productCode);
 
-  @Mapping( target = "username", ignore = true)
-  @Mapping( target = "productCode", ignore = true)
-  public abstract ProductReview toDomain(ProductReviewMongoDTO dto);
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "productCode", ignore = true)
+    public abstract ProductReview toDomain(ProductReviewMongoDTO dto);
 
-  public abstract ProductReviewMongoDTO toDTO(ProductReview entity);
+    public abstract ProductReviewMongoDTO toDTO(ProductReview entity);
 
-  public String toDTO(ProductCode productCode) {
-    return productCode.getValue();
-  }
+    public String toDTO(ProductCode productCode) {
+        return productCode.getValue();
+    }
 }

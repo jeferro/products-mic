@@ -1,9 +1,5 @@
 package com.jeferro.products.products.products.application;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductUpdated;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
@@ -15,6 +11,8 @@ import com.jeferro.products.shared.domain.events.EventInMemoryBus;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UpdateProductHandlerTest {
 

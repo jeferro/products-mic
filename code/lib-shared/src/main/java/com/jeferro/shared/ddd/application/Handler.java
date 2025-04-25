@@ -1,11 +1,11 @@
 package com.jeferro.shared.ddd.application;
 
-import java.util.Set;
-
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 
 public abstract class Handler<P extends Params<R>, R> {
 

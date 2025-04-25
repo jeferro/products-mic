@@ -1,43 +1,43 @@
 package com.jeferro.products.products.products.domain.models;
 
-import static com.jeferro.products.products.products.domain.models.status.ProductStatus.PUBLISHED;
-import static com.jeferro.products.products.products.domain.models.status.ProductStatus.UNPUBLISHED;
-
 import com.jeferro.products.parametrics.domain.models.values.ParametricValueId;
-import com.jeferro.products.products.products.domain.events.ProductCreated;
-import com.jeferro.products.products.products.domain.events.ProductDeleted;
-import com.jeferro.products.products.products.domain.events.ProductPublished;
-import com.jeferro.products.products.products.domain.events.ProductUnpublished;
-import com.jeferro.products.products.products.domain.events.ProductUpdated;
+import com.jeferro.products.products.products.domain.events.*;
 import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 import lombok.Getter;
 
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.PUBLISHED;
+import static com.jeferro.products.products.products.domain.models.status.ProductStatus.UNPUBLISHED;
+
 @Getter
 public class Product extends AggregateRoot<ProductCode> {
 
     private LocalizedField name;
 
-    private ParametricValueId typeId;
+    private final ParametricValueId typeId;
 
     private ProductStatus status;
 
     public Product(ProductCode id,
-        LocalizedField name,
-        ParametricValueId typeId,
-        ProductStatus status) {
+                   LocalizedField name,
+                   ParametricValueId typeId,
+                   ProductStatus status) {
         super(id);
 
-        setName(name);
-        setTypeId(typeId);
-        setStatus(status);
+        this.name = name;
+        this.typeId = typeId;
+        this.status = status;
     }
 
     public static Product create(ProductCode productCode,
-        ParametricValueId typeId,
-        LocalizedField name) {
+                                 ParametricValueId typeId,
+                                 LocalizedField name) {
+        ValueValidationUtils.isNotNull(productCode, "productCode", Product.class);
+        ValueValidationUtils.isNotNull(typeId, "typeId", Product.class);
+        ValueValidationUtils.isNotNull(name, "name", Product.class);
+
         var product = new Product(productCode, name, typeId, UNPUBLISHED);
 
         var event = ProductCreated.create(product);
@@ -47,27 +47,34 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     public void update(LocalizedField name) {
-        setName(name);
+        ValueValidationUtils.isNotNull(name, "name", Product.class);
+
+        this.name = name;
 
         var event = ProductUpdated.create(this);
         record(event);
     }
 
-    public void updateStatus(ProductStatus status) {
-        if(this.status == status) {
+    public void publish() {
+        if (PUBLISHED.equals(status)) {
             return;
         }
 
-        setStatus(status);
+        this.status = PUBLISHED;
 
-        if (PUBLISHED.equals(status)) {
-            var event = ProductPublished.create(this);
-            record(event);
+        var event = ProductPublished.create(this);
+        record(event);
+    }
+
+    public void unpublish() {
+        if (UNPUBLISHED.equals(status)) {
+            return;
         }
-        else {
-			var event = ProductUnpublished.create(this);
-			record(event);
-        }
+
+        this.status = UNPUBLISHED;
+
+        var event = ProductUnpublished.create(this);
+        record(event);
     }
 
     public void delete() {
@@ -77,20 +84,5 @@ public class Product extends AggregateRoot<ProductCode> {
 
     public ProductCode getCode() {
         return id;
-    }
-
-    private void setName(LocalizedField name) {
-        ValueValidationUtils.isNotNull(name, "name", this);
-        this.name = name;
-    }
-
-    private void setStatus(ProductStatus status) {
-        ValueValidationUtils.isNotNull(status, "status", this);
-        this.status = status;
-    }
-
-    public void setTypeId(ParametricValueId typeId) {
-        ValueValidationUtils.isNotNull(typeId, "typeId", this);
-        this.typeId = typeId;
     }
 }

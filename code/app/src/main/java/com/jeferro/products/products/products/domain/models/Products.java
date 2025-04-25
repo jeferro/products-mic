@@ -27,8 +27,8 @@ public class Products extends EntityCollection<ProductCode, Product> {
 
     public static Products createOfFilter(List<Product> products, ProductFilter filter, Long totalEntities) {
         return new Products(products,
-            filter.getPageSize(),
-            filter.getPageNumber(),
-            totalEntities);
+                filter.getPageSize(),
+                filter.getPageNumber(),
+                totalEntities);
     }
 }

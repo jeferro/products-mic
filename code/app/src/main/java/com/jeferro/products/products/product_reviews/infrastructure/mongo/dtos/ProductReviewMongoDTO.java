@@ -4,13 +4,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("product_reviews")
 public record ProductReviewMongoDTO(
-	ProductReviewIdMongoDTO id,
-	String username,
-	String productCode,
-	String locale,
-	String comment
+        ProductReviewIdMongoDTO id,
+        String username,
+        String productCode,
+        String locale,
+        String comment
 ) {
-	public String getId() {
-	  return username + "::" + productCode;
-	}
+    public String getId() {
+        return username + "::" + productCode;
+    }
 }

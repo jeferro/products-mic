@@ -1,13 +1,13 @@
 package com.jeferro.shared.auth.infrastructure.mongo.services;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.stereotype.Component;
 
 @Component
 public class MongoFieldManager {

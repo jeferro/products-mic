@@ -14,21 +14,21 @@ import org.mapstruct.factory.Mappers;
 @Mapper(config = MapstructConfig.class)
 public abstract class ProductReviewKafkaMapper {
 
-  public static final ProductReviewKafkaMapper INSTANCE = Mappers.getMapper(ProductReviewKafkaMapper.class);
+    public static final ProductReviewKafkaMapper INSTANCE = Mappers.getMapper(ProductReviewKafkaMapper.class);
 
-  public Object toDTO(ProductReviewEvent event) {
-	return switch (event) {
-	  case ProductReviewCreated productReviewCreated -> toDTO(productReviewCreated);
-	  case ProductReviewUpdated productReviewUpdated -> toDTO(productReviewUpdated);
-	  case ProductReviewDeleted productReviewDeleted -> toDTO(productReviewDeleted);
+    public Object toDTO(ProductReviewEvent event) {
+        return switch (event) {
+            case ProductReviewCreated productReviewCreated -> toDTO(productReviewCreated);
+            case ProductReviewUpdated productReviewUpdated -> toDTO(productReviewUpdated);
+            case ProductReviewDeleted productReviewDeleted -> toDTO(productReviewDeleted);
 
-	  default -> throw new IllegalStateException("Unexpected value: " + event);
-	};
-  }
+            default -> throw new IllegalStateException("Unexpected value: " + event);
+        };
+    }
 
-  protected abstract ProductReviewCreatedAvroDTO toDTO(ProductReviewCreated entity);
+    protected abstract ProductReviewCreatedAvroDTO toDTO(ProductReviewCreated entity);
 
-  protected abstract ProductReviewUpdatedAvroDTO toDTO(ProductReviewUpdated entity);
+    protected abstract ProductReviewUpdatedAvroDTO toDTO(ProductReviewUpdated entity);
 
-  protected abstract ProductReviewDeletedAvroDTO toDTO(ProductReviewDeleted entity);
+    protected abstract ProductReviewDeletedAvroDTO toDTO(ProductReviewDeleted entity);
 }

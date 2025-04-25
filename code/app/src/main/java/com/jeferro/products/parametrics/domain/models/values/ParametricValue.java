@@ -8,38 +8,27 @@ import lombok.Getter;
 @Getter
 public class ParametricValue extends Projection<ParametricValueId> {
 
-  private LocalizedField name;
+    private final LocalizedField name;
 
-  private String value;
+    private final String value;
 
-  private ParametricValues values;
+    private final ParametricValues values;
 
-  public ParametricValue(
-	  ParametricValueId id,
-	  LocalizedField name,
-	  String value,
-	  ParametricValues values) {
-	super(id);
+    public ParametricValue(
+            ParametricValueId id,
+            LocalizedField name,
+            String value,
+            ParametricValues values) {
+        super(id);
 
-	setName(name);
-	setValue(value);
-	setValues(values);
-  }
+        this.name = name;
+        this.value = value;
+        this.values = values;
+    }
 
-  public static ParametricValue createSimple(ParametricValueId id, LocalizedField name) {
-	return new ParametricValue(id, name, null, null);
-  }
+    public static ParametricValue createSimple(ParametricValueId id, LocalizedField name) {
+        ValueValidationUtils.isNotNull(name, "name", ParametricValue.class);
 
-  private void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "name", this);
-	this.name = name;
-  }
-
-  private void setValue(String value) {
-	this.value = value;
-  }
-
-  private void setValues(ParametricValues values) {
-	this.values = values;
-  }
+        return new ParametricValue(id, name, null, null);
+    }
 }

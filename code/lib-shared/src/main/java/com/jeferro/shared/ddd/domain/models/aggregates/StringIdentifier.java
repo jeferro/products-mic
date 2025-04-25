@@ -6,19 +6,16 @@ import lombok.Getter;
 @Getter
 public abstract class StringIdentifier extends Identifier {
 
-  private String value;
+    private final String value;
 
-  public StringIdentifier(String value) {
-	setValue(value);
-  }
+    public StringIdentifier(String value) {
+        ValueValidationUtils.isNotNull(value, "value", this);
 
-  @Override
-  public String toString() {
-	return String.valueOf(value);
-  }
+        this.value = value;
+    }
 
-  private void setValue(String value) {
-	ValueValidationUtils.isNotBlank(value, "value", this);
-	this.value = value;
-  }
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

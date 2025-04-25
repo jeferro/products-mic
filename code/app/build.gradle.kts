@@ -3,7 +3,7 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("com.jeferro.plugins.avro-generator")
-    id ("com.jeferro.plugins.api-first-generator")
+    id("com.jeferro.plugins.api-first-generator")
     id("jacoco")
 
 }

@@ -1,9 +1,5 @@
 package com.jeferro.products.products.product_reviews.application;
 
-import static com.jeferro.products.shared.application.Roles.ADMIN;
-
-import java.util.Set;
-
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
@@ -13,37 +9,41 @@ import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
+import static com.jeferro.products.shared.application.Roles.ADMIN;
+
 @Component
 @RequiredArgsConstructor
 public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
 
-  private final ProductReviewsRepository productReviewsRepository;
+    private final ProductReviewsRepository productReviewsRepository;
 
-  private final EventBus eventBus;
+    private final EventBus eventBus;
 
-  @Override
-  public Set<String> getMandatoryUserRoles() {
-	return Set.of(ADMIN);
-  }
+    @Override
+    public Set<String> getMandatoryUserRoles() {
+        return Set.of(ADMIN);
+    }
 
-  @Override
-  public Void execute(Context context, DeleteAllProductReviewsOfProductParams params) {
-	var productCode = params.getProductCode();
+    @Override
+    public Void execute(Context context, DeleteAllProductReviewsOfProductParams params) {
+        var productCode = params.getProductCode();
 
-	var productReviews = productReviewsRepository.findAllByProductCode(productCode);
+        var productReviews = productReviewsRepository.findAllByProductCode(productCode);
 
-	if (productReviews.isEmpty()) {
-	  return null;
-	}
+        if (productReviews.isEmpty()) {
+            return null;
+        }
 
-	productReviews.forEach(ProductReview::deleteBySystem);
+        productReviews.forEach(ProductReview::deleteBySystem);
 
-	var productReviewIds = productReviews.getIds();
+        var productReviewIds = productReviews.getIds();
 
-	productReviewsRepository.deleteAllById(productReviewIds);
+        productReviewsRepository.deleteAllById(productReviewIds);
 
-	eventBus.sendAll(productReviews);
+        eventBus.sendAll(productReviews);
 
-	return null;
-  }
+        return null;
+    }
 }

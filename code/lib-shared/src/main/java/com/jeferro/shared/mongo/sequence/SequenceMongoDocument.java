@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "sequences")
 public record SequenceMongoDocument(
-	String id,
-	String value) {
+        String id,
+        String value) {
 }

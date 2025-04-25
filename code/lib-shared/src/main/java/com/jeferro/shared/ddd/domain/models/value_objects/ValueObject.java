@@ -19,9 +19,9 @@ public abstract class ValueObject {
             return true;
         }
 
-		if (other == null || getClass() != other.getClass()) {
-			return false;
-		}
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
 
         return EqualsBuilder.reflectionEquals(
                 this,

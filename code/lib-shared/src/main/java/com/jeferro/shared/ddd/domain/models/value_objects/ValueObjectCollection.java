@@ -9,8 +9,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public abstract class ValueObjectCollection<V extends ValueObject>
-    extends ValueObject
-    implements Collection<V> {
+        extends ValueObject
+        implements Collection<V> {
 
     protected List<V> items;
 
@@ -113,7 +113,7 @@ public abstract class ValueObjectCollection<V extends ValueObject>
 
     private void setItems(List<V> items) {
         this.items = items != null
-            ? items
-            : new ArrayList<>();
+                ? items
+                : new ArrayList<>();
     }
 }

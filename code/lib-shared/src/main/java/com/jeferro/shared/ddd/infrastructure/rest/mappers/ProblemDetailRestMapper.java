@@ -18,7 +18,7 @@ public class ProblemDetailRestMapper {
         var dto = ProblemDetail.forStatus(status);
         dto.setDetail(cause.getMessage());
 
-        if(cause instanceof ApplicationException applicationException){
+        if (cause instanceof ApplicationException applicationException) {
             var type = URI.create("data:" + applicationException.getCode());
             dto.setType(type);
 

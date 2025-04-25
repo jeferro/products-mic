@@ -7,11 +7,11 @@ import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
 
 @Getter
-public class GetProductParams extends Params<Product> {
+public class PublishProductParams extends Params<Product> {
 
     private final ProductCode productCode;
 
-    public GetProductParams(ProductCode productCode) {
+    public PublishProductParams(ProductCode productCode) {
         super();
 
         ValueValidationUtils.isNotNull(productCode, "productCode", this);

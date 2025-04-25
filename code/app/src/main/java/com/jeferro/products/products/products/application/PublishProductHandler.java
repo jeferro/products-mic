@@ -1,6 +1,6 @@
 package com.jeferro.products.products.products.application;
 
-import com.jeferro.products.products.products.application.params.UpdateProductParams;
+import com.jeferro.products.products.products.application.params.PublishProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.shared.ddd.application.Handler;
@@ -15,7 +15,7 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateProductHandler extends Handler<UpdateProductParams, Product> {
+public class PublishProductHandler extends Handler<PublishProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 
@@ -27,22 +27,20 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     }
 
     @Override
-    public Product execute(Context context, UpdateProductParams params) {
+    public Product execute(Context context, PublishProductParams params) {
         var product = ensureProductExists(params);
 
-        return updateProduct(params, product);
+        return publishProduct(params, product);
     }
 
-    private Product ensureProductExists(UpdateProductParams params) {
+    private Product ensureProductExists(PublishProductParams params) {
         var productCode = params.getProductCode();
 
         return productsRepository.findByIdOrError(productCode);
     }
 
-    private Product updateProduct(UpdateProductParams params, Product product) {
-        var name = params.getName();
-
-        product.update(name);
+    private Product publishProduct(PublishProductParams params, Product product) {
+        product.publish();
 
         productsRepository.save(product);
 

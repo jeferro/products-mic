@@ -1,8 +1,5 @@
 package com.jeferro.products.products.product_reviews.infrastructure.mongo;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
@@ -12,6 +9,9 @@ import com.jeferro.products.products.product_reviews.infrastructure.mongo.mapper
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -57,8 +57,8 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
     @Override
     public void deleteAllById(List<ProductReviewId> productReviewIds) {
         var productReviewIdDtos = productReviewIds.stream()
-            .map(productReviewMongoMapper::toDTO)
-            .toList();
+                .map(productReviewMongoMapper::toDTO)
+                .toList();
 
         productReviewMongoDao.deleteAllById(productReviewIdDtos);
     }

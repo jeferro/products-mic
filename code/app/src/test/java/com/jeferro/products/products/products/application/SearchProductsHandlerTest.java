@@ -1,17 +1,15 @@
 package com.jeferro.products.products.products.application;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.jeferro.products.products.products.application.params.SearchProductsParams;
 import com.jeferro.products.products.products.domain.models.Product;
-import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.models.ProductMother;
+import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class SearchProductsHandlerTest {
 

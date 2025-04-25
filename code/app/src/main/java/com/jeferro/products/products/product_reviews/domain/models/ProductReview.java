@@ -1,92 +1,89 @@
 package com.jeferro.products.products.product_reviews.domain.models;
 
-import java.util.Locale;
-
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
-import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.models.auth.Auth;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
+
+import java.util.Locale;
 
 @Getter
 public class ProductReview extends AggregateRoot<ProductReviewId> {
 
-  private Locale locale;
+    private Locale locale;
 
-  private String comment;
+    private String comment;
 
-  public ProductReview(ProductReviewId id,
-	  Locale locale,
-	  String comment) {
-	super(id);
+    public ProductReview(ProductReviewId id,
+                         Locale locale,
+                         String comment) {
+        super(id);
 
-	setLocale(locale);
-	setComment(comment);
-  }
+        this.locale = locale;
+        this.comment = comment;
+    }
 
-  public static ProductReview createOf(ProductCode productCode,
-	  Username username,
-	  Locale locale,
-	  String comment) {
-	var productReviewId = ProductReviewId.createOf(username, productCode);
+    public static ProductReview createOf(ProductCode productCode,
+                                         Locale locale,
+                                         String comment,
+                                         Auth auth) {
+        ValueValidationUtils.isNotNull(productCode, "productCode", ProductReview.class);
+        ValueValidationUtils.isNotNull(locale, "locale", ProductReview.class);
+        ValueValidationUtils.isNotNull(comment, "comment", ProductReview.class);
 
-	var productReview = new ProductReview(productReviewId, locale, comment);
+        var productReviewId = ProductReviewId.createOf(auth, productCode);
 
-	var event = ProductReviewCreated.create(productReview);
-	productReview.record(event);
+        var productReview = new ProductReview(productReviewId, locale, comment);
 
-	return productReview;
-  }
+        var event = ProductReviewCreated.create(productReview);
+        productReview.record(event);
 
-  public void update(String comment, Locale locale, Username username) {
-	ensureProductReviewBelongsToUser(username);
+        return productReview;
+    }
 
-	setLocale(locale);
-	setComment(comment);
+    public void update(String comment, Locale locale, Auth auth) {
+        ValueValidationUtils.isNotNull(locale, "locale", ProductReview.class);
+        ValueValidationUtils.isNotNull(comment, "comment", ProductReview.class);
 
-	var event = ProductReviewUpdated.create(this);
-	record(event);
-  }
+        ensureProductReviewBelongsToUser(auth);
 
-  public void deleteByUser(Username username) {
-	ensureProductReviewBelongsToUser(username);
+        this.comment = comment;
+        this.locale = locale;
 
-	var event = ProductReviewDeleted.create(this);
-	record(event);
-  }
+        var event = ProductReviewUpdated.create(this);
+        record(event);
+    }
 
-  public void deleteBySystem() {
-	var event = ProductReviewDeleted.create(this);
-	record(event);
-  }
+    public void deleteByUser(Auth auth) {
+        ensureProductReviewBelongsToUser(auth);
 
-  public Username getUsername() {
-	return id.getUsername();
-  }
+        var event = ProductReviewDeleted.create(this);
+        record(event);
+    }
 
-  public ProductCode getProductCode() {
-	return id.getProductCode();
-  }
+    public void deleteBySystem() {
+        var event = ProductReviewDeleted.create(this);
+        record(event);
+    }
 
-  private void setLocale(Locale locale) {
-	ValueValidationUtils.isNotNull(locale, "locale", this);
-	this.locale = locale;
-  }
+    public String getUsername() {
+        return id.getUsername();
+    }
 
-  private void setComment(String comment) {
-	ValueValidationUtils.isNotNull(comment, "comment", this);
-	this.comment = comment;
-  }
+    public ProductCode getProductCode() {
+        return id.getProductCode();
+    }
 
-  private void ensureProductReviewBelongsToUser(Username username) {
-	if (username.equals(id.getUsername())) {
-	  return;
-	}
+    private void ensureProductReviewBelongsToUser(Auth auth) {
+        if (auth.username().equals(id.getUsername())) {
+            return;
+        }
 
-	throw ProductReviewDoesNotBelongUser.belongsToOtherUser(id, username);
-  }
+        throw ProductReviewDoesNotBelongUser.belongsToOtherUser(id, auth);
+    }
 }
