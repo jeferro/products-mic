@@ -119,12 +119,3 @@ components:
           example:
             es: 'Manzana'
             en: 'Apple'
-
-    UpdateProductStatusInput:
-      type: object
-      description: Update product status input
-      required:
-        - status
-      properties:
-        status:
-          $ref: '#/components/schemas/ProductStatus'

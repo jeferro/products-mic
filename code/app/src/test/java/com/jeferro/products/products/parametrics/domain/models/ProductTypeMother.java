@@ -6,14 +6,14 @@ import com.jeferro.shared.locale.domain.models.LocalizedField;
 
 public class ProductTypeMother {
 
-  public static ParametricValue fruit() {
-	var fruitValueId = fruitId();
-	return ParametricValue.createSimple(
-		fruitValueId,
-		LocalizedField.createOfUS("Fruit"));
-  }
+    public static ParametricValue fruit() {
+        var fruitValueId = fruitId();
+        return ParametricValue.createSimple(
+                fruitValueId,
+                LocalizedField.createOfUS("Fruit"));
+    }
 
-  public static ParametricValueId fruitId() {
-	return ParametricValueId.createOf("fruit");
-  }
+    public static ParametricValueId fruitId() {
+        return ParametricValueId.createOf("fruit");
+    }
 }

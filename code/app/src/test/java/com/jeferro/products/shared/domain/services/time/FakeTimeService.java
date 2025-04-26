@@ -1,10 +1,10 @@
 package com.jeferro.products.shared.domain.services.time;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-
 import com.jeferro.shared.time.domain.services.TimeGenerator;
 import com.jeferro.shared.time.domain.services.TimeService;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class FakeTimeService implements TimeGenerator {
 

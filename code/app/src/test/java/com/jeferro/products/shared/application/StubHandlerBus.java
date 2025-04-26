@@ -1,12 +1,12 @@
 package com.jeferro.products.shared.application;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.jeferro.shared.ddd.domain.models.context.Context;
 import com.jeferro.shared.ddd.application.bus.HandlerBus;
 import com.jeferro.shared.ddd.application.params.Params;
+import com.jeferro.shared.ddd.domain.models.context.Context;
 import jakarta.el.MethodNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StubHandlerBus extends HandlerBus {
 

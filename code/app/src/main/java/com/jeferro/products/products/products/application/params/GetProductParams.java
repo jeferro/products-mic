@@ -9,16 +9,13 @@ import lombok.Getter;
 @Getter
 public class GetProductParams extends Params<Product> {
 
-  private ProductCode productCode;
+    private final ProductCode productCode;
 
-  public GetProductParams(ProductCode productCode) {
-	super();
+    public GetProductParams(ProductCode productCode) {
+        super();
 
-	setProductCode(productCode);
-  }
+        ValueValidationUtils.isNotNull(productCode, "productCode", this);
 
-  private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "productCode", this);
-	this.productCode = productCode;
-  }
+        this.productCode = productCode;
+    }
 }

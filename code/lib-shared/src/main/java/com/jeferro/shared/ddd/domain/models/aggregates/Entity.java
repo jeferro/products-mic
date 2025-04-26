@@ -1,9 +1,7 @@
 package com.jeferro.shared.ddd.domain.models.aggregates;
 
-import com.jeferro.shared.ddd.domain.models.projection.Projection;
-import com.jeferro.shared.ddd.domain.models.value_objects.ValueObject;
+import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -15,6 +13,8 @@ public class Entity<ID extends Identifier> {
     protected final ID id;
 
     public Entity(ID id) {
+        ValueValidationUtils.isNotNull(id, "id", this);
+
         this.id = id;
     }
 

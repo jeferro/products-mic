@@ -1,34 +1,42 @@
 package com.jeferro.products.products.product_reviews.domain.models;
 
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
-import com.jeferro.shared.ddd.domain.models.auth.Username;
+import com.jeferro.shared.ddd.domain.models.aggregates.StringIdentifier;
+import com.jeferro.shared.ddd.domain.models.auth.Auth;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
 
 @Getter
-public class ProductReviewId extends Identifier {
+public class ProductReviewId extends StringIdentifier {
 
-  private Username username;
+    private static final String SEPARATOR = "::";
 
-  private ProductCode productCode;
+    private final String username;
 
-  public ProductReviewId(Username username, ProductCode productCode) {
-	setUsername(username);
-	setProductCode(productCode);
-  }
+    private final ProductCode productCode;
 
-  public static ProductReviewId createOf(Username username, ProductCode productCode) {
-	return new ProductReviewId(username, productCode);
-  }
+    public ProductReviewId(String value) {
+        super(value);
 
-  private void setUsername(Username username) {
-	ValueValidationUtils.isNotNull(username, "username", this);
-	this.username = username;
-  }
+        var split = value.split(SEPARATOR);
 
-  private void setProductCode(ProductCode productCode) {
-	ValueValidationUtils.isNotNull(productCode, "productCode", this);
-	this.productCode = productCode;
-  }
+        this.username = split[0];
+        this.productCode = new ProductCode(split[1]);
+    }
+
+    private ProductReviewId(String username, ProductCode productCode) {
+        super(username + SEPARATOR + productCode);
+
+        this.username = username;
+        this.productCode = productCode;
+    }
+
+    public static ProductReviewId createOf(Auth auth, ProductCode productCode) {
+        ValueValidationUtils.isNotNull(auth, "auth", ProductReview.class);
+        ValueValidationUtils.isNotNull(productCode, "productCode", ProductReview.class);
+
+        String username = auth.username();
+
+        return new ProductReviewId(username, productCode);
+    }
 }

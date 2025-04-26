@@ -11,5 +11,5 @@ import org.mapstruct.factory.Mappers;
 @Mapper(config = MapstructConfig.class)
 public abstract class ParametricRestMapper extends ProjectionMapper<Parametric, ParametricId, ParametricRestDTO> {
 
-  public static final ParametricRestMapper INSTANCE = Mappers.getMapper(ParametricRestMapper.class);
+    public static final ParametricRestMapper INSTANCE = Mappers.getMapper(ParametricRestMapper.class);
 }

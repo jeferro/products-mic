@@ -1,9 +1,5 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
-
-import java.util.Set;
-
 import com.jeferro.products.parametrics.domain.services.ParametricValidator;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
@@ -13,6 +9,10 @@ import com.jeferro.shared.ddd.domain.events.EventBus;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+import static com.jeferro.products.shared.application.Roles.USER;
 
 @Component
 @RequiredArgsConstructor

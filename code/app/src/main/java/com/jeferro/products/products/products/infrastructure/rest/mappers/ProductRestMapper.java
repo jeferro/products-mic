@@ -1,61 +1,54 @@
 package com.jeferro.products.products.products.infrastructure.rest.mappers;
 
-import java.util.List;
-
-import com.jeferro.products.generated.rest.v1.dtos.CreateProductInputRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.ProductSummaryRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.UpdateProductInputRestDTO;
-import com.jeferro.products.generated.rest.v1.dtos.UpdateProductStatusInputRestDTO;
-import com.jeferro.products.products.products.application.params.CreateProductParams;
-import com.jeferro.products.products.products.application.params.DeleteProductParams;
-import com.jeferro.products.products.products.application.params.GetProductParams;
-import com.jeferro.products.products.products.application.params.SearchProductsParams;
-import com.jeferro.products.products.products.application.params.UpdateProductParams;
-import com.jeferro.products.products.products.application.params.UpdateProductStatusParams;
+import com.jeferro.products.generated.rest.v1.dtos.*;
+import com.jeferro.products.products.products.application.params.*;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
-import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
+import com.jeferro.shared.mappers.AggregateRestMapper;
 import com.jeferro.shared.mappers.MapstructConfig;
-import com.jeferro.shared.mappers.PrimaryAggregateMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(config = MapstructConfig.class)
-public abstract class ProductRestMapper extends PrimaryAggregateMapper<Product, ProductCode, ProductRestDTO> {
+public abstract class ProductRestMapper extends AggregateRestMapper<Product, ProductCode, ProductRestDTO> {
 
-  public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
+    public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 
-  public SearchProductsParams toSearchProductsParams(Integer pageNumber,
-	  Integer pageSize,
-	  ProductFilterOrderRestDTO orderRestDTO,
-	  Boolean ascending,
-	  String name) {
-	var order = toDomain(orderRestDTO);
-	var productFilter = new ProductFilter(pageNumber, pageSize, order, ascending, name);
+    public abstract ProductSummaryRestDTO toSummaryDTO(Product product);
 
-	return new SearchProductsParams(productFilter);
-  }
+    public abstract List<ProductSummaryRestDTO> toSummaryDTO(PaginatedList<Product> product);
 
-  public abstract ProductFilterOrder toDomain(ProductFilterOrderRestDTO orderRestDTO);
+    public SearchProductsParams toSearchProductsParams(Integer pageNumber,
+                                                       Integer pageSize,
+                                                       ProductFilterOrderRestDTO order,
+                                                       Boolean ascending,
+                                                       String name) {
+        var filter = toProductFilter(pageNumber, pageSize, order, ascending, name);
 
-  public abstract CreateProductParams toCreateProductParams(CreateProductInputRestDTO productInputRestDTO);
+        return new SearchProductsParams(filter);
+    }
 
-  public abstract GetProductParams toGetProductParams(String productCode);
+    protected abstract ProductFilter toProductFilter(Integer pageNumber,
+                                                  Integer pageSize,
+                                                  ProductFilterOrderRestDTO order,
+                                                  Boolean ascending,
+                                                  String name);
 
-  @Mapping(target = "name", source = "inputRestDTO.name")
-  public abstract UpdateProductParams toUpdateProductParams(String productCode, UpdateProductInputRestDTO inputRestDTO);
+    public abstract CreateProductParams toCreateProductParams(CreateProductInputRestDTO productInputRestDTO);
 
-  @Mapping(target = "status", source = "inputRestDTO.status")
-  public abstract UpdateProductStatusParams toUpdateProductStatusParams(
-      String productCode,
-	  UpdateProductStatusInputRestDTO inputRestDTO);
+    public abstract GetProductParams toGetProductParams(String productCode);
 
-  public abstract DeleteProductParams toDeleteProductParams(String productCode);
+    @Mapping(target = "name", source = "inputRestDTO.name")
+    public abstract UpdateProductParams toUpdateProductParams(String productCode, UpdateProductInputRestDTO inputRestDTO);
 
-  public abstract List<ProductSummaryRestDTO> toDTO(Products products);
+    public abstract PublishProductParams toPublishProductParams(String productCode);
+
+    public abstract UnpublishProductParams toUnpublishProductParams(String productCode);
+
+    public abstract DeleteProductParams toDeleteProductParams(String productCode);
 }

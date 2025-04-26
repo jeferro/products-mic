@@ -4,8 +4,8 @@ import java.io.File;
 
 public class AvroGeneratorExtension {
 
-	public File schemaDir;
+    public File schemaDir;
 
-	public File targetDir;
+    public File targetDir;
 
 }

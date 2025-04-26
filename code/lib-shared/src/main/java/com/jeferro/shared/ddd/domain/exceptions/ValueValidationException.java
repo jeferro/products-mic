@@ -2,7 +2,7 @@ package com.jeferro.shared.ddd.domain.exceptions;
 
 public class ValueValidationException extends InternalErrorException {
 
-    private ValueValidationException(String message){
+    private ValueValidationException(String message) {
         super(message);
     }
 

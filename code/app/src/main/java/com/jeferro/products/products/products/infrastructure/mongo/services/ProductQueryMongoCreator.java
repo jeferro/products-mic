@@ -1,13 +1,13 @@
 package com.jeferro.products.products.products.infrastructure.mongo.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
 import com.jeferro.shared.ddd.infrastructure.mongo.services.QueryMongoCreator;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilterOrder, ProductFilter> {
@@ -18,7 +18,7 @@ public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilterOrd
 
         if (filter.hasName()) {
             Criteria nameCriteria = Criteria.where("name")
-                .regex(filter.getName(), "i");
+                    .regex(filter.getName(), "i");
 
             criteria.add(nameCriteria);
         }
@@ -28,7 +28,7 @@ public class ProductQueryMongoCreator extends QueryMongoCreator<ProductFilterOrd
 
     @Override
     protected String mapOrder(ProductFilterOrder order) {
-        if(order == null) {
+        if (order == null) {
             return "name";
         }
 

@@ -13,7 +13,7 @@ public class AnonymousAuth extends Auth {
     }
 
     @Override
-    public String who() {
+    public String username() {
         return "anonymous";
     }
 

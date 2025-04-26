@@ -6,24 +6,17 @@ import lombok.Getter;
 @Getter
 public abstract class ApplicationException extends RuntimeException {
 
-    private String code;
+    private final String code;
 
-    private String title;
+    private final String title;
 
     protected ApplicationException(String code, String title, String message) {
         super(message);
 
-        setCode(code);
-        setTitle(title);
-    }
-
-    private void setCode(String code) {
         ValueValidationUtils.isNotBlank(code, "code", this);
-        this.code = code;
-    }
-
-    private void setTitle(String title) {
         ValueValidationUtils.isNotBlank(title, "title", this);
+
+        this.code = code;
         this.title = title;
     }
 }

@@ -1,8 +1,8 @@
 package com.jeferro.products.users.users.infrastructure.mongo.dtos;
 
-import java.util.Set;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Set;
 
 @Document(collection = "users")
 public record UserMongoDTO(

@@ -13,7 +13,7 @@ public class SystemAuth extends Auth {
     }
 
     @Override
-    public String who() {
+    public String username() {
         return "system";
     }
 

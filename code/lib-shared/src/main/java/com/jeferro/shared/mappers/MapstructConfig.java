@@ -6,9 +6,9 @@ import com.jeferro.shared.mappers.others.ValueObjectMapper;
 import org.mapstruct.MapperConfig;
 
 @MapperConfig(uses = {
-	ValueObjectMapper.class,
-	LocaleMapper.class,
-	StringIdentifierMapper.class
+        ValueObjectMapper.class,
+        LocaleMapper.class,
+        StringIdentifierMapper.class
 })
 public class MapstructConfig {
 

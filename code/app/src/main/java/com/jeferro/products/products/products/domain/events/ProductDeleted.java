@@ -4,25 +4,24 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.status.ProductStatus;
 import com.jeferro.shared.ddd.domain.events.EventId;
-import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 import lombok.Getter;
 
 @Getter
 public class ProductDeleted extends ProductEvent {
 
-    private LocalizedField name;
+    private final LocalizedField name;
 
-    private ProductStatus status;
+    private final ProductStatus status;
 
     private ProductDeleted(EventId id,
-        ProductCode code,
-        LocalizedField name,
-        ProductStatus status) {
+                           ProductCode code,
+                           LocalizedField name,
+                           ProductStatus status) {
         super(id, code);
 
-        setName(name);
-        setStatus(status);
+        this.name = name;
+        this.status = status;
     }
 
     public static ProductDeleted create(Product product) {
@@ -33,15 +32,5 @@ public class ProductDeleted extends ProductEvent {
         var status = product.getStatus();
 
         return new ProductDeleted(id, code, name, status);
-    }
-
-    public void setStatus(ProductStatus status) {
-        ValueValidationUtils.isNotNull(status, "status", this);
-        this.status = status;
-    }
-
-    public void setName(LocalizedField name) {
-        ValueValidationUtils.isNotNull(name, "name", this);
-        this.name = name;
     }
 }

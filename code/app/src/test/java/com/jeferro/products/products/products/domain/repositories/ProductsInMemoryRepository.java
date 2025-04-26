@@ -3,8 +3,8 @@ package com.jeferro.products.products.products.domain.repositories;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
-import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.shared.domain.repositories.InMemoryRepository;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 
 public class ProductsInMemoryRepository extends InMemoryRepository<Product, ProductCode>
         implements ProductsRepository {
@@ -15,14 +15,14 @@ public class ProductsInMemoryRepository extends InMemoryRepository<Product, Prod
     }
 
     @Override
-    public Products findAll(ProductFilter filter) {
+    public PaginatedList<Product> findAll(ProductFilter filter) {
         var entities = data.values().stream()
                 .filter(product -> matchProduct(filter, product))
                 .toList();
 
         var paginatedEntities = paginateEntities(entities, filter);
 
-        return new Products(paginatedEntities);
+        return PaginatedList.createOfList(paginatedEntities);
     }
 
     private boolean matchProduct(ProductFilter filter, Product product) {

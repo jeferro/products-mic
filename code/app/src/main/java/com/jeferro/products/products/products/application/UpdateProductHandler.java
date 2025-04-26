@@ -1,9 +1,5 @@
 package com.jeferro.products.products.products.application;
 
-import static com.jeferro.products.shared.application.Roles.USER;
-
-import java.util.Set;
-
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
@@ -12,6 +8,10 @@ import com.jeferro.shared.ddd.domain.events.EventBus;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+import static com.jeferro.products.shared.application.Roles.USER;
 
 @Component
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class UpdateProductHandler extends Handler<UpdateProductParams, Product> 
     private Product ensureProductExists(UpdateProductParams params) {
         var productCode = params.getProductCode();
 
-	  return productsRepository.findByIdOrError(productCode);
+        return productsRepository.findByIdOrError(productCode);
     }
 
     private Product updateProduct(UpdateProductParams params, Product product) {

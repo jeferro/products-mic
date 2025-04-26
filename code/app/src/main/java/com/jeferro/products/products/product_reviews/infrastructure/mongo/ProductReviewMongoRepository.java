@@ -1,17 +1,17 @@
 package com.jeferro.products.products.product_reviews.infrastructure.mongo;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
 import com.jeferro.products.products.product_reviews.infrastructure.mongo.daos.ProductReviewMongoDao;
 import com.jeferro.products.products.product_reviews.infrastructure.mongo.mappers.ProductReviewMongoMapper;
 import com.jeferro.products.products.products.domain.models.ProductCode;
+import com.jeferro.shared.ddd.domain.models.aggregates.Entity;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,14 +29,14 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
     }
 
     @Override
-    public ProductReviews findAllByProductCode(ProductCode productCode) {
+    public PaginatedList<ProductReview> findAllByProductCode(ProductCode productCode) {
         var productCodeDto = productReviewMongoMapper.toDTO(productCode);
 
         var products = productReviewMongoDao.findAllByProductCode(productCodeDto).stream()
                 .map(productReviewMongoMapper::toDomain)
                 .toList();
 
-        return new ProductReviews(products);
+        return PaginatedList.createOfList(products);
     }
 
     @Override
@@ -55,11 +55,12 @@ public class ProductReviewMongoRepository implements ProductReviewsRepository {
     }
 
     @Override
-    public void deleteAllById(List<ProductReviewId> productReviewIds) {
-        var productReviewIdDtos = productReviewIds.stream()
-            .map(productReviewMongoMapper::toDTO)
-            .toList();
+    public void deleteAll(PaginatedList<ProductReview> productReviews) {
+        var productReviewIds = productReviews.stream()
+                .map(Entity::getId)
+                .map(productReviewMongoMapper::toDTO)
+                .toList();
 
-        productReviewMongoDao.deleteAllById(productReviewIdDtos);
+        productReviewMongoDao.deleteAllById(productReviewIds);
     }
 }

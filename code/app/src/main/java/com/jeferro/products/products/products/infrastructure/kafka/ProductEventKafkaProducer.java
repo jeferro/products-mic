@@ -12,18 +12,18 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProductEventKafkaProducer implements EventBusProducer<ProductEvent> {
 
-  private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
+    private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
 
-  private final ProductsComponentProperties productsComponentProperties;
+    private final ProductsComponentProperties productsComponentProperties;
 
-  private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-  @Override
-  public void send(ProductEvent event) {
-	String key = event.getCode().toString();
-	var data = productKafkaMapper.toDTO(event);
+    @Override
+    public void send(ProductEvent event) {
+        String key = event.getCode().toString();
+        var data = productKafkaMapper.toDTO(event);
 
-	kafkaTemplate.send(productsComponentProperties.getProductsTopic(), key, data);
-  }
+        kafkaTemplate.send(productsComponentProperties.getProductsTopic(), key, data);
+    }
 
 }

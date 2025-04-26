@@ -11,44 +11,37 @@ import lombok.Getter;
 @Getter
 public class Parametric extends Projection<ParametricId> {
 
-  private LocalizedField name;
+    private final LocalizedField name;
 
-  private ParametricValues values;
+    private final ParametricValues values;
 
-  public Parametric(
-	  ParametricId id,
-	  LocalizedField name,
-	  ParametricValues values) {
-	super(id);
+    public Parametric(
+            ParametricId id,
+            LocalizedField name,
+            ParametricValues values) {
+        super(id);
 
-	setName(name);
-	setValues(values);
-  }
+        this.name = name;
+        this.values = values;
+    }
 
-  public static Parametric createOf(ParametricId id, LocalizedField name, ParametricValues values) {
-	return new Parametric(id, name, values);
-  }
+    public static Parametric createOf(ParametricId id, LocalizedField name, ParametricValues values) {
+        ValueValidationUtils.isNotNull(name, "name", Parametric.class);
+        ValueValidationUtils.isNotEmpty(values, "values", Parametric.class);
 
-  public boolean validate(ParametricValueId parametricValueId) {
-	if (notContainsParametricValue(parametricValueId)) {
-	  throw ParametricValueNotFoundException.createOf(this, parametricValueId);
-	}
+        return new Parametric(id, name, values);
+    }
 
-	return true;
-  }
+    public boolean validate(ParametricValueId parametricValueId) {
+        if (notContainsParametricValue(parametricValueId)) {
+            throw ParametricValueNotFoundException.createOf(this, parametricValueId);
+        }
 
-  private boolean notContainsParametricValue(ParametricValueId parametricValueId) {
-	return values.stream()
-		.noneMatch(parametricValue -> parametricValue.hasSameId(parametricValueId));
-  }
+        return true;
+    }
 
-  public void setName(LocalizedField name) {
-	ValueValidationUtils.isNotNull(name, "name", this);
-	this.name = name;
-  }
-
-  private void setValues(ParametricValues values) {
-	ValueValidationUtils.isNotEmpty(values, "values", this);
-	this.values = values;
-  }
+    private boolean notContainsParametricValue(ParametricValueId parametricValueId) {
+        return values.stream()
+                .noneMatch(parametricValue -> parametricValue.hasSameId(parametricValueId));
+    }
 }

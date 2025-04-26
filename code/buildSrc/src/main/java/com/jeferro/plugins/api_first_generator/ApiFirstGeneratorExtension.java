@@ -4,10 +4,10 @@ import java.io.File;
 
 public class ApiFirstGeneratorExtension {
 
-	public String basePackage;
+    public String basePackage;
 
-	public File specFile;
+    public File specFile;
 
-	public File targetDir;
+    public File targetDir;
 
 }

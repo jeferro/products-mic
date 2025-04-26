@@ -1,42 +1,29 @@
 package com.jeferro.shared.ddd.domain.models.context;
 
-import java.util.Locale;
-
-import com.jeferro.shared.ddd.domain.exceptions.auth.ForbiddenException;
 import com.jeferro.shared.ddd.domain.models.auth.Auth;
-import com.jeferro.shared.ddd.domain.models.auth.UserAuth;
-import com.jeferro.shared.ddd.domain.models.auth.Username;
 import com.jeferro.shared.ddd.domain.utils.ValueValidationUtils;
 import lombok.Getter;
+
+import java.util.Locale;
 
 @Getter
 public class Context {
 
-  private Auth auth;
+    private final Auth auth;
 
-  private Locale locale;
+    private final Locale locale;
 
-  public Context(Auth auth,
-	  Locale locale) {
-	setAuth(auth);
-	setLocale(locale);
-  }
+    public Context(Auth auth,
+                   Locale locale) {
 
-  public Username getUsernameOrError() {
-	if (auth instanceof UserAuth userAuth) {
-	  return userAuth.getUsername();
-	}
+        this.auth = auth;
+        this.locale = locale;
+    }
 
-	throw ForbiddenException.createOfNotUserAuth(auth);
-  }
+    public static Context createOf(Auth auth, Locale locale) {
+        ValueValidationUtils.isNotNull(auth, "auth", Context.class);
+        ValueValidationUtils.isNotNull(locale, "locale", Context.class);
 
-  private void setAuth(Auth auth) {
-	ValueValidationUtils.isNotNull(auth, "auth", this);
-	this.auth = auth;
-  }
-
-  private void setLocale(Locale locale) {
-	ValueValidationUtils.isNotNull(locale, "locale", this);
-	this.locale = locale;
-  }
+        return new Context(auth, locale);
+    }
 }

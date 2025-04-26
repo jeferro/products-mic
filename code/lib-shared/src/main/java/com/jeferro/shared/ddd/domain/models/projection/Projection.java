@@ -1,12 +1,11 @@
 package com.jeferro.shared.ddd.domain.models.projection;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-
 import com.jeferro.shared.ddd.domain.models.aggregates.Identifier;
 import lombok.Getter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 @Getter
 public class Projection<ID extends Identifier> {
@@ -36,15 +35,15 @@ public class Projection<ID extends Identifier> {
             return true;
         }
 
-		if (getClass() != other.getClass()) {
-			return false;
-		}
+        if (getClass() != other.getClass()) {
+            return false;
+        }
 
-	  var otherProjection = (Projection<ID>) other;
+        var otherProjection = (Projection<ID>) other;
 
-	  return hasSameId(otherProjection.id);
+        return hasSameId(otherProjection.id);
 
-	}
+    }
 
     @Override
     public String toString() {

@@ -1,8 +1,8 @@
 package com.jeferro.shared.ddd.domain.exceptions.auth;
 
-import com.jeferro.shared.ddd.domain.models.auth.Auth;
 import com.jeferro.shared.ddd.domain.exceptions.ApplicationException;
 import com.jeferro.shared.ddd.domain.exceptions.SharedExceptionCodes;
+import com.jeferro.shared.ddd.domain.models.auth.Auth;
 
 import java.util.Set;
 

@@ -1,8 +1,5 @@
 package com.jeferro.products.products.products.application;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import com.jeferro.products.products.products.application.params.GetProductParams;
 import com.jeferro.products.products.products.domain.exceptions.ProductNotFoundException;
 import com.jeferro.products.products.products.domain.models.Product;
@@ -11,6 +8,9 @@ import com.jeferro.products.products.products.domain.repositories.ProductsInMemo
 import com.jeferro.products.shared.application.ContextMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GetProductHandlerTest {
 

@@ -5,8 +5,8 @@ db['products'].insertMany([
         _id: "0000001",
         typeId: "fruit",
         name: {
-          en_US: "Apple",
-          es_ES: "Manzana",
+          "en-US": "Apple",
+          "es-ES": "Manzana",
         },
         status: "PUBLISHED",
         metadata: {
@@ -20,8 +20,8 @@ db['products'].insertMany([
         _id: "0000002",
         typeId: "fruit",
         name: {
-          en_US: "Kiwi",
-          es_ES: "Kiwi",
+          "en-US": "Kiwi",
+          "es-ES": "Kiwi",
         },
         status: "PUBLISHED",
         metadata: {
@@ -35,8 +35,8 @@ db['products'].insertMany([
         _id: "0000003",
         typeId: "fruit",
         name: {
-          en_US: "Banana",
-          es_ES: "Banana",
+          "en-US": "Banana",
+          "es-ES": "Banana",
         },
         status: "UNPUBLISHED",
         metadata: {

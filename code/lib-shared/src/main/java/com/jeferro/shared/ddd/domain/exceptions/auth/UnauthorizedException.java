@@ -5,7 +5,7 @@ import com.jeferro.shared.ddd.domain.exceptions.SharedExceptionCodes;
 
 public class UnauthorizedException extends ApplicationException {
 
-    private UnauthorizedException(String message){
+    private UnauthorizedException(String message) {
         super(SharedExceptionCodes.UNAUTHORIZED.value, "Unauthorized", message);
     }
 
