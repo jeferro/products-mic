@@ -1,3 +1,3 @@
 data[0] = SearchProductReviewParams[productCode=apple]
-data[1] = 200
-data[2] = [{"id":{"productCode":"apple","username":"user"},"locale":"en-US","comment":"Comment about apple"},{"id":{"productCode":"apple","username":"admin"},"locale":"en-US","comment":"I love apples"}]
+data[1] = 500
+data[2] = {"type":"about:blank","title":"Internal Server Error","status":500,"detail":"class com.jeferro.products.products.product_reviews.domain.models.ProductReviews cannot be cast to class com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList (com.jeferro.products.products.product_reviews.domain.models.ProductReviews and com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList are in unnamed module of loader 'app')","instance":"/v1/product-reviews"}

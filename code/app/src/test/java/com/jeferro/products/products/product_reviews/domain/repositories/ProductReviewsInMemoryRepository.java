@@ -2,26 +2,27 @@ package com.jeferro.products.products.product_reviews.domain.repositories;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
-import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.products.shared.domain.repositories.InMemoryRepository;
-
-import java.util.List;
+import com.jeferro.shared.ddd.domain.models.aggregates.Entity;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 
 public class ProductReviewsInMemoryRepository extends InMemoryRepository<ProductReview, ProductReviewId>
         implements ProductReviewsRepository {
 
     @Override
-    public ProductReviews findAllByProductCode(ProductCode productCode) {
+    public PaginatedList<ProductReview> findAllByProductCode(ProductCode productCode) {
         var products = data.values().stream()
                 .filter(productReview -> productReview.getProductCode().equals(productCode))
                 .toList();
 
-        return new ProductReviews(products);
+        return PaginatedList.createOfList(products);
     }
 
     @Override
-    public void deleteAllById(List<ProductReviewId> productReviewIds) {
-        productReviewIds.forEach(this::deleteById);
+    public void deleteAll(PaginatedList<ProductReview> productReviews) {
+        productReviews.stream()
+                .map(Entity::getId)
+                .forEach(this::deleteById);
     }
 }

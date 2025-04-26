@@ -1,12 +1,27 @@
 components:
 
+  parameters:
+    productReviewIdPath:
+      name: productReviewId
+      in: path
+      description: Product review id
+      required: true
+      schema:
+        type: string
+      example: '123456789:00001'
+
   schemas:
     CreateProductReviewInput:
       type: object
       description: Create product review input
       required:
+        - productCode
         - comment
       properties:
+        productCode:
+          type: string
+          description: Product code to create a review
+          example: '00001'
         comment:
           type: string
           description: Comment of the review

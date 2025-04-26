@@ -29,9 +29,8 @@ public class ProductReviewRestController implements ProductReviewsApi {
     }
 
     @Override
-    public ProductReviewRestDTO createProductReview(String productCode,
-                                                    CreateProductReviewInputRestDTO inputRestDTO) {
-        var params = productReviewRestMapper.toCreateProductReviewParams(productCode, inputRestDTO);
+    public ProductReviewRestDTO createProductReview(CreateProductReviewInputRestDTO inputRestDTO) {
+        var params = productReviewRestMapper.toCreateProductReviewParams(inputRestDTO);
 
         var productReview = handlerBus.execute(params);
 
@@ -39,8 +38,8 @@ public class ProductReviewRestController implements ProductReviewsApi {
     }
 
     @Override
-    public ProductReviewRestDTO getProductReview(String productCode, String username) {
-        var params = productReviewRestMapper.toGetProductReviewParams(productCode, username);
+    public ProductReviewRestDTO getProductReview(String productReviewId) {
+        var params = productReviewRestMapper.toGetProductReviewParams(productReviewId);
 
         var productReview = handlerBus.execute(params);
 
@@ -48,9 +47,9 @@ public class ProductReviewRestController implements ProductReviewsApi {
     }
 
     @Override
-    public ProductReviewRestDTO updateProductReview(String productCode, String username,
+    public ProductReviewRestDTO updateProductReview(String productReviewId,
                                                     UpdateProductReviewInputRestDTO inputRestDTO) {
-        var params = productReviewRestMapper.toUpdateProductReviewParams(productCode, username, inputRestDTO);
+        var params = productReviewRestMapper.toUpdateProductReviewParams(productReviewId, inputRestDTO);
 
         var productReview = handlerBus.execute(params);
 
@@ -58,8 +57,8 @@ public class ProductReviewRestController implements ProductReviewsApi {
     }
 
     @Override
-    public ProductReviewRestDTO deleteProductReview(String productCode, String username) {
-        var params = productReviewRestMapper.toDeleteProductReviewParams(productCode, username);
+    public ProductReviewRestDTO deleteProductReview(String productReviewId) {
+        var params = productReviewRestMapper.toDeleteProductReviewParams(productReviewId);
 
         var productReview = handlerBus.execute(params);
 

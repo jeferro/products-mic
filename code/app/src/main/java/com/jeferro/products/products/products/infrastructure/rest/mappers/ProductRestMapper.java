@@ -4,11 +4,10 @@ import com.jeferro.products.generated.rest.v1.dtos.*;
 import com.jeferro.products.products.products.application.params.*;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
-import com.jeferro.products.products.products.domain.models.filter.ProductFilterOrder;
-import com.jeferro.shared.mappers.MapstructConfig;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 import com.jeferro.shared.mappers.AggregateRestMapper;
+import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -20,18 +19,25 @@ public abstract class ProductRestMapper extends AggregateRestMapper<Product, Pro
 
     public static final ProductRestMapper INSTANCE = Mappers.getMapper(ProductRestMapper.class);
 
+    public abstract ProductSummaryRestDTO toSummaryDTO(Product product);
+
+    public abstract List<ProductSummaryRestDTO> toSummaryDTO(PaginatedList<Product> product);
+
     public SearchProductsParams toSearchProductsParams(Integer pageNumber,
                                                        Integer pageSize,
-                                                       ProductFilterOrderRestDTO orderRestDTO,
+                                                       ProductFilterOrderRestDTO order,
                                                        Boolean ascending,
                                                        String name) {
-        var order = toDomain(orderRestDTO);
-        var productFilter = new ProductFilter(pageNumber, pageSize, order, ascending, name);
+        var filter = toProductFilter(pageNumber, pageSize, order, ascending, name);
 
-        return new SearchProductsParams(productFilter);
+        return new SearchProductsParams(filter);
     }
 
-    public abstract ProductFilterOrder toDomain(ProductFilterOrderRestDTO orderRestDTO);
+    protected abstract ProductFilter toProductFilter(Integer pageNumber,
+                                                  Integer pageSize,
+                                                  ProductFilterOrderRestDTO order,
+                                                  Boolean ascending,
+                                                  String name);
 
     public abstract CreateProductParams toCreateProductParams(CreateProductInputRestDTO productInputRestDTO);
 
@@ -45,6 +51,4 @@ public abstract class ProductRestMapper extends AggregateRestMapper<Product, Pro
     public abstract UnpublishProductParams toUnpublishProductParams(String productCode);
 
     public abstract DeleteProductParams toDeleteProductParams(String productCode);
-
-    public abstract List<ProductSummaryRestDTO> toDTO(Products products);
 }

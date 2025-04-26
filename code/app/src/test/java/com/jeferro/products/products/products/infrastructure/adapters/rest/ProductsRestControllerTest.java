@@ -1,11 +1,11 @@
 package com.jeferro.products.products.products.infrastructure.adapters.rest;
 
 import com.jeferro.products.products.products.domain.models.ProductMother;
-import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.infrastructure.rest.ProductsRestController;
 import com.jeferro.products.shared.application.StubHandlerBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,7 +25,7 @@ class ProductsRestControllerTest extends RestControllerTest {
 
     @Test
     void execute_list_products_on_request() throws Exception {
-        var products = Products.createOf(
+        var products = PaginatedList.createOfItems(
                 ProductMother.apple(),
                 ProductMother.pear()
         );

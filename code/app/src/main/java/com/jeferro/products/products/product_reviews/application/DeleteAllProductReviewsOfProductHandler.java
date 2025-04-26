@@ -38,9 +38,7 @@ public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllPr
 
         productReviews.forEach(ProductReview::deleteBySystem);
 
-        var productReviewIds = productReviews.getIds();
-
-        productReviewsRepository.deleteAllById(productReviewIds);
+        productReviewsRepository.deleteAll(productReviews);
 
         eventBus.sendAll(productReviews);
 

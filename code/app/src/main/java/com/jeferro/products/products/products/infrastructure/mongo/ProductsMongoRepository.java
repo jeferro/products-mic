@@ -2,7 +2,6 @@ package com.jeferro.products.products.products.infrastructure.mongo;
 
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.models.ProductCode;
-import com.jeferro.products.products.products.domain.models.Products;
 import com.jeferro.products.products.products.domain.models.filter.ProductFilter;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
 import com.jeferro.products.products.products.infrastructure.mongo.daos.ProductsMongoDao;
@@ -10,6 +9,7 @@ import com.jeferro.products.products.products.infrastructure.mongo.dtos.ProductM
 import com.jeferro.products.products.products.infrastructure.mongo.mappers.ProductMongoMapper;
 import com.jeferro.products.products.products.infrastructure.mongo.services.ProductQueryMongoCreator;
 import com.jeferro.shared.auth.infrastructure.mongo.services.CustomMongoTemplate;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 import com.jeferro.shared.mongo.sequence.SequenceGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -63,7 +63,7 @@ public class ProductsMongoRepository implements ProductsRepository {
     }
 
     @Override
-    public Products findAll(ProductFilter filter) {
+    public PaginatedList<Product> findAll(ProductFilter filter) {
         Query query = productQueryMongoCreator.create(filter);
 
         Page<ProductMongoDTO> page = customMongoTemplate.findPage(query, ProductMongoDTO.class);
@@ -72,6 +72,6 @@ public class ProductsMongoRepository implements ProductsRepository {
                 .map(productMongoMapper::toDomain)
                 .toList();
 
-        return Products.createOfFilter(entities, filter, page.getTotalElements());
+        return PaginatedList.createOfFilter(entities, filter, page.getTotalElements());
     }
 }

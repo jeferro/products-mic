@@ -26,7 +26,7 @@ public class ProductsRestController implements ProductsApi {
 
         var products = handlerBus.execute(params);
 
-        return productRestMapper.toDTO(products);
+        return productRestMapper.toSummaryDTO(products);
     }
 
     @Override

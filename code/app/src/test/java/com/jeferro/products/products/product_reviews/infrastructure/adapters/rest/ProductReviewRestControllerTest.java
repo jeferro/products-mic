@@ -33,7 +33,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
         );
         stubHandlerBus.init(productReviews);
 
-        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId() + "/reviews")
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/product-reviews?productCode=" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
@@ -49,17 +49,17 @@ class ProductReviewRestControllerTest extends RestControllerTest {
 
     @Test
     void execute_create_product_on_request() throws Exception {
-        var apple = ProductMother.apple();
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
         stubHandlerBus.init(userReviewOfProduct);
 
         var requestContent = """
                 {
+                  "productCode": "%s",
                   "comment": "%s"
                 }"""
-                .formatted(userReviewOfProduct.getComment());
+                .formatted(userReviewOfProduct.getProductCode(), userReviewOfProduct.getComment());
 
-        var requestBuilder = MockMvcRequestBuilders.post("/v1/products/" + apple.getId() + "/reviews")
+        var requestBuilder = MockMvcRequestBuilders.post("/v1/product-reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)
@@ -76,11 +76,10 @@ class ProductReviewRestControllerTest extends RestControllerTest {
 
     @Test
     void execute_get_product_on_request() throws Exception {
-        var apple = ProductMother.apple();
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
         stubHandlerBus.init(userReviewOfProduct);
 
-        var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
+        var requestBuilder = MockMvcRequestBuilders.get("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
@@ -96,7 +95,6 @@ class ProductReviewRestControllerTest extends RestControllerTest {
 
     @Test
     void execute_update_product_on_request() throws Exception {
-        var apple = ProductMother.apple();
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
         stubHandlerBus.init(userReviewOfProduct);
 
@@ -106,7 +104,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 }"""
                 .formatted(userReviewOfProduct.getComment());
 
-        var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
+        var requestBuilder = MockMvcRequestBuilders.put("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)
@@ -123,11 +121,10 @@ class ProductReviewRestControllerTest extends RestControllerTest {
 
     @Test
     void execute_delete_product_on_request() throws Exception {
-        var apple = ProductMother.apple();
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
         stubHandlerBus.init(userReviewOfProduct);
 
-        var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId() + "/reviews/" + userReviewOfProduct.getUsername())
+        var requestBuilder = MockMvcRequestBuilders.delete("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN);
