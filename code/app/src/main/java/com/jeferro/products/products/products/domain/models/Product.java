@@ -47,7 +47,7 @@ public class Product extends AggregateRoot<ProductCode> {
     }
 
     public void update(LocalizedField name) {
-        ValueValidationUtils.isNotNull(name, "name", Product.class);
+        ValueValidationUtils.isNotNull(name, "name", this);
 
         this.name = name;
 

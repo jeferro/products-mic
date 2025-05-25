@@ -47,8 +47,8 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
     }
 
     public void update(String comment, Locale locale, Auth auth) {
-        ValueValidationUtils.isNotNull(locale, "locale", ProductReview.class);
-        ValueValidationUtils.isNotNull(comment, "comment", ProductReview.class);
+        ValueValidationUtils.isNotNull(locale, "locale", this);
+        ValueValidationUtils.isNotNull(comment, "comment", this);
 
         ensureProductReviewBelongsToUser(auth);
 
