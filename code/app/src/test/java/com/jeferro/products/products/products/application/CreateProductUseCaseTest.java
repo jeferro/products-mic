@@ -17,13 +17,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CreateProductHandlerTest {
+class CreateProductUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private CreateProductHandler createProductHandler;
+    private CreateProductUseCase createProductHandler;
 
     @BeforeEach
     void beforeEach() {
@@ -34,7 +34,7 @@ class CreateProductHandlerTest {
         var parametricFinder = new ParametricRestFinder(parametricMockRestClient);
         var parametricValidator = new ParametricValidator(parametricFinder);
 
-        createProductHandler = new CreateProductHandler(productsInMemoryRepository,
+        createProductHandler = new CreateProductUseCase(productsInMemoryRepository,
                 parametricValidator,
                 eventInMemoryBus);
     }

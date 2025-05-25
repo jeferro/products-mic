@@ -13,18 +13,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SignInHandlerTest {
+class SignInUseCaseTest {
 
     private UsersInMemoryRepository usersInMemoryRepository;
 
-    private SignInHandler signInHandler;
+    private SignInUseCase signInHandler;
 
     @BeforeEach
     void beforeEach() {
         usersInMemoryRepository = new UsersInMemoryRepository();
         var fakePasswordEncoder = new FakePasswordEncoder();
 
-        signInHandler = new SignInHandler(usersInMemoryRepository, fakePasswordEncoder);
+        signInHandler = new SignInUseCase(usersInMemoryRepository, fakePasswordEncoder);
     }
 
     @Test

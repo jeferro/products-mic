@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class Handlers {
 
-    private final Map<Class<Params<?>>, Handler<?, ?>> handlers;
+    private final Map<Class<Params<?>>, UseCase<?, ?>> handlers;
 
     public Handlers() {
         handlers = new HashMap<>();
     }
 
-    public void registryHandler(Handler<?, ?> handler) {
-        Type type = handler.getClass().getGenericSuperclass();
+    public void registryHandler(UseCase<?, ?> useCase) {
+        Type type = useCase.getClass().getGenericSuperclass();
 
         if (!(type instanceof ParameterizedType parameterizedType)) {
             throw new IllegalArgumentException("Handler superclass is not a parameterized type");
@@ -25,16 +25,16 @@ public class Handlers {
 
         Class<Params<?>> paramsClass = (Class<Params<?>>) parameterizedType.getActualTypeArguments()[0];
 
-        handlers.put(paramsClass, handler);
+        handlers.put(paramsClass, useCase);
     }
 
-    public <R> Handler<Params<R>, R> getHandler(Params<R> params) {
+    public <R> UseCase<Params<R>, R> findUseCase(Params<R> params) {
         Class<?> paramsClass = params.getClass();
 
         if (!handlers.containsKey(paramsClass)) {
             throw InternalErrorException.createOfHandlerNotFound(paramsClass.getSimpleName());
         }
 
-        return (Handler<Params<R>, R>) handlers.get(paramsClass);
+        return (UseCase<Params<R>, R>) handlers.get(paramsClass);
     }
 }

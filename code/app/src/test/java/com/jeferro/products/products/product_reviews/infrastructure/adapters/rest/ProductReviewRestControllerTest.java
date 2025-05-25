@@ -4,7 +4,7 @@ import com.jeferro.products.products.product_reviews.domain.models.ProductReview
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.ProductReviewRestController;
 import com.jeferro.products.products.products.domain.models.ProductMother;
-import com.jeferro.products.shared.application.StubHandlerBus;
+import com.jeferro.products.shared.application.StubUseCaseBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubHandlerBus stubHandlerBus;
+    private StubUseCaseBus stubHandlerBus;
 
     @Test
     void execute_list_product_reviews_on_request() throws Exception {

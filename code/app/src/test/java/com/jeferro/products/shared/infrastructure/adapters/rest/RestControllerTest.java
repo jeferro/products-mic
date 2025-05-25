@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.infrastructure.adapters.rest;
 
-import com.jeferro.products.shared.application.StubHandlerBus;
+import com.jeferro.products.shared.application.StubUseCaseBus;
 import com.jeferro.shared.auth.infrastructure.rest.configurations.RestSecurityProperties;
 import com.jeferro.shared.auth.infrastructure.rest.jwt.HeaderJwtDecoder;
 import com.jeferro.shared.ddd.infrastructure.rest.ErrorRestController;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 @Import({
         HeaderJwtDecoder.class,
         ErrorRestController.class,
-        StubHandlerBus.class
+        StubUseCaseBus.class
 })
 @EnableConfigurationProperties({
         RestSecurityProperties.class

@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.application;
 import com.jeferro.products.products.products.application.params.UpdateProductParams;
 import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsRepository;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.UseCase;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import static com.jeferro.products.shared.application.Roles.USER;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateProductHandler extends Handler<UpdateProductParams, Product> {
+public class UpdateProductUseCase extends UseCase<UpdateProductParams, Product> {
 
     private final ProductsRepository productsRepository;
 

@@ -1,6 +1,6 @@
 package com.jeferro.shared.ddd.application.bus;
 
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.UseCase;
 import com.jeferro.shared.ddd.application.Handlers;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
@@ -14,13 +14,13 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.time.Instant;
 
-public abstract class HandlerBus {
+public abstract class UseCaseBus {
 
-    private static final Logger logger = LoggerFactory.getLogger(HandlerBus.class);
+    private static final Logger logger = LoggerFactory.getLogger(UseCaseBus.class);
 
     protected final Handlers handlers;
 
-    public HandlerBus() {
+    public UseCaseBus() {
         handlers = new Handlers();
     }
 
@@ -28,21 +28,21 @@ public abstract class HandlerBus {
         Instant startAt = Instant.now();
 
         Context context = null;
-        Handler<Params<R>, R> handler = null;
+        UseCase<Params<R>, R> useCae = null;
 
         try {
             context = createContext();
-            handler = handlers.getHandler(params);
+            useCae = handlers.findUseCase(params);
 
-            ensurePermissions(context, handler);
+            ensurePermissions(context, useCae);
 
-            R result = handler.execute(context, params);
+            R result = useCae.execute(context, params);
 
-            logSuccessExecution(startAt, context, handler, params, result);
+            logSuccessExecution(startAt, context, useCae, params, result);
 
             return result;
         } catch (Exception cause) {
-            logErrorExecution(startAt, context, handler, params, cause);
+            logErrorExecution(startAt, context, useCae, params, cause);
 
             if (cause instanceof NotFoundException
                     || cause instanceof ConflictException
@@ -56,9 +56,9 @@ public abstract class HandlerBus {
 
     protected abstract Context createContext();
 
-    private void ensurePermissions(Context context, Handler<?, ?> handler) {
+    private void ensurePermissions(Context context, UseCase<?, ?> useCase) {
         var auth = context.getAuth();
-        var mandatoryRoles = handler.getMandatoryUserRoles();
+        var mandatoryRoles = useCase.getMandatoryUserRoles();
 
         if (!auth.hasRoles(mandatoryRoles)) {
             throw ForbiddenException.createOf(auth, mandatoryRoles);
@@ -68,11 +68,11 @@ public abstract class HandlerBus {
     private void logSuccessExecution(
             Instant startAt,
             Context context,
-            Handler<?, ?> handler,
+            UseCase<?, ?> useCase,
             Params<?> params,
             Object result
     ) {
-        var handlerName = handler.getClass().getSimpleName();
+        var handlerName = useCase.getClass().getSimpleName();
         var auth = context.getAuth();
         var duration = calculateDuration(startAt);
 
@@ -88,7 +88,7 @@ public abstract class HandlerBus {
     private void logErrorExecution(
             Instant startAt,
             Context context,
-            Handler<?, ?> handler,
+            UseCase<?, ?> useCase,
             Params<?> params,
             Exception cause
     ) {
@@ -96,8 +96,8 @@ public abstract class HandlerBus {
                 ? context.getAuth()
                 : null;
 
-        var handlerName = handler != null
-                ? handler.getClass().getSimpleName()
+        var handlerName = useCase != null
+                ? useCase.getClass().getSimpleName()
                 : "--";
 
         var duration = calculateDuration(startAt);

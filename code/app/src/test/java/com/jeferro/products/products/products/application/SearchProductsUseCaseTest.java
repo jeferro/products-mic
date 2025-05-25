@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SearchProductsHandlerTest {
+class SearchProductsUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
-    private SearchProductsHandler searchProductsHandler;
+    private SearchProductsUseCase searchProductsHandler;
 
     @BeforeEach
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        searchProductsHandler = new SearchProductsHandler(productsInMemoryRepository);
+        searchProductsHandler = new SearchProductsUseCase(productsInMemoryRepository);
     }
 
     @Test
