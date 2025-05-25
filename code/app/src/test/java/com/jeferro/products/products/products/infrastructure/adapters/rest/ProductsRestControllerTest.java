@@ -107,7 +107,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 }"""
                 .formatted(apple.getName());
 
-        var requestBuilder = MockMvcRequestBuilders.put("/v1/products/" + apple.getId())
+        var requestBuilder = MockMvcRequestBuilders.patch("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)

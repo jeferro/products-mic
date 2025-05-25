@@ -2,14 +2,13 @@ package com.jeferro.products.products.product_reviews.infrastructure.rest;
 
 import com.jeferro.products.generated.rest.v1.apis.ProductReviewsApi;
 import com.jeferro.products.generated.rest.v1.dtos.CreateProductReviewInputRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductReviewListRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestDTO;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.mappers.ProductReviewRestMapper;
 import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,12 +19,12 @@ public class ProductReviewRestController implements ProductReviewsApi {
     private final UseCaseBus useCaseBus;
 
     @Override
-    public List<ProductReviewRestDTO> searchProductReviews(String productCode) {
+    public ProductReviewListRestDTO searchProductReviews(String productCode) {
         var params = productReviewRestMapper.toSearchProductsParams(productCode);
 
         var productReviews = useCaseBus.execute(params);
 
-        return productReviewRestMapper.toDTO(productReviews);
+        return productReviewRestMapper.toSummaryListDTO(productReviews);
     }
 
     @Override

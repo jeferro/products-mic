@@ -31,14 +31,14 @@ The project consists of the following folders:
 
       * application/
         * params/
-          * Parameters of the handlers
-        * Handler of the use case
+          * Parameters of the use cases
+        * Use cases of domain 
 
       * infrastructure/
-        * handlers/
+        * use_cases/
           * params/
-            Parameters of the handlers
-          * Handler of the administration operation
+            * Parameters of the use cases
+          * Use case of the administration operation
 
         * adapters/
           * (name of system)_(technology)/
@@ -66,6 +66,4 @@ The design and architecture patterns applied in the project are as follows:
   * Port Adapters
 
 * Others
-  * Handler Bus
-  * First Class Collections
-  * Entity Collections
+  * Use Case Bus
