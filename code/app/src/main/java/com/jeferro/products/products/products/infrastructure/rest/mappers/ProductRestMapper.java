@@ -21,7 +21,7 @@ public abstract class ProductRestMapper extends AggregateRestMapper<Product, Pro
 
     public abstract ProductSummaryRestDTO toSummaryDTO(Product product);
 
-    public abstract List<ProductSummaryRestDTO> toSummaryDTO(PaginatedList<Product> product);
+    public abstract ProductSummaryListRestDTO toSummaryDTO(PaginatedList<Product> product);
 
     public SearchProductsParams toSearchProductsParams(Integer pageNumber,
                                                        Integer pageSize,

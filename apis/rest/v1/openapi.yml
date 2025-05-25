@@ -64,9 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: './products.yml#/components/schemas/ProductSummary'
+                $ref: './products.yml#/components/schemas/ProductSummaryList'
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
@@ -111,7 +109,7 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
-    put:
+    patch:
       operationId: update-product
       summary: Update product
       description: Update product
@@ -233,9 +231,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: './product-reviews.yml#/components/schemas/ProductReview'
+                $ref: './product-reviews.yml#/components/schemas/ProductReviewList'
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
@@ -258,7 +254,7 @@ paths:
         default:
           $ref: './shared.yml#/components/responses/ProblemDetailsResponse'
 
-    put:
+    patch:
       operationId: update-product-review
       summary: Update product review
       description: Update product review

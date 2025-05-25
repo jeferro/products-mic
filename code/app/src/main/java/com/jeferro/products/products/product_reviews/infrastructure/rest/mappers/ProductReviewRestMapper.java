@@ -1,12 +1,14 @@
 package com.jeferro.products.products.product_reviews.infrastructure.rest.mappers;
 
 import com.jeferro.products.generated.rest.v1.dtos.CreateProductReviewInputRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductReviewListRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestDTO;
 import com.jeferro.products.products.product_reviews.application.params.*;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewId;
 import com.jeferro.products.products.products.domain.models.ProductCode;
+import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
 import com.jeferro.shared.mappers.AggregateRestMapper;
 import com.jeferro.shared.mappers.MapstructConfig;
 import org.mapstruct.Mapper;
@@ -16,6 +18,8 @@ import org.mapstruct.factory.Mappers;
 public abstract class ProductReviewRestMapper extends AggregateRestMapper<ProductReview, ProductReviewId, ProductReviewRestDTO> {
 
     public static final ProductReviewRestMapper INSTANCE = Mappers.getMapper(ProductReviewRestMapper.class);
+
+    public abstract ProductReviewListRestDTO toSummaryListDTO(PaginatedList<ProductReview> productReviews);
 
     public SearchProductReviewParams toSearchProductsParams(String productCodeRestDTO) {
         var productCode = new ProductCode(productCodeRestDTO);

@@ -105,7 +105,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 }"""
                 .formatted(userReviewOfProduct.getComment());
 
-        var requestBuilder = MockMvcRequestBuilders.put("/v1/product-reviews/" + userReviewOfProduct.getId())
+        var requestBuilder = MockMvcRequestBuilders.patch("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_EN)
                 .header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_USER_TOKEN)

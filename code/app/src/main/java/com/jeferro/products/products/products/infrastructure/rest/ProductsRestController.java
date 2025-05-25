@@ -1,13 +1,15 @@
 package com.jeferro.products.products.products.infrastructure.rest;
 
 import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
-import com.jeferro.products.generated.rest.v1.dtos.*;
+import com.jeferro.products.generated.rest.v1.dtos.CreateProductInputRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductFilterOrderRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.ProductSummaryListRestDTO;
+import com.jeferro.products.generated.rest.v1.dtos.UpdateProductInputRestDTO;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
 import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ProductsRestController implements ProductsApi {
     private final UseCaseBus useCaseBus;
 
     @Override
-    public List<ProductSummaryRestDTO> searchProducts(Integer pageNumber, Integer pageSize,
+    public ProductSummaryListRestDTO searchProducts(Integer pageNumber, Integer pageSize,
                                                       ProductFilterOrderRestDTO order,
                                                       Boolean ascending,
                                                       String name) {
