@@ -20,14 +20,14 @@ class UpdateProductReviewUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private UpdateProductReviewUseCase updateProductReviewHandler;
+    private UpdateProductReviewUseCase updateProductReviewUseCase;
 
     @BeforeEach
     void beforeEach() {
         productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
         eventInMemoryBus = new EventInMemoryBus();
 
-        updateProductReviewHandler = new UpdateProductReviewUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
+        updateProductReviewUseCase = new UpdateProductReviewUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test
@@ -40,7 +40,7 @@ class UpdateProductReviewUseCaseTest {
                 userReviewOfApple.getId(),
                 newComment
         );
-        var result = updateProductReviewHandler.execute(userContext, params);
+        var result = updateProductReviewUseCase.execute(userContext, params);
 
         assertResult(userReviewOfApple, result, newComment);
 
@@ -60,7 +60,7 @@ class UpdateProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewNotFoundException.class,
-                () -> updateProductReviewHandler.execute(userContext, params));
+                () -> updateProductReviewUseCase.execute(userContext, params));
     }
 
     @Test
@@ -75,7 +75,7 @@ class UpdateProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewDoesNotBelongUser.class,
-                () -> updateProductReviewHandler.execute(adminContext, params));
+                () -> updateProductReviewUseCase.execute(adminContext, params));
     }
 
     private static void assertResult(ProductReview userReviewOfApple, ProductReview result, String newComment) {

@@ -20,14 +20,14 @@ class UpdateProductUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private UpdateProductUseCase updateProductHandler;
+    private UpdateProductUseCase updateProductUseCase;
 
     @BeforeEach
     void beforeEach() {
         eventInMemoryBus = new EventInMemoryBus();
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        updateProductHandler = new UpdateProductUseCase(productsInMemoryRepository, eventInMemoryBus);
+        updateProductUseCase = new UpdateProductUseCase(productsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test
@@ -41,7 +41,7 @@ class UpdateProductUseCaseTest {
                 newName
         );
 
-        var result = updateProductHandler.execute(userContext, params);
+        var result = updateProductUseCase.execute(userContext, params);
 
         assertEquals(newName, result.getName());
 
@@ -62,7 +62,7 @@ class UpdateProductUseCaseTest {
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> updateProductHandler.execute(userContext, params));
+                () -> updateProductUseCase.execute(userContext, params));
     }
 
     private void assertProductDataInDatabase(Product product) {

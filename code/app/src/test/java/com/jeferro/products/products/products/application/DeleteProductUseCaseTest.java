@@ -19,14 +19,14 @@ class DeleteProductUseCaseTest {
 
     public EventInMemoryBus eventInMemoryBus;
 
-    public DeleteProductUseCase deleteProductHandler;
+    public DeleteProductUseCase deleteProductUseCase;
 
     @BeforeEach
     void beforeEach() {
         eventInMemoryBus = new EventInMemoryBus();
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        deleteProductHandler = new DeleteProductUseCase(productsInMemoryRepository, eventInMemoryBus);
+        deleteProductUseCase = new DeleteProductUseCase(productsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test
@@ -38,7 +38,7 @@ class DeleteProductUseCaseTest {
                 apple.getId()
         );
 
-        var result = deleteProductHandler.execute(userContext, params);
+        var result = deleteProductUseCase.execute(userContext, params);
 
         assertEquals(apple, result);
 
@@ -57,7 +57,7 @@ class DeleteProductUseCaseTest {
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> deleteProductHandler.execute(userContext, params));
+                () -> deleteProductUseCase.execute(userContext, params));
     }
 
     private void assertProductDoesNotExistInDatabase() {

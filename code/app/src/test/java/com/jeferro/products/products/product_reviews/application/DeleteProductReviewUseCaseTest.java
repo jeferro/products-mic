@@ -20,7 +20,7 @@ class DeleteProductReviewUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private DeleteProductReviewUseCase deleteProductReviewHandler;
+    private DeleteProductReviewUseCase deleteProductReviewUseCase;
 
     @BeforeEach
     public void beforeEach() {
@@ -28,7 +28,7 @@ class DeleteProductReviewUseCaseTest {
 
         eventInMemoryBus = new EventInMemoryBus();
 
-        deleteProductReviewHandler = new DeleteProductReviewUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
+        deleteProductReviewUseCase = new DeleteProductReviewUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test
@@ -40,7 +40,7 @@ class DeleteProductReviewUseCaseTest {
                 userReviewOfApple.getId()
         );
 
-        var result = deleteProductReviewHandler.execute(userContext, params);
+        var result = deleteProductReviewUseCase.execute(userContext, params);
 
         assertEquals(userReviewOfApple, result);
 
@@ -58,7 +58,7 @@ class DeleteProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewNotFoundException.class,
-                () -> deleteProductReviewHandler.execute(userContext, params));
+                () -> deleteProductReviewUseCase.execute(userContext, params));
     }
 
     @Test
@@ -71,7 +71,7 @@ class DeleteProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewDoesNotBelongUser.class,
-                () -> deleteProductReviewHandler.execute(adminContext, params));
+                () -> deleteProductReviewUseCase.execute(adminContext, params));
     }
 
     private void assertProductReviewDeletedWasPublished(ProductReview result) {

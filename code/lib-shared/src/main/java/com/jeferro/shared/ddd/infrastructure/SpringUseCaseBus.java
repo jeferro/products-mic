@@ -14,7 +14,7 @@ public class SpringUseCaseBus extends UseCaseBus {
 
         applicationContext.getBeansOfType(UseCase.class)
                 .values()
-                .forEach(handlers::registryHandler);
+                .forEach(useCases::registry);
     }
 
     @Override

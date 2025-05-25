@@ -21,7 +21,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubUseCaseBus stubHandlerBus;
+    private StubUseCaseBus stubUseCaseBus;
 
     @Test
     void execute_list_products_on_request() throws Exception {
@@ -29,7 +29,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 ProductMother.apple(),
                 ProductMother.pear()
         );
-        stubHandlerBus.init(products);
+        stubUseCaseBus.init(products);
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/products?pageNumber=0&pageSize=10&&order=NAME&ascending=true&name=apple")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -40,7 +40,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -48,7 +48,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     @Test
     void execute_create_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        stubUseCaseBus.init(apple);
 
         var requestContent = """
                 {
@@ -70,7 +70,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -78,7 +78,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     @Test
     void execute_get_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        stubUseCaseBus.init(apple);
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -97,7 +97,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     @Test
     void execute_update_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        stubUseCaseBus.init(apple);
 
         var requestContent = """
                 {
@@ -117,7 +117,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -125,7 +125,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     @Test
     void execute_delete_product_on_request() throws Exception {
         var apple = ProductMother.apple();
-        stubHandlerBus.init(apple);
+        stubUseCaseBus.init(apple);
 
         var requestBuilder = MockMvcRequestBuilders.delete("/v1/products/" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +136,7 @@ class ProductsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }

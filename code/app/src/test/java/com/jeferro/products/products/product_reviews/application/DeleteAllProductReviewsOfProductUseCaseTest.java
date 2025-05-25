@@ -22,14 +22,14 @@ class DeleteAllProductReviewsOfProductUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private DeleteAllProductReviewsOfProductUseCase deleteAllProductReviewsOfProductHandler;
+    private DeleteAllProductReviewsOfProductUseCase deleteAllProductReviewsOfProductUseCase;
 
     @BeforeEach
     public void beforeEach() {
         productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
         eventInMemoryBus = new EventInMemoryBus();
 
-        deleteAllProductReviewsOfProductHandler =
+        deleteAllProductReviewsOfProductUseCase =
                 new DeleteAllProductReviewsOfProductUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
@@ -44,7 +44,7 @@ class DeleteAllProductReviewsOfProductUseCaseTest {
                 appleCode
         );
 
-        deleteAllProductReviewsOfProductHandler.execute(adminContext, params);
+        deleteAllProductReviewsOfProductUseCase.execute(adminContext, params);
 
         assertThereAreNotReviewsOfApple();
 
@@ -60,7 +60,7 @@ class DeleteAllProductReviewsOfProductUseCaseTest {
                 appleCode
         );
 
-        deleteAllProductReviewsOfProductHandler.execute(adminContext, params);
+        deleteAllProductReviewsOfProductUseCase.execute(adminContext, params);
 
         assertNoEventsWerePublished();
     }

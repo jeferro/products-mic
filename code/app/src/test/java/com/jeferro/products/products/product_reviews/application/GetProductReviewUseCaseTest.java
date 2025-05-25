@@ -16,13 +16,13 @@ class GetProductReviewUseCaseTest {
 
     private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
-    private GetProductReviewUseCase getProductReviewHandler;
+    private GetProductReviewUseCase getProductReviewUseCase;
 
     @BeforeEach
     void beforeEach() {
         productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
 
-        getProductReviewHandler = new GetProductReviewUseCase(productReviewsInMemoryRepository);
+        getProductReviewUseCase = new GetProductReviewUseCase(productReviewsInMemoryRepository);
     }
 
     @Test
@@ -34,7 +34,7 @@ class GetProductReviewUseCaseTest {
                 userReviewOfApple.getId()
         );
 
-        var result = getProductReviewHandler.execute(userContext, params);
+        var result = getProductReviewUseCase.execute(userContext, params);
 
         assertEquals(userReviewOfApple, result);
     }
@@ -48,7 +48,7 @@ class GetProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewNotFoundException.class,
-                () -> getProductReviewHandler.execute(userContext, params));
+                () -> getProductReviewUseCase.execute(userContext, params));
     }
 
     private ProductReview givenAnUserProductReviewOfAppleInDatabase() {

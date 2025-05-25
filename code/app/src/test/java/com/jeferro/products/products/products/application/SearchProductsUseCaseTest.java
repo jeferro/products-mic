@@ -15,13 +15,13 @@ class SearchProductsUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
-    private SearchProductsUseCase searchProductsHandler;
+    private SearchProductsUseCase searchProductsUseCase;
 
     @BeforeEach
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        searchProductsHandler = new SearchProductsUseCase(productsInMemoryRepository);
+        searchProductsUseCase = new SearchProductsUseCase(productsInMemoryRepository);
     }
 
     @Test
@@ -33,7 +33,7 @@ class SearchProductsUseCaseTest {
                 ProductFilter.createEmpty()
         );
 
-        var result = searchProductsHandler.execute(userContext, params);
+        var result = searchProductsUseCase.execute(userContext, params);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(databaseData.apple()));
@@ -49,7 +49,7 @@ class SearchProductsUseCaseTest {
                 ProductFilter.searchName("pe")
         );
 
-        var result = searchProductsHandler.execute(userContext, params);
+        var result = searchProductsUseCase.execute(userContext, params);
 
         assertEquals(1, result.size());
         assertFalse(result.contains(databaseData.apple()));
@@ -63,7 +63,7 @@ class SearchProductsUseCaseTest {
                 ProductFilter.createEmpty()
         );
 
-        var result = searchProductsHandler.execute(userContext, params);
+        var result = searchProductsUseCase.execute(userContext, params);
 
         assertTrue(result.isEmpty());
     }

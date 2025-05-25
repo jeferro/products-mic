@@ -17,14 +17,14 @@ class SignInUseCaseTest {
 
     private UsersInMemoryRepository usersInMemoryRepository;
 
-    private SignInUseCase signInHandler;
+    private SignInUseCase signInUseCase;
 
     @BeforeEach
     void beforeEach() {
         usersInMemoryRepository = new UsersInMemoryRepository();
         var fakePasswordEncoder = new FakePasswordEncoder();
 
-        signInHandler = new SignInUseCase(usersInMemoryRepository, fakePasswordEncoder);
+        signInUseCase = new SignInUseCase(usersInMemoryRepository, fakePasswordEncoder);
     }
 
     @Test
@@ -37,7 +37,7 @@ class SignInUseCaseTest {
                 user.getEncodedPassword()
         );
 
-        var result = signInHandler.execute(anonymousContext, params);
+        var result = signInUseCase.execute(anonymousContext, params);
 
         assertEquals(user, result);
     }
@@ -52,7 +52,7 @@ class SignInUseCaseTest {
                 user.getEncodedPassword()
         );
 
-        var result = signInHandler.execute(userContext, params);
+        var result = signInUseCase.execute(userContext, params);
 
         assertEquals(user, result);
     }
@@ -68,7 +68,7 @@ class SignInUseCaseTest {
         );
 
         assertThrows(UnauthorizedException.class,
-                () -> signInHandler.execute(anonymousContext, params));
+                () -> signInUseCase.execute(anonymousContext, params));
     }
 
     @Test
@@ -82,7 +82,7 @@ class SignInUseCaseTest {
         );
 
         assertThrows(UnauthorizedException.class,
-                () -> signInHandler.execute(anonymousContext, params));
+                () -> signInUseCase.execute(anonymousContext, params));
     }
 
     private User givenAnUserInDatabase() {

@@ -23,7 +23,7 @@ class CreateProductUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private CreateProductUseCase createProductHandler;
+    private CreateProductUseCase createProductUseCase;
 
     @BeforeEach
     void beforeEach() {
@@ -34,7 +34,7 @@ class CreateProductUseCaseTest {
         var parametricFinder = new ParametricRestFinder(parametricMockRestClient);
         var parametricValidator = new ParametricValidator(parametricFinder);
 
-        createProductHandler = new CreateProductUseCase(productsInMemoryRepository,
+        createProductUseCase = new CreateProductUseCase(productsInMemoryRepository,
                 parametricValidator,
                 eventInMemoryBus);
     }
@@ -47,7 +47,7 @@ class CreateProductUseCaseTest {
         var name = LocalizedField.createOf("en-US", "Apple");
         var params = new CreateProductParams(fruit.getId(), name);
 
-        var result = createProductHandler.execute(userContext, params);
+        var result = createProductUseCase.execute(userContext, params);
 
         assertEquals(name, result.getName());
 

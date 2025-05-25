@@ -6,8 +6,8 @@ public class InternalErrorException extends ApplicationException {
         super(SharedExceptionCodes.INTERNAL_ERROR.value, "Internal error", message);
     }
 
-    public static InternalErrorException createOfHandlerNotFound(String paramsClassname) {
-        return new InternalErrorException("Handler not found for params: " + paramsClassname);
+    public static InternalErrorException createOfUseCaseNotFound(String paramsClassname) {
+        return new InternalErrorException("Use case not found for params: " + paramsClassname);
     }
 
     public static InternalErrorException createOf(Exception cause) {

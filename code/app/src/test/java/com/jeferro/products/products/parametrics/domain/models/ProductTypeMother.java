@@ -8,9 +8,11 @@ public class ProductTypeMother {
 
     public static ParametricValue fruit() {
         var fruitValueId = fruitId();
-        return ParametricValue.createSimple(
+
+        return new ParametricValue(
                 fruitValueId,
-                LocalizedField.createOfUS("Fruit"));
+                LocalizedField.createOfUS("Fruit"),
+                null);
     }
 
     public static ParametricValueId fruitId() {
