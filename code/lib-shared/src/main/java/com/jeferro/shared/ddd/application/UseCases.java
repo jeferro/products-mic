@@ -8,33 +8,33 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Handlers {
+public class UseCases {
 
-    private final Map<Class<Params<?>>, UseCase<?, ?>> handlers;
+    private final Map<Class<Params<?>>, UseCase<?, ?>> useCases;
 
-    public Handlers() {
-        handlers = new HashMap<>();
+    public UseCases() {
+        useCases = new HashMap<>();
     }
 
-    public void registryHandler(UseCase<?, ?> useCase) {
+    public void registry(UseCase<?, ?> useCase) {
         Type type = useCase.getClass().getGenericSuperclass();
 
         if (!(type instanceof ParameterizedType parameterizedType)) {
-            throw new IllegalArgumentException("Handler superclass is not a parameterized type");
+            throw new IllegalArgumentException("Use case superclass is not a parameterized type");
         }
 
         Class<Params<?>> paramsClass = (Class<Params<?>>) parameterizedType.getActualTypeArguments()[0];
 
-        handlers.put(paramsClass, useCase);
+        useCases.put(paramsClass, useCase);
     }
 
-    public <R> UseCase<Params<R>, R> findUseCase(Params<R> params) {
+    public <R> UseCase<Params<R>, R> findByParams(Params<R> params) {
         Class<?> paramsClass = params.getClass();
 
-        if (!handlers.containsKey(paramsClass)) {
-            throw InternalErrorException.createOfHandlerNotFound(paramsClass.getSimpleName());
+        if (!useCases.containsKey(paramsClass)) {
+            throw InternalErrorException.createOfUseCaseNotFound(paramsClass.getSimpleName());
         }
 
-        return (UseCase<Params<R>, R>) handlers.get(paramsClass);
+        return (UseCase<Params<R>, R>) useCases.get(paramsClass);
     }
 }

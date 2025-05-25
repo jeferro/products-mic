@@ -26,7 +26,7 @@ class CreateProductReviewUseCaseTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private CreateProductReviewUseCase createProductReviewHandler;
+    private CreateProductReviewUseCase createProductReviewUseCase;
 
     @BeforeEach
     public void beforeEach() {
@@ -34,7 +34,7 @@ class CreateProductReviewUseCaseTest {
         productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
         eventInMemoryBus = new EventInMemoryBus();
 
-        createProductReviewHandler =
+        createProductReviewUseCase =
                 new CreateProductReviewUseCase(productsInMemoryRepository, productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
@@ -50,7 +50,7 @@ class CreateProductReviewUseCaseTest {
                 comment
         );
 
-        var result = createProductReviewHandler.execute(userContext, params);
+        var result = createProductReviewUseCase.execute(userContext, params);
 
         assertResult(userContext, result, productCode, comment);
 
@@ -70,7 +70,7 @@ class CreateProductReviewUseCaseTest {
         );
 
         assertThrows(ProductReviewAlreadyExistsException.class,
-                () -> createProductReviewHandler.execute(userContext, params));
+                () -> createProductReviewUseCase.execute(userContext, params));
     }
 
     private static void assertResult(Context context, ProductReview result, ProductCode productCode, String comment) {

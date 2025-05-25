@@ -20,12 +20,12 @@ class AuthenticationsRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubUseCaseBus stubHandlerBus;
+    private StubUseCaseBus stubUseCaseBus;
 
     @Test
     void execute_sign_in_on_request() throws Exception {
         var user = UserMother.user();
-        stubHandlerBus.init(user);
+        stubUseCaseBus.init(user);
 
         var requestContent = """
                 {
@@ -43,7 +43,7 @@ class AuthenticationsRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }

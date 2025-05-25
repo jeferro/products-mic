@@ -15,13 +15,13 @@ class SearchProductReviewUseCaseTest {
 
     private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
-    private SearchProductReviewUseCase searchProductReviewHandler;
+    private SearchProductReviewUseCase searchProductReviewUseCase;
 
     @BeforeEach
     public void beforeEach() {
         productReviewsInMemoryRepository = new ProductReviewsInMemoryRepository();
 
-        searchProductReviewHandler = new SearchProductReviewUseCase(productReviewsInMemoryRepository);
+        searchProductReviewUseCase = new SearchProductReviewUseCase(productReviewsInMemoryRepository);
     }
 
     @Test
@@ -33,7 +33,7 @@ class SearchProductReviewUseCaseTest {
                 userReviewOfApple.getProductCode()
         );
 
-        var result = searchProductReviewHandler.execute(userContext, params);
+        var result = searchProductReviewUseCase.execute(userContext, params);
 
         assertEquals(1, result.size());
         assertTrue(result.contains(userReviewOfApple));
@@ -48,7 +48,7 @@ class SearchProductReviewUseCaseTest {
                 userReviewOfApple.getProductCode()
         );
 
-        var result = searchProductReviewHandler.execute(userContext, params);
+        var result = searchProductReviewUseCase.execute(userContext, params);
 
         assertTrue(result.isEmpty());
     }

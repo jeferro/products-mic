@@ -1,7 +1,6 @@
 package com.jeferro.products.products.product_reviews.infrastructure.adapters.rest;
 
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
-import com.jeferro.products.products.product_reviews.domain.models.ProductReviews;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.ProductReviewRestController;
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.shared.application.StubUseCaseBus;
@@ -15,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
+
 @WebMvcTest(ProductReviewRestController.class)
 class ProductReviewRestControllerTest extends RestControllerTest {
 
@@ -22,16 +23,16 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubUseCaseBus stubHandlerBus;
+    private StubUseCaseBus stubUseCaseBus;
 
     @Test
     void execute_list_product_reviews_on_request() throws Exception {
         var apple = ProductMother.apple();
-        var productReviews = ProductReviews.createOf(
-                ProductReviewMother.userReviewOfApple(),
-                ProductReviewMother.adminReviewOfApple()
+        var productReviews = List.of(
+            ProductReviewMother.userReviewOfApple(),
+            ProductReviewMother.adminReviewOfApple()
         );
-        stubHandlerBus.init(productReviews);
+        stubUseCaseBus.init(productReviews);
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/product-reviews?productCode=" + apple.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -42,7 +43,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -50,7 +51,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     @Test
     void execute_create_product_on_request() throws Exception {
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
-        stubHandlerBus.init(userReviewOfProduct);
+        stubUseCaseBus.init(userReviewOfProduct);
 
         var requestContent = """
                 {
@@ -69,7 +70,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -77,7 +78,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     @Test
     void execute_get_product_on_request() throws Exception {
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
-        stubHandlerBus.init(userReviewOfProduct);
+        stubUseCaseBus.init(userReviewOfProduct);
 
         var requestBuilder = MockMvcRequestBuilders.get("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +89,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -96,7 +97,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     @Test
     void execute_update_product_on_request() throws Exception {
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
-        stubHandlerBus.init(userReviewOfProduct);
+        stubUseCaseBus.init(userReviewOfProduct);
 
         var requestContent = """
                 {
@@ -114,7 +115,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }
@@ -122,7 +123,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
     @Test
     void execute_delete_product_on_request() throws Exception {
         var userReviewOfProduct = ProductReviewMother.userReviewOfApple();
-        stubHandlerBus.init(userReviewOfProduct);
+        stubUseCaseBus.init(userReviewOfProduct);
 
         var requestBuilder = MockMvcRequestBuilders.delete("/v1/product-reviews/" + userReviewOfProduct.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -133,7 +134,7 @@ class ProductReviewRestControllerTest extends RestControllerTest {
                 .andReturn()
                 .getResponse();
 
-        ApprovalUtils.verifyAll(stubHandlerBus.getFirstParamOrError(),
+        ApprovalUtils.verifyAll(stubUseCaseBus.getFirstParamOrError(),
                 response.getStatus(),
                 response.getContentAsString());
     }

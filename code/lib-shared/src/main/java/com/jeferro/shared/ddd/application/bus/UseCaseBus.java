@@ -1,7 +1,7 @@
 package com.jeferro.shared.ddd.application.bus;
 
 import com.jeferro.shared.ddd.application.UseCase;
-import com.jeferro.shared.ddd.application.Handlers;
+import com.jeferro.shared.ddd.application.UseCases;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.exceptions.ConflictException;
 import com.jeferro.shared.ddd.domain.exceptions.InternalErrorException;
@@ -18,10 +18,10 @@ public abstract class UseCaseBus {
 
     private static final Logger logger = LoggerFactory.getLogger(UseCaseBus.class);
 
-    protected final Handlers handlers;
+    protected final UseCases useCases;
 
     public UseCaseBus() {
-        handlers = new Handlers();
+        useCases = new UseCases();
     }
 
     public <R> R execute(Params<R> params) {
@@ -32,7 +32,7 @@ public abstract class UseCaseBus {
 
         try {
             context = createContext();
-            useCae = handlers.findUseCase(params);
+            useCae = useCases.findByParams(params);
 
             ensurePermissions(context, useCae);
 
@@ -72,17 +72,17 @@ public abstract class UseCaseBus {
             Params<?> params,
             Object result
     ) {
-        var handlerName = useCase.getClass().getSimpleName();
+        var useCaseName = useCase.getClass().getSimpleName();
         var auth = context.getAuth();
         var duration = calculateDuration(startAt);
 
         logger.info("""
                 \n\t Duration: {}\s
                 \t Auth: {}\s
-                \t Handler: {}\s
+                \t Use case: {}\s
                 \t Params: {}\s
                 \t Result: {}\s
-                """, duration, auth, handlerName, params, result);
+                """, duration, auth, useCaseName, params, result);
     }
 
     private void logErrorExecution(
@@ -96,7 +96,7 @@ public abstract class UseCaseBus {
                 ? context.getAuth()
                 : null;
 
-        var handlerName = useCase != null
+        var useCaseName = useCase != null
                 ? useCase.getClass().getSimpleName()
                 : "--";
 
@@ -105,9 +105,9 @@ public abstract class UseCaseBus {
         logger.error("""
                 \n\t Duration: {}\s
                 \t Auth: {}\s
-                \t Handler: {}\s
+                \t Use case: {}\s
                 \t Params: {}
-                """, duration, auth, handlerName, params, cause);
+                """, duration, auth, useCaseName, params, cause);
     }
 
     private Duration calculateDuration(Instant startAt) {

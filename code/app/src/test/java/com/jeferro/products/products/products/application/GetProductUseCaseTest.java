@@ -16,13 +16,13 @@ class GetProductUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
-    private GetProductUseCase getProductHandler;
+    private GetProductUseCase getProductUseCase;
 
     @BeforeEach
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        getProductHandler = new GetProductUseCase(productsInMemoryRepository);
+        getProductUseCase = new GetProductUseCase(productsInMemoryRepository);
     }
 
     @Test
@@ -34,7 +34,7 @@ class GetProductUseCaseTest {
                 apple.getId()
         );
 
-        var result = getProductHandler.execute(userContext, params);
+        var result = getProductUseCase.execute(userContext, params);
 
         assertEquals(apple, result);
     }
@@ -49,7 +49,7 @@ class GetProductUseCaseTest {
         );
 
         assertThrows(ProductNotFoundException.class,
-                () -> getProductHandler.execute(userContext, params));
+                () -> getProductUseCase.execute(userContext, params));
     }
 
     private Product givenAnAppleInDatabase() {
