@@ -14,20 +14,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UpdateProductHandlerTest {
+class UpdateProductUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private UpdateProductHandler updateProductHandler;
+    private UpdateProductUseCase updateProductHandler;
 
     @BeforeEach
     void beforeEach() {
         eventInMemoryBus = new EventInMemoryBus();
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        updateProductHandler = new UpdateProductHandler(productsInMemoryRepository, eventInMemoryBus);
+        updateProductHandler = new UpdateProductUseCase(productsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.jeferro.products.products.products.infrastructure.adapters.rest;
 
 import com.jeferro.products.products.products.domain.models.ProductMother;
 import com.jeferro.products.products.products.infrastructure.rest.ProductsRestController;
-import com.jeferro.products.shared.application.StubHandlerBus;
+import com.jeferro.products.shared.application.StubUseCaseBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.shared.ddd.domain.models.aggregates.PaginatedList;
@@ -21,7 +21,7 @@ class ProductsRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubHandlerBus stubHandlerBus;
+    private StubUseCaseBus stubHandlerBus;
 
     @Test
     void execute_list_products_on_request() throws Exception {

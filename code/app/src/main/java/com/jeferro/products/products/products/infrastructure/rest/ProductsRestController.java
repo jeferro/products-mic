@@ -3,7 +3,7 @@ package com.jeferro.products.products.products.infrastructure.rest;
 import com.jeferro.products.generated.rest.v1.apis.ProductsApi;
 import com.jeferro.products.generated.rest.v1.dtos.*;
 import com.jeferro.products.products.products.infrastructure.rest.mappers.ProductRestMapper;
-import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +15,7 @@ public class ProductsRestController implements ProductsApi {
 
     private final ProductRestMapper productRestMapper = ProductRestMapper.INSTANCE;
 
-    private final HandlerBus handlerBus;
+    private final UseCaseBus useCaseBus;
 
     @Override
     public List<ProductSummaryRestDTO> searchProducts(Integer pageNumber, Integer pageSize,
@@ -24,7 +24,7 @@ public class ProductsRestController implements ProductsApi {
                                                       String name) {
         var params = productRestMapper.toSearchProductsParams(pageNumber, pageSize, order, ascending, name);
 
-        var products = handlerBus.execute(params);
+        var products = useCaseBus.execute(params);
 
         return productRestMapper.toSummaryDTO(products);
     }
@@ -33,7 +33,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO createProduct(CreateProductInputRestDTO createProductInputRestDTO) {
         var params = productRestMapper.toCreateProductParams(createProductInputRestDTO);
 
-        var product = handlerBus.execute(params);
+        var product = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(product);
     }
@@ -42,7 +42,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO getProduct(String productCode) {
         var params = productRestMapper.toGetProductParams(productCode);
 
-        var product = handlerBus.execute(params);
+        var product = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(product);
     }
@@ -51,7 +51,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO updateProduct(String productCode, UpdateProductInputRestDTO updateProductInputRestDTO) {
         var params = productRestMapper.toUpdateProductParams(productCode, updateProductInputRestDTO);
 
-        var user = handlerBus.execute(params);
+        var user = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(user);
     }
@@ -60,7 +60,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO publishProduct(String productCode) {
         var params = productRestMapper.toPublishProductParams(productCode);
 
-        var user = handlerBus.execute(params);
+        var user = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(user);
     }
@@ -69,7 +69,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO unpublishProduct(String productCode) {
         var params = productRestMapper.toUnpublishProductParams(productCode);
 
-        var user = handlerBus.execute(params);
+        var user = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(user);
     }
@@ -78,7 +78,7 @@ public class ProductsRestController implements ProductsApi {
     public ProductRestDTO deleteProduct(String productCode) {
         var params = productRestMapper.toDeleteProductParams(productCode);
 
-        var user = handlerBus.execute(params);
+        var user = useCaseBus.execute(params);
 
         return productRestMapper.toDTO(user);
     }

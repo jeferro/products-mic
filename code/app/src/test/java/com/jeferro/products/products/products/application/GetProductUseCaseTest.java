@@ -12,17 +12,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class GetProductHandlerTest {
+class GetProductUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
-    private GetProductHandler getProductHandler;
+    private GetProductUseCase getProductHandler;
 
     @BeforeEach
     void beforeEach() {
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        getProductHandler = new GetProductHandler(productsInMemoryRepository);
+        getProductHandler = new GetProductUseCase(productsInMemoryRepository);
     }
 
     @Test

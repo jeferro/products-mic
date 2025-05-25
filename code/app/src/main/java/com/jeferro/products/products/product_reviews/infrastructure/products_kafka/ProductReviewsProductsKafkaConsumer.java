@@ -3,7 +3,7 @@ package com.jeferro.products.products.product_reviews.infrastructure.products_ka
 import com.jeferro.products.generated.kafka.v1.dtos.ProductDeletedAvroDTO;
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.products.infrastructure.kafka.mappers.ProductKafkaMapper;
-import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class ProductReviewsProductsKafkaConsumer {
 
     private final ProductKafkaMapper productKafkaMapper = ProductKafkaMapper.INSTANCE;
 
-    private final HandlerBus handlerBus;
+    private final UseCaseBus useCaseBus;
 
     @KafkaHandler
     protected void consume(ProductDeletedAvroDTO productDeletedAvroDTO) {
@@ -31,7 +31,7 @@ public class ProductReviewsProductsKafkaConsumer {
                 productKafkaMapper.toDomain(productDeletedAvroDTO.getCode())
         );
 
-        handlerBus.execute(params);
+        useCaseBus.execute(params);
     }
 
     @KafkaHandler(isDefault = true)

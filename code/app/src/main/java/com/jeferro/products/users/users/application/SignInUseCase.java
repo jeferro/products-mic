@@ -5,7 +5,7 @@ import com.jeferro.products.users.users.domain.models.User;
 import com.jeferro.products.users.users.domain.models.Username;
 import com.jeferro.products.users.users.domain.repositories.UsersRepository;
 import com.jeferro.products.users.users.domain.services.PasswordEncoder;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.UseCase;
 import com.jeferro.shared.ddd.domain.exceptions.auth.UnauthorizedException;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class SignInHandler extends Handler<SignInParams, User> {
+public class SignInUseCase extends UseCase<SignInParams, User> {
 
     private final UsersRepository usersRepository;
 

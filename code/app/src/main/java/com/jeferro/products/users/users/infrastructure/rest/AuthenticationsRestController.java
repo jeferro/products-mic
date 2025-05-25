@@ -4,7 +4,7 @@ import com.jeferro.products.users.users.infrastructure.rest.dtos.AuthRestDTO;
 import com.jeferro.products.users.users.infrastructure.rest.dtos.SignInInputRestDTO;
 import com.jeferro.products.users.users.infrastructure.rest.mappers.AuthRestMapper;
 import com.jeferro.shared.auth.infrastructure.rest.jwt.HeaderJwtDecoder;
-import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class AuthenticationsRestController {
 
     private final HeaderJwtDecoder headerJwtDecoder;
 
-    private final HandlerBus handlerBus;
+    private final UseCaseBus useCaseBus;
 
     @RequestMapping(
             method = RequestMethod.POST,
@@ -33,7 +33,7 @@ public class AuthenticationsRestController {
             @RequestBody SignInInputRestDTO signInInputRestDTO) {
         var params = authRestMapper.toSignInParams(signInInputRestDTO);
 
-        var user = handlerBus.execute(params);
+        var user = useCaseBus.execute(params);
 
         return ResponseEntity.ok()
                 .header(AUTHORIZATION, headerJwtDecoder.encode(user.getUsername().getValue(), user.getRoles()))

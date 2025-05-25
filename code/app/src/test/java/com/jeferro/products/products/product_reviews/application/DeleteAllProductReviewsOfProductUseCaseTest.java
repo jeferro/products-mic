@@ -16,13 +16,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteAllProductReviewsOfProductHandlerTest {
+class DeleteAllProductReviewsOfProductUseCaseTest {
 
     private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private DeleteAllProductReviewsOfProductHandler deleteAllProductReviewsOfProductHandler;
+    private DeleteAllProductReviewsOfProductUseCase deleteAllProductReviewsOfProductHandler;
 
     @BeforeEach
     public void beforeEach() {
@@ -30,7 +30,7 @@ class DeleteAllProductReviewsOfProductHandlerTest {
         eventInMemoryBus = new EventInMemoryBus();
 
         deleteAllProductReviewsOfProductHandler =
-                new DeleteAllProductReviewsOfProductHandler(productReviewsInMemoryRepository, eventInMemoryBus);
+                new DeleteAllProductReviewsOfProductUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test

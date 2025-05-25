@@ -5,7 +5,7 @@ import com.jeferro.products.generated.rest.v1.dtos.CreateProductReviewInputRestD
 import com.jeferro.products.generated.rest.v1.dtos.ProductReviewRestDTO;
 import com.jeferro.products.generated.rest.v1.dtos.UpdateProductReviewInputRestDTO;
 import com.jeferro.products.products.product_reviews.infrastructure.rest.mappers.ProductReviewRestMapper;
-import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,13 +17,13 @@ public class ProductReviewRestController implements ProductReviewsApi {
 
     private final ProductReviewRestMapper productReviewRestMapper = ProductReviewRestMapper.INSTANCE;
 
-    private final HandlerBus handlerBus;
+    private final UseCaseBus useCaseBus;
 
     @Override
     public List<ProductReviewRestDTO> searchProductReviews(String productCode) {
         var params = productReviewRestMapper.toSearchProductsParams(productCode);
 
-        var productReviews = handlerBus.execute(params);
+        var productReviews = useCaseBus.execute(params);
 
         return productReviewRestMapper.toDTO(productReviews);
     }
@@ -32,7 +32,7 @@ public class ProductReviewRestController implements ProductReviewsApi {
     public ProductReviewRestDTO createProductReview(CreateProductReviewInputRestDTO inputRestDTO) {
         var params = productReviewRestMapper.toCreateProductReviewParams(inputRestDTO);
 
-        var productReview = handlerBus.execute(params);
+        var productReview = useCaseBus.execute(params);
 
         return productReviewRestMapper.toDTO(productReview);
     }
@@ -41,7 +41,7 @@ public class ProductReviewRestController implements ProductReviewsApi {
     public ProductReviewRestDTO getProductReview(String productReviewId) {
         var params = productReviewRestMapper.toGetProductReviewParams(productReviewId);
 
-        var productReview = handlerBus.execute(params);
+        var productReview = useCaseBus.execute(params);
 
         return productReviewRestMapper.toDTO(productReview);
     }
@@ -51,7 +51,7 @@ public class ProductReviewRestController implements ProductReviewsApi {
                                                     UpdateProductReviewInputRestDTO inputRestDTO) {
         var params = productReviewRestMapper.toUpdateProductReviewParams(productReviewId, inputRestDTO);
 
-        var productReview = handlerBus.execute(params);
+        var productReview = useCaseBus.execute(params);
 
         return productReviewRestMapper.toDTO(productReview);
     }
@@ -60,7 +60,7 @@ public class ProductReviewRestController implements ProductReviewsApi {
     public ProductReviewRestDTO deleteProductReview(String productReviewId) {
         var params = productReviewRestMapper.toDeleteProductReviewParams(productReviewId);
 
-        var productReview = handlerBus.execute(params);
+        var productReview = useCaseBus.execute(params);
 
         return productReviewRestMapper.toDTO(productReview);
     }

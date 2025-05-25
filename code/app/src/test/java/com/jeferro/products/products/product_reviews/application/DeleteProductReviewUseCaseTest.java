@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteProductReviewHandlerTest {
+class DeleteProductReviewUseCaseTest {
 
     private ProductReviewsInMemoryRepository productReviewsInMemoryRepository;
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private DeleteProductReviewHandler deleteProductReviewHandler;
+    private DeleteProductReviewUseCase deleteProductReviewHandler;
 
     @BeforeEach
     public void beforeEach() {
@@ -28,7 +28,7 @@ class DeleteProductReviewHandlerTest {
 
         eventInMemoryBus = new EventInMemoryBus();
 
-        deleteProductReviewHandler = new DeleteProductReviewHandler(productReviewsInMemoryRepository, eventInMemoryBus);
+        deleteProductReviewHandler = new DeleteProductReviewUseCase(productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test

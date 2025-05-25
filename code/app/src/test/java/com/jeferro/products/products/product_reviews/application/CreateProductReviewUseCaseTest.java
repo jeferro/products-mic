@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CreateProductReviewHandlerTest {
+class CreateProductReviewUseCaseTest {
 
     private ProductsInMemoryRepository productsInMemoryRepository;
 
@@ -26,7 +26,7 @@ class CreateProductReviewHandlerTest {
 
     private EventInMemoryBus eventInMemoryBus;
 
-    private CreateProductReviewHandler createProductReviewHandler;
+    private CreateProductReviewUseCase createProductReviewHandler;
 
     @BeforeEach
     public void beforeEach() {
@@ -35,7 +35,7 @@ class CreateProductReviewHandlerTest {
         eventInMemoryBus = new EventInMemoryBus();
 
         createProductReviewHandler =
-                new CreateProductReviewHandler(productsInMemoryRepository, productReviewsInMemoryRepository, eventInMemoryBus);
+                new CreateProductReviewUseCase(productsInMemoryRepository, productReviewsInMemoryRepository, eventInMemoryBus);
     }
 
     @Test

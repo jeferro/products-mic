@@ -1,6 +1,6 @@
 package com.jeferro.products.users.users.adapters.rest;
 
-import com.jeferro.products.shared.application.StubHandlerBus;
+import com.jeferro.products.shared.application.StubUseCaseBus;
 import com.jeferro.products.shared.infrastructure.adapters.rest.RestControllerTest;
 import com.jeferro.products.shared.infrastructure.adapters.utils.ApprovalUtils;
 import com.jeferro.products.users.users.domain.models.UserMother;
@@ -20,7 +20,7 @@ class AuthenticationsRestControllerTest extends RestControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StubHandlerBus stubHandlerBus;
+    private StubUseCaseBus stubHandlerBus;
 
     @Test
     void execute_sign_in_on_request() throws Exception {

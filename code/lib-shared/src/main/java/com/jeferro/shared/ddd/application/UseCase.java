@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-public abstract class Handler<P extends Params<R>, R> {
+public abstract class UseCase<P extends Params<R>, R> {
 
     protected final Logger logger;
 
-    public Handler() {
+    public UseCase() {
         logger = LoggerFactory.getLogger(this.getClass());
     }
 

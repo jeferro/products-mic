@@ -3,7 +3,7 @@ package com.jeferro.products.products.product_reviews.application;
 import com.jeferro.products.products.product_reviews.application.params.DeleteAllProductReviewsOfProductParams;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.repositories.ProductReviewsRepository;
-import com.jeferro.shared.ddd.application.Handler;
+import com.jeferro.shared.ddd.application.UseCase;
 import com.jeferro.shared.ddd.domain.events.EventBus;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import static com.jeferro.products.shared.application.Roles.ADMIN;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteAllProductReviewsOfProductHandler extends Handler<DeleteAllProductReviewsOfProductParams, Void> {
+public class DeleteAllProductReviewsOfProductUseCase extends UseCase<DeleteAllProductReviewsOfProductParams, Void> {
 
     private final ProductReviewsRepository productReviewsRepository;
 

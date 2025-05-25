@@ -1,6 +1,6 @@
 package com.jeferro.products.shared.application;
 
-import com.jeferro.shared.ddd.application.bus.HandlerBus;
+import com.jeferro.shared.ddd.application.bus.UseCaseBus;
 import com.jeferro.shared.ddd.application.params.Params;
 import com.jeferro.shared.ddd.domain.models.context.Context;
 import jakarta.el.MethodNotFoundException;
@@ -8,13 +8,13 @@ import jakarta.el.MethodNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StubHandlerBus extends HandlerBus {
+public class StubUseCaseBus extends UseCaseBus {
 
     private final List<Params<?>> params;
 
     private Object result;
 
-    public StubHandlerBus() {
+    public StubUseCaseBus() {
         params = new ArrayList<>();
         result = null;
     }
