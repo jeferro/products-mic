@@ -1,7 +1,7 @@
 package com.jeferro.products.products.products.application;
 
+import com.jeferro.products.parametrics.domain.services.ParametricInMemoryFinder;
 import com.jeferro.products.parametrics.domain.services.ParametricValidator;
-import com.jeferro.products.parametrics.infrastructure.parametrics_rest.ParametricRestFinder;
 import com.jeferro.products.products.parametrics.domain.models.ProductTypeMother;
 import com.jeferro.products.products.products.application.params.CreateProductParams;
 import com.jeferro.products.products.products.domain.events.ProductCreated;
@@ -9,7 +9,6 @@ import com.jeferro.products.products.products.domain.models.Product;
 import com.jeferro.products.products.products.domain.repositories.ProductsInMemoryRepository;
 import com.jeferro.products.shared.application.ContextMother;
 import com.jeferro.products.shared.domain.events.EventInMemoryBus;
-import com.jeferro.products.shared.infrastructure.config.parametrics.ParametricMockRestClient;
 import com.jeferro.shared.locale.domain.models.LocalizedField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,7 @@ class CreateProductUseCaseTest {
         eventInMemoryBus = new EventInMemoryBus();
         productsInMemoryRepository = new ProductsInMemoryRepository();
 
-        var parametricMockRestClient = new ParametricMockRestClient();
-        var parametricFinder = new ParametricRestFinder(parametricMockRestClient);
+        var parametricFinder = new ParametricInMemoryFinder();
         var parametricValidator = new ParametricValidator(parametricFinder);
 
         createProductUseCase = new CreateProductUseCase(productsInMemoryRepository,

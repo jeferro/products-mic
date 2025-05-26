@@ -2,7 +2,7 @@ package com.jeferro.products.products.product_reviews.application;
 
 import com.jeferro.products.products.product_reviews.application.params.UpdateProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUserException;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
@@ -74,7 +74,7 @@ class UpdateProductReviewUseCaseTest {
                 newComment
         );
 
-        assertThrows(ProductReviewDoesNotBelongUser.class,
+        assertThrows(ProductReviewDoesNotBelongUserException.class,
                 () -> updateProductReviewUseCase.execute(adminContext, params));
     }
 
