@@ -18,4 +18,6 @@ public interface Versions {
     String jacoco = "0.8.11";
 
     String approval_tests = "24.2.0";
+
+    String arch_unit = "1.4.1";
 }

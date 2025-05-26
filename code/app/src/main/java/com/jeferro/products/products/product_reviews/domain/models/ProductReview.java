@@ -3,7 +3,7 @@ package com.jeferro.products.products.product_reviews.domain.models;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewCreated;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewUpdated;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUserException;
 import com.jeferro.products.products.products.domain.models.ProductCode;
 import com.jeferro.shared.ddd.domain.models.aggregates.AggregateRoot;
 import com.jeferro.shared.ddd.domain.models.auth.Auth;
@@ -84,6 +84,6 @@ public class ProductReview extends AggregateRoot<ProductReviewId> {
             return;
         }
 
-        throw ProductReviewDoesNotBelongUser.belongsToOtherUser(id, auth);
+        throw ProductReviewDoesNotBelongUserException.belongsToOtherUser(id, auth);
     }
 }

@@ -19,8 +19,10 @@ dependencies {
 
     testImplementation("com.approvaltests", "approvaltests", Versions.approval_tests)
 
-    // Spring
+    // Test
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
+
+    testImplementation("com.tngtech.archunit", "archunit", Versions.arch_unit)
 
     // Rest
     api("jakarta.validation", "jakarta.validation-api", Versions.jakarta_validation_api)

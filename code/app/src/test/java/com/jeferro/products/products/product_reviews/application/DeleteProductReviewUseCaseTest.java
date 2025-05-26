@@ -2,7 +2,7 @@ package com.jeferro.products.products.product_reviews.application;
 
 import com.jeferro.products.products.product_reviews.application.params.DeleteProductReviewParams;
 import com.jeferro.products.products.product_reviews.domain.events.ProductReviewDeleted;
-import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUser;
+import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewDoesNotBelongUserException;
 import com.jeferro.products.products.product_reviews.domain.exceptions.ProductReviewNotFoundException;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReview;
 import com.jeferro.products.products.product_reviews.domain.models.ProductReviewMother;
@@ -70,7 +70,7 @@ class DeleteProductReviewUseCaseTest {
                 userReviewOfApple.getId()
         );
 
-        assertThrows(ProductReviewDoesNotBelongUser.class,
+        assertThrows(ProductReviewDoesNotBelongUserException.class,
                 () -> deleteProductReviewUseCase.execute(adminContext, params));
     }
 
