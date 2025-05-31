@@ -1,6 +1,9 @@
 
 name: 'Install asdf'
 
+on:
+  workflow_call:  # This makes it callable by other workflows
+
 jobs:
   install:
     name: Install
