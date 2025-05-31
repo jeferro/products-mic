@@ -1,5 +1,5 @@
 
-name: 'check'
+name: 'pr-check'
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - reopened
     paths:
       - code/**
+      - apis/**
 
 jobs:
 
