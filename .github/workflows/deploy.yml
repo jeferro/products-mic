@@ -1,7 +1,14 @@
 
-name: 'pr-check'
+name: 'deploy'
 
 on:
+#  pull_request:
+#    types:
+#      - closed
+#    branches:
+#      - main
+#      - master
+#      - develop
   pull_request:
     types:
       - opened
@@ -43,6 +50,26 @@ jobs:
       - name: Test
         working-directory: code
         run: gradle test
+        env:
+          # disable default JVM in container
+          JAVA_HOME: ""
+
+  deploy-java:
+    name: Deploy Jar
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install asdf & tools
+        uses: asdf-vm/actions/install@v3
+
+      - name: Deploy Jar
+        working-directory: code
+        run: |
+          ls build
+          echo "Deploy Jar"
         env:
           # disable default JVM in container
           JAVA_HOME: ""
