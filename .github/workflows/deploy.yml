@@ -86,7 +86,7 @@ jobs:
           echo "Deploy Jar"
 
   deploy-docker:
-    name: Deploy Jar
+    name: Deploy Docker
     needs: [build]
     runs-on: ubuntu-latest
     steps:
@@ -108,3 +108,16 @@ jobs:
         run: |
           # Update step to deploy docker image
           echo "Deploy docker image"
+
+  deploy:
+    name: Deploy ms
+    needs: [deploy-docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Execute docker image
+        run: |
+          # Update step to execute docker image in infra
+          echo "Execute docker image in infra"
