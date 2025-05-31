@@ -34,7 +34,7 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
 
-      - name: Install CD tools from .tool-versions
+      - name: Install tools from asdf
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
 
@@ -44,6 +44,12 @@ jobs:
         env:
           # disable default JVM in container
           JAVA_HOME: ""
+
+      - name: Upload compiled output in artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
 
   deploy-java:
     name: Deploy Jar
@@ -63,9 +69,15 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
 
-      - name: Install CD tools from .tool-versions
+      - name: Install tools from asdf
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
+
+      - name: Download compiled output from artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
 
       - name: Deploy Jar
         working-directory: code

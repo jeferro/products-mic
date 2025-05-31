@@ -30,7 +30,7 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
 
-      - name: Install CD tools from .tool-versions
+      - name: Install tools from asdf
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
 
@@ -58,7 +58,7 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
 
-      - name: Install CD tools from .tool-versions
+      - name: Install tools from asdf
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
 
