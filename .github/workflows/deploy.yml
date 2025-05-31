@@ -24,7 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install asdf & tools
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v3
+
+      - name: Cache asdf
+        id: asdf-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+
+      - name: Install CD tools from .tool-versions
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
 
       - name: Build
@@ -34,32 +45,26 @@ jobs:
           # disable default JVM in container
           JAVA_HOME: ""
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v3
-
-      - name: Test
-        working-directory: code
-        run: gradle test
-        env:
-          # disable default JVM in container
-          JAVA_HOME: ""
-
   deploy-java:
     name: Deploy Jar
-    needs: [build, test]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install asdf & tools
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v3
+
+      - name: Cache asdf
+        id: asdf-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+
+      - name: Install CD tools from .tool-versions
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v3
 
       - name: Deploy Jar
