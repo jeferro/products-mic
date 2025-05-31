@@ -1,0 +1,101 @@
+
+name: 'deploy'
+
+on:
+#  pull_request:
+#    types:
+#      - closed
+#    branches:
+#      - main
+#      - master
+#      - develop
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
+
+      - name: Build
+        working-directory: code
+        run: gradle build -x test
+        env:
+          # disable default JVM in container
+          JAVA_HOME: ""
+
+      - name: Upload compiled output in artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+  publish-jar:
+    name: Publish Jar
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
+
+      - name: Download compiled output from artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+      - name: Deploy Jar
+        working-directory: code
+        run: |
+          # Update step to deploy jar in the artifactory of the company
+          echo "Deploy Jar"
+
+  publish-docker:
+    name: Publish Docker
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download compiled output from artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+      - name: Build docker image
+        run: |
+          # Update step to build docker image
+          echo "Build docker image"
+
+      - name: Deploy docker image
+        run: |
+          # Update step to deploy docker image
+          echo "Deploy docker image"
+
+  deploy:
+    name: Deploy
+    needs: [publish-docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Execute docker image
+        run: |
+          # Update step to execute docker image in infra
+          echo "Execute docker image in infra"

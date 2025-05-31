@@ -1,5 +1,5 @@
 
-name: 'check'
+name: 'pr-check'
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - reopened
     paths:
       - code/**
+      - apis/**
 
 jobs:
 
@@ -19,15 +20,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v3
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
 
       - name: Build
         working-directory: code
         run: gradle build -x test
         env:
           # disable default JVM in container
-          JAVA_HOME:
+          JAVA_HOME: ""
 
   test:
     name: Test
@@ -36,12 +37,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v3
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
 
       - name: Test
         working-directory: code
         run: gradle test
         env:
           # disable default JVM in container
-          JAVA_HOME:
+          JAVA_HOME: ""
