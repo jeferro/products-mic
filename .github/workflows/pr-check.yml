@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install asdf
-        uses: .github/actions/asdf-install
+        uses: ./.github/actions/asdf-install
 
       - name: Build
         working-directory: code
@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install asdf
-        uses: .github/actions/asdf-install
+        uses: ./.github/actions/asdf-install
 
       - name: Test
         working-directory: code
