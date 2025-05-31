@@ -25,7 +25,7 @@ jobs:
 
       - name: Cache asdf
         id: asdf-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
@@ -53,7 +53,7 @@ jobs:
 
       - name: Cache asdf
         id: asdf-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.asdf/
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
