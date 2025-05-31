@@ -40,8 +40,8 @@ jobs:
           name: ms-build
           path: code/build/
 
-  deploy-jar:
-    name: Deploy Jar
+  publish-jar:
+    name: Publish Jar
     needs: [build]
     runs-on: ubuntu-latest
     steps:
@@ -63,8 +63,8 @@ jobs:
           # Update step to deploy jar in the artifactory of the company
           echo "Deploy Jar"
 
-  deploy-docker:
-    name: Deploy Docker
+  publish-docker:
+    name: Publish Docker
     needs: [build]
     runs-on: ubuntu-latest
     steps:
@@ -88,8 +88,8 @@ jobs:
           echo "Deploy docker image"
 
   deploy:
-    name: Deploy ms
-    needs: [deploy-docker]
+    name: Deploy
+    needs: [publish-docker]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
