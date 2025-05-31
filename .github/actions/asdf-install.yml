@@ -1,0 +1,21 @@
+
+name: 'Install asdf'
+
+jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v3
+
+      - name: Cache asdf
+        id: asdf-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+
+      - name: Install tools from asdf
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
+        uses: asdf-vm/actions/install@v3
