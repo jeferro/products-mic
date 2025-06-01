@@ -38,7 +38,7 @@ jobs:
 
       - name: Generate release version
         id: generate-release
-        if: env.is_release  == 'false'
+        if: env.is_release  == 'true'
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties
