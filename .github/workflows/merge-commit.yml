@@ -58,7 +58,7 @@ jobs:
   increase-version:
     name: Increase Version
     runs-on: ubuntu-latest
-    if: ${{ env.is_release }}
+    if: env.is_release
     env:
       MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
       MS_NAME: ${{ needs.prepare.outputs.ms-name }}
