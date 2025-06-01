@@ -17,6 +17,7 @@ on:
 env:
   is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
   is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
+  is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
 
 jobs:
 
@@ -35,6 +36,7 @@ jobs:
         run: |
           echo "is_release: ${{env.is_release}}"
           echo "is_hotfix: ${{env.is_hotfix}}"
+          echo "is_snapshot: ${{env.is_snapshot}}"
           echo "base_ref: ${{github.base_ref}}"
           echo "head_ref: ${{github.head_ref}}"
 
