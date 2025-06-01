@@ -42,7 +42,7 @@ jobs:
 
       - name: Generate release version
         id: generate-release
-        if: ${{ env.is_release == 'true' }}
+        if: env.is_release  == 'true'
         uses: ./.github/actions/increase-version
         with:
           group: minor
@@ -50,7 +50,7 @@ jobs:
 
       - name: Generate patch version
         id: generate-hotfix
-        if: ${{ env.is_hotfix == 'true' }}
+        if: env.is_hotfix == 'true'
         uses: ./.github/actions/increase-version
         with:
           group: patch
