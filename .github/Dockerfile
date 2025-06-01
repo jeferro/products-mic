@@ -3,6 +3,6 @@ FROM openjdk:21-oracle
 
 WORKDIR /app
 
-COPY code/build/*.jar app.jar
+COPY ../code/build/*.jar app.jar
 
 CMD ["java", "-jar", "app.jar"]
