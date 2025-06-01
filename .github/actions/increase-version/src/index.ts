@@ -1,5 +1,5 @@
 import Version from "./Version";
-import core from "@actions/core";
+import * as core from "@actions/core";
 import PropertiesReader from 'properties-reader';
 
 const propertiesPatch = core.getInput("properties-path");
