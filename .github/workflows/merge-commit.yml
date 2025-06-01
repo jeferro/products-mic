@@ -70,14 +70,14 @@ jobs:
 
       - name: Generate release version
         uses: ./.github/actions/increase-version
-        if: env.is_release && !env.is_hotfix
+        if: ${{ env.is_release && !env.is_hotfix }}
         with:
           group: minor
           release: true
 
       - name: Generate patch version
         uses: ./.github/actions/increase-version
-        if: env.is_release && env.is_hotfix
+        if: ${{ env.is_release && env.is_hotfix }}
         with:
           group: patch
           release: true
