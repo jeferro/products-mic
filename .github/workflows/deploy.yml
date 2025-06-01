@@ -16,7 +16,7 @@ on:
       - reopened
 env:
   git_user_name: "github-bot"
-  git_user_email: "github-bot@fake.email.com"
+  git_user_email: "jeferro@gmail.com"
   is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
   is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
   is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
