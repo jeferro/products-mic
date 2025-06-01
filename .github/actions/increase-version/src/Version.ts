@@ -14,8 +14,6 @@ export default class Version {
     static create_from_version(value: string): Version {
         const matches = this.VERSION_REGEX.exec(value);
 
-        console.log(matches);
-
         if (!matches) {
             throw new Error("Invalid version format: " + value);
         }

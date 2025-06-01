@@ -45,8 +45,8 @@ jobs:
       - name: Commit new version
         if: ${{ steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success' }}
         run: |
-          git config user.name "${{ inputs.git_user_name }}"
-          git config user.email "${{ inputs.git_user_email }}"
+          git config user.name "${{ env.git_user_name }}"
+          git config user.email "${{ env.git_user_email }}"
         
           git add *
           git commit -m "Update version ${{ steps.generate-release.outputs.version }}"
