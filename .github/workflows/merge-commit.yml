@@ -32,7 +32,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Show vars
-        if: steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success'
         run: |
           echo "is_release: ${env.is_release}"
           echo "is_hotfix: ${env.is_hotfix}"
