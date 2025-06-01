@@ -17,9 +17,46 @@ on:
 
 jobs:
 
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      ms-group: ${{ steps.get-group.outputs.MS_GROUP }}
+      ms-name: ${{ steps.get-name.outputs.MS_NAME }}
+      ms-version: ${{ steps.get-version.outputs.MS_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get group
+        id: get-group
+        run: |
+          MS_GROUP=$(grep "group" ${file} | cut -d'=' -f2)
+
+          echo "MS_GROUP=$MS_GROUP" >> $GITHUB_OUTPUT
+
+      - name: Get name
+        id: get-name
+        run: |
+          MS_NAME=$(grep "name" ${file} | cut -d'=' -f2)
+          
+          echo "MS_NAME=$MS_NAME" >> $GITHUB_OUTPUT
+
+      - name: Get version
+        id: get-version
+        run: |
+          MS_VERSION=$(grep "version" ${file} | cut -d'=' -f2)
+          
+          echo "MS_VERSION=$MS_VERSION" >> $GITHUB_OUTPUT
+
   build:
     name: Build
+    needs: [prepare]
     runs-on: ubuntu-latest
+    env:
+      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
+      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
+      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -42,8 +79,12 @@ jobs:
 
   publish-jar:
     name: Publish Jar
-    needs: [build]
+    needs: [prepare, build]
     runs-on: ubuntu-latest
+    env:
+      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
+      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
+      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -61,12 +102,16 @@ jobs:
         working-directory: code
         run: |
           # Update step to deploy jar in the artifactory of the company
-          echo "Deploy Jar"
+          echo "Deploy Jar ($MS_GROUP-$MS_NAME-$MS_VERSION)"
 
   publish-docker:
     name: Publish Docker
-    needs: [build]
+    needs: [prepare, build]
     runs-on: ubuntu-latest
+    env:
+      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
+      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
+      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -77,20 +122,30 @@ jobs:
           name: ms-build
           path: code/build/
 
-      - name: Build docker image
-        run: |
-          # Update step to build docker image
-          echo "Build docker image"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./.github/Dockerfile
+          push: false
+          tags: $MS_GROUP/$MS_NAME:$MS_VERSION
 
       - name: Deploy docker image
         run: |
           # Update step to deploy docker image
-          echo "Deploy docker image"
+          echo "Deploy docker image ($MS_GROUP/$MS_NAME:$MS_VERSION)"
 
   deploy:
     name: Deploy
-    needs: [publish-docker]
+    needs: [prepare, publish-docker]
     runs-on: ubuntu-latest
+    env:
+      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
+      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
+      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -98,4 +153,4 @@ jobs:
       - name: Execute docker image
         run: |
           # Update step to execute docker image in infra
-          echo "Execute docker image in infra"
+          echo "Execute docker image in infra ($MS_GROUP/$MS_NAME:$MS_VERSION)"
