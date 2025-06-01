@@ -17,7 +17,6 @@ inputs:
 outputs:
   version:
     description: "New generated version"
-    value: ${{ steps.increase-version.outputs.version }}
 
 runs:
   using: 'node20'
