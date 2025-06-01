@@ -33,10 +33,10 @@ jobs:
 
       - name: Show vars
         run: |
-          echo "is_release: $env.is_release"
-          echo "is_hotfix: $env.is_hotfix"
-          echo "base_ref: $github.base_ref"
-          echo "head_ref: $github.head_ref"
+          echo "is_release: ${{env.is_release}}"
+          echo "is_hotfix: ${{env.is_hotfix}}"
+          echo "base_ref: ${{github.base_ref}}"
+          echo "head_ref: ${{github.head_ref}}"
 
       - name: Generate release version
         id: generate-release
