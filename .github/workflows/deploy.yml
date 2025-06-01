@@ -32,7 +32,9 @@ jobs:
       ms-version: ${{ steps.get-version.outputs.MS_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Generate release version
         id: generate-release
@@ -87,7 +89,7 @@ jobs:
       MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install asdf
         uses: ./.github/actions/asdf-install
@@ -115,7 +117,7 @@ jobs:
       MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install asdf
         uses: ./.github/actions/asdf-install
@@ -142,7 +144,7 @@ jobs:
       MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download compiled output from artifact
         uses: actions/download-artifact@v4
@@ -176,7 +178,7 @@ jobs:
       MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Execute docker image
         run: |
