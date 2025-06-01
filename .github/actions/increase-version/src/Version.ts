@@ -57,7 +57,13 @@ export default class Version {
         this.snapshot = true;
     }
 
-    public toString() {
-        let result = "${this._major}";
+    public toString(): string {
+        let result = `${this.major}.${this.minor}.${this.patch}`;
+
+        if(this.snapshot){
+            result += "-SNAPSHOT";
+        }
+
+        return result;
     }
 }

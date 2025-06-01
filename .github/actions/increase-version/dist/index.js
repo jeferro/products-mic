@@ -26504,7 +26504,11 @@ class Version {
         this.snapshot = true;
     }
     toString() {
-        let result = "${this._major}";
+        let result = `${this.major}.${this.minor}.${this.patch}`;
+        if (this.snapshot) {
+            result += "-SNAPSHOT";
+        }
+        return result;
     }
 }
 Version.VERSION_REGEX = /(\d+)\.(\d+)\.(\d+)(-.*)?/;

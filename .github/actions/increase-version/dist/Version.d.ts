@@ -13,5 +13,5 @@ export default class Version {
     bumpRelease(): void;
     bumpHotfix(): void;
     bumpSnapshot(): void;
-    toString(): void;
+    toString(): string;
 }
