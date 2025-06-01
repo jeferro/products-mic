@@ -1,5 +1,5 @@
 
-name: 'deploy'
+name: 'Merge commit'
 
 on:
 #  pull_request:
@@ -14,6 +14,9 @@ on:
       - opened
       - synchronize
       - reopened
+env:
+  is_release: ${{ github.base_ref == 'main' || github.base_ref == 'master' }}
+  is_hotfix: ${{ startsWith(github.head_ref , 'hotfix/') }}
 
 jobs:
 
@@ -52,9 +55,35 @@ jobs:
           
           echo "MS_VERSION=$MS_VERSION" >> $GITHUB_OUTPUT
 
+  increase-version:
+    name: Increase Version
+    runs-on: ubuntu-latest
+    if: $${{ env.is_release }}
+    env:
+      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
+      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
+      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate release version
+        uses: ./.github/actions/increase-version
+        if: ${{ env.is_release && !env.is_hotfix }}
+        with:
+          group: minor
+          release: true
+
+      - name: Generate patch version
+        uses: ./.github/actions/increase-version
+        if: ${{ env.is_release && env.is_hotfix }}
+        with:
+          group: patch
+          release: true
+
   build:
     name: Build
-    needs: [prepare]
+    needs: [prepare, increase-version]
     runs-on: ubuntu-latest
     env:
       MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
@@ -124,9 +153,6 @@ jobs:
         with:
           name: ms-build
           path: code/build/
-
-      - name: ls
-        run: ls code/build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

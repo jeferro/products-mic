@@ -1,0 +1,27 @@
+name: 'Increase version'
+
+inputs:
+  gradle-path:
+    description: "Gradle path to override version"
+    default: "gradle.properties"
+  group:
+    description: "Group to increase in version"
+    required: true
+    type: choice
+    options:
+      - major
+      - minor
+      - patch
+    default: major
+  release:
+    description: "Generate release version"
+    default: "False"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install asdf
+      uses: ./.github/actions/asdf-install
+
+    - name: Increase version
+      uses: poetry run src/increase_version.py "${{ inputs.gradle-path }}" "${{ inputs.group }}" "${{ inputs.release }}"
