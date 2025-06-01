@@ -134,7 +134,7 @@ jobs:
           context: .
           file: ./.github/Dockerfile
           push: false
-          tags: ${MS_GROUP}/${MS_NAME}:${MS_VERSION}
+          tags: ${{env.MS_GROUP}}/${{env.MS_NAME}}:${{env.MS_VERSION}}
 
       - name: Deploy docker image
         run: |
