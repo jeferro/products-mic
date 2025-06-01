@@ -31,6 +31,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Show vars
+        if: steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success'
+        run: |
+          echo "is_release: ${env.is_release}"
+          echo "is_hotfix: ${env.is_hotfix}"
+          echo "base_ref: ${github.base_ref}"
+          echo "head_ref: ${github.head_ref}"
+
       - name: Generate release version
         id: generate-release
         if: env.is_release
