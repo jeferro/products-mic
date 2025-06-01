@@ -5,8 +5,8 @@ inputs:
     description: "Gradle path to override version"
     default: "gradle.properties"
 
-  type:
-    description: "Type of increment to apply"
+  version:
+    description: "Type of version to generate"
     required: true
     type: choice
     options:

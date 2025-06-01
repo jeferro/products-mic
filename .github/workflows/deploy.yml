@@ -37,7 +37,7 @@ jobs:
         if: env.is_release  == 'false'
         uses: ./.github/actions/increase-version
         with:
-          type: release
+          version: release
           release: true
 
       - name: Generate patch version
@@ -45,7 +45,7 @@ jobs:
         if: env.is_hotfix == 'true'
         uses: ./.github/actions/increase-version
         with:
-          type: hotfix
+          version: hotfix
           release: true
 
       - name: Commit new version
