@@ -57,6 +57,7 @@ jobs:
 
   increase-version:
     name: Increase Version
+    needs: [prepare]
     runs-on: ubuntu-latest
     if: env.is_release
     env:
