@@ -15,8 +15,8 @@ on:
       - synchronize
       - reopened
 env:
-  is_release: ${{ github.base_ref == 'main' || github.base_ref == 'master' }}
-  is_hotfix: ${{ startsWith(github.head_ref , 'hotfix/') }}
+  is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
+  is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
 
 jobs:
 
@@ -32,18 +32,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate release version
+        id: generate-release
+        if: ${{ env.is_release }}
         uses: ./.github/actions/increase-version
-        if: ${{ env.is_release && !env.is_hotfix }}
         with:
           group: minor
           release: true
 
       - name: Generate patch version
+        id: generate-hotfix
+        if: ${{ env.is_hotfix }}
         uses: ./.github/actions/increase-version
-        if: ${{ env.is_release && env.is_hotfix }}
         with:
           group: patch
           release: true
+
+      - name: Commit new version
+        if: steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success'
+        run: |
+          echo "Commit new version"
 
       - name: Get group
         id: get-group
