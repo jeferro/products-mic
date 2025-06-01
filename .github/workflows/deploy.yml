@@ -37,16 +37,14 @@ jobs:
         if: env.is_release  == 'false'
         uses: ./.github/actions/increase-version
         with:
-          version: release
-          release: true
+          type: release
 
       - name: Generate patch version
         id: generate-hotfix
         if: env.is_hotfix == 'true'
         uses: ./.github/actions/increase-version
         with:
-          version: hotfix
-          release: true
+          type: hotfix
 
       - name: Commit new version
         if: ${{ steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success' }}

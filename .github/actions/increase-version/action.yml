@@ -5,7 +5,7 @@ inputs:
     description: "Gradle path to override version"
     default: "gradle.properties"
 
-  version:
+  type:
     description: "Type of version to generate"
     required: true
     type: choice

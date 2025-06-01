@@ -51,7 +51,7 @@ class Version:
 
 if __name__ == "__main__":
     properties_patch = os.getenv("INPUT_PROPERTIES_PATH", "gradle.properties")
-    type = os.getenv("INPUT_TYPE", "release")
+    type_version = os.getenv("INPUT_TYPE", "release")
 
     with open(properties_patch, 'wrb') as file:
         properties = Properties()
@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
         version = Version.create_from_string(properties["version"].data)
 
-        if type is "release":
+        if type_version is "release":
             version.to_release()
-        elif type is "hotfix":
+        elif type_version is "hotfix":
             version.to_hotfix()
         else:
             version.to_next_snapshot()
