@@ -10,17 +10,9 @@ inputs:
     required: true
     type: choice
     options:
-      - "release"
-      - "hotfix"
-      - "snapshot"
-
-  git-user-name:
-    description: "Name of the user who commits changes"
-    default: "github-bot"
-
-  git-user-email:
-    description: "Email of the user who commits changes"
-    default: "github-bot@fake.email.com"
+      - release
+      - hotfix
+      - snapshot
 
 outputs:
   version:
@@ -30,17 +22,3 @@ outputs:
 runs:
   using: 'node20'
   main: "dist/index.js"
-
-    - name: Configure Git
-      shell: bash
-      run: |
-        git config user.name "${{ inputs.git_user_name }}"
-        git config user.email "${{ inputs.git_user_email }}"
-
-    - name: Commit new version
-      shell: bash
-      run: |
-        git add *
-        git commit -m "Update version ${{ steps.increase-version.outputs.version }}"
-        
-        git push
