@@ -1,7 +1,7 @@
 name: 'Increase version'
 
 inputs:
-  properties_path:
+  properties-path:
     description: "Gradle path to override version"
     default: "gradle.properties"
 
@@ -14,11 +14,11 @@ inputs:
       - "hotfix"
       - "snapshot"
 
-  git_user_name:
+  git-user-name:
     description: "Name of the user who commits changes"
     default: "github-bot"
 
-  git_user_email:
+  git-user-email:
     description: "Email of the user who commits changes"
     default: "github-bot@fake.email.com"
 
@@ -28,18 +28,8 @@ outputs:
     value: ${{ steps.increase-version.outputs.version }}
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Install asdf
-      uses: ./.github/actions/asdf-install
-
-    - name: Increase version
-      id: increase-version
-      shell: bash
-      run: |
-        NEW_VERSION = $(poetry run src/increase_version.py)
-        
-        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+  using: 'node20'
+  main: "dist/index.js"
 
     - name: Configure Git
       shell: bash

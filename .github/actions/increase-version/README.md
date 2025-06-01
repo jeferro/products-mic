@@ -1,3 +1,4 @@
+
 # Increase version
 
-Pyhton script which increase version of the gradle project.
+Script which increases version of the gradle project.

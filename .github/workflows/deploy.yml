@@ -15,6 +15,8 @@ on:
       - synchronize
       - reopened
 env:
+  git_user_name: "github-bot"
+  git_user_email: "github-bot@fake.email.com"
   is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
   is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
   is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
@@ -37,19 +39,19 @@ jobs:
         if: env.is_release  == 'false'
         uses: ./.github/actions/increase-version
         with:
-          type: release
-
-      - name: Generate patch version
-        id: generate-hotfix
-        if: env.is_hotfix == 'true'
-        uses: ./.github/actions/increase-version
-        with:
-          type: hotfix
+          properties-path: ./code/gradle.properties
+          type: ${{ env.is_release && "release" || "hotfix" }}
 
       - name: Commit new version
         if: ${{ steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success' }}
         run: |
-          echo "Commit new version"
+          git config user.name "${{ inputs.git_user_name }}"
+          git config user.email "${{ inputs.git_user_email }}"
+        
+          git add *
+          git commit -m "Update version ${{ steps.generate-release.outputs.version }}"
+        
+          git push
 
       - name: Get group
         id: get-group
