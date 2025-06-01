@@ -1,7 +1,7 @@
 import re
 import sys
+import os
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Type, TypeVar
 
 from jproperties import Properties
@@ -50,7 +50,7 @@ class Version:
 
 def increase_version_2(properties_patch: str,
                        group: str,
-                       release: bool):
+                       release: bool) -> Version:
     with open(properties_patch, 'rb') as content:
         properties = Properties()
         properties.load(content)
@@ -65,12 +65,17 @@ def increase_version_2(properties_patch: str,
         if release:
             version.release()
 
-        print(version.to_string())
+        return version
 
 
 if __name__ == "__main__":
-    properties_patch = sys.argv[1] if len(sys.argv) > 1 else "gradle.properties"
+    properties_patch = os.getenv("INPUT_PROPERTIES_PATH", "gradle.properties")
+    group = os.getenv("INPUT_GROUP", "patch")
+    release = os.getenv("INPUT_RELEASE", False)
+
     group = sys.argv[2] if len(sys.argv) > 2 else "patch"
     release = bool(sys.argv[2]) if len(sys.argv) > 3 else False
 
-    increase_version_2(properties_patch, group, release)
+    new_version = increase_version_2(properties_patch, group, release)
+
+    print(new_version.to_string())

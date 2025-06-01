@@ -1,7 +1,7 @@
 name: 'Increase version'
 
 inputs:
-  gradle-path:
+  properties_path:
     description: "Gradle path to override version"
     default: "gradle.properties"
   group:
@@ -16,6 +16,18 @@ inputs:
   release:
     description: "Generate release version"
     default: "False"
+  git_user_name:
+    description: "Name of the user who commits changes"
+    default: "github-bot"
+
+  git_user_email:
+    description: "Email of the user who commits changes"
+    default: "github-bot@fake.email.com"
+
+outputs:
+  version:
+    description: "New generated version"
+    value: ${{ steps.increase-version.outputs.version }}
 
 runs:
   using: 'composite'
@@ -24,4 +36,22 @@ runs:
       uses: ./.github/actions/asdf-install
 
     - name: Increase version
-      uses: poetry run src/increase_version.py "${{ inputs.gradle-path }}" "${{ inputs.group }}" "${{ inputs.release }}"
+      id: increase-version
+      uses: |
+        NEW_VERSION = $(poetry run src/increase_version.py)
+        
+        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Configure Git
+      shell: bash
+      run: |
+        git config user.name "${{ inputs.git_user_name }}"
+        git config user.email "${{ inputs.git_user_email }}"
+
+    - name: Commit new version
+      shell: bash
+      run: |
+        git add *
+        git commit -m "Update version ${{ steps.increase-version.outputs.version }}"
+        
+        git push

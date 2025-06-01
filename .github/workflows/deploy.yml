@@ -1,5 +1,5 @@
 
-name: 'Merge commit'
+name: 'Deploy'
 
 on:
 #  pull_request:
@@ -32,17 +32,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Show vars
-        run: |
-          echo "is_release: ${{env.is_release}}"
-          echo "is_hotfix: ${{env.is_hotfix}}"
-          echo "is_snapshot: ${{env.is_snapshot}}"
-          echo "base_ref: ${{github.base_ref}}"
-          echo "head_ref: ${{github.head_ref}}"
-
       - name: Generate release version
         id: generate-release
-        if: env.is_release  == 'true'
+        if: env.is_release  == 'false'
         uses: ./.github/actions/increase-version
         with:
           group: minor
