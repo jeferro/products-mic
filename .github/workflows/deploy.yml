@@ -30,22 +30,25 @@ jobs:
 
       - name: Get group
         id: get-group
+        working-directory: code
         run: |
-          MS_GROUP=$(grep "group" ${file} | cut -d'=' -f2)
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
 
           echo "MS_GROUP=$MS_GROUP" >> $GITHUB_OUTPUT
 
       - name: Get name
         id: get-name
+        working-directory: code
         run: |
-          MS_NAME=$(grep "name" ${file} | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
           
           echo "MS_NAME=$MS_NAME" >> $GITHUB_OUTPUT
 
       - name: Get version
         id: get-version
+        working-directory: code
         run: |
-          MS_VERSION=$(grep "version" ${file} | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
           
           echo "MS_VERSION=$MS_VERSION" >> $GITHUB_OUTPUT
 
