@@ -5,4 +5,6 @@ WORKDIR /app
 
 COPY ../code/build/*.jar app.jar
 
+RUN ls
+
 CMD ["java", "-jar", "app.jar"]
