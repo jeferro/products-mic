@@ -31,6 +31,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Generate release version
+        uses: ./.github/actions/increase-version
+        if: ${{ env.is_release && !env.is_hotfix }}
+        with:
+          group: minor
+          release: true
+
+      - name: Generate patch version
+        uses: ./.github/actions/increase-version
+        if: ${{ env.is_release && env.is_hotfix }}
+        with:
+          group: patch
+          release: true
+
       - name: Get group
         id: get-group
         working-directory: code
@@ -55,36 +69,9 @@ jobs:
           
           echo "MS_VERSION=$MS_VERSION" >> $GITHUB_OUTPUT
 
-  increase-version:
-    name: Increase Version
-    needs: [prepare]
-    runs-on: ubuntu-latest
-    if: ${{ github.base_ref == 'main' || github.base_ref == 'master' }}
-    env:
-      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
-      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
-      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Generate release version
-        uses: ./.github/actions/increase-version
-        if: ${{ env.is_release && !env.is_hotfix }}
-        with:
-          group: minor
-          release: true
-
-      - name: Generate patch version
-        uses: ./.github/actions/increase-version
-        if: ${{ env.is_release && env.is_hotfix }}
-        with:
-          group: patch
-          release: true
-
   build:
     name: Build
-    needs: [prepare, increase-version]
+    needs: [prepare]
     runs-on: ubuntu-latest
     env:
       MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
