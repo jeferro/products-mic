@@ -40,7 +40,7 @@ jobs:
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties
-          type: ${{ env.is_release && "release" || "hotfix" }}
+          type: ${{ env.is_release && 'release' || 'hotfix' }}
 
       - name: Commit new version
         if: ${{ steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success' }}
