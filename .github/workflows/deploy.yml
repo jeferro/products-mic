@@ -105,7 +105,7 @@ jobs:
         working-directory: code
         run: |
           # Update step to deploy jar in the artifactory of the company
-          echo "Deploy Jar ($MS_GROUP-$MS_NAME-$MS_VERSION)"
+          echo "Deploy Jar ($MS_GROUP.$MS_NAME-$MS_VERSION)"
 
   publish-docker:
     name: Publish Docker
@@ -134,7 +134,7 @@ jobs:
           context: .
           file: ./.github/Dockerfile
           push: false
-          tags: $MS_GROUP/$MS_NAME:$MS_VERSION
+          tags: ${{ $MS_GROUP/$MS_NAME:$MS_VERSION }}
 
       - name: Deploy docker image
         run: |
