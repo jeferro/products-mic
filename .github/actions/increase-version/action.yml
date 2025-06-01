@@ -4,18 +4,16 @@ inputs:
   properties_path:
     description: "Gradle path to override version"
     default: "gradle.properties"
-  group:
-    description: "Group to increase in version"
+
+  type:
+    description: "Type of increment to apply"
     required: true
     type: choice
     options:
-      - major
-      - minor
-      - patch
-    default: major
-  release:
-    description: "Generate release version"
-    default: "False"
+      - "release"
+      - "hotfix"
+      - "snapshot"
+
   git_user_name:
     description: "Name of the user who commits changes"
     default: "github-bot"
@@ -37,7 +35,8 @@ runs:
 
     - name: Increase version
       id: increase-version
-      uses: |
+      shell: bash
+      run: |
         NEW_VERSION = $(poetry run src/increase_version.py)
         
         echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT

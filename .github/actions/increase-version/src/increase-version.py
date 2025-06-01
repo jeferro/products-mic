@@ -1,5 +1,4 @@
 import re
-import sys
 import os
 from dataclasses import dataclass
 from typing import Type, TypeVar
@@ -30,14 +29,16 @@ class Version:
                    patch=int(version_groups[2]),
                    suffix=version_groups[3][1:])
 
-    def increase_minor(self):
-        self.minor += 1
-
-    def increase_patch(self):
-        self.patch += 1
-
-    def release(self):
+    def to_release(self):
         self.suffix = None
+
+    def to_hotfix(self):
+        self.patch += 1
+        self.suffix = None
+
+    def to_next_snapshot(self):
+        self.minor += 1
+        self.suffix = "SNAPSHOT"
 
     def to_string(self):
         result = f"{self.major}.{self.minor}.{self.minor}"
@@ -48,34 +49,23 @@ class Version:
         return result
 
 
-def increase_version_2(properties_patch: str,
-                       group: str,
-                       release: bool) -> Version:
-    with open(properties_patch, 'rb') as content:
+if __name__ == "__main__":
+    properties_patch = os.getenv("INPUT_PROPERTIES_PATH", "gradle.properties")
+    type = os.getenv("INPUT_TYPE", "release")
+
+    with open(properties_patch, 'wrb') as file:
         properties = Properties()
-        properties.load(content)
+        properties.load(file)
 
         version = Version.create_from_string(properties["version"].data)
 
-        if group is "minor":
-            version.increase_minor()
-        elif group is "patch":
-            version.increase_patch()
+        if type is "release":
+            version.to_release()
+        elif type is "hotfix":
+            version.to_hotfix()
+        else:
+            version.to_next_snapshot()
 
-        if release:
-            version.release()
+        properties.store(file, encoding="utf-8")
 
-        return version
-
-
-if __name__ == "__main__":
-    properties_patch = os.getenv("INPUT_PROPERTIES_PATH", "gradle.properties")
-    group = os.getenv("INPUT_GROUP", "patch")
-    release = os.getenv("INPUT_RELEASE", False)
-
-    group = sys.argv[2] if len(sys.argv) > 2 else "patch"
-    release = bool(sys.argv[2]) if len(sys.argv) > 3 else False
-
-    new_version = increase_version_2(properties_patch, group, release)
-
-    print(new_version.to_string())
+        print(version.to_string())
