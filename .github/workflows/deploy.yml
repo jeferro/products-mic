@@ -51,6 +51,9 @@ jobs:
           git config user.email "${{ env.git_user_email }}"
         
           git add *
+          
+          git status
+          
           git commit -m "Update version ${{ steps.generate-release.outputs.version }}"
         
           git push
