@@ -9,10 +9,9 @@ on:
 #      - main
 #      - master
 #      - develop
-  on:
-    push:
-      branches:
-        - feature/improse-cicd
+  push:
+    branches:
+      - feature/improse-cicd
 env:
   git_user_name: "github-bot"
   git_user_email: "github-bot@noreply.github.com"
