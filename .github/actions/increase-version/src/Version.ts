@@ -22,7 +22,7 @@ export default class Version {
             Number(matches[1]),
             Number(matches[2]),
             Number(matches[3]),
-            matches[4] !== null
+            matches[4] !== undefined
         );
     }
 

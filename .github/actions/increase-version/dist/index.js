@@ -26466,6 +26466,11 @@ module.exports = {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 class Version {
+    major;
+    minor;
+    patch;
+    snapshot;
+    static VERSION_REGEX = /(\d+)\.(\d+)\.(\d+)(-.*)?/;
     constructor(major, minor, patch, snapshot) {
         this.major = major;
         this.minor = minor;
@@ -26477,7 +26482,7 @@ class Version {
         if (!matches) {
             throw new Error("Invalid version format: " + value);
         }
-        return new Version(Number(matches[1]), Number(matches[2]), Number(matches[3]), matches[4] !== null);
+        return new Version(Number(matches[1]), Number(matches[2]), Number(matches[3]), matches[4] !== undefined);
     }
     getMajor() {
         return this.major;
@@ -26511,13 +26516,47 @@ class Version {
         return result;
     }
 }
-Version.VERSION_REGEX = /(\d+)\.(\d+)\.(\d+)(-.*)?/;
 exports["default"] = Version;
 
 
 /***/ }),
 
-/***/ 9407:
+/***/ 2566:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const properties_reader_1 = __importDefault(__nccwpck_require__(3946));
+const Version_1 = __importDefault(__nccwpck_require__(9303));
+class VersionUpdater {
+    async update(propertiesPatch, type) {
+        const properties = (0, properties_reader_1.default)(propertiesPatch);
+        const version = Version_1.default.create_from_version(properties.getRaw("version"));
+        if (type === "release") {
+            version.bumpRelease();
+        }
+        else if (type === "hotfix") {
+            version.bumpHotfix();
+        }
+        else {
+            version.bumpSnapshot();
+        }
+        const versionStr = version.toString();
+        properties.set("version", versionStr);
+        await properties.save(propertiesPatch);
+        return versionStr;
+    }
+}
+exports["default"] = VersionUpdater;
+
+
+/***/ }),
+
+/***/ 1730:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -26559,26 +26598,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Version_1 = __importDefault(__nccwpck_require__(9303));
 const core = __importStar(__nccwpck_require__(7484));
-const properties_reader_1 = __importDefault(__nccwpck_require__(3946));
-const propertiesPatch = core.getInput("properties-path");
-const type = core.getInput("type");
-const properties = new properties_reader_1.default(propertiesPatch);
-const version = Version_1.default.create_from_version(properties.get("version"));
-if (type === "release") {
-    version.bumpRelease();
-}
-else if (type === "hotfix") {
-    version.bumpHotfix();
-}
-else {
-    version.bumpSnapshot();
-}
-const versionStr = version.toString();
-properties.set("version", versionStr);
-properties.save(propertiesPatch);
-core.setOutput("version", versionStr);
+const VersionUpdater_1 = __importDefault(__nccwpck_require__(2566));
+(async () => {
+    const propertiesPatch = core.getInput("properties-path") || "gradle.properties";
+    const type = core.getInput("type") || "release";
+    const versionUpdater = new VersionUpdater_1.default();
+    const versionStr = versionUpdater.update(propertiesPatch, type);
+    core?.setOutput("version", versionStr);
+})();
 
 
 /***/ }),
@@ -28498,7 +28526,7 @@ module.exports = parseParams
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(9407);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(1730);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()

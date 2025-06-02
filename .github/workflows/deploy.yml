@@ -23,6 +23,7 @@ jobs:
 
   prepare:
     name: Prepare
+    # TODO if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     outputs:
       ms-group: ${{ steps.get-group.outputs.MS_GROUP }}
@@ -37,7 +38,7 @@ jobs:
 
       - name: Generate release version
         id: generate-release
-        if: env.is_release  == 'true' || env.is_hotfix  == 'false'
+        if: env.is_release  == 'true' || env.is_hotfix  == 'false' # TODO true
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties

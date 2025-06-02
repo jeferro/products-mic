@@ -1,13 +1,13 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist",
-    "allowJs": false,
-    "target": "es6",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "sourceMap": true,
-    "declaration": true,
-    "experimentalDecorators": true
-  }
+    "compilerOptions": {
+        "target": "es2024",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "sourceMap": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true
+    }
 }
