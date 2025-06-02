@@ -4,8 +4,7 @@
   "description": "Script which increases version of the gradle project.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "build-bundle": "ncc build src/index.ts",
+    "build": "ncc build src/index.ts",
     "test": "jest"
   },
   "keywords": [],
