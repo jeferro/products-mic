@@ -9,11 +9,10 @@ on:
 #      - main
 #      - master
 #      - develop
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  on:
+    push:
+      branches:
+        - feature/improse-cicd
 env:
   git_user_name: "github-bot"
   git_user_email: "github-bot@noreply.github.com"
