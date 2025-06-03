@@ -32,18 +32,18 @@ jobs:
           ref: ${{ github.head_ref }}
           persist-credentials: true
 
-      - name: Upgrade version
-        uses: ./.github/actions/increase-version
-        with:
-          properties-path: ./code/gradle.properties
-          type: ${{ env.is_release && 'release' || 'hotfix' }}
-
       - name: Configure Git
         run: |
           git config user.name "${{ env.git_user_name }}"
           git config user.email "${{ env.git_user_email }}"
 
-      - name: Commit new version
+      - name: Generate release version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: ${{ env.is_release && 'release' || 'hotfix' }}
+
+      - name: Commit release version
         run: |
           MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
         
@@ -53,9 +53,32 @@ jobs:
         
           git push origin HEAD
 
+      - name: Generate snapshot version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: snapshot
+
+      - name: Create PR to sync develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git checkout -b "feature/sync-$MS_VERSION"
+          
+          git add ./code/gradle.properties
+          
+          git commit -m "Snapshot $MS_VERSION"
+          
+          git push origin HEAD
+          
+          gh pr create --base "develop" --head "feature/sync-$MS_VERSION" --title "Sync develop to $MS_VERSION" --body ""
+
   sync-develop:
     name: Sync develop
     needs: [release-version]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,36 +91,6 @@ jobs:
         run: |
           git config user.name "${{ env.git_user_name }}"
           git config user.email "${{ env.git_user_email }}"
-
-      - name: Upgrade version
-        uses: ./.github/actions/increase-version
-        with:
-          properties-path: ./code/gradle.properties
-          type: snapshot
-
-      - name: Create new branch
-        run: |
-          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
-          
-          git checkout -b "feature/sync-$MS_VERSION"
-
-      - name: Commit new version
-        run: |
-          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
-          
-          git add ./code/gradle.properties
-          
-          git commit -m "Snapshot $MS_VERSION"
-          
-          git push origin HEAD
-
-      - name: Create PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
-          
-          gh pr create --base "develop" --head "feature/sync-$MS_VERSION" --title "Sync develop to $MS_VERSION" --body ""
 
   build:
     name: Build
