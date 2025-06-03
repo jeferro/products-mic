@@ -1,0 +1,23 @@
+name: 'Increase version'
+
+inputs:
+  properties-path:
+    description: "Gradle path to override version"
+    default: "gradle.properties"
+
+  type:
+    description: "Type of version to generate"
+    required: true
+    type: choice
+    options:
+      - release
+      - hotfix
+      - snapshot
+
+outputs:
+  version:
+    description: "New generated version"
+
+runs:
+  using: 'node20'
+  main: "dist/index.js"

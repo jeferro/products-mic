@@ -1,0 +1,191 @@
+
+name: 'Deploy'
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - master
+      - develop
+
+env:
+  git_user_name: "github-actions[bot]"
+  git_user_email: "github-actions[bot]@users.noreply.github.com"
+  was_merged: ${{ github.event.pull_request.merged == 'true' }}
+  is_release: ${{ github.head_ref == 'develop' }}
+  is_hotfix: ${{ startsWith(github.head_ref , 'hotfix') }}
+  is_snapshot: ${{ startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix') }}
+
+jobs:
+
+  release-version:
+    name: Release version
+    if: ${{ (github.event.pull_request.merged == 'true') && (github.head_ref == 'develop' || startsWith(github.head_ref , 'hotfix')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ env.git_user_name }}"
+          git config user.email "${{ env.git_user_email }}"
+
+      - name: Generate release version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: ${{ env.is_release && 'release' || 'hotfix' }}
+
+      - name: Commit release version
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+        
+          git add ./code/gradle.properties
+          
+          git commit -m "Release $MS_VERSION"
+        
+          git push origin HEAD
+
+      - name: Generate snapshot version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: snapshot
+
+      - name: Create PR to sync develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git checkout -b "feature/sync-$MS_VERSION"
+          
+          git add ./code/gradle.properties
+          
+          git commit -m "Snapshot $MS_VERSION"
+          
+          git push origin HEAD
+          
+          gh pr create --base "develop" --head "feature/sync-$MS_VERSION" --title "Sync develop to $MS_VERSION" --body ""
+
+  build:
+    name: Build
+    needs: [release-version]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
+
+      - name: Build
+        working-directory: code
+        run: gradle build -x test
+        env:
+          # disable default JVM in container
+          JAVA_HOME: ""
+
+      - name: Upload compiled output in artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+  publish-jar:
+    name: Publish Jar
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install asdf
+        uses: ./.github/actions/asdf-install
+
+      - name: Download compiled output from artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+      - name: Deploy Jar
+        working-directory: code
+        run: |
+          # Update step to deploy jar in the artifactory of the company
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
+          echo "Deploy Jar ($MS_GROUP.$MS_NAME-$MS_VERSION)"
+
+  publish-docker:
+    name: Publish Docker
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download compiled output from artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ms-build
+          path: code/build/
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate docker image tag name
+        id: generate-docker-image-tag-name
+        working-directory: code
+        run: |
+          # Update step to deploy jar in the artifactory of the company
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+
+          echo "tags=$MS_GROUP/$MS_NAME:$MS_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build the Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./.github/Dockerfile
+          push: false
+          tags: ${{ steps.generate-docker-image-tag-name.outputs.tags }}
+
+      - name: Deploy docker image
+        working-directory: code
+        run: |
+          # Update step to deploy docker image
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
+          echo "Deploy docker image ($MS_GROUP/$MS_NAME:$MS_VERSION)"
+
+  deploy:
+    name: Deploy
+    needs: [publish-docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Execute docker image
+        working-directory: code
+        run: |
+          # Update step to execute docker image in infra
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
+          echo "Execute docker image in infra ($MS_GROUP/$MS_NAME:$MS_VERSION)"
