@@ -2,7 +2,7 @@
 name: 'Deploy'
 
 on:
-#  pull_request:
+#  pull_request: # TODO uncomment
 #    types:
 #      - closed
 #    branches:
@@ -21,14 +21,10 @@ env:
 
 jobs:
 
-  prepare:
-    name: Prepare
-    # TODO if: ${{ github.event.pull_request.merged == true }}
+  release-version:
+    name: Release version
+    # TODO if: ${{ github.event.pull_request.merged == true && ( env.is_release == 'true' || env.is_hotfix == 'false' ) }}
     runs-on: ubuntu-latest
-    outputs:
-      ms-group: ${{ steps.get-group.outputs.MS_GROUP }}
-      ms-name: ${{ steps.get-name.outputs.MS_NAME }}
-      ms-version: ${{ steps.get-version.outputs.MS_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,58 +32,32 @@ jobs:
           ref: ${{ github.head_ref }}
           persist-credentials: true
 
-      - name: Generate release version
-        id: generate-release
-        if: env.is_release  == 'true' || env.is_hotfix  == 'false' # TODO true
+      - name: Upgrade version
+        id: upgrade-version
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties
           type: ${{ env.is_release && 'release' || 'hotfix' }}
 
-      - name: Commit new version
-        if: ${{ steps.generate-release.outcome == 'success' || steps.generate-hotfix.outcome == 'success' }}
+      - name: Configure Git
         run: |
           git config user.name "${{ env.git_user_name }}"
           git config user.email "${{ env.git_user_email }}"
+
+      - name: Commit new version
+        run: |
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
         
           git add ./code/gradle.properties
           
-          git commit -m "Update version ${{ steps.generate-release.outputs.version }}"
+          git commit -m "Release $MS_VERSION"
         
           git push origin HEAD
 
-      - name: Get group
-        id: get-group
-        working-directory: code
-        run: |
-          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
-
-          echo "MS_GROUP=$MS_GROUP" >> $GITHUB_OUTPUT
-
-      - name: Get name
-        id: get-name
-        working-directory: code
-        run: |
-          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
-          
-          echo "MS_NAME=$MS_NAME" >> $GITHUB_OUTPUT
-
-      - name: Get version
-        id: get-version
-        working-directory: code
-        run: |
-          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
-          
-          echo "MS_VERSION=$MS_VERSION" >> $GITHUB_OUTPUT
-
   build:
     name: Build
-    needs: [prepare]
+    needs: [release-version]
     runs-on: ubuntu-latest
-    env:
-      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
-      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
-      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -110,12 +80,8 @@ jobs:
 
   publish-jar:
     name: Publish Jar
-    needs: [prepare, build]
+    needs: [build]
     runs-on: ubuntu-latest
-    env:
-      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
-      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
-      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -133,16 +99,16 @@ jobs:
         working-directory: code
         run: |
           # Update step to deploy jar in the artifactory of the company
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
           echo "Deploy Jar ($MS_GROUP.$MS_NAME-$MS_VERSION)"
 
   publish-docker:
     name: Publish Docker
-    needs: [prepare, build]
+    needs: [build]
     runs-on: ubuntu-latest
-    env:
-      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
-      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
-      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -156,32 +122,49 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Generate docker image tag name
+        id: generate-docker-image-tag-name
+        working-directory: code
+        run: |
+          # Update step to deploy jar in the artifactory of the company
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+
+          echo "tags=${{env.MS_GROUP}}/${{env.MS_NAME}}:${{env.MS_VERSION}}" >> $GITHUB_OUTPUT
+
       - name: Build the Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./.github/Dockerfile
           push: false
-          tags: ${{env.MS_GROUP}}/${{env.MS_NAME}}:${{env.MS_VERSION}}
+          tags: ${{ steps.generate-docker-image-tag-name.outputs.tags }}
 
       - name: Deploy docker image
+        working-directory: code
         run: |
           # Update step to deploy docker image
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
           echo "Deploy docker image ($MS_GROUP/$MS_NAME:$MS_VERSION)"
 
   deploy:
     name: Deploy
-    needs: [prepare, publish-docker]
+    needs: [publish-docker]
     runs-on: ubuntu-latest
-    env:
-      MS_GROUP: ${{ needs.prepare.outputs.ms-group }}
-      MS_NAME: ${{ needs.prepare.outputs.ms-name }}
-      MS_VERSION: ${{ needs.prepare.outputs.ms-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Execute docker image
+        working-directory: code
         run: |
           # Update step to execute docker image in infra
+          MS_GROUP=$(grep "group" gradle.properties | cut -d'=' -f2)
+          MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          
           echo "Execute docker image in infra ($MS_GROUP/$MS_NAME:$MS_VERSION)"
