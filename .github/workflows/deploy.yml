@@ -19,7 +19,6 @@ env:
   is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
   is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
   is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
-  should_generate_release:
 
 jobs:
 
@@ -27,7 +26,7 @@ jobs:
     name: Release version
     if: env.should_generate_release
     env:
-      should_generate_release: ${{ (env.was_merged == 'true') && (env.is_release == 'true' || env.is_hotfix == 'true') }}
+      should_generate_release: (env.was_merged == 'true') && (env.is_release == 'true' || env.is_hotfix == 'true')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
