@@ -16,18 +16,15 @@ env:
   git_user_name: "github-actions[bot]"
   git_user_email: "github-actions[bot]@users.noreply.github.com"
   was_merged: ${{ github.event.pull_request.merged == 'true' }}
-  is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
-  is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
-  is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
-  should_generate_release: ${{ (github.event.pull_request.merged == 'true') 
-    && (github.base_ref == 'main' || github.base_ref == 'master')
-    && (github.head_ref == 'develop' || startsWith(github.head_ref , 'hotfix')) }}
+  is_release: ${{ github.head_ref == 'develop' }}
+  is_hotfix: ${{ startsWith(github.head_ref , 'hotfix') }}
+  is_snapshot: ${{ startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix') }}
 
 jobs:
 
   release-version:
     name: Release version
-    if: ${{ env.should_generate_release == 'true' }}
+    if: ${{ (github.event.pull_request.merged == 'true') && (github.head_ref == 'develop' || startsWith(github.head_ref , 'hotfix')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
