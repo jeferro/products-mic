@@ -23,7 +23,7 @@ jobs:
 
   release-version:
     name: Release version
-    if: ${{ github.event.pull_request.merged == true && ( env.is_release == 'true' || env.is_hotfix == 'false' ) }}
+    if: ${{ github.event.pull_request.merged == true }} && ( ${{ env.is_release == 'true' }} || ${{ env.is_hotfix == 'false' }} ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
