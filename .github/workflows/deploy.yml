@@ -131,7 +131,7 @@ jobs:
           MS_NAME=$(grep "name" gradle.properties | cut -d'=' -f2)
           MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
 
-          echo "tags=${{env.MS_GROUP}}/${{env.MS_NAME}}:${{env.MS_VERSION}}" >> $GITHUB_OUTPUT
+          echo "tags=$MS_GROUP/$MS_NAME:$MS_VERSION" >> $GITHUB_OUTPUT
 
       - name: Build the Docker image
         uses: docker/build-push-action@v6
