@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit new version
         run: |
-          MS_VERSION=$(grep "version" gradle.properties | cut -d'=' -f2)
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
         
           git add ./code/gradle.properties
           
