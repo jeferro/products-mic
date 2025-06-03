@@ -13,8 +13,8 @@ on:
     branches:
       - feature/improse-cicd
 env:
-  git_user_name: "github-bot"
-  git_user_email: "github-bot@noreply.github.com"
+  git_user_name: "github-actions[bot]"
+  git_user_email: "github-actions[bot]@users.noreply.github.com"
   is_release: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (github.head_ref == 'develop') }}
   is_hotfix: ${{ (github.base_ref == 'main' || github.base_ref == 'master') && (startsWith(github.head_ref , 'hotfix')) }}
   is_snapshot: ${{ (github.base_ref == 'develop') && (startsWith(github.head_ref , 'feature') || startsWith(github.head_ref , 'bugfix')) }}
@@ -89,7 +89,7 @@ jobs:
           
           git commit -m "Snapshot $MS_VERSION"
           
-          git push origin "feature/sync-$MS_VERSION"
+          git push -u origin "feature/sync-$MS_VERSION"
 
       - name: Create PR
         env:
