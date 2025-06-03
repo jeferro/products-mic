@@ -87,7 +87,7 @@ jobs:
           
           git commit -m "Snapshot $MS_VERSION"
           
-          git push origin HEAD
+          git push origin "feature/sync-$MS_VERSION"
 
       - name: Create PR
         env:
