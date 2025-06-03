@@ -54,6 +54,46 @@ jobs:
         
           git push origin HEAD
 
+  sync-develop:
+    name: Sync develop
+    needs: [release-version]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+
+      - name: Upgrade version
+        id: upgrade-version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: snapshot
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ env.git_user_name }}"
+          git config user.email "${{ env.git_user_email }}"
+
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          BRANCH_NAME="feature/sync-$MS_VERSION"
+          
+          git checkout -b $BRANCH_NAME
+          
+          git add ./code/gradle.properties
+          
+          git commit -m "Snapshot $MS_VERSION"
+          
+          git push origin HEAD
+          
+          gh pr create -B $BRANCH_NAME -H develop --title "Sync develop to $MS_VERSION"
+
   build:
     name: Build
     needs: [release-version]
