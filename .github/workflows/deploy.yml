@@ -2,16 +2,14 @@
 name: 'Deploy'
 
 on:
-#  pull_request: # TODO uncomment
-#    types:
-#      - closed
-#    branches:
-#      - main
-#      - master
-#      - develop
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - feature/improse-cicd
+      - main
+      - master
+      - develop
+
 env:
   git_user_name: "github-actions[bot]"
   git_user_email: "github-actions[bot]@users.noreply.github.com"
