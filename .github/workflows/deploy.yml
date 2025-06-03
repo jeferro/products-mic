@@ -33,7 +33,6 @@ jobs:
           persist-credentials: true
 
       - name: Upgrade version
-        id: upgrade-version
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties
@@ -65,34 +64,34 @@ jobs:
           ref: ${{ github.head_ref }}
           persist-credentials: true
 
-      - name: Upgrade version
-        id: upgrade-version
-        uses: ./.github/actions/increase-version
-        with:
-          properties-path: ./code/gradle.properties
-          type: snapshot
-
       - name: Configure Git
         run: |
           git config user.name "${{ env.git_user_name }}"
           git config user.email "${{ env.git_user_email }}"
 
+      - name: Create new branch
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git checkout -b "feature/sync-$MS_VERSION"
+
+      - name: Upgrade version
+        uses: ./.github/actions/increase-version
+        with:
+          properties-path: ./code/gradle.properties
+          type: snapshot
+
       - name: Create PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
-          BRANCH_NAME="feature/sync-$MS_VERSION"
-          
-          git checkout -b $BRANCH_NAME
-          
           git add ./code/gradle.properties
           
           git commit -m "Snapshot $MS_VERSION"
           
           git push origin HEAD
           
-          gh pr create --base $BRANCH_NAME --head develop --title "Sync develop to $MS_VERSION" --body ""
+          gh pr create --base "feature/sync-$MS_VERSION" --head develop --title "Sync develop to $MS_VERSION" --body ""
 
   build:
     name: Build
