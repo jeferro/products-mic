@@ -24,7 +24,7 @@ jobs:
 
   release-version:
     name: Release version
-    if: env.should_generate_release
+    if: ${{ env.should_generate_release }}
     env:
       should_generate_release: (env.was_merged == 'true') && (env.is_release == 'true' || env.is_hotfix == 'true')
     runs-on: ubuntu-latest
