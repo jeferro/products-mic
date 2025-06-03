@@ -102,6 +102,7 @@ jobs:
   publish-jar:
     name: Publish Jar
     needs: [build]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -129,6 +130,7 @@ jobs:
   publish-docker:
     name: Publish Docker
     needs: [build]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -175,6 +177,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [publish-docker]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
