@@ -92,7 +92,7 @@ jobs:
           
           git push origin HEAD
           
-          gh pr create -B $BRANCH_NAME -H develop --title "Sync develop to $MS_VERSION"
+          gh pr create --base $BRANCH_NAME --head develop --title "Sync develop to $MS_VERSION" --body ""
 
   build:
     name: Build
