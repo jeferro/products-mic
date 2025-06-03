@@ -69,17 +69,17 @@ jobs:
           git config user.name "${{ env.git_user_name }}"
           git config user.email "${{ env.git_user_email }}"
 
-      - name: Create new branch
-        run: |
-          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
-          
-          git checkout -b "feature/sync-$MS_VERSION"
-
       - name: Upgrade version
         uses: ./.github/actions/increase-version
         with:
           properties-path: ./code/gradle.properties
           type: snapshot
+
+      - name: Create new branch
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git checkout -b "feature/sync-$MS_VERSION"
 
       - name: Commit new version
         run: |
