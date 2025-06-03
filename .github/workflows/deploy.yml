@@ -95,7 +95,7 @@ jobs:
         run: |
           MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
           
-          gh pr create --base "feature/sync-$MS_VERSION" --head "develop" --title "Sync develop to $MS_VERSION" --body ""
+          gh pr create --base "develop" --head "feature/sync-$MS_VERSION" --title "Sync develop to $MS_VERSION" --body ""
 
   build:
     name: Build
