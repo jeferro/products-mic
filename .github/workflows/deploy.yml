@@ -81,17 +81,19 @@ jobs:
           properties-path: ./code/gradle.properties
           type: snapshot
 
-      - name: Create PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit new version
         run: |
           git add ./code/gradle.properties
           
           git commit -m "Snapshot $MS_VERSION"
           
           git push origin HEAD
-          
-          gh pr create --base "feature/sync-$MS_VERSION" --head develop --title "Sync develop to $MS_VERSION" --body ""
+
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |          
+          gh pr create --base "feature/sync-$MS_VERSION" --head "develop" --title "Sync develop to $MS_VERSION" --body ""
 
   build:
     name: Build
