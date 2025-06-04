@@ -9,6 +9,9 @@ on:
       - main
       - master
       - develop
+  push:
+    branches:
+      - feature/create-tag
 
 env:
   git_user_name: "github-actions[bot]"
@@ -22,7 +25,7 @@ jobs:
 
   release-version:
     name: Release version
-    if: ${{ (github.event.pull_request.merged == 'true') && (github.head_ref == 'develop' || startsWith(github.head_ref , 'hotfix')) }}
+    # if: ${{ (github.event.pull_request.merged == 'true') && (github.head_ref == 'develop' || startsWith(github.head_ref , 'hotfix')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,6 +54,14 @@ jobs:
           git commit -m "Release $MS_VERSION"
         
           git push origin HEAD
+
+      - name: Tag release version
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git tag -a "$MS_VERSION" -m "New version tag $MS_VERSION"
+          
+          git push --tags
 
       - name: Generate snapshot version
         uses: ./.github/actions/increase-version
