@@ -52,6 +52,14 @@ jobs:
         
           git push origin HEAD
 
+      - name: Tag release version
+        run: |
+          MS_VERSION=$(grep "version" ./code/gradle.properties | cut -d'=' -f2)
+          
+          git tag -a "$MS_VERSION" -m "New version tag $MS_VERSION"
+          
+          git push --tags
+
       - name: Generate snapshot version
         uses: ./.github/actions/increase-version
         with:
